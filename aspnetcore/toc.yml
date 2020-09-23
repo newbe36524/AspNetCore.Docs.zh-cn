@@ -337,6 +337,8 @@
                   href: blazor/forms-validation.md#built-in-forms-components
                 - name: InputDate
                   href: blazor/forms-validation.md#built-in-forms-components
+                - name: InputFile
+                  uid: blazor/file-uploads
                 - name: InputNumber
                   href: blazor/forms-validation.md#built-in-forms-components
                 - name: InputRadio
@@ -363,6 +365,8 @@
                   href: blazor/fundamentals/routing.md#route-templates
                 - name: Title
                   href: blazor/fundamentals/additional-scenarios.md#influence-html-head-tag-elements
+                - name: Virtualize
+                  uid: blazor/components/virtualization
             - name: 级联值和参数
               uid: blazor/components/cascading-values-and-parameters
             - name: 数据绑定
@@ -371,6 +375,8 @@
               uid: blazor/components/event-handling
             - name: 生命周期
               uid: blazor/components/lifecycle
+            - name: 组件虚拟化
+              uid: blazor/components/virtualization
             - name: 模板化组件
               uid: blazor/components/templated-components
             - name: 集成组件
@@ -383,6 +389,8 @@
           uid: blazor/layouts
         - name: 窗体和验证
           uid: blazor/forms-validation
+        - name: 文件上传
+          uid: blazor/file-uploads
         - name: 从 .NET 调用 JavaScript
           uid: blazor/call-javascript-from-dotnet
         - name: 从 JavaScript 调用 .NET
@@ -447,6 +455,8 @@
               uid: blazor/host-and-deploy/server
             - name: 配置链接器
               uid: blazor/host-and-deploy/configure-linker
+            - name: 配置裁边器
+              uid: blazor/host-and-deploy/configure-trimmer
         - name: Blazor 服务器和 EF Core
           uid: blazor/blazor-server-ef-core
         - name: 高级方案
@@ -712,16 +722,20 @@
           uid: grpc/services
         - name: 创建 Protobuf 消息
           uid: grpc/protobuf
+        - name: 版本控制 gRPC 服务
+          uid: grpc/versioning
+    - name: 使用 C# 调用 gRPC 服务
+      items:
+        - name: 概述
+          uid: grpc/client
+        - name: gRPC 客户端工厂集成
+          uid: grpc/clientfactory
+        - name: 截止时间和取消
+          uid: grpc/deadlines-cancellation
     - name: 使用 ASP.NET Core 的 gRPC 服务
       uid: grpc/aspnetcore
-    - name: 使用 .NET 客户端调用 gRPC 服务
-      uid: grpc/client
-    - name: gRPC 客户端工厂集成
-      uid: grpc/clientfactory
     - name: 在浏览器应用中使用 gRPC
       uid: grpc/browser
-    - name: 从 gRPC 创建 JSON Web API
-      uid: grpc/httpapi
     - name: Configuration
       uid: grpc/configuration
     - name: 身份验证和授权
@@ -732,10 +746,14 @@
       uid: grpc/security
     - name: 性能最佳做法
       uid: grpc/performance
-    - name: 版本控制 gRPC 服务
-      uid: grpc/versioning
+    - name: 进程内通信
+      uid: grpc/interprocess
+    - name: 从 gRPC 创建 JSON Web API
+      uid: grpc/httpapi
     - name: 通过 dotnet-grpc 管理 Protobuf 参考
       uid: grpc/dotnet-grpc
+    - name: 使用 gRPCurl 测试 gRPC 服务
+      uid: grpc/test-tools
     - name: 从 C-core 迁移 gRPC 服务
       uid: grpc/migration
     - name: 为何要将 WCF 迁移到 ASP.NET Core gRPC

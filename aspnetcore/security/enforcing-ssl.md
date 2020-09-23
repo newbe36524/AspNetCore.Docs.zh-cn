@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/enforcing-ssl
-ms.openlocfilehash: 1cb2c2d18b717dc99c6ef4dac9954fef149c6deb
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: b5260084c2fdd296168e918f06d8b54faf1865d5
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631558"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722652"
 ---
 # <a name="enforce-https-in-aspnet-core"></a>在 ASP.NET Core 强制实施 HTTPS
 
@@ -109,7 +109,7 @@ ms.locfileid: "88631558"
 
 ::: moniker range=">= aspnetcore-3.0"
 
-* 设置 `https_port` [主机设置](/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0#https_port)：
+* 设置 `https_port` [主机设置](../fundamentals/host/generic-host.md?view=aspnetcore-3.0#https_port)：
 
   * 在 "主机配置" 中。
   * 通过设置 `ASPNETCORE_HTTPS_PORT` 环境变量。
@@ -117,7 +117,7 @@ ms.locfileid: "88631558"
 
     [!code-json[](enforcing-ssl/sample-snapshot/3.x/appsettings.json?highlight=2)]
 
-* 使用 [ASPNETCORE_URLS 环境变量](/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0#urls)指示包含安全方案的端口。 环境变量配置服务器。 中间件通过间接发现 HTTPS 端口 <xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature> 。 此方法在反向代理部署中不起作用。
+* 使用 [ASPNETCORE_URLS 环境变量](../fundamentals/host/generic-host.md?view=aspnetcore-3.0#urls)指示包含安全方案的端口。 环境变量配置服务器。 中间件通过间接发现 HTTPS 端口 <xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature> 。 此方法在反向代理部署中不起作用。
 
 ::: moniker-end
 
@@ -324,7 +324,7 @@ ASP.NET Core 2.1 和更高版本通过 `UseHsts` 扩展方法实现 HSTS。 `Use
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli) 
 
-使用 `--no-https` 选项。 例如
+使用 `--no-https` 选项。 例如：
 
 ```dotnetcli
 dotnet new webapp --no-https

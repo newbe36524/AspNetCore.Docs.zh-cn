@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/redis-backplane
-ms.openlocfilehash: bc28eb3096e88455347f68ca381c9a280d5a153e
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a57176409c5f9bcc620db7e070f6616951eb9a54
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633651"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722769"
 ---
 # <a name="set-up-a-redis-backplane-for-aspnet-core-no-locsignalr-scale-out"></a>设置用于 ASP.NET Core 横向扩展的 Redis 底板 SignalR
 
@@ -38,11 +38,11 @@ ms.locfileid: "88633651"
   > [!IMPORTANT] 
   > 对于生产用途，建议仅当 Redis 底板与应用在同一数据中心内运行时才使用它 SignalR 。 否则，网络延迟会降低性能。 如果你 SignalR 的应用在 azure 云中运行，我们建议使用 azure SignalR 服务，而不是 Redis 底板。 可以使用 Azure Redis 缓存服务进行开发和测试环境。
 
-  有关更多信息，请参见以下资源：
+  有关详细信息，请参阅以下资源：
 
   * <xref:signalr/scale>
   * [Redis 文档](https://redis.io/)
-  * [Azure Redis 缓存文档](https://docs.microsoft.com/azure/redis-cache/)
+  * [Azure Redis 缓存文档](/azure/redis-cache/)
 
 ::: moniker range="= aspnetcore-2.1"
 
@@ -235,9 +235,9 @@ services.AddSignalR()
 
 ## <a name="next-steps"></a>后续步骤
 
-有关更多信息，请参见以下资源：
+有关详细信息，请参阅以下资源：
 
 * <xref:signalr/scale>
 * [Redis 文档](https://redis.io/documentation)
 * [Stackexchange.redis Redis 文档](https://stackexchange.github.io/StackExchange.Redis/)
-* [Azure Redis 缓存文档](https://docs.microsoft.com/azure/redis-cache/)
+* [Azure Redis 缓存文档](/azure/redis-cache/)

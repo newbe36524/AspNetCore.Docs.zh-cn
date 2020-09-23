@@ -18,20 +18,22 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/javascript-client
-ms.openlocfilehash: 7b11172df902f0d6a26f357755f33c78e7f8d1ff
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 359aa2b9e6b7f826d75f10645b7f2b565ab48b7a
+ms.sourcegitcommit: 62cc131969b2379f7a45c286a751e22d961dfbdb
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631415"
+ms.lasthandoff: 09/22/2020
+ms.locfileid: "90847684"
 ---
 # <a name="aspnet-core-no-locsignalr-javascript-client"></a>ASP.NET Core SignalR JavaScript 客户端
+
+::: moniker range=">= aspnetcore-3.0"
 
 作者：[Rachel Appel](https://twitter.com/rachelappel)
 
 ASP.NET Core SignalR JavaScript 客户端库使开发人员能够调用服务器端集线器代码。
 
-[查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/live/aspnetcore/signalr/javascript-client/sample)（[如何下载](xref:index#how-to-download-a-sample)）
+[查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/signalr/javascript-client/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
 ## <a name="install-the-no-locsignalr-client-package"></a>安装 SignalR 客户端包
 
@@ -39,9 +41,7 @@ SignalRJavaScript 客户端库以[npm](https://www.npmjs.com/)包的形式提供
 
 ### <a name="install-with-npm"></a>通过 npm 安装
 
-如果使用的是 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端**运行以下命令。
-
-::: moniker range=">= aspnetcore-3.0"
+对于 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端**运行以下命令。
 
 ```bash
 npm init -y
@@ -49,19 +49,6 @@ npm install @microsoft/signalr
 ```
 
 npm 将包内容安装到*node_modules \\ @microsoft\signalr\dist\browser *文件夹中。 在*wwwroot \\ lib*文件夹下创建名为*signalr*的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
-
-::: moniker-end
-
-::: moniker range="< aspnetcore-3.0"
-
-```bash
-npm init -y
-npm install @aspnet/signalr
-```
-
-npm 将包内容安装到*node_modules \\ @aspnet\signalr\dist\browser *文件夹中。 在*wwwroot \\ lib*文件夹下创建名为*signalr*的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
-
-::: moniker-end
 
 SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 
@@ -73,27 +60,13 @@ SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 
 若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如：
 
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>
-```
+[!code-html[](javascript-client/samples/3.x/SignalRChat/Pages/Index.cshtml?name=snippet_CDN)]
 
 以下 Cdn 提供了客户端库：
-
-::: moniker range=">= aspnetcore-3.0"
 
 * [cdnjs](https://cdnjs.com/libraries/microsoft-signalr)
 * [jsDelivr](https://www.jsdelivr.com/package/npm/@microsoft/signalr)
 * [unpkg](https://unpkg.com/@microsoft/signalr@next/dist/browser/signalr.min.js)
-
-::: moniker-end
-
-::: moniker range="< aspnetcore-3.0"
-
-* [cdnjs](https://cdnjs.com/libraries/aspnet-signalr)
-* [jsDelivr](https://www.jsdelivr.com/package/npm/@aspnet/signalr)
-* [unpkg](https://unpkg.com/@aspnet/signalr@next/dist/browser/signalr.min.js)
-
-::: moniker-end
 
 ### <a name="install-with-libman"></a>通过 LibMan 安装
 
@@ -101,49 +74,53 @@ SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 
 ## <a name="connect-to-a-hub"></a>连接到集线器
 
-下面的代码创建并启动连接。 中心名称不区分大小写。
+下面的代码创建并启动连接。 中心名称不区分大小写：
 
-[!code-javascript[Call hub methods](javascript-client/sample/wwwroot/js/chat.js?range=9-13,28-51)]
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?range=3-6,29-43)]
 
 ### <a name="cross-origin-connections"></a>跨域连接
 
 通常，浏览器从与请求的页相同的域中加载连接。 但是，在某些情况下，需要与另一个域建立连接。
 
-为了防止恶意站点读取其他站点中的敏感数据，默认情况下会禁用 [跨域连接](xref:security/cors) 。 若要允许跨源请求，请在类中启用它 `Startup` 。
+为了防止恶意站点读取其他站点中的敏感数据，默认情况下会禁用 [跨域连接](xref:security/cors) 。 若要允许跨源请求，请在类中启用该请求 `Startup` ：
 
-[!code-csharp[Cross-origin connections](javascript-client/sample/Startup.cs?highlight=29-35,56)]
+[!code-csharp[](javascript-client/samples/3.x/SignalRChat/Startup.cs?highlight=16-23,40)]
 
-## <a name="call-hub-methods-from-client"></a>从客户端调用集线器方法
+## <a name="call-hub-methods-from-the-client"></a>从客户端调用中心方法
 
-JavaScript 客户端通过[HubConnection](/javascript/api/%40aspnet/signalr/hubconnection)的[invoke](/javascript/api/%40aspnet/signalr/hubconnection#invoke)方法在集线器上调用公共方法。 此 `invoke` 方法接受两个参数：
+JavaScript 客户端通过[HubConnection](/javascript/api/%40microsoft/signalr/hubconnection)的[invoke](/javascript/api/%40microsoft/signalr/hubconnection#invoke-string--any---)方法在集线器上调用公共方法。 此 `invoke` 方法接受：
 
-* 集线器方法的名称。 在下面的示例中，中心的方法名称是 `SendMessage` 。
-* 在 hub 方法中定义的所有参数。 在下面的示例中，自变量名称为 `message` 。 示例代码使用了在所有主要浏览器（Internet Explorer 除外）的当前版本中受支持的箭头函数语法。
+* 集线器方法的名称。
+* 在 hub 方法中定义的所有参数。
 
-  [!code-javascript[Call hub methods](javascript-client/sample/wwwroot/js/chat.js?range=24)]
+在下面的示例中，中心的方法名称是 `SendMessage` 。 传递给 `invoke` 集线器方法和参数的第二个和第三个参数 `user` `message` ：
+
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?name=snippet_Invoke&highlight=2)]
 
 > [!NOTE]
 > 仅 SignalR 在 *默认* 模式下使用 Azure 服务时，才支持从客户端调用中心方法。 有关详细信息，请参阅 [Signalr GitHub 存储库)  (常见问题解答 ](https://github.com/Azure/azure-signalr/blob/dev/docs/faq.md#what-is-the-meaning-of-service-mode-defaultserverlessclassic-how-can-i-choose)。
 
-`invoke`方法返回 JavaScript[承诺](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)。 `Promise`当服务器上的方法返回时，将用返回值解析)  (。 如果服务器上的方法引发错误，将拒绝， `Promise` 并出现错误消息。 使用 `then` 和 `catch` 方法 `Promise` 来处理这些事例 (或 `await` 语法) 。
+`invoke`方法返回 JavaScript[承诺](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)。 `Promise`当服务器上的方法返回时，将用返回值解析)  (。 如果服务器上的方法引发错误，将拒绝， `Promise` 并出现错误消息。 使用 `async` 和 `await` 或的 `Promise` `then` 和 `catch` 方法来处理这些情况。
 
-`send`方法返回 JavaScript `Promise` 。 `Promise`当消息已发送到服务器时，将解决。 如果发送消息时出错，将 `Promise` 拒绝，并出现错误消息。 使用 `then` 和 `catch` 方法 `Promise` 来处理这些事例 (或 `await` 语法) 。
+JavaScript 客户端也可以通过的 [send](/javascript/api/%40microsoft/signalr/hubconnection#send-string--any---) 方法在集线器上调用公共方法 `HubConnection` 。 与 `invoke` 方法不同， `send` 方法不会等待服务器的响应。 `send`方法返回 JavaScript `Promise` 。 `Promise`当消息已发送到服务器时，将解决。 如果发送消息时出错，将 `Promise` 拒绝，并出现错误消息。 使用 `async` 和 `await` 或的 `Promise` `then` 和 `catch` 方法来处理这些情况。
 
 > [!NOTE]
 > 使用 `send` 不会等到服务器收到消息。 因此，不可能从服务器返回数据或错误。
 
-## <a name="call-client-methods-from-hub"></a>从中心调用客户端方法
+## <a name="call-client-methods-from-the-hub"></a>从中心调用客户端方法
 
-若要从中心接收消息，请使用的 [on](/javascript/api/%40aspnet/signalr/hubconnection#on) 方法定义方法 `HubConnection` 。
+若要从中心接收消息，请使用的 [on](/javascript/api/%40microsoft/signalr/hubconnection#on-string---args--any-------void-) 方法定义方法 `HubConnection` 。
 
-* JavaScript 客户端方法的名称。 在下面的示例中，方法名称是 `ReceiveMessage` 。
-* 集线器传递给方法的参数。 在下面的示例中，参数值为 `message` 。
+* JavaScript 客户端方法的名称。
+* 集线器传递给方法的参数。
 
-[!code-javascript[Receive calls from hub](javascript-client/sample/wwwroot/js/chat.js?range=14-19)]
+在下面的示例中，方法名称是 `ReceiveMessage` 。 参数名称为 `user` 和 `message` ：
 
-`connection.on`当服务器端代码使用[SendAsync](/dotnet/api/microsoft.aspnetcore.signalr.clientproxyextensions.sendasync)方法调用时，上面的代码将运行。
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?name=snippet_ReceiveMessage)]
 
-[!code-csharp[Call client-side](javascript-client/sample/hubs/chathub.cs?range=8-11)]
+`connection.on`当服务器端代码使用方法调用时，上面的代码会运行 <xref:Microsoft.AspNetCore.SignalR.ClientProxyExtensions.SendAsync%2A> ：
+
+[!code-csharp[Call client-side](javascript-client/samples/3.x/SignalRChat/Hubs/ChatHub.cs?name=snippet_SendMessage)]
 
 SignalR 通过匹配和中定义的方法名称和参数，确定要调用的客户端方法 `SendAsync` `connection.on` 。
 
@@ -152,9 +129,9 @@ SignalR 通过匹配和中定义的方法名称和参数，确定要调用的客
 
 ## <a name="error-handling-and-logging"></a>错误处理和日志记录
 
-将 `catch` 方法链接到方法的末尾 `start` ，以处理客户端错误。 使用 `console.error` 将错误输出到浏览器控制台。
+使用和，使用 `try` `catch` `async` 和 `await` 或 `Promise` 的 `catch` 方法来处理客户端错误。 使用 `console.error` 将错误输出到浏览器控制台：
 
-[!code-javascript[Error handling](javascript-client/sample/wwwroot/js/chat.js?range=50)]
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?name=snippet_Invoke&highlight=1,3-5)]
 
 设置客户端日志跟踪，方法是在建立连接时将记录器和事件类型传递给日志。 记录的消息具有指定的日志级别和更高的日志级别。 可用的日志级别如下所示：
 
@@ -163,13 +140,11 @@ SignalR 通过匹配和中定义的方法名称和参数，确定要调用的客
 * `signalR.LogLevel.Information`：无错误的状态消息。 日志 `Information` 、 `Warning` 和 `Error` 消息。
 * `signalR.LogLevel.Trace`：跟踪消息。 记录所有内容，包括中心和客户端之间传输的数据。
 
-使用[HubConnectionBuilder](/javascript/api/%40aspnet/signalr/hubconnectionbuilder)上的[configureLogging](/javascript/api/%40aspnet/signalr/hubconnectionbuilder#configurelogging)方法配置日志级别。 消息将记录到浏览器控制台。
+使用[HubConnectionBuilder](/javascript/api/%40aspnet/signalr/hubconnectionbuilder)上的[configureLogging](/javascript/api/%40aspnet/signalr/hubconnectionbuilder#configurelogging)方法配置日志级别。 消息记录到浏览器控制台：
 
-[!code-javascript[Logging levels](javascript-client/sample/wwwroot/js/chat.js?range=9-12)]
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?name=snippet_Connection&highlight=3)]
 
 ## <a name="reconnect-clients"></a>重新连接客户端
-
-::: moniker range=">= aspnetcore-3.0"
 
 ### <a name="automatically-reconnect"></a>自动重新连接
 
@@ -224,7 +199,7 @@ async function start() {
     try {
         await connection.start();
         console.assert(connection.state === signalR.HubConnectionState.Connected);
-        console.log("connected");
+        console.log("SignalR Connected.");
     } catch (err) {
         console.assert(connection.state === signalR.HubConnectionState.Disconnected);
         console.log(err);
@@ -292,23 +267,158 @@ const connection = new signalR.HubConnectionBuilder()
 
 或者，你可以编写将手动重新连接客户端的代码，如 [手动重新连接](#manually-reconnect)中所示。
 
-::: moniker-end
-
 ### <a name="manually-reconnect"></a>手动重新连接
-
-::: moniker range="< aspnetcore-3.0"
-
-> [!WARNING]
-> 在3.0 之前， SignalR 不会自动重新连接 JavaScript 客户端。 必须编写代码来手动重新连接客户端。
-
-::: moniker-end
 
 下面的代码演示典型的手动重新连接方法：
 
 1. 函数 (在这种情况下，将 `start` 创建函数) 来启动连接。
 1. `start`在连接的 `onclose` 事件处理程序中调用函数。
 
-[!code-javascript[Reconnect the JavaScript client](javascript-client/sample/wwwroot/js/chat.js?range=28-40)]
+[!code-javascript[](javascript-client/samples/3.x/SignalRChat/wwwroot/chat.js?range=30-40)]
+
+实际的实现将使用指数回退或在放弃之前重试指定的次数。
+
+## <a name="additional-resources"></a>其他资源
+
+* [JavaScript API 参考](/javascript/api/?view=signalr-js-latest&preserve-view=true )
+* [JavaScript 教程](xref:tutorials/signalr)
+* [WebPack 和 TypeScript 教程](xref:tutorials/signalr-typescript-webpack)
+* [中心](xref:signalr/hubs)
+* [.NET 客户端](xref:signalr/dotnet-client)
+* [发布到 Azure](xref:signalr/publish-to-azure-web-app)
+* [ (CORS 的跨源请求) ](xref:security/cors)
+* [Azure SignalR Service 无服务器文档](/azure/azure-signalr/signalr-concept-serverless-development-config)
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-3.0"
+
+作者：[Rachel Appel](https://twitter.com/rachelappel)
+
+ASP.NET Core SignalR JavaScript 客户端库使开发人员能够调用服务器端集线器代码。
+
+[查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/signalr/javascript-client/samples)（[如何下载](xref:index#how-to-download-a-sample)）
+
+## <a name="install-the-no-locsignalr-client-package"></a>安装 SignalR 客户端包
+
+SignalRJavaScript 客户端库以[npm](https://www.npmjs.com/)包的形式提供。 以下部分概述了安装客户端库的不同方式。
+
+### <a name="install-with-npm"></a>通过 npm 安装
+
+如果使用的是 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端**运行以下命令。
+
+```bash
+npm init -y
+npm install @aspnet/signalr
+```
+
+npm 将包内容安装到*node_modules \\ @aspnet\signalr\dist\browser *文件夹中。 在*wwwroot \\ lib*文件夹下创建名为*signalr*的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
+
+SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
+
+```html
+<script src="~/lib/signalr/signalr.js"></script>
+```
+
+### <a name="use-a-content-delivery-network-cdn"></a>使用内容交付网络 (CDN) 
+
+若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如：
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>
+```
+
+以下 Cdn 提供了客户端库：
+
+* [cdnjs](https://cdnjs.com/libraries/aspnet-signalr)
+* [jsDelivr](https://www.jsdelivr.com/package/npm/@aspnet/signalr)
+* [unpkg](https://unpkg.com/@aspnet/signalr@next/dist/browser/signalr.min.js)
+
+### <a name="install-with-libman"></a>通过 LibMan 安装
+
+[LibMan](xref:client-side/libman/index) 可用于从 CDN 托管的客户端库安装特定的客户端库文件。 例如，仅将缩小 JavaScript 文件添加到项目。 有关该方法的详细信息，请参阅 [添加 SignalR 客户端库](xref:tutorials/signalr#add-the-signalr-client-library)。
+
+## <a name="connect-to-a-hub"></a>连接到集线器
+
+下面的代码创建并启动连接。 中心名称不区分大小写。
+
+[!code-javascript[Call hub methods](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=9-13,28-51)]
+
+### <a name="cross-origin-connections"></a>跨域连接
+
+通常，浏览器从与请求的页相同的域中加载连接。 但是，在某些情况下，需要与另一个域建立连接。
+
+为了防止恶意站点读取其他站点中的敏感数据，默认情况下会禁用 [跨域连接](xref:security/cors) 。 若要允许跨源请求，请在类中启用它 `Startup` 。
+
+[!code-csharp[Cross-origin connections](javascript-client/samples/2.x/SignalRChat/Startup.cs?highlight=29-35,56)]
+
+## <a name="call-hub-methods-from-client"></a>从客户端调用集线器方法
+
+JavaScript 客户端通过[HubConnection](/javascript/api/%40aspnet/signalr/hubconnection)的[invoke](/javascript/api/%40aspnet/signalr/hubconnection#invoke)方法在集线器上调用公共方法。 此 `invoke` 方法接受两个参数：
+
+* 集线器方法的名称。 在下面的示例中，中心的方法名称是 `SendMessage` 。
+* 在 hub 方法中定义的所有参数。 在下面的示例中，自变量名称为 `message` 。 示例代码使用了在所有主要浏览器（Internet Explorer 除外）的当前版本中受支持的箭头函数语法。
+
+  [!code-javascript[Call hub methods](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=24)]
+
+> [!NOTE]
+> 仅 SignalR 在 *默认* 模式下使用 Azure 服务时，才支持从客户端调用中心方法。 有关详细信息，请参阅 [Signalr GitHub 存储库)  (常见问题解答 ](https://github.com/Azure/azure-signalr/blob/dev/docs/faq.md#what-is-the-meaning-of-service-mode-defaultserverlessclassic-how-can-i-choose)。
+
+`invoke`方法返回 JavaScript[承诺](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)。 `Promise`当服务器上的方法返回时，将用返回值解析)  (。 如果服务器上的方法引发错误，将拒绝， `Promise` 并出现错误消息。 使用 `then` 和 `catch` 方法 `Promise` 来处理这些事例 (或 `await` 语法) 。
+
+`send`方法返回 JavaScript `Promise` 。 `Promise`当消息已发送到服务器时，将解决。 如果发送消息时出错，将 `Promise` 拒绝，并出现错误消息。 使用 `then` 和 `catch` 方法 `Promise` 来处理这些事例 (或 `await` 语法) 。
+
+> [!NOTE]
+> 使用 `send` 不会等到服务器收到消息。 因此，不可能从服务器返回数据或错误。
+
+## <a name="call-client-methods-from-hub"></a>从中心调用客户端方法
+
+若要从中心接收消息，请使用的 [on](/javascript/api/%40aspnet/signalr/hubconnection#on) 方法定义方法 `HubConnection` 。
+
+* JavaScript 客户端方法的名称。 在下面的示例中，方法名称是 `ReceiveMessage` 。
+* 集线器传递给方法的参数。 在下面的示例中，参数值为 `message` 。
+
+[!code-javascript[Receive calls from hub](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=14-19)]
+
+`connection.on`当服务器端代码使用方法调用时，上面的代码将运行 <xref:Microsoft.AspNetCore.SignalR.ClientProxyExtensions.SendAsync%2A> 。
+
+[!code-csharp[Call client-side](javascript-client/samples/2.x/SignalRChat/hubs/chathub.cs?range=8-11)]
+
+SignalR 通过匹配和中定义的方法名称和参数，确定要调用的客户端方法 `SendAsync` `connection.on` 。
+
+> [!NOTE]
+> 作为最佳做法，请在后面调用 [start](/javascript/api/%40aspnet/signalr/hubconnection#start) 方法 `HubConnection` `on` 。 这样做可确保在收到消息之前注册处理程序。
+
+## <a name="error-handling-and-logging"></a>错误处理和日志记录
+
+将 `catch` 方法链接到方法的末尾 `start` ，以处理客户端错误。 使用 `console.error` 将错误输出到浏览器控制台。
+
+[!code-javascript[Error handling](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=50)]
+
+设置客户端日志跟踪，方法是在建立连接时将记录器和事件类型传递给日志。 记录的消息具有指定的日志级别和更高的日志级别。 可用的日志级别如下所示：
+
+* `signalR.LogLevel.Error`：错误消息。 `Error`仅记录消息。
+* `signalR.LogLevel.Warning`：有关潜在错误的警告消息。 日志 `Warning` 和 `Error` 消息。
+* `signalR.LogLevel.Information`：无错误的状态消息。 日志 `Information` 、 `Warning` 和 `Error` 消息。
+* `signalR.LogLevel.Trace`：跟踪消息。 记录所有内容，包括中心和客户端之间传输的数据。
+
+使用[HubConnectionBuilder](/javascript/api/%40aspnet/signalr/hubconnectionbuilder)上的[configureLogging](/javascript/api/%40aspnet/signalr/hubconnectionbuilder#configurelogging)方法配置日志级别。 消息将记录到浏览器控制台。
+
+[!code-javascript[Logging levels](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=9-12)]
+
+## <a name="reconnect-clients"></a>重新连接客户端
+
+### <a name="manually-reconnect"></a>手动重新连接
+
+> [!WARNING]
+> 在3.0 之前， SignalR 不会自动重新连接 JavaScript 客户端。 必须编写代码来手动重新连接客户端。
+
+下面的代码演示典型的手动重新连接方法：
+
+1. 函数 (在这种情况下，将 `start` 创建函数) 来启动连接。
+1. `start`在连接的 `onclose` 事件处理程序中调用函数。
+
+[!code-javascript[Reconnect the JavaScript client](javascript-client/samples/2.x/SignalRChat/wwwroot/js/chat.js?range=28-40)]
 
 实际的实现将使用指数回退或在放弃之前重试指定的次数。
 
@@ -317,8 +427,10 @@ const connection = new signalR.HubConnectionBuilder()
 * [JavaScript API 参考](/javascript/api/?view=signalr-js-latest)
 * [JavaScript 教程](xref:tutorials/signalr)
 * [WebPack 和 TypeScript 教程](xref:tutorials/signalr-typescript-webpack)
-* [集线器](xref:signalr/hubs)
+* [中心](xref:signalr/hubs)
 * [.NET 客户端](xref:signalr/dotnet-client)
 * [发布到 Azure](xref:signalr/publish-to-azure-web-app)
 * [ (CORS 的跨源请求) ](xref:security/cors)
 * [Azure SignalR Service 无服务器文档](/azure/azure-signalr/signalr-concept-serverless-development-config)
+
+::: moniker-end

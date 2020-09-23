@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/index
-ms.openlocfilehash: 391a38e9af42b162fc74bac803e6aa3cf687e7d5
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e1af8f1de61edd934505a44e75ea07e0f09a67b5
+ms.sourcegitcommit: a07f83b00db11f32313045b3492e5d1ff83c4437
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88626059"
+ms.lasthandoff: 09/15/2020
+ms.locfileid: "90592951"
 ---
 # <a name="secure-aspnet-core-no-locblazor-webassembly"></a>保护 ASP.NET Core Blazor WebAssembly
 
@@ -98,6 +98,13 @@ Blazor WebAssembly 中的身份验证支持建立在 `oidc-client.js` 库的基�
 在 Blazor WebAssembly 应用中，无法在客户端保护刷新令牌。 因此，不得将刷新令牌发送到应用以供直接使用。
 
 在托管的 Blazor WebAssembly 解决方案中，服务器端应用可以维护和使用刷新令牌来访问第三方 API。 有关详细信息，请参阅 <xref:blazor/security/webassembly/additional-scenarios#authenticate-users-with-a-third-party-provider-and-call-protected-apis-on-the-host-server-and-the-third-party>。
+
+## <a name="establish-claims-for-users"></a>为用户建立声明
+
+应用通常要求用户声明基于对服务器的 web API 调用。 例如，声明常用于在应用中[建立授权](xref:blazor/security/index#authorization)。 在这些情况下，应用会请求访问令牌来访问服务，并使用该令牌获取声明的用户数据。 有关示例，请参阅以下资源：
+
+* [其他场景：自定义用户](xref:blazor/security/webassembly/additional-scenarios#customize-the-user)
+* <xref:blazor/security/webassembly/aad-groups-roles>
 
 ## <a name="implementation-guidance"></a>实施指南
 

@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/scale
-ms.openlocfilehash: bba965e14058663c3ed9c0f15afc6a8d78997aea
-ms.sourcegitcommit: 8fcb08312a59c37e3542e7a67dad25faf5bb8e76
+ms.openlocfilehash: 2bfe05748e6740043be7f1ccc6dbe22ad4b0ca44
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/11/2020
-ms.locfileid: "90009747"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722561"
 ---
 # <a name="aspnet-core-no-locsignalr-hosting-and-scaling"></a>ASP.NET Core SignalR 托管和缩放
 
@@ -33,7 +33,7 @@ ms.locfileid: "90009747"
 
 ## <a name="sticky-sessions"></a>粘滞会话
 
-SignalR 要求针对特定连接的所有 HTTP 请求都由同一服务器进程处理。 当 SignalR 在服务器场中运行 (多个服务器) 时，必须使用 "粘滞会话"。 某些负载均衡器也称为 "粘滞会话"。 Azure App Service 使用 [应用程序请求路由](https://docs.microsoft.com/iis/extensions/planning-for-arr/application-request-routing-version-2-overview) (ARR) 来路由请求。 启用 Azure App Service 中的 "ARR 相似性" 设置将启用 "粘滞会话"。 不需要手写会话的唯一情况是：
+SignalR 要求针对特定连接的所有 HTTP 请求都由同一服务器进程处理。 当 SignalR 在服务器场中运行 (多个服务器) 时，必须使用 "粘滞会话"。 某些负载均衡器也称为 "粘滞会话"。 Azure App Service 使用 [应用程序请求路由](/iis/extensions/planning-for-arr/application-request-routing-version-2-overview) (ARR) 来路由请求。 启用 Azure App Service 中的 "ARR 相似性" 设置将启用 "粘滞会话"。 不需要手写会话的唯一情况是：
 
 1. 在单个服务器上承载时，在单个进程中。
 1. 使用 Azure 服务时 SignalR 。
@@ -136,7 +136,7 @@ proxy_set_header Connection $connection_upgrade;
 
 ## <a name="next-steps"></a>后续步骤
 
-有关更多信息，请参见以下资源：
+有关详细信息，请参阅以下资源：
 
 * [Azure SignalR 服务文档](/azure/azure-signalr/signalr-overview)
 * [设置 Redis 底板](xref:signalr/redis-backplane)

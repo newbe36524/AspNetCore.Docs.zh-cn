@@ -10,12 +10,12 @@ metadata:
   author: WadePickett
   ms.author: wpickett
   ms.date: 06/05/2020
-  ms.openlocfilehash: c90bd79b68252505120a0b28bce2a2b5b9d627d7
-  ms.sourcegitcommit: 66fca14611eba141d455fe0bd2c37803062e439c
+  ms.openlocfilehash: d01cb4dee4c7539c0337343615a259fc7346eb6a
+  ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
   ms.translationtype: HT
   ms.contentlocale: zh-CN
-  ms.lasthandoff: 07/03/2020
-  ms.locfileid: "85944521"
+  ms.lasthandoff: 09/17/2020
+  ms.locfileid: "90722794"
 highlightedContent:
   items:
   - title: 5 分钟内即可在任意平台上创建 ASP.NET Core 应用
@@ -41,7 +41,7 @@ highlightedContent:
     url: tutorials/signalr.md
   - title: ASP.NET 4.x 文档
     itemType: overview
-    url: https://docs.microsoft.com/aspnet/overview
+    url: /aspnet/overview
 conceptualContent:
   title: 开发 ASP.NET Core 应用
   summary: 选择交互式 Web 应用、Web API、MVC 模式的应用、实时应用等更多内容
@@ -67,7 +67,7 @@ conceptualContent:
     - url: tutorials/first-web-api.md
       itemType: get-started
       text: 使用 ASP.NET Core 创建 Web API
-    - url: https://docs.microsoft.com/learn/modules/build-web-api-net-core/
+    - url: /learn/modules/build-web-api-net-core/
       itemType: learn
       text: 使用 ASP.NET Core 创建 Web API
     - url: tutorials/web-api-help-pages-using-swagger.md
@@ -91,7 +91,7 @@ conceptualContent:
     - url: tutorials/razor-pages/razor-pages-start.md
       itemType: get-started
       text: 创建第一个 Razor Pages Web 应用
-    - url: https://docs.microsoft.com/learn/modules/create-razor-pages-aspnet-core/
+    - url: /learn/modules/create-razor-pages-aspnet-core/
       itemType: tutorial
       text: 创建使用 Web API 的基于页面的 Web UI
     - url: mvc/views/razor.md
@@ -187,7 +187,7 @@ conceptualContent:
     - url: tutorials/first-mvc-app/start-mvc.md
       itemType: tutorial
       text: 使用 ASP.NET Core 的 SQL
-    - url: blazor/data-binding.md
+    - url: ./blazor/components/data-binding.md
       itemType: concept
       text: ASP.NET Core Blazor 中的数据绑定
     - url: tutorials/razor-pages/razor-pages-start.md
@@ -199,19 +199,19 @@ conceptualContent:
     - url: data/ef-rp/intro.md
       itemType: tutorial
       text: 具有 ASP.NET Core MVC 的 Entity Framework Core
-    - url: https://docs.microsoft.com/visualstudio/azure/vs-azure-tools-connected-services-storage?view=vs-2019&viewFallbackFrom=aspnetcore-3.1
+    - url: /visualstudio/azure/vs-azure-tools-connected-services-storage?view=vs-2019&viewFallbackFrom=aspnetcore-3.1
       itemType: tutorial
       text: Azure 存储
-    - url: https://docs.microsoft.com/azure/visual-studio/vs-storage-aspnet5-getting-started-blobs?toc=%2Faspnet%2Fcore%2Ftoc.json&bc=%2Faspnet%2Fcore%2Fbreadcrumb%2Ftoc.json&view=aspnetcore-3.1
+    - url: /azure/visual-studio/vs-storage-aspnet5-getting-started-blobs?bc=%252faspnet%252fcore%252fbreadcrumb%252ftoc.json&toc=%252faspnet%252fcore%252ftoc.json&view=aspnetcore-3.1
       itemType: tutorial
       text: Blob 存储
-    - url: https://docs.microsoft.com/azure/visual-studio/vs-storage-aspnet5-getting-started-tables?toc=%2Faspnet%2Fcore%2Ftoc.json&bc=%2Faspnet%2Fcore%2Fbreadcrumb%2Ftoc.json&view=aspnetcore-3.1
+    - url: /azure/visual-studio/vs-storage-aspnet5-getting-started-tables?bc=%252faspnet%252fcore%252fbreadcrumb%252ftoc.json&toc=%252faspnet%252fcore%252ftoc.json&view=aspnetcore-3.1
       itemType: concept
       text: Azure 表存储
   - title: 以前版本的 ASP.NET Framework
     summary: 了解以前版本的 ASP.NET Framework 的概述、教程、基本概念、体系结构和 API 参考
     links:
-    - url: https://docs.microsoft.com/aspnet/overview
+    - url: /aspnet/overview
       itemType: concept
       text: ASP.NET 4.x
   - title: ASP.NET Core 视频教程
@@ -237,7 +237,7 @@ additionalContent:
     items:
     - title: ASP.NET Core 的 API 参考
       links:
-      - url: https://docs.microsoft.com/dotnet/api/?view=aspnetcore-3.1
+      - url: /dotnet/api/?view=aspnetcore-3.1
         text: .NET API 浏览器
     - title: 托管和部署
       links:
@@ -265,7 +265,7 @@ additionalContent:
         text: 身份验证
       - url: security/authorization/introduction.md
         text: 授权
-      - url: https://docs.microsoft.com/learn/modules/secure-aspnet-core-identity/
+      - url: /learn/modules/secure-aspnet-core-identity/
         text: 课程：使用标识框架保护 ASP.NET Core Web 应用的安全
       - url: security/data-protection/introduction.md
         text: 数据保护
@@ -289,9 +289,9 @@ additionalContent:
       links:
       - url: test/razor-pages-tests.md
         text: Razor Pages 单元测试
-      - url: https://docs.microsoft.com/visualstudio/debugger/remote-debugging-azure?view=vs-2019&viewFallbackFrom=aspnetcore-3.1
+      - url: /visualstudio/debugger/remote-debugging-azure?view=vs-2019&viewFallbackFrom=aspnetcore-3.1
         text: 远程调试
-      - url: https://docs.microsoft.com/azure/azure-monitor/app/snapshot-debugger?toc=%2Faspnet%2Fcore%2Ftoc.json&bc=%2Faspnet%2Fcore%2Fbreadcrumb%2Ftoc.json&view=aspnetcore-3.1
+      - url: /azure/azure-monitor/app/snapshot-debugger?bc=%252faspnet%252fcore%252fbreadcrumb%252ftoc.json&toc=%252faspnet%252fcore%252ftoc.json&view=aspnetcore-3.1
         text: 快照调试
       - url: test/integration-tests.md
         text: 集成测试
@@ -301,23 +301,23 @@ additionalContent:
         text: 故障排除和调试
       - url: fundamentals/logging/index.md
         text: Logging
-      - url: https://docs.microsoft.com/learn/modules/load-test-web-app-azure-devops/
+      - url: /learn/modules/load-test-web-app-azure-devops/
         text: 使用 Azure DevOps 对 Azure Web 应用进行负载测试
     - title: Azure 和 ASP.NET Core
       links:
-      - url: https://docs.microsoft.com/azure/app-service/app-service-web-get-started-dotnet
+      - url: /azure/app-service/app-service-web-get-started-dotnet
         text: 部署 ASP.NET Core web 应用
-      - url: https://docs.microsoft.com/visualstudio/containers/container-tools?view=vs-2019.md
+      - url: /visualstudio/containers/container-tools?view=vs-2019.md
         text: ASP.NET Core 和 Docker
-      - url: https://docs.microsoft.com/learn/modules/host-a-web-app-with-azure-app-service/
+      - url: /learn/modules/host-a-web-app-with-azure-app-service/
         text: 通过 Azure 应用服务托管 Web 应用程序
-      - url: https://docs.microsoft.com/azure/app-service/app-service-web-tutorial-dotnet-sqldatabase
+      - url: /azure/app-service/app-service-web-tutorial-dotnet-sqldatabase
         text: 应用服务和 Azure SQL 数据库
-      - url: https://docs.microsoft.com/azure/app-service/app-service-web-tutorial-connect-msi
+      - url: /azure/app-service/app-service-web-tutorial-connect-msi
         text: 具有 ASP.NET Core 和 Azure SQL 数据库的托管标识
-      - url: https://docs.microsoft.com/azure/app-service/app-service-web-tutorial-rest-api
+      - url: /azure/app-service/app-service-web-tutorial-rest-api
         text: Azure 应用服务中启用了 CORS 的 Web API
-      - url: https://docs.microsoft.com/learn/modules/capture-application-logs-app-service/
+      - url: /learn/modules/capture-application-logs-app-service/
         text: 通过应用服务诊断日志记录来捕获 Web 应用程序日志
     - title: 性能
       links:
@@ -339,7 +339,7 @@ additionalContent:
         text: 模型绑定
       - url: mvc/models/validation.md
         text: 模型验证
-      - url: fundamentals/middleware.md
+      - url: ./fundamentals/middleware/index.md
         text: 编写中间件
       - url: fundamentals/middleware/request-response.md
         text: 请求和响应 Cookie
@@ -363,14 +363,14 @@ additionalContent:
         text: ASP.NET 到 ASP.NET Core
     - title: 体系结构
       links:
-      - url: https://docs.microsoft.com/dotnet/architecture/modern-web-apps-azure/choose-between-traditional-web-and-single-page-apps
+      - url: /dotnet/architecture/modern-web-apps-azure/choose-between-traditional-web-and-single-page-apps
         text: 在传统 Web 应用和单页应用 (SPA) 之间选择
-      - url: https://docs.microsoft.com/dotnet/architecture/modern-web-apps-azure/architectural-principles
+      - url: /dotnet/architecture/modern-web-apps-azure/architectural-principles
         text: 体系结构原则
-      - url: https://docs.microsoft.com/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
+      - url: /dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
         text: 常用 Web 应用程序体系结构
-      - url: https://docs.microsoft.com/dotnet/architecture/modern-web-apps-azure/common-client-side-web-technologies
+      - url: /dotnet/architecture/modern-web-apps-azure/common-client-side-web-technologies
         text: 常用客户端 Web 技术
-      - url: https://docs.microsoft.com/dotnet/architecture/modern-web-apps-azure/development-process-for-azure
+      - url: /dotnet/architecture/modern-web-apps-azure/development-process-for-azure
         text: Azure 的开发过程
   footer: 参与 ASP.NET Core 文档。请参阅我们的[参与者指南](https://github.com/aspnet/AspNetCore.Docs/blob/master/CONTRIBUTING.md)。

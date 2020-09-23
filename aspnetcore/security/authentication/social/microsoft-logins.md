@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/microsoft-logins
-ms.openlocfilehash: 3430d842b6a4f7da30370977f72e6f132e28bb7f
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 36341a0e439be57d7da4f787aa6103b92c624e96
+ms.sourcegitcommit: 62cc131969b2379f7a45c286a751e22d961dfbdb
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634249"
+ms.lasthandoff: 09/22/2020
+ms.locfileid: "90847580"
 ---
 # <a name="microsoft-account-external-login-setup-with-aspnet-core"></a>Microsoft 帐户外部登录设置与 ASP.NET Core
 
@@ -41,7 +41,9 @@ ms.locfileid: "88634249"
 * 选择 **新注册**
 * 输入“名称”。
 * 为 **支持的帐户类型**选择一个选项。  <!-- Accounts for any org work with MS domain accounts. Most folks probably want the last option, personal MS accounts. It took 24 hours after setting this up for the keys to work -->
-* 在 " **重定向 URI**" 下，输入追加的开发 URL `/signin-microsoft` 。 例如，`https://localhost:5001/signin-microsoft`。 稍后在本示例中配置的 Microsoft 身份验证方案将自动处理路由中的请求 `/signin-microsoft` 以实现 OAuth 流。
+  * `MicrosoftAccount`默认情况下，包支持使用 "在任何组织目录中的帐户" 或 "任何组织目录和 Microsoft 帐户中的帐户" 选项创建的应用注册。
+  * 若要使用其他选项，请将和成员设置为， `AuthorizationEndpoint` `TokenEndpoint` 用于在 `MicrosoftAccountOptions` (创建应用注册后， **Endpoints**通过单击 "**概述**" 页上的 "终结点") 上的 "终结点"，将 Microsoft 帐户身份验证初始化为显示的 url 上显示的 url。
+* 在 " **重定向 URI**" 下，输入追加的开发 URL `/signin-microsoft` 。 例如，`https://localhost:5001/signin-microsoft` 。 稍后在本示例中配置的 Microsoft 身份验证方案将自动处理路由中的请求 `/signin-microsoft` 以实现 OAuth 流。
 * 选择“注册”
 
 ### <a name="create-client-secret"></a>创建客户端机密

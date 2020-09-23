@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/version-differences
-ms.openlocfilehash: a8336a6c13c502f5a0fad150785cd9d484064618
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 965fbb3d8007cb64aaf51d82d87ed7a3a5298e9b
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633001"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90721783"
 ---
 # <a name="differences-between-aspnet-no-locsignalr-and-aspnet-core-no-locsignalr"></a>ASP.NET SignalR 与 ASP.NET Core 之间的差异 SignalR
 
@@ -156,7 +156,7 @@ ASP.NET Core SignalR 现在支持从中心到客户端的 [流数据](xref:signa
 
 ### <a name="persistentconnection-removal"></a>删除 PersistentConnection
 
-在 ASP.NET Core 中 SignalR ，已删除 [PersistentConnection](https://docs.microsoft.com/previous-versions/aspnet/jj919047(v%3dvs.118)) 类。
+在 ASP.NET Core 中 SignalR ，已删除 [PersistentConnection](/previous-versions/aspnet/jj919047(v=vs.118)) 类。
 
 ### <a name="globalhost"></a>GlobalHost
 
@@ -291,7 +291,7 @@ ASP.NET SignalR 支持 SQL Server 和 Redis。 ASP.NET Core SignalR 支持 Azure
 
 ## <a name="additional-resources"></a>其他资源
 
-* [集线器](xref:signalr/hubs)
+* [中心](xref:signalr/hubs)
 * [JavaScript 客户端](xref:signalr/javascript-client)
 * [.NET 客户端](xref:signalr/dotnet-client)
 * [支持的平台](xref:signalr/supported-platforms)

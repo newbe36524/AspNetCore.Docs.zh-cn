@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/caching/middleware
-ms.openlocfilehash: 43b0ef1dcbf6d0137b14be9e58eb056f06ae093d
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 7fe9629e1c60a6156c69e546736049653a4229b7
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633443"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722639"
 ---
 # <a name="response-caching-middleware-in-aspnet-core"></a>ASP.NET Core 中的响应缓存中间件
 
@@ -35,7 +35,7 @@ ms.locfileid: "88633443"
 
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/performance/caching/middleware/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 响应缓存中间件可通过共享框架隐式地用于 ASP.NET Core 应用。
 
@@ -59,7 +59,7 @@ ms.locfileid: "88633443"
 
 前面的标头不会写入响应，并在控制器、操作或页上被重写 Razor ：
 
-* 具有 [[ResponseCache]](xref:Microsoft.AspNetCore.Mvc.ResponseCacheAttribute) 属性。 即使未设置属性，这也适用。 例如，省略 [VaryByHeader](/aspnet/core/performance/caching/response#vary) 属性将导致从响应中删除相应的标头。
+* 具有 [[ResponseCache]](xref:Microsoft.AspNetCore.Mvc.ResponseCacheAttribute) 属性。 即使未设置属性，这也适用。 例如，省略 [VaryByHeader](./response.md#vary) 属性将导致从响应中删除相应的标头。
 
 响应缓存中间件仅缓存服务器响应，导致 200 (正常) 状态代码。 中间件将忽略任何其他响应，包括 [错误页](xref:fundamentals/error-handling)。
 
@@ -74,7 +74,7 @@ ms.locfileid: "88633443"
 | ------ | ----------- |
 | <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.MaximumBodySize> | 响应正文的最大可缓存大小（以字节为单位）。 默认值为 `64 * 1024 * 1024` (64 MB) 。 |
 | <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.SizeLimit> | 响应缓存中间件的大小限制（以字节为单位）。 默认值为 `100 * 1024 * 1024` (100 MB) 。 |
-| <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.UseCaseSensitivePaths> | 确定是否将响应缓存在区分大小写的路径上。 默认值是 `false`。 |
+| <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.UseCaseSensitivePaths> | 确定是否将响应缓存在区分大小写的路径上。 默认值为 `false`。 |
 
 下面的示例将中间件配置为：
 
@@ -135,7 +135,7 @@ if (responseCachingFeature != null)
 * <xref:mvc/views/tag-helpers/builtin-th/cache-tag-helper>
 * <xref:mvc/views/tag-helpers/builtin-th/distributed-cache-tag-helper>
 
-## <a name="troubleshooting"></a>疑难解答
+## <a name="troubleshooting"></a>故障排除
 
 如果缓存行为与预期不符，请确认响应是可缓存的并且能够通过缓存提供服务。 检查请求的传入标头和响应的传出标头。 启用 [日志记录](xref:fundamentals/logging/index) 以帮助进行调试。
 
@@ -182,7 +182,7 @@ if (responseCachingFeature != null)
 
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/performance/caching/middleware/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 使用 [AspNetCore 元包](xref:fundamentals/metapackage-app) 或添加对 [AspNetCore. ResponseCaching](https://www.nuget.org/packages/Microsoft.AspNetCore.ResponseCaching/) 包的包引用。
 
@@ -203,7 +203,7 @@ if (responseCachingFeature != null)
 
 前面的标头不会写入响应，并在控制器、操作或页上被重写 Razor ：
 
-* 具有 [[ResponseCache]](xref:Microsoft.AspNetCore.Mvc.ResponseCacheAttribute) 属性。 即使未设置属性，这也适用。 例如，省略 [VaryByHeader](/aspnet/core/performance/caching/response#vary) 属性将导致从响应中删除相应的标头。
+* 具有 [[ResponseCache]](xref:Microsoft.AspNetCore.Mvc.ResponseCacheAttribute) 属性。 即使未设置属性，这也适用。 例如，省略 [VaryByHeader](./response.md#vary) 属性将导致从响应中删除相应的标头。
 
 响应缓存中间件仅缓存服务器响应，导致 200 (正常) 状态代码。 中间件将忽略任何其他响应，包括 [错误页](xref:fundamentals/error-handling)。
 
@@ -218,7 +218,7 @@ if (responseCachingFeature != null)
 | ------ | ----------- |
 | <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.MaximumBodySize> | 响应正文的最大可缓存大小（以字节为单位）。 默认值为 `64 * 1024 * 1024` (64 MB) 。 |
 | <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.SizeLimit> | 响应缓存中间件的大小限制（以字节为单位）。 默认值为 `100 * 1024 * 1024` (100 MB) 。 |
-| <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.UseCaseSensitivePaths> | 确定是否将响应缓存在区分大小写的路径上。 默认值是 `false`。 |
+| <xref:Microsoft.AspNetCore.ResponseCaching.ResponseCachingOptions.UseCaseSensitivePaths> | 确定是否将响应缓存在区分大小写的路径上。 默认值为 `false`。 |
 
 下面的示例将中间件配置为：
 
@@ -279,7 +279,7 @@ if (responseCachingFeature != null)
 * <xref:mvc/views/tag-helpers/builtin-th/cache-tag-helper>
 * <xref:mvc/views/tag-helpers/builtin-th/distributed-cache-tag-helper>
 
-## <a name="troubleshooting"></a>疑难解答
+## <a name="troubleshooting"></a>故障排除
 
 如果缓存行为与预期不符，请确认响应是可缓存的并且能够通过缓存提供服务。 检查请求的传入标头和响应的传出标头。 启用 [日志记录](xref:fundamentals/logging/index) 以帮助进行调试。
 

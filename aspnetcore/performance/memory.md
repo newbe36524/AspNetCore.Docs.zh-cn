@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/memory
-ms.openlocfilehash: 9bb055670b73c9a1ae04083bc326200a42151708
-ms.sourcegitcommit: 7258e94cf60c16e5b6883138e5e68516751ead0f
+ms.openlocfilehash: 7f1d20687f6dd588e125acf3815815c2bcf0cd04
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/29/2020
-ms.locfileid: "89102791"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722678"
 ---
 # <a name="memory-management-and-garbage-collection-gc-in-aspnet-core"></a>内存管理和垃圾回收 (GC) ASP.NET Core
 
@@ -355,7 +355,7 @@ public async Task<int> GetHttpClient2(string url)
 
 请参阅以下内容，了解更好的方法来处理实例的生存期 `HttpClient` ：
 
-* [HttpClient 和生存期管理](/aspnet/core/fundamentals/http-requests#httpclient-and-lifetime-management)
+* [HttpClient 和生存期管理](../fundamentals/http-requests.md#httpclient-and-lifetime-management)
 * [HTTPClient 工厂博客](https://devblogs.microsoft.com/aspnet/asp-net-core-2-1-preview1-introducing-httpclient-factory/)
  
 ### <a name="object-pooling"></a>对象池
