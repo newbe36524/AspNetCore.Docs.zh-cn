@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 03/12/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/ip-safelist
-ms.openlocfilehash: 621be5351acb251335a42f57e8ea670af1b35a87
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: dfc134b97bb0976bc682a53d536cd27785550c7d
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634444"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059658"
 ---
 # <a name="client-ip-safelist-for-aspnet-core"></a>ASP.NET Core 的客户端 IP 安全安全
 
@@ -48,7 +49,7 @@ ms.locfileid: "88634444"
 
 在示例应用中，IP 地址安全项是：
 
-* 由 `AdminSafeList` 文件 *appsettings.js上* 的属性定义。
+* 由 `AdminSafeList` 文件中的属性定义 *appsettings.json* 。
 * 分号分隔的字符串，可包含 [Internet 协议版本 4 (IPv4) ](https://wikipedia.org/wiki/IPv4) 和 [internet 协议版本 6 (IPv6) ](https://wikipedia.org/wiki/IPv6) 地址。
 
 [!code-json[](ip-safelist/samples/3.x/ClientIpAspNetCore/appsettings.json?range=1-3&highlight=2)]
@@ -67,7 +68,7 @@ ms.locfileid: "88634444"
 
 ## <a name="action-filter"></a>操作筛选器
 
-如果需要针对特定 MVC 控制器或操作方法的安全安全访问控制，请使用操作筛选器。 例如：
+如果需要针对特定 MVC 控制器或操作方法的安全安全访问控制，请使用操作筛选器。 例如： 。
 
 [!code-csharp[](ip-safelist/samples/Shared/ClientIpSafelistComponents/Filters/ClientIpCheckActionFilter.cs?name=snippet_ClassOnly)]
 
@@ -104,7 +105,7 @@ ms.locfileid: "88634444"
 
 ## <a name="no-locrazor-pages-filter"></a>Razor 页面筛选器
 
-如果需要针对页面应用的安全筛选器驱动访问控制 Razor ，请使用 Razor 页面筛选器。 例如：
+如果需要针对页面应用的安全筛选器驱动访问控制 Razor ，请使用 Razor 页面筛选器。 例如： 。
 
 [!code-csharp[](ip-safelist/samples/Shared/ClientIpSafelistComponents/Filters/ClientIpCheckPageFilter.cs?name=snippet_ClassOnly)]
 

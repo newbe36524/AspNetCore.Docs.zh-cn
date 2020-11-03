@@ -5,6 +5,7 @@ description: 了解如何使用电子邮件确认和密码重置构建 ASP.NET C
 ms.author: riande
 ms.date: 03/11/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/accconfirm
-ms.openlocfilehash: d6ea37ceb83ffbaa94187e0c541c79428594e4b4
-ms.sourcegitcommit: 2039e60eb7b482da8298f82dcd5eda27cf747f32
+ms.openlocfilehash: 91148c67d5dc0bf97e2f926f50dcff5dd0708f4b
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88906444"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052313"
 ---
 # <a name="account-confirmation-and-password-recovery-in-aspnet-core"></a>ASP.NET Core 中的帐户确认和密码恢复
 
@@ -56,7 +57,7 @@ dotnet run
 * 选择 `Click here to confirm your account` 链接。
 * 选择 " **登录** " 链接，并以相同的凭据登录。
 * 选择将 `Hello YourEmail@provider.com!` 您重定向到页面的链接 `/Identity/Account/Manage/PersonalData` 。
-* 选择左侧的 " **个人数据** " 选项卡，然后选择 " **删除**"。
+* 选择左侧的 " **个人数据** " 选项卡，然后选择 " **删除** "。
 
 ### <a name="configure-an-email-provider"></a>配置电子邮件提供程序
 
@@ -64,13 +65,13 @@ dotnet run
 
 SendGrid 帐户可能需要 [添加发送方](https://sendgrid.com/docs/ui/sending-email/senders/)。
 
-创建一个类以获取安全电子邮件密钥。 对于本示例，请创建 *服务/AuthMessageSenderOptions*：
+创建一个类以获取安全电子邮件密钥。 对于本示例，请创建 *服务/AuthMessageSenderOptions* ：
 
 [!code-csharp[](accconfirm/sample/WebPWrecover30/Services/AuthMessageSenderOptions.cs?name=snippet1)]
 
 #### <a name="configure-sendgrid-user-secrets"></a>配置 SendGrid 用户机密
 
-`SendGridUser` `SendGridKey` 用[机密管理器工具](xref:security/app-secrets)设置和。 例如：
+`SendGridUser` `SendGridKey` 用[机密管理器工具](xref:security/app-secrets)设置和。 例如： 。
 
 ```dotnetcli
 dotnet user-secrets set SendGridUser RickAndMSFT
@@ -81,7 +82,7 @@ Successfully saved SendGridUser = RickAndMSFT to the secret store.
 
 在 Windows 上，机密管理器将密钥/值对存储在目录中的文件 *secrets.js上* `%APPDATA%/Microsoft/UserSecrets/<WebAppName-userSecretsId>` 。
 
-不会对文件 * 中secrets.js* 的内容进行加密。 以下标记显示了文件 * 上的secrets.js* 。 已 `SendGridKey` 删除该值。
+不会对文件 *中secrets.js* 的内容进行加密。 以下标记显示了文件 *上的secrets.js* 。 已 `SendGridKey` 删除该值。
 
 ```json
 {
@@ -155,7 +156,7 @@ https://github.com/dotnet/aspnetcore/blob/master/src/Identity/UI/src/Areas/Ident
 
 ### <a name="test-password-reset"></a>测试密码重置
 
-* 如果已登录，请选择 " **注销**"。
+* 如果已登录，请选择 " **注销** "。
 * 选择 " **登录** " 链接，然后选择 " **忘记了密码？"** 链接。
 * 输入用于注册该帐户的电子邮件。
 * 发送了一封电子邮件，其中包含用于重置密码的链接。 检查你的电子邮件，然后单击链接以重置你的密码。 密码重置成功后，可以用电子邮件和新密码登录。
@@ -164,7 +165,7 @@ https://github.com/dotnet/aspnetcore/blob/master/src/Identity/UI/src/Areas/Ident
 
 ## <a name="resend-email-confirmation"></a>重新发送电子邮件确认
 
-在 ASP.NET Core 5.0 及更高版本中，选择 "**登录**" 页上的 "**重新发送电子邮件**" 链接。
+在 ASP.NET Core 5.0 及更高版本中，选择 " **登录** " 页上的 " **重新发送电子邮件** " 链接。
 
 ### <a name="change-email-and-activity-timeout"></a>更改电子邮件和活动超时
 
@@ -266,7 +267,7 @@ dotnet run
 
 请注意，表的 `EmailConfirmed` 字段为 `False` 。
 
-当应用发送确认电子邮件时，可能需要在下一步中再次使用此电子邮件。 右键单击该行，然后选择 " **删除**"。 删除电子邮件别名可以简化以下步骤。
+当应用发送确认电子邮件时，可能需要在下一步中再次使用此电子邮件。 右键单击该行，然后选择 " **删除** "。 删除电子邮件别名可以简化以下步骤。
 
 <a name="prevent-login-at-registration"></a>
 
@@ -286,13 +287,13 @@ dotnet run
 
 在本教程中，使用 [SendGrid](https://sendgrid.com) 发送电子邮件。 需要使用 SendGrid 帐户和密钥来发送电子邮件。 您可以使用其他电子邮件提供程序。 ASP.NET Core 1.x 包括 `System.Net.Mail` ，这允许你从应用发送电子邮件。 建议使用 SendGrid 或其他电子邮件服务发送电子邮件。 SMTP 难于保护和正确设置。
 
-创建一个类以获取安全电子邮件密钥。 对于本示例，请创建 *服务/AuthMessageSenderOptions*：
+创建一个类以获取安全电子邮件密钥。 对于本示例，请创建 *服务/AuthMessageSenderOptions* ：
 
 [!code-csharp[](accconfirm/sample/WebPWrecover22/Services/AuthMessageSenderOptions.cs?name=snippet1)]
 
 #### <a name="configure-sendgrid-user-secrets"></a>配置 SendGrid 用户机密
 
-`SendGridUser` `SendGridKey` 用[机密管理器工具](xref:security/app-secrets)设置和。 例如：
+`SendGridUser` `SendGridKey` 用[机密管理器工具](xref:security/app-secrets)设置和。 例如： 。
 
 ```console
 C:/WebAppl>dotnet user-secrets set SendGridUser RickAndMSFT
@@ -301,7 +302,7 @@ info: Successfully saved SendGridUser = RickAndMSFT to the secret store.
 
 在 Windows 上，机密管理器将密钥/值对存储在目录中的文件 *secrets.js上* `%APPDATA%/Microsoft/UserSecrets/<WebAppName-userSecretsId>` 。
 
-不会对文件 * 中secrets.js* 的内容进行加密。 以下标记显示了文件 * 上的secrets.js* 。 已 `SendGridKey` 删除该值。
+不会对文件 *中secrets.js* 的内容进行加密。 以下标记显示了文件 *上的secrets.js* 。 已 `SendGridKey` 删除该值。
 
 ```json
 {
@@ -355,7 +356,7 @@ dotnet add package SendGrid
 
 ## <a name="enable-account-confirmation-and-password-recovery"></a>启用帐户确认和密码恢复
 
-该模板包含用于帐户确认和密码恢复的代码。 `OnPostAsync`在*区域/ Identity /Pages/Account/Register.cshtml.cs*中查找方法。
+该模板包含用于帐户确认和密码恢复的代码。 `OnPostAsync`在 *区域/ Identity /Pages/Account/Register.cshtml.cs* 中查找方法。
 
 通过注释掉以下行，阻止新注册的用户自动登录：
 
@@ -385,7 +386,7 @@ await _signInManager.SignInAsync(user, isPersistent: false);
 
 ### <a name="test-password-reset"></a>测试密码重置
 
-* 如果已登录，请选择 " **注销**"。
+* 如果已登录，请选择 " **注销** "。
 * 选择 " **登录** " 链接，然后选择 " **忘记了密码？"** 链接。
 * 输入用于注册该帐户的电子邮件。
 * 发送了一封电子邮件，其中包含用于重置密码的链接。 检查你的电子邮件，然后单击链接以重置你的密码。 密码重置成功后，可以用电子邮件和新密码登录。

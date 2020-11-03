@@ -7,6 +7,7 @@ ms.author: anurse
 ms.custom: mvc
 ms.date: 11/12/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/api-design
-ms.openlocfilehash: 4a838c3a051476bd3d281e133d08b643656ae3b7
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 87665a7950edbc70b664230d2f078598e9dbc0aa
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632897"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059645"
 ---
 # <a name="no-locsignalr-api-design-considerations"></a>SignalR API 设计注意事项
 
@@ -33,7 +34,7 @@ ms.locfileid: "88632897"
 
 ## <a name="use-custom-object-parameters-to-ensure-backwards-compatibility"></a>使用自定义对象参数以确保向后兼容性
 
-将参数添加到 SignalR 客户端或服务器上的 (集线器方法) 是一项 *重大更改*。 这意味着，较旧的客户端/服务器在尝试调用方法时，如果没有适当数量的参数，将会出现错误。 但是，将属性添加到自定义对象参数 **不** 是一项重大更改。 这可用于设计可对客户端或服务器上的更改复原的兼容 Api。
+将参数添加到 SignalR 客户端或服务器上的 (集线器方法) 是一项 *重大更改* 。 这意味着，较旧的客户端/服务器在尝试调用方法时，如果没有适当数量的参数，将会出现错误。 但是，将属性添加到自定义对象参数 **不** 是一项重大更改。 这可用于设计可对客户端或服务器上的更改复原的兼容 Api。
 
 例如，请考虑如下所示的服务器端 API：
 

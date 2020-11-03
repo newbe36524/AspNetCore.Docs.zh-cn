@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: data/ef-rp/complex-data-model
-ms.openlocfilehash: 3fab57df84e6902a8041940939c067da41f1674c
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 55269c6985534b49cc2567b2d197e46d9b7b1fd7
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88629725"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722522"
 ---
 # <a name="part-5-no-locrazor-pages-with-ef-core-in-aspnet-core---data-model"></a>第 5 部分，ASP.NET Core 中的 Razor 页面和 EF Core - 数据模型
 
@@ -70,7 +70,7 @@ ms.locfileid: "88629725"
 
 对于学生注册日期，目前所有页面都显示时间和日期，但只有日期是相关的。 使用数据注释特性，可更改一次代码，修复每个页面中数据的显示格式。 
 
-[DataType](/dotnet/api/system.componentmodel.dataannotations.datatypeattribute?view=netframework-4.7.1) 特性指定比数据库内部类型更具体的数据类型。 在此情况下，应仅显示日期，而不是日期加时间。 [DataType 枚举](/dotnet/api/system.componentmodel.dataannotations.datatype?view=netframework-4.7.1)提供多种数据类型，例如日期、时间、电话号码、货币、电子邮件地址等。应用还可通过 `DataType` 特性自动提供类型特定的功能。 例如：
+[DataType](/dotnet/api/system.componentmodel.dataannotations.datatypeattribute) 特性指定比数据库内部类型更具体的数据类型。 在此情况下，应仅显示日期，而不是日期加时间。 [DataType 枚举](/dotnet/api/system.componentmodel.dataannotations.datatype)提供多种数据类型，例如日期、时间、电话号码、货币、电子邮件地址等。应用还可通过 `DataType` 特性自动提供类型特定的功能。 例如：
 
 * `mailto:` 链接将依据 `DataType.EmailAddress` 自动创建。
 * 大多数浏览器中都提供面向 `DataType.Date` 的日期选择器。
@@ -100,11 +100,11 @@ ms.locfileid: "88629725"
 [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
 ```
 
-可使用特性指定数据验证规则和验证错误消息。 [StringLength](/dotnet/api/system.componentmodel.dataannotations.stringlengthattribute?view=netframework-4.7.1) 特性指定数据字段中允许的字符的最小长度和最大长度。 显示的代码将名称限制为不超过 50 个字符。 [稍后](#the-required-attribute)显示一个设置最小字符串长度的示例。
+可使用特性指定数据验证规则和验证错误消息。 [StringLength](/dotnet/api/system.componentmodel.dataannotations.stringlengthattribute) 特性指定数据字段中允许的字符的最小长度和最大长度。 显示的代码将名称限制为不超过 50 个字符。 [稍后](#the-required-attribute)显示一个设置最小字符串长度的示例。
 
 `StringLength` 特性还提供客户端和服务器端验证。 最小值对数据库架构没有任何影响。
 
-`StringLength` 特性不会阻止用户在名称中输入空格。 [RegularExpression](/dotnet/api/system.componentmodel.dataannotations.regularexpressionattribute?view=netframework-4.7.1) 特性可用于向输入应用限制。 例如，以下代码要求第一个字符为大写，其余字符按字母顺序排列：
+`StringLength` 特性不会阻止用户在名称中输入空格。 [RegularExpression](/dotnet/api/system.componentmodel.dataannotations.regularexpressionattribute) 特性可用于向输入应用限制。 例如，以下代码要求第一个字符为大写，其余字符按字母顺序排列：
 
 ```csharp
 [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
@@ -760,7 +760,7 @@ https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/data/ef-rp/intr
 
 [!code-csharp[](intro/samples/cu21/Models/Student.cs?name=snippet_DataType&highlight=3,12-13)]
 
-[DataType](/dotnet/api/system.componentmodel.dataannotations.datatypeattribute?view=netframework-4.7.1) 特性指定比数据库内部类型更具体的数据类型。 在此情况下，应仅显示日期，而不是日期加时间。 [DataType 枚举](/dotnet/api/system.componentmodel.dataannotations.datatype?view=netframework-4.7.1)提供多种数据类型，例如日期、时间、电话号码、货币、电子邮件地址等。应用还可通过 `DataType` 特性自动提供类型特定的功能。 例如：
+[DataType](/dotnet/api/system.componentmodel.dataannotations.datatypeattribute) 特性指定比数据库内部类型更具体的数据类型。 在此情况下，应仅显示日期，而不是日期加时间。 [DataType 枚举](/dotnet/api/system.componentmodel.dataannotations.datatype)提供多种数据类型，例如日期、时间、电话号码、货币、电子邮件地址等。应用还可通过 `DataType` 特性自动提供类型特定的功能。 例如：
 
 * `mailto:` 链接将依据 `DataType.EmailAddress` 自动创建。
 * 大多数浏览器中都提供面向 `DataType.Date` 的日期选择器。
@@ -790,13 +790,13 @@ https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/data/ef-rp/intr
 
 ### <a name="the-stringlength-attribute"></a>StringLength 特性
 
-可使用特性指定数据验证规则和验证错误消息。 [StringLength](/dotnet/api/system.componentmodel.dataannotations.stringlengthattribute?view=netframework-4.7.1) 特性指定数据字段中允许的字符的最小长度和最大长度。 `StringLength` 特性还提供客户端和服务器端验证。 最小值对数据库架构没有任何影响。
+可使用特性指定数据验证规则和验证错误消息。 [StringLength](/dotnet/api/system.componentmodel.dataannotations.stringlengthattribute) 特性指定数据字段中允许的字符的最小长度和最大长度。 `StringLength` 特性还提供客户端和服务器端验证。 最小值对数据库架构没有任何影响。
 
 使用以下代码更新 `Student` 模型：
 
 [!code-csharp[](intro/samples/cu21/Models/Student.cs?name=snippet_StringLength&highlight=10,12)]
 
-上面的代码将名称限制为不超过 50 个字符。 `StringLength` 特性不会阻止用户在名称中输入空格。 [RegularExpression](/dotnet/api/system.componentmodel.dataannotations.regularexpressionattribute?view=netframework-4.7.1) 特性用于向输入应用限制。 例如，以下代码要求第一个字符为大写，其余字符按字母顺序排列：
+上面的代码将名称限制为不超过 50 个字符。 `StringLength` 特性不会阻止用户在名称中输入空格。 [RegularExpression](/dotnet/api/system.componentmodel.dataannotations.regularexpressionattribute) 特性用于向输入应用限制。 例如，以下代码要求第一个字符为大写，其余字符按字母顺序排列：
 
 ```csharp
 [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]

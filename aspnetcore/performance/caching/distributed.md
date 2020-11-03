@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 02/07/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/caching/distributed
-ms.openlocfilehash: 0d27206412a098f4ea749ec10189bf24d2322de1
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: 6d87c8de66bf5600189465b96dee903841106b6f
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712475"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061140"
 ---
 # <a name="distributed-caching-in-aspnet-core"></a>ASP.NET Core 中的分布式缓存
 
@@ -112,7 +113,7 @@ Table and index were created successfully.
 [!code-csharp[](distributed/samples/3.x/DistCacheSample/Startup.cs?name=snippet_AddDistributedSqlServerCache)]
 
 > [!NOTE]
-> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由[机密管理器](xref:security/app-secrets)存储，或在 appsettings 的*appsettings.js*中存储 / *。 {环境} json*文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
+> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由 [机密管理器](xref:security/app-secrets)或 appsettings 中存储的 *appsettings.json* / *。 {环境} json* 文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
 
 ### <a name="distributed-redis-cache"></a>分布式 Redis 缓存
 
@@ -155,7 +156,7 @@ Table and index were created successfully.
 
 示例应用将注入 <xref:Microsoft.Extensions.Caching.Distributed.IDistributedCache> 到中 `IndexModel` 供索引页使用。
 
-每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过*。
+每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过* 。
 
 通过选择 " **重置缓存时间** " 按钮立即将缓存的时间更新为当前时间。 按钮触发 `OnPostResetCachedTime` 处理程序方法。
 
@@ -279,7 +280,7 @@ Table and index were created successfully.
 [!code-csharp[](distributed/samples/2.x/DistCacheSample/Startup.cs?name=snippet_AddDistributedSqlServerCache)]
 
 > [!NOTE]
-> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由[机密管理器](xref:security/app-secrets)存储，或在 appsettings 的*appsettings.js*中存储 / *。 {环境} json*文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
+> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由 [机密管理器](xref:security/app-secrets)或 appsettings 中存储的 *appsettings.json* / *。 {环境} json* 文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
 
 ### <a name="distributed-redis-cache"></a>分布式 Redis 缓存
 
@@ -325,7 +326,7 @@ Table and index were created successfully.
 
 示例应用将注入 <xref:Microsoft.Extensions.Caching.Distributed.IDistributedCache> 到中 `IndexModel` 供索引页使用。
 
-每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过*。
+每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过* 。
 
 通过选择 " **重置缓存时间** " 按钮立即将缓存的时间更新为当前时间。 按钮触发 `OnPostResetCachedTime` 处理程序方法。
 
@@ -449,7 +450,7 @@ Table and index were created successfully.
 [!code-csharp[](distributed/samples/2.x/DistCacheSample/Startup.cs?name=snippet_AddDistributedSqlServerCache)]
 
 > [!NOTE]
-> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由[机密管理器](xref:security/app-secrets)存储，或在 appsettings 的*appsettings.js*中存储 / *。 {环境} json*文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
+> <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.ConnectionString*> (和（可选） <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.SchemaName*> 和 <xref:Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions.TableName*>) 通常存储在源代码管理的外部 (例如，由 [机密管理器](xref:security/app-secrets)或 appsettings 中存储的 *appsettings.json* / *。 {环境} json* 文件) 。 连接字符串可能包含应保留在源代码管理系统之外的凭据。
 
 ### <a name="distributed-redis-cache"></a>分布式 Redis 缓存
 
@@ -501,7 +502,7 @@ services.AddDistributedRedisCache(options =>
 
 示例应用将注入 <xref:Microsoft.Extensions.Caching.Distributed.IDistributedCache> 到中 `IndexModel` 供索引页使用。
 
-每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过*。
+每次加载索引页时，都会在中检查缓存时间的缓存 `OnGetAsync` 。 如果缓存的时间未过期，则会显示时间。 如果自上一次 () 加载缓存时间之后经过了20秒的时间，则页面显示 *缓存时间已过* 。
 
 通过选择 " **重置缓存时间** " 按钮立即将缓存的时间更新为当前时间。 按钮触发 `OnPostResetCachedTime` 处理程序方法。
 

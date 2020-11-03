@@ -5,7 +5,7 @@ description: 了解如何使用 Identity 服务器保护托管 ASP.NET Core Blaz
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/09/2020
+ms.date: 10/27/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/hosted-with-identity-server
-ms.openlocfilehash: 58c21f4dbe831e99570ca8b0d7bc78616c1e5bfb
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: a6fd005e19f532089ac1a1914756fb03eabb24c4
+ms.sourcegitcommit: 2e3a967331b2c69f585dd61e9ad5c09763615b44
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712371"
+ms.lasthandoff: 10/27/2020
+ms.locfileid: "92690473"
 ---
 # <a name="secure-an-aspnet-core-no-locblazor-webassembly-hosted-app-with-no-locidentity-server"></a>使用 Identity 服务器保护 ASP.NET Core Blazor WebAssembly 托管应用
 
@@ -72,7 +72,7 @@ dotnet new blazorwasm -au Individual -ho -o {APP NAME}
 
 ---
 
-## <a name="server-app-configuration"></a>服务器应用配置
+## <a name="server-app-configuration"></a>`Server` 应用配置
 
 以下部分介绍了在包括身份验证支持的情况下对项目添加的内容。
 
@@ -170,7 +170,7 @@ dotnet new blazorwasm -au Individual -ho -o {APP NAME}
 
 占位符 `{APP ASSEMBLY}` 是应用的程序集名称（例如 `BlazorSample.Client`）。
 
-## <a name="client-app-configuration"></a>客户端应用配置
+## <a name="client-app-configuration"></a>`Client` 应用配置
 
 ### <a name="authentication-package"></a>身份验证包
 
@@ -287,7 +287,7 @@ builder.Services.AddApiAuthorization();
 
 ### <a name="custom-user-factory"></a>自定义用户工厂
 
-在“客户端”应用中，创建自定义用户工厂。 Identity 服务器在一个 `role` 声明中发送多个角色作为 JSON 数组。 单个角色在该声明中作为单个字符串值进行发送。 工厂为每个用户的角色创建单个 `role` 声明。
+在 `Client` 应用中，创建自定义用户工厂。 Identity 服务器在一个 `role` 声明中发送多个角色作为 JSON 数组。 单个角色在该声明中作为单个字符串值进行发送。 工厂为每个用户的角色创建单个 `role` 声明。
 
 `CustomUserFactory.cs`:
 
@@ -316,7 +316,7 @@ public class CustomUserFactory
         if (user.Identity.IsAuthenticated)
         {
             var identity = (ClaimsIdentity)user.Identity;
-            var roleClaims = identity.FindAll(identity.RoleClaimType);
+            var roleClaims = identity.FindAll(identity.RoleClaimType).ToArray();
 
             if (roleClaims != null && roleClaims.Any())
             {
@@ -349,14 +349,14 @@ public class CustomUserFactory
 }
 ```
 
-在客户端应用中，在 `Program.Main` (`Program.cs`) 中注册工厂：
+在 `Client` 应用中，在 `Program.Main` (`Program.cs`) 中注册工厂：
 
 ```csharp
 builder.Services.AddApiAuthorization()
     .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 ```
 
-在服务器应用中，调用 Identity 生成器上的 <xref:Microsoft.AspNetCore.Identity.IdentityBuilder.AddRoles*>，添加与角色相关的服务：
+在 `Server` 应用中，调用 Identity 生成器上的 <xref:Microsoft.AspNetCore.Identity.IdentityBuilder.AddRoles*>，添加与角色相关的服务：
 
 ```csharp
 using Microsoft.AspNetCore.Identity;
@@ -378,7 +378,7 @@ services.AddDefaultIdentity<ApplicationUser>(options =>
 
 #### <a name="api-authorization-options"></a>API 身份验证选项
 
-在服务器应用中：
+在 `Server` 应用中：
 
 * 配置 Identity 服务器，将 `name` 和 `role` 声明放入 ID 令牌和访问令牌中。
 * 阻止 JWT 令牌处理程序中角色的默认映射。
@@ -402,7 +402,7 @@ JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 #### <a name="profile-service"></a>配置文件服务
 
-在服务器应用中，创建 `ProfileService` 实现。
+在 `Server` 应用中，创建 `ProfileService` 实现。
 
 `ProfileService.cs`:
 
@@ -418,7 +418,7 @@ public class ProfileService : IProfileService
     {
     }
 
-    public Task GetProfileDataAsync(ProfileDataRequestContext context)
+    public async Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
         var nameClaim = context.Subject.FindAll(JwtClaimTypes.Name);
         context.IssuedClaims.AddRange(nameClaim);
@@ -426,17 +426,17 @@ public class ProfileService : IProfileService
         var roleClaims = context.Subject.FindAll(JwtClaimTypes.Role);
         context.IssuedClaims.AddRange(roleClaims);
 
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 
-    public Task IsActiveAsync(IsActiveContext context)
+    public async Task IsActiveAsync(IsActiveContext context)
     {
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }
 ```
 
-在服务器应用中，在 `Startup.ConfigureServices` 中注册配置文件服务：
+在 `Server` 应用中，在 `Startup.ConfigureServices` 中注册配置文件服务：
 
 ```csharp
 using IdentityServer4.Services;
@@ -448,7 +448,7 @@ services.AddTransient<IProfileService, ProfileService>();
 
 ### <a name="use-authorization-mechanisms"></a>使用授权机制
 
-在客户端应用中，组件授权方法此时有效。 组件中的任何授权机制都可以使用角色来授权用户：
+在 `Client` 应用中，组件授权方法此时可以正常工作。 组件中的任何授权机制都可以使用角色来授权用户：
 
 * [`AuthorizeView` 组件](xref:blazor/security/index#authorizeview-component)（例如：`<AuthorizeView Roles="admin">`）
 * [`[Authorize]` 属性指令](xref:blazor/security/index#authorize-attribute) (<xref:Microsoft.AspNetCore.Authorization.AuthorizeAttribute>)（例如 `@attribute [Authorize(Roles = "admin")]`）
@@ -463,9 +463,108 @@ services.AddTransient<IProfileService, ProfileService>();
   }
   ```
 
-`User.Identity.Name` 在客户端应用中进行填充，并带有用户的用户名，这通常是他们的登录电子邮件地址。
+`User.Identity.Name` 在 `Client` 应用中进行填充，并带有用户的用户名，这通常是他们的登录电子邮件地址。
 
 [!INCLUDE[](~/includes/blazor-security/usermanager-signinmanager.md)]
+
+## <a name="host-in-azure-app-service-with-a-custom-domain"></a>使用自定义域托管在 Azure 应用服务中
+
+以下指南介绍如何通过 Identity 服务器，使用自定义域将托管的 Blazor WebAssembly 应用部署到 [Azure 应用服务](https://azure.microsoft.com/services/app-service/)。
+
+对于这种托管方案，请勿将相同的证书用于 [Identity 服务器的令牌签名密钥](https://docs.identityserver.io/en/latest/topics/crypto.html#token-signing-and-validation)以及站点与浏览器的 HTTPS 安全通信：
+
+* 针对这两个要求使用不同的证书是一种很好的安全做法，因为这样能隔离不同用途的私钥。
+* 用于与浏览器进行通信的 TLS 证书是独立管理的，不会影响 Identity 服务器的令牌签名。
+* 当 [Azure Key Vault](https://azure.microsoft.com/services/key-vault/) 向应用服务应用提供用于绑定自定义域的证书时，Identity 服务器无法从 Azure Key Vault 获取相同的证书来进行令牌签名。 尽管可以将 Identity 服务器配置为使用来自物理路径的相同 TLS 证书，但将安全证书置于源代码管理中是一种不太好的做法，在大多数情况下都应尽量避免此类行为。
+
+接下来的指南将在 Azure Key Vault 中创建一个仅用于 Identity 服务器令牌签名的自签名证书。 Identity 服务器配置通过应用的 `My` > `CurrentUser` 证书存储使用密钥保管库证书。 其他用于自定义域 HTTPS 流量的证书是与 Identity 服务器签名证书分开创建和配置的。
+
+若要将应用、Azure 应用服务和 Azure Key Vault 配置为使用自定义域和 HTTPS 进行托管，请执行以下操作：
+
+1. 创建计划级别不低于 `Basic B1` 的[应用服务计划](/azure/app-service/overview-hosting-plans)。 应用服务需要 `Basic B1` 或更高的服务层级才能使用自定义域。
+1. 使用组织控制的站点的完全限定的域名 (FQDN) 的公用名（例如 `www.contoso.com`）为站点的安全浏览器通信（HTTPS 协议）创建 PFX 证书。 通过以下几项内容创建证书：
+   * 密钥使用
+     * 数字签名验证 (`digitalSignature`)
+     * 密钥加密 (`keyEncipherment`)
+   * 增强/扩展的密钥使用
+     * 客户端身份验证 (1.3.6.1.5.5.7.3.2)
+     * 服务器身份验证 (1.3.6.1.5.5.7.3.1)
+
+   若要创建证书，请使用以下方法之一或任何其他合适的工具或在线服务：
+
+   * [Azure Key Vault](/azure/key-vault/certificates/quick-create-portal#add-a-certificate-to-key-vault)
+   * [Windows 上的 MakeCert](/windows/desktop/seccrypto/makecert)
+   * [OpenSSL](https://www.openssl.org)
+
+   记下密码，稍后将证书导入 Azure Key Vault 时会用到该密码。
+
+   有关 Azure Key Vault 证书的详细信息，请参阅 [Azure Key Vault：](/azure/key-vault/certificates/)证书”。
+1. 创建新的 Azure Key Vault 或使用 Azure 订阅中现有的密钥保管库。
+1. 在密钥保管库的“证书”区域中，导入 PFX 站点证书。 记录证书的指纹，稍后在应用的配置过程中会用到它。
+1. 在 Azure Key Vault 中，生成新的自签名证书以用于 Identity 服务器令牌签名。 给出证书的“证书名称”以及“使用者” 。 “使用者”指定为 `CN={COMMON NAME}`，其中 `{COMMON NAME}` 占位符是证书的公用名。 公用名可以是任意字母数字字符串。 例如 `CN=IdentityServerSigning` 就是一个有效的证书“使用者”。 使用默认的高级策略配置设置。 记录证书的指纹，稍后在应用的配置过程中会用到它。
+1. 导航到 Azure 门户中的 Azure 应用服务，并使用以下配置创建新的应用服务：
+   * 将“发布”设置为 `Code`。
+   * 将“运行时堆栈”设置为应用的运行时。
+   * 对于“Sku 和大小”，请确认应用服务层级不低于 `Basic B1`。  应用服务需要 `Basic B1` 或更高的服务层级才能使用自定义域。
+1. 在 Azure 创建应用服务后，请打开应用的“配置”并添加一个新的应用程序设置，该设置指定之前记录的证书指纹。 应用设置密钥为 `WEBSITE_LOAD_CERTIFICATES`。 使用逗号分隔应用设置值中的证书指纹，如下面的示例所示：
+   * 键：`WEBSITE_LOAD_CERTIFICATES`
+   * 值：`57443A552A46DB...D55E28D412B943565,29F43A772CB6AF...1D04F0C67F85FB0B1`
+
+   在 Azure 门户中，可通过两个步骤保存应用设置：保存 `WEBSITE_LOAD_CERTIFICATES` 键-值设置，然后选择边栏选项卡顶部的“保存”按钮。
+1. 选择应用的“TLS/SSL 设置”。 选择“私钥证书(.pfx)”。 完成两次“导入 Key Vault 证书”流程，导入用于 HTTPS 通信的站点证书以及站点的自签名 Identity 服务器令牌签名证书。
+1. 导航到“自定义域”边栏选项卡。 在域注册机构的网站上，使用 IP 地址和自定义域验证 ID 来配置域 。 域配置通常包括：
+   * 一个 A 记录，主机为 `@`，以及来自 Azure 门户的 IP 地址值 。
+   * 一个 TXT 记录，主机为 `asuid`，以及由 Azure 生成且由 Azure 门户提供的验证 ID 的值 。
+
+   请确保将更改正确地保存到域注册机构的网站上。 部分注册机构网站需要执行两个步骤来保存域记录：先单独保存一条或多条记录，然后使用单独的按钮更新域的注册。
+1. 返回到 Azure 门户中的“自定义域”边栏选项卡。 选择“添加自定义域”。 选择“A 记录”选项。 提供域并选择“验证”。 如果域记录正确并跨 Internet 传播，则门户允许选择“添加自定义域”按钮。
+
+   域注册机构处理域注册更改后，可能需要几天的时间才能让更改在 Internet 域名服务器 (DNS) 之间传播。 如果域记录在三个工作日内未更新，请确认是否已通过域注册机构正确设置记录，并与其客户支持部门联系。
+1. 在“自定义域”边栏选项卡中，域的“SSL STATE”被标记为 `Not Secure` 。 选择“添加绑定”链接。 从密钥保管库中选择站点 HTTPS 证书以绑定自定义域。
+1. 在 Visual Studio 中，打开 Server 项目的应用设置文件（`appsettings.json` 或 `appsettings.Production.json`）。 在 Identity 服务器配置中，添加以下 `Key` 部分。 为 `Name` 密钥指定自签名证书使用者。 在以下示例中，密钥保管库中分配的证书公用名为 `IdentityServerSigning`，它生成的使用者为 `CN=IdentityServerSigning`：
+
+   ```json
+   "IdentityServer": {
+
+     ...
+
+     "Key": {
+       "Type": "Store",
+       "StoreName": "My",
+       "StoreLocation": "CurrentUser",
+       "Name": "CN=IdentityServerSigning"
+     }
+   },
+   ```
+
+1. 在 Visual Studio 中，创建用于“Server”项目的 Azure 应用服务[发布配置文件](xref:host-and-deploy/visual-studio-publish-profiles#publish-profiles)。 在菜单栏中，依次选择：“生成” > “发布” > “新建” > “Azure” > “Azure 应用服务”（Windows 或 Linux）    。 Visual Studio 连接到 Azure 订阅后，可以按资源类型来设置 Azure 资源的视图 。 在“Web 应用”列表中导航，查找应用的应用服务并将其选中。 选择“完成”  。
+1. 当 Visual Studio 返回到“发布”窗口时，会自动检测密钥保管库和 SQL Server 数据库服务依赖关系。
+
+   对于密钥保管库服务，不需要对默认设置进行配置更改。
+
+   为了进行测试，应用的本地 [SQLite](https://www.sqlite.org/index.html) 数据库（默认情况下由 Blazor 模板配置）可以与应用一起部署，而无需进行其他配置。 本文不讨论在生产环境中为 Identity 服务器配置其他数据库的情况。 有关详细信息，请参阅以下文档集中的数据库资源：
+   * [应用服务](/azure/app-service/)
+   * [Identity 服务器](https://identityserver4.readthedocs.io/en/latest/)
+
+1. 在窗口顶部的部署配置文件名称下，选择“编辑”链接。 将“目标 URL”更改为站点的自定义域 URL（例如 `https://www.contoso.com`）。 保存设置。
+1. 发布应用。 Visual Studio 将打开一个浏览器窗口，并请求其自定义域所对应的站点。
+
+Azure 文档包含有关在应用服务中通过 TLS 绑定使用 Azure 服务和自定义域的其他详细信息，包括有关使用 CNAME 记录而不是 A 记录的信息。 有关更多信息，请参见以下资源：
+
+* [应用服务文档](/azure/app-service/)
+* [教程：将现有的自定义 DNS 名称映射到 Azure 应用服务](/azure/app-service/app-service-web-tutorial-custom-domain)
+* [在 Azure 应用服务中使用 TLS/SSL 绑定保护自定义 DNS 名称](/azure/app-service/configure-ssl-bindings)
+* [Azure Key Vault](/azure/key-vault/)
+
+在 Azure 门户中的应用、应用配置或 Azure 服务发生更改后，建议使用新的私密或隐匿浏览器窗口运行每个应用测试。 在测试站点时，即使站点的配置是正确的，前一个测试运行中的延迟 cookie 仍然可能导致身份验证失败或授权失败。 若要详细了解如何将 Visual Studio 配置为针对每个测试运行打开新的私密或隐匿浏览器窗口，请参阅 [Cookie 和站点数据](#cookies-and-site-data)部分。
+
+如果在 Azure 门户中更改了应用服务配置，则更新通常会快速生效，但不会立即生效。 有时，必须等待一小段时间来让应用服务重新启动，配置更改才能生效。
+
+若要对证书加载问题进行故障排除，请在 Azure 门户 [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell 命令外壳中执行以下命令。 该命令提供应用可在 `My` > `CurrentUser` 证书存储中访问的证书列表。 调试应用时，输出包括非常有用的证书使用者和指纹：
+
+```powershell
+Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Subject, Thumbprint, EnhancedKeyUsageList
+```
 
 [!INCLUDE[](~/includes/blazor-security/troubleshoot.md)]
 

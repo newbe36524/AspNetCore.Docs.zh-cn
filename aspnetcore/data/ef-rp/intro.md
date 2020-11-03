@@ -4,7 +4,7 @@ author: rick-anderson
 description: 介绍如何使用 Entity Framework Core 创建 Razor Pages 应用
 ms.author: riande
 ms.custom: mvc, seodec18
-ms.date: 09/26/2019
+ms.date: 9/26/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -17,18 +17,505 @@ no-loc:
 - Razor
 - SignalR
 uid: data/ef-rp/intro
-ms.openlocfilehash: 00d5c348b7ab06f9044e6705026e43feb7807ae3
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 35a5758500ae2bc691c8d08eccb22340f9998c39
+ms.sourcegitcommit: 6c82d78662332cd40d614019b9ed17c46e25be28
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630297"
+ms.lasthandoff: 09/29/2020
+ms.locfileid: "91424268"
 ---
 # <a name="no-locrazor-pages-with-entity-framework-core-in-aspnet-core---tutorial-1-of-8"></a>ASP.NET Core 中的 Razor Pages 和 Entity Framework Core - 第 1 个教程（共 8 个）
 
 作者：[Tom Dykstra](https://github.com/tdykstra) 和 [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-3.0"
+::: moniker range=">= aspnetcore-5.0"
+
+本文是系列教程的第一篇，这些教程展示如何在 [ASP.NET Core Razor Pages](xref:razor-pages/index) 应用中使用 Entity Framework (EF) Core。 这些教程为虚构的 Contoso University 生成一个网站。 网站包括学生录取、课程创建和讲师分配等功能。 本教程使用代码优先方法。 有关使用数据库优先方法学习本教程的信息，请参阅[此 Github 问题](https://github.com/dotnet/AspNetCore.Docs/issues/16897)。
+
+[下载或查看已完成的应用。](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/data/ef-rp/intro/samples) [下载说明](xref:index#how-to-download-a-sample)。
+
+## <a name="prerequisites"></a>先决条件
+
+* 如果不熟悉 Razor Pages，则在开始前，请浏览 [Razor Pages 入门](xref:tutorials/razor-pages/razor-pages-start)系列教程。
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+[!INCLUDE[VS prereqs](~/includes/net-core-prereqs-vs-5.0.md)]
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+[!INCLUDE[VS Code prereqs](~/includes/net-core-prereqs-vsc-5.0.md)]
+
+---
+
+## <a name="database-engines"></a>数据库引擎
+
+Visual Studio 指令使用 [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb)，它是只在 Windows 上运行的一种 SQL Server Express 版本。
+
+Visual Studio Code 指令使用 [SQLite](https://www.sqlite.org/)，一种跨平台数据库引擎。
+
+如果选择使用 SQLite，请下载并安装[适用于 SQLite 的数据库浏览器](https://sqlitebrowser.org/)等第三方工具，用于管理和查看 SQLite 数据库。
+
+## <a name="troubleshooting"></a>疑难解答
+
+如果遇到无法解决的问题，请将你的代码与[完成的项目](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/data/ef-rp/intro/samples)进行比较。 获取帮助的一个好方法是使用 [ASP.NET Core 标记](https://stackoverflow.com/questions/tagged/asp.net-core)或 [EF Core 标记](https://stackoverflow.com/questions/tagged/entity-framework-core)将问题发布到 StackOverflow.com。
+
+## <a name="the-sample-app"></a>示例应用
+
+这些教程中所构建的应用是一个基本的大学网站。 用户可以查看和更新学生、课程和讲师信息。 以下是在本教程中创建的几个屏幕。
+
+![“学生索引”页](intro/_static/students-index30.png)
+
+![学生编辑页](intro/_static/student-edit30.png)
+
+此网站的 UI 样式基于内置的项目模板。 本教程侧重于如何将 EF Core 和 ASP.NET Core 结合在一起使用，而不是如何自定义 UI。
+
+<!-- 
+Follow the link at the top of the page to get the source code for the completed project. The *cu50* folder has the code for the ASP.NET Core 5.0 version of the tutorial. Files that reflect the state of the code for tutorials 1-7 can be found in the *cu50snapshots* folder.
+
+# [Visual Studio](#tab/visual-studio)
+
+To run the app after downloading the completed project:
+
+* Build the project.
+* In Package Manager Console (PMC) run the following command:
+
+  ```powershell
+  Update-Database
+  ```
+
+* Run the project to seed the database.
+
+# [Visual Studio Code](#tab/visual-studio-code)
+
+To run the app after downloading the completed project:
+
+* In *Program.cs*, remove the comments from `// webBuilder.UseStartup<StartupSQLite>();`  so `StartupSQLite` is used.
+* Copy the contents of *appSettingsSQLite.json* into *appSettings.json*.
+* Delete the *Migrations* folder, and rename *MigrationsSQL* to *Migrations*.
+* Do a global search for `#if SQLiteVersion` and remove `#if SQLiteVersion` and the associated `#endif` statement.
+* Build the project.
+* At a command prompt in the project folder, run the following commands:
+
+  ```dotnetcli
+  dotnet tool install --global dotnet-ef -v 5.0.0-*
+  dotnet ef database update
+  ```
+
+* In your SQLite tool, run the following SQL statement:
+
+  ```sql
+  UPDATE Department SET RowVersion = randomblob(8)
+  ```
+
+* Run the project to seed the database.
+
+---
+
+-->
+
+## <a name="create-the-web-app-project"></a>创建 Web 应用项目
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+* 从 Visual Studio“文件”菜单中选择“新建”>“项目”。
+* 选择“ASP.NET Core Web 应用程序”。
+* 将该项目命名为 ContosoUniversity 。 请务必使用此名称（含大写），确保在复制和粘贴代码时与命名空间相匹配。
+* 在下拉列表中选择“.NET Core”和“ASP.NET Core 5.0”，然后选择“Web 应用程序”。
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+* 在终端中，导航到应在其中创建项目文件夹的文件夹。
+* 运行以下命令，在新的项目文件夹中创建 Razor Pages 项目和 `cd`：
+
+  ```dotnetcli
+  dotnet new webapp -o ContosoUniversity
+  cd ContosoUniversity  
+  ```
+
+---
+
+## <a name="set-up-the-site-style"></a>设置网站样式
+
+将下面的代码复制并粘贴到 Pages/Shared/_Layout.cshtml 文件中：[!code-cshtml[Main](intro/samples/cu50/Pages/Shared/_Layout.cshtml?highlight=6,14,21-35,49)]
+
+布局文件会设置网站页眉、页脚和菜单。 上面的代码执行以下更改：
+
+* 将文件中的“ContosoUniversity”更改为“Contoso University”。 需要更改三个地方。
+* 删除“主页”和“隐私”菜单项。
+* 添加“关于”、“学生”、“课程”、“讲师”和“部门”项。
+
+在 Pages/Index.cshtml 中，将该文件的内容替换为以下代码：
+
+[!code-cshtml[Main](intro/samples/cu50/Pages/Index.cshtml)]
+
+前面的代码会将关于 ASP.NET Core 的文本替换为关于此应用的文本。
+
+运行应用以验证主页是否显示。
+
+## <a name="the-data-model"></a>数据模型
+
+以下部分用于创建数据模型：
+
+![Course-Enrollment-Student 数据模型关系图](intro/_static/data-model-diagram.png)
+
+一名学生可以修读任意数量的课程，并且某一课程可以有任意数量的学生修读。
+
+## <a name="the-student-entity"></a>Student 实体
+
+![Student 实体关系图](intro/_static/student-entity.png)
+
+* 在项目文件夹中创建“Models”文件夹。 
+
+* 使用以下代码创建 Models/Student.cs：
+
+  [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Student.cs)]
+
+`ID` 属性成为此类对应的数据库表的主键列。 默认情况下，EF Core 将名为 `ID` 或 `classnameID` 的属性视为主键。 因此，`Student` 类主键的另一种自动识别的名称是 `StudentID`。 有关详细信息，请参阅 [F Core - 密钥](/ef/core/modeling/keys?tabs=data-annotations)。
+
+`Enrollments` 属性是[导航属性](/ef/core/modeling/relationships)。 导航属性中包含与此实体相关的其他实体。 在本例中，`Student` 实体的 `Enrollments` 属性包含与该 Student 相关的所有 `Enrollment` 实体。 例如，如果数据库中的 Student 行有两个相关的 Enrollment 行，则 `Enrollments` 导航属性包含这两个 Enrollment 实体。 
+
+在数据库中，如果 StudentID 列包含学生的 ID 值，则 Enrollment 行与 Student 行相关。 例如，假设某个 Student 行的 ID=1。 则相关 Enrollment 行的 StudentID = 1。 StudentID 是 Enrollment 表中的外键。 
+
+`Enrollments` 属性定义为 `ICollection<Enrollment>`，因为可能有多个相关的 Enrollment 实体。 可以使用 `List<Enrollment>` 或 `HashSet<Enrollment>` 等其他集合类型。 使用 `ICollection<Enrollment>` 时，EF Core 会默认创建 `HashSet<Enrollment>` 集合。
+
+## <a name="the-enrollment-entity"></a>Enrollment 实体
+
+![Enrollment 实体关系图](intro/_static/enrollment-entity.png)
+
+使用以下代码创建 Models/Enrollment.cs：
+
+[!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Enrollment.cs)]
+
+`EnrollmentID` 属性为主键；此实体使用 `classnameID` 模式而不是直接使用 `ID`。 对于生产数据模型，请选择一个模式并一直使用。 本教程两个都使用，只是为了说明这两个模式都能使用。 使用不具有 `classname` 的 `ID` 可以更轻松地实现某些类型的数据模型更改。
+
+`Grade` 属性为 `enum`。 `Grade` 声明类型后的`?`表示 `Grade` 属性可以为 [null](/dotnet/csharp/programming-guide/nullable-types/)。 评级为 null 和评级为零是有区别的 &mdash; null 意味着评级未知或者尚未分配。
+
+`StudentID` 属性是外键，其对应的导航属性为 `Student`。 `Enrollment` 实体与一个 `Student` 实体相关联，因此该属性只包含一个 `Student` 实体。
+
+`CourseID` 属性是外键，其对应的导航属性为 `Course`。 `Enrollment` 实体与一个 `Course` 实体相关联。
+
+如果属性命名为 `<navigation property name><primary key property name>`，EF Core 会将其视为外键。 例如，`StudentID` 是 `Student` 导航属性的外键，因为 `Student` 实体的主键为 `ID`。 还可以将外键属性命名为 `<primary key property name>`。 例如 `CourseID`，因为 `Course` 实体的主键为 `CourseID`。
+
+## <a name="the-course-entity"></a>Course 实体
+
+![Course 实体关系图](intro/_static/course-entity.png)
+
+使用以下代码创建 Models/Course.cs：
+
+[!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Course.cs)]
+
+`Enrollments` 属性是导航属性。 `Course` 实体可与任意数量的 `Enrollment` 实体相关。
+
+应用可以通过 `DatabaseGenerated` 特性指定主键，而无需靠数据库生成。
+
+生成项目以验证没有任何编译器错误。
+
+## <a name="scaffold-student-pages"></a>搭建“学生”页的基架
+
+本部分使用 ASP.NET Core 基架工具生成以下内容：
+
+* EF Core `DbContext` 类。 上下文是为给定数据模型协调实体框架功能的主类。 它派生自 <xref:Microsoft.EntityFrameworkCore.DbContext?displayProperty=fullName> 类。
+* Razor 页面，可处理 `Student` 实体的创建、读取、更新和删除 (CRUD) 操作。
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+* 创建“Pages/Students”文件夹。
+* 在“解决方案资源管理器”中，右键单击“Pages/Students”文件夹，然后选择“添加”>“新搭建基架的项目” 。
+* 在“添加新基架项”对话框中：
+  * 在左侧选项卡中，依次选择“已安装 > 通用 > Razor 页面”
+  * 依次选择“使用实体框架的 Razor 页面(CRUD)”>“添加”。
+* 在“添加使用实体框架的 Razor Pages (CRUD)”对话框中：
+  * 在“模型类”下拉列表中，选择“Student (ContosoUniversity.Models)” 。
+  * 在“数据上下文类”行中，选择 +（加号） 。
+    * 将数据上下文名称更改为以 `SchoolContext` 结尾，而不以 `ContosoUniversityContext` 结尾。 更新后的上下文名称为：`ContosoUniversity.Data.SchoolContext`
+   * 选择“添加”。
+
+自动安装以下包：
+
+* `Microsoft.EntityFrameworkCore.SqlServer`
+* `Microsoft.EntityFrameworkCore.Tools`
+* `Microsoft.VisualStudio.Web.CodeGeneration.Design`
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+* 运行以下 .NET Core CLI 命令，安装所需的 NuGet 包：
+
+  ```dotnetcli
+  dotnet add package Microsoft.EntityFrameworkCore.SQLite -v 5.0.0-*
+  dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 5.0.0-*
+  dotnet add package Microsoft.EntityFrameworkCore.Design -v 5.0.0-*
+  dotnet add package Microsoft.EntityFrameworkCore.Tools -v 5.0.0-*
+  dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design -v 5.0.0-*
+  dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -v 5.0.0-*  
+  ```
+
+   基架需要 Microsoft.VisualStudio.Web.CodeGeneration.Design 包。 虽然应用不使用 SQL Server，但基架工具需要 SQL Server 包。
+
+* 创建“Pages/Students”文件夹。
+
+* 运行以下命令安装 [aspnet-codegenerator 基架工具](xref:fundamentals/tools/dotnet-aspnet-codegenerator)。
+
+  ```dotnetcli
+  dotnet tool uninstall --global dotnet-aspnet-codegenerator
+  dotnet tool install --global dotnet-aspnet-codegenerator --version 5.0.0-*  
+  ```
+
+* 运行以下命令，搭建“学生”页的基架。
+
+  **在 Windows 上**
+
+  ```dotnetcli
+  dotnet aspnet-codegenerator razorpage -m Student -dc ContosoUniversity.Data.SchoolContext -udl -outDir Pages\Students --referenceScriptLibraries -sqlite  
+  ```
+
+  **在 macOS 或 Linux 上**
+
+  ```dotnetcli
+  dotnet aspnet-codegenerator razorpage -m Student -dc ContosoUniversity.Data.SchoolContext -udl -outDir Pages/Students --referenceScriptLibraries -sqlite  
+  ```
+
+---
+
+如果上述步骤失败，请生成项目并重试基架搭建步骤。
+
+基架流程：
+
+* 在“Pages/Students”文件夹中创建 Razor 页面：
+  * Create.cshtml 和 Create.cshtml.cs 
+  * Delete.cshtml 和 Delete.cshtml.cs 
+  * Details.cshtml 和 Details.cshtml.cs 
+  * Edit.cshtml 和 Edit.cshtml.cs 
+  * Index.cshtml 和 Index.cshtml.cs 
+* 创建 Data/SchoolContext.cs。
+* 将上下文添加到 Startup.cs 中的依赖项注入。
+* 将数据库连接字符串添加到 appsettings.json。
+
+## <a name="database-connection-string"></a>数据库连接字符串
+
+基架工具会在 appsettings.json 文件中生成连接字符串。
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+此连接字符串指定了 [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb)：
+
+[!code-json[Main](intro/samples/cu50/appsettings.json?highlight=11)]
+
+LocalDB 是轻型版本 SQL Server Express 数据库引擎，专门针对应用开发，而非生产使用。 默认情况下，LocalDB 会在 `C:/Users/<user>` 目录中创建 .mdf 文件。
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+将 SQLite 连接字符串缩写为 CU.db：
+
+[!code-json[Main](intro/samples/cu50/appsettingsSQLite.json?highlight=11)]
+
+---
+
+## <a name="update-the-database-context-class"></a>更新数据库上下文类
+
+数据库上下文类是为给定数据模型协调 EF Core 功能的主类。 上下文派生自 [Microsoft.EntityFrameworkCore.DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)。 上下文指定数据模型中包含哪些实体。 在此项目中将数据库上下文类命名为 `SchoolContext`。
+
+使用以下代码更新 Data/SchoolContext.cs：
+
+[!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/SchoolContext.cs?highlight=13-22)]
+
+上述代码会将单数形式的 `DbSet<Student> Student` 更改为复数形式的 `DbSet<Student> Students`。 若要使 Razor 页面代码与新的 `DBSet` 名称匹配，请进行以下全局更改：`_context.Student.`
+更改为 `_context.Students.`
+
+更改发生 8 次。
+
+由于一个实体集包含多个实体，因此许多开发人员更倾向于使用复数形式的 `DBSet` 属性名称。
+
+突出显示的代码：
+
+* 为每个实体集创建 [DbSet\<TEntity>](/dotnet/api/microsoft.entityframeworkcore.dbset-1) 属性。 在 EF Core 术语中：
+  * 实体集通常对应数据库表。
+  * 实体对应表中的行。
+* 调用 <xref:Microsoft.EntityFrameworkCore.DbContext.OnModelCreating%2A>。 `OnModelCreating`:
+  * 在完成对 `SchoolContext` 的初始化后，并在模型已锁定并用于初始化上下文之前，进行调用。
+  * 是必需的，因为在本教程的后续部分中，`Student` 实体将引用其他实体。
+  <!-- Review, OnModelCreating needs review -->
+
+生成项目以验证没有任何编译器错误。
+
+## <a name="startupcs"></a>Startup.cs
+
+ASP.NET Core 通过[依赖关系注入](xref:fundamentals/dependency-injection)进行生成。 服务（例如 `SchoolContext`）在应用程序启动期间通过依赖关系注入进行注册。 需要这些服务（如 Razor 页面）的组件通过构造函数参数提供相应服务。 本教程的后续部分介绍了用于获取数据库上下文实例的构造函数代码。
+
+基架工具自动将上下文类注册到了依赖项注入容器。
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+基架添加了下列突出显示的行：
+
+[!code-csharp[Main](intro/samples/cu30/Startup.cs?name=snippet_ConfigureServices&highlight=5-6)]
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+验证基架所添加的代码是否调用 `UseSqlite`。
+
+[!code-csharp[Main](intro/samples/cu30/StartupSQLite.cs?name=snippet_ConfigureServices&highlight=5-6)]
+
+有关使用生产数据库的信息，请参阅[将 SQLite 用于开发，将 SQL Server 用于生产](xref:tutorials/razor-pages/model#use-sqlite-for-development-sql-server-for-production)。
+
+---
+
+通过调用 [DbContextOptions](/dotnet/api/microsoft.entityframeworkcore.dbcontextoptions) 对象中的一个方法将连接字符串名称传递到上下文。 进行本地开发时， [ASP.NET Core 配置系统](xref:fundamentals/configuration/index) 在 *appsettings.json* 文件中读取数据库连接字符串。
+
+### <a name="add-the-database-exception-filter"></a>添加数据库异常筛选器
+
+将 `AddDatabaseDeveloperPageExceptionFilter` 添加到 `ConfigureServices`，如下面的代码所示：
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+[!code-csharp[Main](intro/samples/cu50/Startup.cs?name=snippet_ConfigureServices&highlight=8)]
+
+添加 [Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore) NuGet 包。
+
+在 PMC 中，输入以下命令来添加此 NuGet 包：
+
+```powershell
+Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -Version 5.0.0-rc.1.20451.17
+```
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+[!code-csharp[Main](intro/samples/cu50/StartupSQLite.cs?name=snippet_ConfigureServices&highlight=8)]
+
+---
+
+`Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore` NuGet 包提供 Entity Framework Core 错误页的 ASP.NET Core 中间件。 此中间件有助于检测和诊断 Entity Framework Core 迁移错误。
+
+## <a name="create-the-database"></a>创建数据库
+
+如果没有数据库，请更新 Program.cs 以创建数据库：
+
+[!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Program.cs?highlight=1-2,14-18,21-38)]
+
+如果有上下文的数据库，则 [EnsureCreated](/dotnet/api/microsoft.entityframeworkcore.infrastructure.databasefacade.ensurecreated#Microsoft_EntityFrameworkCore_Infrastructure_DatabaseFacade_EnsureCreated) 方法不执行任何操作。 如果没有数据库，则它将创建数据库和架构。 `EnsureCreated` 启用以下工作流来处理数据模型更改：
+
+* 删除数据库。 任何现有数据丢失。
+* 更改数据模型。 例如，添加 `EmailAddress` 字段。
+* 运行应用。
+* `EnsureCreated` 创建具有新架构的数据库。
+
+在无需保存数据的情况下，当架构快速发展时，此工作流在早期开发过程中表现良好。 如果需要保存已输入数据库的数据，情况就有所不同了。 如果是这种情况，请使用迁移。
+
+本系列教程的后续部分将删除 `EnsureCreated` 创建的数据库，转而使用迁移。 无法使用迁移更新 `EnsureCreated` 创建的数据库。
+
+### <a name="test-the-app"></a>测试应用
+
+* 运行应用。
+* 依次选择“学生”链接、“新建” 。
+* 测试“编辑”、“详细信息”和“删除”链接。
+
+## <a name="seed-the-database"></a>设定数据库种子
+
+`EnsureCreated` 方法将创建空数据库。 本节添加用测试数据填充数据库的代码。
+
+使用以下代码创建 Data/DbInitializer.cs：
+<!-- next update, keep this file in the project and surround with #if -->
+  [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/DbInitializer.cs)]
+
+  该代码会检查数据库中是否存在任何学生。 如果不存在学生，它将向数据库添加测试数据。 该代码使用数组创建测试数据而不是使用 `List<T>` 集合是为了优化性能。
+
+在 Program.cs 中，将 `EnsureCreated` 调用替换为 `DbInitializer.Initialize` 调用：
+
+  ```csharp
+  // context.Database.EnsureCreated();
+  DbInitializer.Initialize(context);
+  ```
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+如果应用正在运行，则停止应用，然后在包管理器控制台 (PMC) 中运行以下命令：
+
+```powershell
+Drop-Database -Confirm
+```
+
+使用 `Y` 进行响应，以删除数据库。
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+* 如果应用正在运行，则停止应用，然后删除 CU.db 文件。
+
+---
+
+* 重新启动应用。
+* 选择“学生”页查看已设定种子的数据。
+
+## <a name="view-the-database"></a>查看数据库
+
+# <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+* 从 Visual Studio 中的“视图”菜单打开 SQL Server 对象资源管理器 (SSOX) 。
+* 在 SSOX 中，依次选择“(localdb)\MSSQLLocalDB”>“数据库”>“SchoolContext-{GUID}”。 数据库名称由之前提供的上下文名称以及短划线和 GUID 组成。
+* 展开“表”节点。
+* 右键单击 Student 表，然后单击“查看数据”，以查看创建的列和插入到表中的行 。
+* 右键单击 Student 表，然后单击“查看代码”查看 `Student` 模型如何映射到 `Student` 表架构 。
+
+# <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+使用 SQLite 工具查看数据库架构和已设定种子的数据。 数据库文件名为 CU.db，位于项目文件夹。
+
+---
+
+## <a name="asynchronous-code"></a>异步代码
+
+异步编程是 ASP.NET Core 和 EF Core 的默认模式。
+
+Web 服务器的可用线程是有限的，而在高负载情况下的可能所有线程都被占用。 当发生这种情况的时候，服务器就无法处理新请求，直到线程被释放。 使用同步代码时，可能会出现多个线程被占用但不能执行操作的情况，因为它们正在等待 I/O 完成。 使用异步代码时，当进程正在等待 I/O 完成，服务器可以将其线程释放用于处理其他请求。 因此，使用异步代码可以更有效地利用服务器资源，并且服务器可以无延迟地处理更多流量。
+
+异步代码会在运行时引入少量开销。 流量较低时，对性能的影响可以忽略不计，但流量较高时，潜在的性能改善非常显著。
+
+在以下代码中，[async](/dotnet/csharp/language-reference/keywords/async) 关键字和 `Task<T>` 返回值，`await` 关键字和 `ToListAsync` 方法让代码异步执行。
+
+```csharp
+public async Task OnGetAsync()
+{
+    Students = await _context.Students.ToListAsync();
+}
+```
+
+* `async` 关键字让编译器执行以下操作：
+  * 为方法主体的各部分生成回调。
+  * 创建返回的 [Task](/dotnet/csharp/programming-guide/concepts/async/async-return-types#BKMK_TaskReturnType) 对象。
+* 返回类型 `Task<T>` 表示正在进行的工作。
+* `await` 关键字让编译器将该方法拆分为两个部分。 第一部分是以异步方式结束已启动的操作。 第二部分是当操作完成时注入调用回调方法的地方。
+* `ToListAsync` 是 `ToList` 扩展方法的异步版本。
+
+编写使用 EF Core 的异步代码时需要注意的一些事项：
+
+* 只有导致查询或发送数据库命令的语句才能以异步方式执行。 这包括 `ToListAsync`、`SingleOrDefaultAsync`、`FirstOrDefaultAsync` 和 `SaveChangesAsync`。 不包括只会更改 `IQueryable` 的语句，例如 `var students = context.Students.Where(s => s.LastName == "Davolio")`。
+* EF Core 上下文并非线程安全：请勿尝试并行执行多个操作。
+* 若要利用异步代码的性能优势，请验证在调用向数据库发送查询的 EF Core 方法时，库程序包（如用于分页）是否使用异步。
+
+有关 .NET 中异步编程的详细信息，请参阅[异步概述](/dotnet/standard/async)和[使用 Async 和 Await 的异步编程](/dotnet/csharp/programming-guide/concepts/async/)。
+
+<!-- Review: See https://github.com/dotnet/AspNetCore.Docs/issues/14528 -->
+## <a name="performance-considerations"></a>性能注意事项
+
+通常，网页不应加载任何数量的行。 查询应使用分页或限制方法。 例如，上述查询可以使用 `Take` 来限制返回的行数：
+
+[!code-csharp[Main](intro/samples/cu50snapshots/Index.cshtml.cs?name=snippet)]
+
+如果在枚举过程中出现异常数据库，则枚举视图中的大型表可能返回部分构造的 HTTP 200 响应。
+
+<xref:Microsoft.AspNetCore.Mvc.MvcOptions.MaxModelBindingCollectionSize> 默认值为 1024。 以下代码将设置 `MaxModelBindingCollectionSize`：
+
+[!code-csharp[Main](intro/samples/cu50/StartupMaxMBsize.cs?name=snippet_ConfigureServices)]
+
+稍后将在教程中介绍分页。
+
+## <a name="next-steps"></a>后续步骤
+
+> [!div class="step-by-step"]
+> [下一教程](xref:data/ef-rp/crud)
+
+::: moniker-end
+
+::: moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
 
 本文是系列教程的第一篇，这些教程展示如何在 [ASP.NET Core Razor Pages](xref:razor-pages/index) 应用中使用 Entity Framework (EF) Core。 这些教程为虚构的 Contoso University 生成一个网站。 网站包括学生录取、课程创建和讲师分配等功能。 本教程使用代码优先方法。 有关使用数据库优先方法学习本教程的信息，请参阅[此 Github 问题](https://github.com/dotnet/AspNetCore.Docs/issues/16897)。
 
@@ -98,7 +585,8 @@ Visual Studio Code 指令使用 [SQLite](https://www.sqlite.org/)，一种跨平
 * 在项目文件夹中的命令提示符下运行以下命令：
 
   ```dotnetcli
-  dotnet tool install --global dotnet-ef
+  dotnet tool uninstall --global dotnet-ef
+  dotnet tool install --global dotnet-ef --version 5.0.0-*
   dotnet ef database update
   ```
 
@@ -107,7 +595,7 @@ Visual Studio Code 指令使用 [SQLite](https://www.sqlite.org/)，一种跨平
   ```sql
   UPDATE Department SET RowVersion = randomblob(8)
   ```
-
+  
 * 运行项目，设定数据库种子。
 
 ---
@@ -164,8 +652,7 @@ Visual Studio Code 指令使用 [SQLite](https://www.sqlite.org/)，一种跨平
 
 ![Student 实体关系图](intro/_static/student-entity.png)
 
-* 在项目文件夹中创建“Models”文件夹。 
-
+* 在项目文件夹中创建“Models”文件夹。
 * 使用以下代码创建 Models/Student.cs：
 
   [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Student.cs)]
@@ -188,7 +675,7 @@ Visual Studio Code 指令使用 [SQLite](https://www.sqlite.org/)，一种跨平
 
 `EnrollmentID` 属性为主键；此实体使用 `classnameID` 模式而不是直接使用 `ID`。 对于生产数据模型，请选择一个模式并一直使用。 本教程两个都使用，只是为了说明这两个模式都能使用。 使用不具有 `classname` 的 `ID` 可以更轻松地实现某些类型的数据模型更改。
 
-`Grade` 属性为 `enum`。 `Grade` 声明类型后的`?`表示 `Grade` 属性可以为 [null](https://docs.microsoft.com/dotnet/csharp/programming-guide/nullable-types/)。 评级为 null 和评级为零是有区别的 &mdash; null 意味着评级未知或者尚未分配。
+`Grade` 属性为 `enum`。 `Grade` 声明类型后的`?`表示 `Grade` 属性可以为 [null](/dotnet/csharp/programming-guide/nullable-types/)。 评级为 null 和评级为零是有区别的 &mdash; null 意味着评级未知或者尚未分配。
 
 `StudentID` 属性是外键，其对应的导航属性为 `Student`。 `Enrollment` 实体与一个 `Student` 实体相关联，因此该属性只包含一个 `Student` 实体。
 
@@ -295,7 +782,7 @@ remove dotnet tool install --global  below
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-连接字符串指定 [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb)。 
+appsettings.json 文件指定了连接字符串 [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb)。
 
 [!code-json[Main](intro/samples/cu30/appsettings.json?highlight=11)]
 
@@ -313,7 +800,7 @@ LocalDB 是轻型版本 SQL Server Express 数据库引擎，专门针对应用�
 
 数据库上下文类是为给定数据模型协调 EF Core 功能的主类。 上下文派生自 [Microsoft.EntityFrameworkCore.DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)。 上下文指定数据模型中包含哪些实体。 在此项目中将数据库上下文类命名为 `SchoolContext`。
 
-使用以下代码更新 SchoolContext.cs：
+使用以下代码更新 Data/SchoolContext.cs：
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/SchoolContext.cs?highlight=13-22)]
 

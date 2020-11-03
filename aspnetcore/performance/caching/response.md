@@ -6,6 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.date: 11/04/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/caching/response
-ms.openlocfilehash: 9516410399ce69f1d69b09781b2530d052a11e7a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 2864de5b9931ed255569cb087c67c71004c4df92
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631870"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059008"
 ---
 # <a name="response-caching-in-aspnet-core"></a>ASP.NET Core 中的响应缓存
 
@@ -38,30 +39,30 @@ ms.locfileid: "88631870"
 
 ## <a name="http-based-response-caching"></a>基于 HTTP 的响应缓存
 
-[HTTP 1.1 缓存规范](https://tools.ietf.org/html/rfc7234)描述了 Internet 缓存的行为方式。 用于缓存的主 HTTP 标头是 [缓存控制](https://tools.ietf.org/html/rfc7234#section-5.2)，它用于指定缓存 *指令*。 指令控制缓存行为作为请求从客户端发送到服务器，而作为响应，使其从服务器到客户端的方式。 请求和响应在代理服务器之间移动，并且代理服务器还必须符合 HTTP 1.1 缓存规范。
+[HTTP 1.1 缓存规范](https://tools.ietf.org/html/rfc7234)描述了 Internet 缓存的行为方式。 用于缓存的主 HTTP 标头是 [缓存控制](https://tools.ietf.org/html/rfc7234#section-5.2)，它用于指定缓存 *指令* 。 指令控制缓存行为作为请求从客户端发送到服务器，而作为响应，使其从服务器到客户端的方式。 请求和响应在代理服务器之间移动，并且代理服务器还必须符合 HTTP 1.1 缓存规范。
 
 `Cache-Control`下表显示了常见的指令。
 
 | 指令                                                       | 操作 |
 | --------------------------------------------------------------- | ------ |
-| public   | 缓存可以存储响应。 |
+| [public](https://tools.ietf.org/html/rfc7234#section-5.2.2.5)   | 缓存可以存储响应。 |
 | [private](https://tools.ietf.org/html/rfc7234#section-5.2.2.6)  | 共享缓存不能存储响应。 专用缓存可以存储和重用响应。 |
 | [最大期限](https://tools.ietf.org/html/rfc7234#section-5.2.1.1)  | 客户端不接受其期限大于指定秒数的响应。 示例： `max-age=60` (60 秒) ， `max-age=2592000` (1 个月)  |
-| [no-cache](https://tools.ietf.org/html/rfc7234#section-5.2.1.4) | **请求时**：缓存不能使用存储的响应来满足请求。 源服务器重新生成客户端的响应，中间件更新其缓存中存储的响应。<br><br>**响应：在**源服务器上没有验证的后续请求不得使用响应。 |
-| [无-商店](https://tools.ietf.org/html/rfc7234#section-5.2.1.5) | **请求时**：缓存不能存储请求。<br><br>**响应**：缓存不能存储响应的任何部分。 |
+| [no-cache](https://tools.ietf.org/html/rfc7234#section-5.2.1.4) | **请求时** ：缓存不能使用存储的响应来满足请求。 源服务器重新生成客户端的响应，中间件更新其缓存中存储的响应。<br><br>**响应：在** 源服务器上没有验证的后续请求不得使用响应。 |
+| [无-商店](https://tools.ietf.org/html/rfc7234#section-5.2.1.5) | **请求时** ：缓存不能存储请求。<br><br>**响应** ：缓存不能存储响应的任何部分。 |
 
 下表显示了在缓存中扮演角色的其他缓存标头。
 
 | 标头                                                     | 函数 |
 | ---------------------------------------------------------- | -------- |
-| [年](https://tools.ietf.org/html/rfc7234#section-5.1)     | 在源服务器上生成或成功验证响应以来的时间量（以秒为单位）。 |
+| [年龄](https://tools.ietf.org/html/rfc7234#section-5.1)     | 在源服务器上生成或成功验证响应以来的时间量（以秒为单位）。 |
 | [完](https://tools.ietf.org/html/rfc7234#section-5.3) | 响应被视为过时的时间。 |
 | [杂](https://tools.ietf.org/html/rfc7234#section-5.4)  | 存在，以便向后兼容 HTTP/1.0 缓存以设置 `no-cache` 行为。 如果该 `Cache-Control` 标头存在，则将 `Pragma` 忽略该标头。 |
 | [大](https://tools.ietf.org/html/rfc7231#section-7.1.4)  | 指定不能发送缓存的响应，除非 `Vary` 缓存响应的原始请求和新请求中的所有标头字段都匹配。 |
 
-## <a name="http-based-caching-respects-request-cache-control-directives"></a>基于 HTTP 的缓存遵循请求缓存控制指令
+## <a name="http-based-caching-respects-request-cache-control-directives"></a>基于 HTTP 的缓存遵从请求 Cache-Control 指令
 
-[缓存控制标头的 HTTP 1.1 缓存规范](https://tools.ietf.org/html/rfc7234#section-5.2)要求使用缓存来服从 `Cache-Control` 客户端发送的有效标头。 客户端可以使用 `no-cache` 标头值发出请求，并强制服务器为每个请求生成新的响应。
+[Cache-Control 标头的 HTTP 1.1 缓存规范](https://tools.ietf.org/html/rfc7234#section-5.2)要求使用缓存来服从 `Cache-Control` 客户端发送的有效标头。 客户端可以使用 `no-cache` 标头值发出请求，并强制服务器为每个请求生成新的响应。
 
 `Cache-Control`如果考虑 HTTP 缓存的目标，则始终考虑客户端请求标头是有意义的。 在官方规范下，缓存旨在减少在客户端、代理和服务器网络中满足请求的延迟和网络开销。 它不一定是控制源服务器上的负载的一种方法。
 
@@ -71,7 +72,7 @@ ms.locfileid: "88631870"
 
 ### <a name="in-memory-caching"></a>内存中缓存
 
-内存中缓存使用服务器内存来存储缓存的数据。 这种类型的缓存适用于单个服务器或使用 *粘滞会话*的多台服务器。 粘滞会话表示来自客户端的请求始终路由到同一服务器进行处理。
+内存中缓存使用服务器内存来存储缓存的数据。 这种类型的缓存适用于单个服务器或使用 *粘滞会话* 的多台服务器。 粘滞会话表示来自客户端的请求始终路由到同一服务器进行处理。
 
 有关详细信息，请参阅 <xref:performance/caching/memory>。
 

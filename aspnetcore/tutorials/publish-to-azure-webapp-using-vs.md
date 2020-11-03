@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: tutorials/publish-to-azure-webapp-using-vs
-ms.openlocfilehash: 380e18d1826159fa0780909aba58fe8334ede8bb
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: ebfe89d68725d597d6975015bbf84414ff818829
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631935"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722905"
 ---
 # <a name="publish-an-aspnet-core-app-to-azure-with-visual-studio"></a>使用 Visual Studio 将 ASP.NET Core 应用发布到 Azure
 
@@ -34,7 +34,7 @@ ms.locfileid: "88631935"
 ::: moniker-end
 
 
-若使用的是 macOS，请参阅[使用 Visual Studio for Mac 将 Web 应用发布到 Azure 应用服务](https://docs.microsoft.com/visualstudio/mac/publish-app-svc?view=vsmac-2019)。
+若使用的是 macOS，请参阅[使用 Visual Studio for Mac 将 Web 应用发布到 Azure 应用服务](/visualstudio/mac/publish-app-svc?view=vsmac-2019)。
 
 若要对应用服务部署问题进行故障排除，请参阅 <xref:test/troubleshoot-azure-iis>。
 

@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 04/02/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: web-api/jsonpatch
-ms.openlocfilehash: e57c5185323305ccbef7960653c9174931e45d75
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: da507974b88c21de22e2c7a56950943207565138
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635393"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060542"
 ---
 # <a name="jsonpatch-in-aspnet-core-web-api"></a>ASP.NET Core Web API 中的 JSON 修补程序
 
@@ -37,7 +38,7 @@ ms.locfileid: "88635393"
 若要在应用中启用 JSON 修补程序支持，请完成以下步骤：
 
 1. 安装 [`Microsoft.AspNetCore.Mvc.NewtonsoftJson`](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.NewtonsoftJson/) NuGet 包。
-1. 更新项目的 `Startup.ConfigureServices` 要调用的方法 <xref:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcBuilderExtensions.AddNewtonsoftJson*> 。 例如：
+1. 更新项目的 `Startup.ConfigureServices` 要调用的方法 <xref:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcBuilderExtensions.AddNewtonsoftJson*> 。 例如： 。
 
     ```csharp
     services
@@ -67,7 +68,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 ## <a name="json-patch"></a>JSON 修补程序
 
-[JSON 修补程序](https://tools.ietf.org/html/rfc6902)是一种格式，用于指定要应用于资源的更新。 JSON 修补程序文档有一个** 操作数组。 每个操作标识一种特定类型的更改。 此类更改的示例包括添加数组元素或替换属性值。
+[JSON 修补程序](https://tools.ietf.org/html/rfc6902)是一种格式，用于指定要应用于资源的更新。 JSON 修补程序文档有一个  操作数组。 每个操作标识一种特定类型的更改。 此类更改的示例包括添加数组元素或替换属性值。
 
 例如，以下 JSON 文档表示资源、资源的 JSON 修补文档和应用修补程序操作的结果。
 
@@ -113,7 +114,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 ## <a name="path-syntax"></a>路径语法
 
-操作对象的[路径](https://tools.ietf.org/html/rfc6901)属性的级别之间有斜杠。 例如，`"/address/zipCode"`。
+操作对象的[路径](https://tools.ietf.org/html/rfc6901)属性的级别之间有斜杠。 例如 `"/address/zipCode"`。
 
 使用从零开始的索引来指定数组元素。 `addresses` 数组的第一个元素将位于 `/addresses/0`。 若要到 `add` 数组的末尾，请使用连字符 (`-`) 而不是索引号： `/addresses/-` 。
 
@@ -121,7 +122,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 下表显示了 [JSON 修补程序规范](https://tools.ietf.org/html/rfc6902)中定义的支持操作：
 
-|Operation  | 说明 |
+|Operation  | 备注 |
 |-----------|--------------------------------|
 | `add`     | 添加属性或数组元素。 对于现有属性：设置值。|
 | `remove`  | 删除属性或数组元素。 |
@@ -142,7 +143,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 * 接受 `JsonPatchDocument<T>`，通常带有 `[FromBody]`。
 * 在修补程序文档上调用 `ApplyTo` 以应用更改。
 
-下面是一个示例：
+以下是一个示例：
 
 [!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
 
@@ -254,7 +255,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 若要测试此示例，请使用以下设置运行应用并发送 HTTP 请求：
 
-* URL：`http://localhost:{port}/jsonpatch/jsonpatchwithmodelstate`
+* URL： `http://localhost:{port}/jsonpatch/jsonpatchwithmodelstate`
 * HTTP 方法：`PATCH`
 * 标头：`Content-Type: application/json-patch+json`
 * Body：从 *json* 项目文件夹复制并粘贴一个 json 修补文档示例。
@@ -279,7 +280,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 ## <a name="json-patch"></a>JSON 修补程序
 
-[JSON 修补程序](https://tools.ietf.org/html/rfc6902)是一种格式，用于指定要应用于资源的更新。 JSON 修补程序文档有一个** 操作数组。 每个操作标识特定类型的更改，例如添加数组元素或替换属性值。
+[JSON 修补程序](https://tools.ietf.org/html/rfc6902)是一种格式，用于指定要应用于资源的更新。 JSON 修补程序文档有一个  操作数组。 每个操作标识特定类型的更改，例如添加数组元素或替换属性值。
 
 例如，以下 JSON 文档表示资源、资源的 JSON 修补程序文档和应用修补程序操作的结果。
 
@@ -325,7 +326,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 ## <a name="path-syntax"></a>路径语法
 
-操作对象的[路径](https://tools.ietf.org/html/rfc6901)属性的级别之间有斜杠。 例如，`"/address/zipCode"`。
+操作对象的[路径](https://tools.ietf.org/html/rfc6901)属性的级别之间有斜杠。 例如 `"/address/zipCode"`。
 
 使用从零开始的索引来指定数组元素。 `addresses` 数组的第一个元素将位于 `/addresses/0`。 若要将 `add` 置于数组末尾，请使用连字符 (-)，而不是索引号：`/addresses/-`。
 
@@ -333,7 +334,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 下表显示了 [JSON 修补程序规范](https://tools.ietf.org/html/rfc6902)中定义的支持操作：
 
-|Operation  | 说明 |
+|Operation  | 备注 |
 |-----------|--------------------------------|
 | `add`     | 添加属性或数组元素。 对于现有属性：设置值。|
 | `remove`  | 删除属性或数组元素。 |
@@ -354,7 +355,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 * 接受 `JsonPatchDocument<T>`，通常带有 `[FromBody]`。
 * 在修补程序文档上调用 `ApplyTo` 以应用更改。
 
-下面是一个示例：
+以下是一个示例：
 
 [!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
 
@@ -466,7 +467,7 @@ PUT 和 [PATCH](https://tools.ietf.org/html/rfc5789) 方法用于更新现有资
 
 若要测试此示例，请使用以下设置运行应用并发送 HTTP 请求：
 
-* URL：`http://localhost:{port}/jsonpatch/jsonpatchwithmodelstate`
+* URL： `http://localhost:{port}/jsonpatch/jsonpatchwithmodelstate`
 * HTTP 方法：`PATCH`
 * 标头：`Content-Type: application/json-patch+json`
 * Body：从 *json* 项目文件夹复制并粘贴一个 json 修补文档示例。

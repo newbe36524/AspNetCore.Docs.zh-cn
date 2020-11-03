@@ -7,6 +7,7 @@ ms.custom: seoapril2019, mvc, seodec18
 ms.date: 03/19/2020
 monikerRange: '>= aspnetcore-3.0'
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/facebook-logins
-ms.openlocfilehash: ce0e7ad30c137562b74dc9fe5c53235e3599e575
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: be0b655645fd2bd0eab9f9c30a65485f386cead3
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634353"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93053353"
 ---
 # <a name="facebook-external-login-setup-in-aspnet-core"></a>ASP.NET Core 中的 Facebook 外部登录设置
 
@@ -48,11 +49,11 @@ ms.locfileid: "88634353"
 
   ![创建新的应用 ID 窗体](index/_static/FBNewAppId.png)
 
-* 在 "新建应用" 卡中，选择 " **添加产品**"。  在**Facebook 登录**卡上，单击 "**设置**" 
+* 在 "新建应用" 卡中，选择 " **添加产品** "。  在 **Facebook 登录** 卡上，单击 " **设置** " 
 
   ![产品设置页](index/_static/FBProductSetup.png)
 
-* **快速入门**向导会启动，并**选择一个平台**作为第一页。 现在，通过单击左下方菜单中的 " **FaceBook 登录****设置**" 链接，绕过向导：
+* **快速入门** 向导会启动，并 **选择一个平台** 作为第一页。 现在，通过单击左下方菜单中的 " **FaceBook 登录****设置** " 链接，绕过向导：
 
   ![跳过快速入门](index/_static/FBSkipQuickStart.png)
 
@@ -60,14 +61,14 @@ ms.locfileid: "88634353"
 
   !["客户端 OAuth 设置" 页](index/_static/FBOAuthSetup.png)
 
-* 输入附加到 "**有效的 OAuth 重定向 uri** " 字段中的 */SIGNIN-FACEBOOK*的开发 URI (例如： `https://localhost:44320/signin-facebook`) 。 稍后在本教程中配置的 Facebook 身份验证将自动处理 */signin-facebook* 路由中的请求以实现 OAuth 流。
+* 输入附加到 " **有效的 OAuth 重定向 uri** " 字段中的 */SIGNIN-FACEBOOK* 的开发 URI (例如： `https://localhost:44320/signin-facebook`) 。 稍后在本教程中配置的 Facebook 身份验证将自动处理 */signin-facebook* 路由中的请求以实现 OAuth 流。
 
 > [!NOTE]
 > URI */signin-facebook* 设置为 facebook 身份验证提供程序的默认回调。 通过[FacebookOptions](/dotnet/api/microsoft.aspnetcore.authentication.facebook.facebookoptions)类的继承的[RemoteAuthenticationOptions. CallbackPath](/dotnet/api/microsoft.aspnetcore.authentication.remoteauthenticationoptions.callbackpath)属性配置 Facebook 身份验证中间件时，可以更改默认的回叫 URI。
 
 * 单击 **“保存更改”** 。
 
-* 单击**Settings**  >  左侧导航栏中的 "设置" "**基本**" 链接。
+* 单击 **Settings**  >  左侧导航栏中的 "设置" " **基本** " 链接。
 
   在此页上，请记下 `App ID` 和 `App Secret` 。 在下一部分中，你将同时添加到 ASP.NET Core 应用程序：
 
@@ -103,8 +104,8 @@ services.AddAuthentication().AddFacebook(facebookOptions =>
 
 ## <a name="sign-in-with-facebook"></a>用 Facebook 登录
 
-* 运行应用并选择 **"登录"**。 
-* 在 " **使用其他服务进行登录**" 下，选择 Facebook。
+* 运行应用并选择 **"登录"** 。 
+* 在 " **使用其他服务进行登录** " 下，选择 Facebook。
 * 你将重定向到 **Facebook** 进行身份验证。
 * 输入 Facebook 凭据。
 * 你将重定向回到你的网站，你可以在其中设置电子邮件。
@@ -132,7 +133,7 @@ services.AddAuthentication().AddFacebook(facebookOptions =>
 * 导航到 [facebook.com](https://www.facebook.com/)
 * 如果已登录，则必须注销。
 * 运行应用并选择 "Facebook 登录"。
-* 选择 " **暂时 Not**"。 你将重定向到指定的 `AccessDeniedPath` 页面。
+* 选择 " **暂时 Not** "。 你将重定向到指定的 `AccessDeniedPath` 页面。
 
 <!-- End of React  -->
 [!INCLUDE[Forward request information when behind a proxy or load balancer section](includes/forwarded-headers-middleware.md)]
@@ -146,7 +147,7 @@ services.AddAuthentication().AddFacebook(facebookOptions =>
 
 ## <a name="troubleshooting"></a>疑难解答
 
-* **仅 ASP.NET Core 2.x：** 如果 Identity 未通过调用进行 `services.AddIdentity` 配置 `ConfigureServices` ，尝试进行身份验证会导致 *ArgumentException：必须提供 "SignInScheme" 选项*。 本教程中使用的项目模板可确保完成此操作。
+* **仅 ASP.NET Core 2.x：** 如果 Identity 未通过调用进行 `services.AddIdentity` 配置 `ConfigureServices` ，尝试进行身份验证会导致 *ArgumentException：必须提供 "SignInScheme" 选项* 。 本教程中使用的项目模板可确保完成此操作。
 * 如果尚未通过应用初始迁移来创建站点数据库，则在处理请求错误时，将会出现 *数据库操作失败* 的情况。 点击 " **应用迁移** " 以创建数据库，然后单击 "刷新" 以继续出现错误。
 
 ## <a name="next-steps"></a>后续步骤

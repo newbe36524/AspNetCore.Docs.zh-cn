@@ -6,6 +6,7 @@ description: 了解 ASP.NET Core 链接标记帮助程序属性以及每个属�
 ms.custom: mvc
 ms.date: 09/24/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/views/tag-helpers/builtin-th/link-tag-helper
-ms.openlocfilehash: 09507294b90f08bbaf134f611aad0b91504ccffb
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 7998cec94ebb56cbe6dbc321f7cb499260d6fe74
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635068"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059112"
 ---
 # <a name="link-tag-helper-in-aspnet-core"></a>ASP.NET Core 中的链接标记帮助程序
 
@@ -42,7 +43,7 @@ ms.locfileid: "88635068"
 
 [!code-html[](link-tag-helper/sample/HtmlPage1.html)]
 
-在上述代码中，链接标记帮助程序生成 `<meta name="x-stylesheet-fallback-test" content="" class="sr-only" />` 元素以及以下 JavaScript（用于验证是否可以从 CDN 获取请求的 bootstrap.min.css 文件）**。 在此示例中，可以获取 CSS 文件，因此标记帮助程序使用 CDN CSS 文件生成 `<link />` 元素。
+在上述代码中，链接标记帮助程序生成 `<meta name="x-stylesheet-fallback-test" content="" class="sr-only" />` 元素以及以下 JavaScript（用于验证是否可以从 CDN 获取请求的 bootstrap.min.css 文件）  。 在此示例中，可以获取 CSS 文件，因此标记帮助程序使用 CDN CSS 文件生成 `<link />` 元素。
 
 ## <a name="commonly-used-link-tag-helper-attributes"></a>常用的链接标记帮助程序属性
 

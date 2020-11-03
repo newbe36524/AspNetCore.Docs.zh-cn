@@ -4,9 +4,10 @@ author: rick-anderson
 description: 了解如何使用 Azure Key Vault 配置提供程序通过在运行时加载的名称/值对来配置应用。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
-ms.custom: mvc
+ms.custom: mvc, devx-track-azurecli
 ms.date: 02/07/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/key-vault-configuration
-ms.openlocfilehash: 32967e039671721852b8e421fe5a08763b23e418
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 10a949831c180f51bc6bb9b8294150a558f9343c
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88629777"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060126"
 ---
 # <a name="azure-key-vault-configuration-provider-in-aspnet-core"></a>ASP.NET Core 中的 Azure Key Vault 配置提供程序
 
@@ -119,30 +120,30 @@ dotnet user-secrets set "Section:SecretName" "secret_value_2_dev"
 
 ## <a name="use-application-id-and-x509-certificate-for-non-azure-hosted-apps"></a>为非 Azure 托管的应用使用应用程序 ID 和 x.509 证书
 
-配置 Azure AD、Azure Key Vault 和应用，以便在 **Azure 外托管应用时**使用 Azure Active Directory 应用程序 ID 和 x.509 证书对密钥保管库进行身份验证。 有关详细信息，请参阅[关于密钥、机密和证书](/azure/key-vault/about-keys-secrets-and-certificates)。
+配置 Azure AD、Azure Key Vault 和应用，以便在 **Azure 外托管应用时** 使用 Azure Active Directory 应用程序 ID 和 x.509 证书对密钥保管库进行身份验证。 有关详细信息，请参阅[关于密钥、机密和证书](/azure/key-vault/about-keys-secrets-and-certificates)。
 
 > [!NOTE]
 > 尽管在 Azure 中托管的应用程序支持使用应用程序 ID 和 x.509 证书，但在 Azure 中托管应用程序时，我们建议使用 [Azure 资源的托管标识](#use-managed-identities-for-azure-resources) 。 托管标识不需要在应用或开发环境中存储证书。
 
 当 `#define` *Program.cs* 文件顶部的语句设置为时，示例应用使用应用程序 ID 和 x.509 证书 `Certificate` 。
 
-1. 创建 PKCS # 12 存档 (*.pfx*) 证书。 用于创建证书的选项包括 Windows 和[OpenSSL](https://www.openssl.org/)[上的 MakeCert](/windows/desktop/seccrypto/makecert) 。
+1. 创建 PKCS # 12 存档 ( *.pfx* ) 证书。 用于创建证书的选项包括 Windows 和[OpenSSL](https://www.openssl.org/)[上的 MakeCert](/windows/desktop/seccrypto/makecert) 。
 1. 将证书安装到当前用户的个人证书存储中。 将密钥标记为可导出是可选的。 记下证书的指纹，此过程将在此过程中使用。
-1. 将 PKCS # 12 存档 (*.pfx*) 证书导 () *.cer* 编码的证书。
-1. 将应用注册 Azure AD (**应用注册**) 。
-1. 将 DER 编码的证书 (*.cer*) 上传到 Azure AD：
+1. 将 PKCS # 12 存档 ( *.pfx* ) 证书导 () *.cer* 编码的证书。
+1. 将应用注册 Azure AD ( **应用注册** ) 。
+1. 将 DER 编码的证书 ( *.cer* ) 上传到 Azure AD：
    1. 在 Azure AD 中选择应用。
-   1. 导航到 " **证书" & "机密**"。
-   1. 选择 " **上传证书** "，上传包含公钥的证书。 *.Cer*、 *pem*或 *.crt*证书是可接受的。
-1. 将密钥保管库名称、应用程序 ID 和证书指纹存储在应用的 *appsettings.js* 文件中。
+   1. 导航到 " **证书" & "机密** "。
+   1. 选择 " **上传证书** "，上传包含公钥的证书。 *.Cer* 、 *pem* 或 *.crt* 证书是可接受的。
+1. 在应用的文件中存储密钥保管库名称、应用程序 ID 和证书指纹 *appsettings.json* 。
 1. 导航到 Azure 门户中的 **密钥保管库** 。
 1. 选择在 [生产环境中的机密存储中](#secret-storage-in-the-production-environment-with-azure-key-vault) 创建的密钥保管库，其中 Azure Key Vault "部分。
 1. 选择“访问策略”。
 1. 选择“添加访问策略”。
 1. 打开 **机密权限** ，并为应用提供 **Get** 和 **List** 权限。
 1. 选择 " **选择主体** "，并按名称选择注册的应用。 选择“选择”按钮  。
-1. 选择“确定”。
-1. 选择“保存”。
+1. 选择“确定”  。
+1. 选择“保存”  。
 1. 部署应用。
 
 `Certificate`示例应用从中获取其配置值，其 `IConfigurationRoot` 名称与机密名称相同：
@@ -152,7 +153,7 @@ dotnet user-secrets set "Section:SecretName" "secret_value_2_dev"
   * `config["Section:SecretName"]`
   * `config.GetSection("Section")["SecretName"]`
 
-X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> 使用文件 * 上的appsettings.js* 提供的值调用：
+X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> 使用文件提供的值调用 *appsettings.json* ：
 
 [!code-csharp[](key-vault-configuration/samples/3.x/SampleApp/Program.cs?name=snippet1&highlight=20-23)]
 
@@ -162,7 +163,7 @@ X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configura
 * 应用程序 ID： `627e911e-43cc-61d4-992e-12db9c81b413`
 * 证书指纹： `fe14593dd66b2406c5269d742d04b6e1ab03adb1`
 
-appsettings.json：
+*appsettings.json* :
 
 [!code-json[](key-vault-configuration/samples/3.x/SampleApp/appsettings.json?highlight=10-12)]
 
@@ -174,7 +175,7 @@ appsettings.json：
 
 当 `#define` *Program.cs* 文件顶部的语句设置为时，示例应用使用 Azure 资源的托管标识 `Managed` 。
 
-将保管库名称输入到应用的 *appsettings.js* 文件中。 当设置为版本时，示例应用不需要应用程序 ID 和密码 (的客户端机密) `Managed` ，因此你可以忽略这些配置条目。 应用将部署到 Azure，Azure 将对应用进行身份验证，以便仅使用存储在文件 *appsettings.js* 中的保管库名称访问 Azure Key Vault。
+在应用的文件中输入保管库名称 *appsettings.json* 。 当设置为版本时，示例应用不需要应用程序 ID 和密码 (的客户端机密) `Managed` ，因此你可以忽略这些配置条目。 应用将部署到 Azure，Azure 将对应用进行身份验证，以便仅使用存储在文件中的保管库名称访问 Azure Key Vault *appsettings.json* 。
 
 将示例应用部署到 Azure App Service。
 
@@ -186,7 +187,7 @@ appsettings.json：
 az keyvault set-policy --name {KEY VAULT NAME} --object-id {OBJECT ID} --secret-permissions get list
 ```
 
-使用 Azure CLI、PowerShell 或 Azure 门户**重启应用**。
+使用 Azure CLI、PowerShell 或 Azure 门户 **重启应用** 。
 
 示例应用：
 
@@ -198,7 +199,7 @@ az keyvault set-policy --name {KEY VAULT NAME} --object-id {OBJECT ID} --secret-
 
 Key vault 名称示例值： `contosovault`
     
-appsettings.json：
+*appsettings.json* :
 
 ```json
 {
@@ -304,7 +305,7 @@ config.AddAzureKeyVault(
 
 Azure Key Vault 密钥不能使用冒号作为分隔符。 本主题中所述的方法使用双短划线 (`--`) 作为层次结构值 (节) 的分隔符。 数组键存储在 Azure Key Vault 中 `--0--` ， (，，) 为双短划线和数值段 `--1--` &hellip; `--{n}--` 。
 
-检查 JSON 文件提供的以下 [Serilog](https://serilog.net/) 日志记录提供程序配置。 在数组中定义了两个对象文本 `WriteTo` ，它们反映了两个 Serilog *接收器*，它们描述了日志记录输出的目标：
+检查 JSON 文件提供的以下 [Serilog](https://serilog.net/) 日志记录提供程序配置。 在数组中定义了两个对象文本 `WriteTo` ，它们反映了两个 Serilog *接收器* ，它们描述了日志记录输出的目标：
 
 ```json
 "Serilog": {
@@ -361,7 +362,7 @@ Configuration.Reload();
 * 在密钥保管库中，配置数据 (名称-值对) 错误地命名、缺失、禁用或过期。
 * 应用具有错误的密钥保管库名称 (`KeyVaultName`) 、Azure AD 应用程序 Id (`AzureADApplicationId`) 或 Azure AD 证书指纹 (`AzureADCertThumbprint`) 。
 * 要尝试加载的值在应用中 (名称) 的配置密钥不正确。
-* 向密钥保管库添加应用的访问策略时，策略已创建，但未在**访问策略**UI 中选择 "**保存**" 按钮。
+* 向密钥保管库添加应用的访问策略时，策略已创建，但未在 **访问策略** UI 中选择 " **保存** " 按钮。
 
 ## <a name="additional-resources"></a>其他资源
 
@@ -465,30 +466,30 @@ dotnet user-secrets set "Section:SecretName" "secret_value_2_dev"
 
 ## <a name="use-application-id-and-x509-certificate-for-non-azure-hosted-apps"></a>为非 Azure 托管的应用使用应用程序 ID 和 x.509 证书
 
-配置 Azure AD、Azure Key Vault 和应用，以便在 **Azure 外托管应用时**使用 Azure Active Directory 应用程序 ID 和 x.509 证书对密钥保管库进行身份验证。 有关详细信息，请参阅[关于密钥、机密和证书](/azure/key-vault/about-keys-secrets-and-certificates)。
+配置 Azure AD、Azure Key Vault 和应用，以便在 **Azure 外托管应用时** 使用 Azure Active Directory 应用程序 ID 和 x.509 证书对密钥保管库进行身份验证。 有关详细信息，请参阅[关于密钥、机密和证书](/azure/key-vault/about-keys-secrets-and-certificates)。
 
 > [!NOTE]
 > 尽管在 Azure 中托管的应用程序支持使用应用程序 ID 和 x.509 证书，但在 Azure 中托管应用程序时，我们建议使用 [Azure 资源的托管标识](#use-managed-identities-for-azure-resources) 。 托管标识不需要在应用或开发环境中存储证书。
 
 当 `#define` *Program.cs* 文件顶部的语句设置为时，示例应用使用应用程序 ID 和 x.509 证书 `Certificate` 。
 
-1. 创建 PKCS # 12 存档 (*.pfx*) 证书。 用于创建证书的选项包括 Windows 和[OpenSSL](https://www.openssl.org/)[上的 MakeCert](/windows/desktop/seccrypto/makecert) 。
+1. 创建 PKCS # 12 存档 ( *.pfx* ) 证书。 用于创建证书的选项包括 Windows 和[OpenSSL](https://www.openssl.org/)[上的 MakeCert](/windows/desktop/seccrypto/makecert) 。
 1. 将证书安装到当前用户的个人证书存储中。 将密钥标记为可导出是可选的。 记下证书的指纹，此过程将在此过程中使用。
-1. 将 PKCS # 12 存档 (*.pfx*) 证书导 () *.cer* 编码的证书。
-1. 将应用注册 Azure AD (**应用注册**) 。
-1. 将 DER 编码的证书 (*.cer*) 上传到 Azure AD：
+1. 将 PKCS # 12 存档 ( *.pfx* ) 证书导 () *.cer* 编码的证书。
+1. 将应用注册 Azure AD ( **应用注册** ) 。
+1. 将 DER 编码的证书 ( *.cer* ) 上传到 Azure AD：
    1. 在 Azure AD 中选择应用。
-   1. 导航到 " **证书" & "机密**"。
-   1. 选择 " **上传证书** "，上传包含公钥的证书。 *.Cer*、 *pem*或 *.crt*证书是可接受的。
-1. 将密钥保管库名称、应用程序 ID 和证书指纹存储在应用的 *appsettings.js* 文件中。
+   1. 导航到 " **证书" & "机密** "。
+   1. 选择 " **上传证书** "，上传包含公钥的证书。 *.Cer* 、 *pem* 或 *.crt* 证书是可接受的。
+1. 在应用的文件中存储密钥保管库名称、应用程序 ID 和证书指纹 *appsettings.json* 。
 1. 导航到 Azure 门户中的 **密钥保管库** 。
 1. 选择在 [生产环境中的机密存储中](#secret-storage-in-the-production-environment-with-azure-key-vault) 创建的密钥保管库，其中 Azure Key Vault "部分。
 1. 选择“访问策略”。
 1. 选择“添加访问策略”。
 1. 打开 **机密权限** ，并为应用提供 **Get** 和 **List** 权限。
 1. 选择 " **选择主体** "，并按名称选择注册的应用。 选择“选择”按钮  。
-1. 选择“确定”。
-1. 选择“保存”。
+1. 选择“确定”  。
+1. 选择“保存”  。
 1. 部署应用。
 
 `Certificate`示例应用从中获取其配置值，其 `IConfigurationRoot` 名称与机密名称相同：
@@ -498,7 +499,7 @@ dotnet user-secrets set "Section:SecretName" "secret_value_2_dev"
   * `config["Section:SecretName"]`
   * `config.GetSection("Section")["SecretName"]`
 
-X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> 使用文件 * 上的appsettings.js* 提供的值调用：
+X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> 使用文件提供的值调用 *appsettings.json* ：
 
 [!code-csharp[](key-vault-configuration/samples/2.x/SampleApp/Program.cs?name=snippet1&highlight=20-23)]
 
@@ -508,7 +509,7 @@ X.509 证书由操作系统管理。 应用 <xref:Microsoft.Extensions.Configura
 * 应用程序 ID： `627e911e-43cc-61d4-992e-12db9c81b413`
 * 证书指纹： `fe14593dd66b2406c5269d742d04b6e1ab03adb1`
 
-appsettings.json：
+*appsettings.json* :
 
 [!code-json[](key-vault-configuration/samples/2.x/SampleApp/appsettings.json?highlight=10-12)]
 
@@ -520,7 +521,7 @@ appsettings.json：
 
 当 `#define` *Program.cs* 文件顶部的语句设置为时，示例应用使用 Azure 资源的托管标识 `Managed` 。
 
-将保管库名称输入到应用的 *appsettings.js* 文件中。 当设置为版本时，示例应用不需要应用程序 ID 和密码 (的客户端机密) `Managed` ，因此你可以忽略这些配置条目。 应用将部署到 Azure，Azure 将对应用进行身份验证，以便仅使用存储在文件 *appsettings.js* 中的保管库名称访问 Azure Key Vault。
+在应用的文件中输入保管库名称 *appsettings.json* 。 当设置为版本时，示例应用不需要应用程序 ID 和密码 (的客户端机密) `Managed` ，因此你可以忽略这些配置条目。 应用将部署到 Azure，Azure 将对应用进行身份验证，以便仅使用存储在文件中的保管库名称访问 Azure Key Vault *appsettings.json* 。
 
 将示例应用部署到 Azure App Service。
 
@@ -532,7 +533,7 @@ appsettings.json：
 az keyvault set-policy --name {KEY VAULT NAME} --object-id {OBJECT ID} --secret-permissions get list
 ```
 
-使用 Azure CLI、PowerShell 或 Azure 门户**重启应用**。
+使用 Azure CLI、PowerShell 或 Azure 门户 **重启应用** 。
 
 示例应用：
 
@@ -544,7 +545,7 @@ az keyvault set-policy --name {KEY VAULT NAME} --object-id {OBJECT ID} --secret-
 
 Key vault 名称示例值： `contosovault`
     
-appsettings.json：
+*appsettings.json* :
 
 ```json
 {
@@ -631,7 +632,7 @@ appsettings.json：
 
 Azure Key Vault 密钥不能使用冒号作为分隔符。 本主题中所述的方法使用双短划线 (`--`) 作为层次结构值 (节) 的分隔符。 数组键存储在 Azure Key Vault 中 `--0--` ， (，，) 为双短划线和数值段 `--1--` &hellip; `--{n}--` 。
 
-检查 JSON 文件提供的以下 [Serilog](https://serilog.net/) 日志记录提供程序配置。 在数组中定义了两个对象文本 `WriteTo` ，它们反映了两个 Serilog *接收器*，它们描述了日志记录输出的目标：
+检查 JSON 文件提供的以下 [Serilog](https://serilog.net/) 日志记录提供程序配置。 在数组中定义了两个对象文本 `WriteTo` ，它们反映了两个 Serilog *接收器* ，它们描述了日志记录输出的目标：
 
 ```json
 "Serilog": {
@@ -688,7 +689,7 @@ Configuration.Reload();
 * 在密钥保管库中，配置数据 (名称-值对) 错误地命名、缺失、禁用或过期。
 * 应用具有错误的密钥保管库名称 (`KeyVaultName`) 、Azure AD 应用程序 Id (`AzureADApplicationId`) 或 Azure AD 证书指纹 (`AzureADCertThumbprint`) 。
 * 要尝试加载的值在应用中 (名称) 的配置密钥不正确。
-* 向密钥保管库添加应用的访问策略时，策略已创建，但未在**访问策略**UI 中选择 "**保存**" 按钮。
+* 向密钥保管库添加应用的访问策略时，策略已创建，但未在 **访问策略** UI 中选择 " **保存** " 按钮。
 
 ## <a name="additional-resources"></a>其他资源
 

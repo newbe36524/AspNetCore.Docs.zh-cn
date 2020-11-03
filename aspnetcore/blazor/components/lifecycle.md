@@ -5,7 +5,7 @@ description: 了解如何使用 ASP.NET Core Blazor 应用中的 Razor 组件生
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/06/2020
+ms.date: 10/14/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,18 +18,48 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/components/lifecycle
-ms.openlocfilehash: e3abfd0535bc10867c9b5f980bb5439cc918dfab
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: bf528bb68af25a8c469a0c7710abc7c0b730fce2
+ms.sourcegitcommit: 2e3a967331b2c69f585dd61e9ad5c09763615b44
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712319"
+ms.lasthandoff: 10/27/2020
+ms.locfileid: "92690617"
 ---
 # <a name="aspnet-core-no-locblazor-lifecycle"></a>ASP.NET Core Blazor 生命周期
 
 作者：[Luke Latham](https://github.com/guardrex) 和 [Daniel Roth](https://github.com/danroth27)
 
 Blazor 框架包括同步和异步生命周期方法。 替代生命周期方法，以在组件初始化和呈现期间对组件执行其他操作。
+
+下图展示的是 Blazor 生命周期。 本文以下部分中的示例定义了生命周期方法。
+
+组件生命周期事件：
+
+1. 如果组件是第一次呈现在请求上：
+   * 创建组件的实例。
+   * 执行属性注入。 运行 `SetParametersAsync`。
+   * 调用 [`OnInitialized{Async}`](#component-initialization-methods)。 如果返回 <xref:System.Threading.Tasks.Task>，则将等待 <xref:System.Threading.Tasks.Task>，然后呈现组件。 如果未返回 <xref:System.Threading.Tasks.Task>，则呈现组件。
+1. 调用 [`OnParametersSet{Async}`](#after-parameters-are-set)。 如果返回 <xref:System.Threading.Tasks.Task>，则将等待 <xref:System.Threading.Tasks.Task>，然后呈现组件。 如果未返回 <xref:System.Threading.Tasks.Task>，则呈现组件。
+
+![Blazor 中 Razor 组件的组件生命周期事件](lifecycle/_static/lifecycle1.png)
+
+文档对象模型 (DOM) 事件处理：
+
+1. 运行事件处理程序。
+1. 如果返回 <xref:System.Threading.Tasks.Task>，则将等待 <xref:System.Threading.Tasks.Task>，然后呈现组件。 如果未返回 <xref:System.Threading.Tasks.Task>，则呈现组件。
+
+![文档对象模型 (DOM) 事件处理](lifecycle/_static/lifecycle2.png)
+
+`Render` 生命周期：
+
+1. 如果这不是组件的第一个呈现或 [`ShouldRender`](#suppress-ui-refreshing) 计算为 `false`，那么请不要对该组件执行进一步的操作。
+1. 生成呈现树差异并呈现组件。
+1. 等待 DOM 更新。
+1. 调用 [`OnAfterRender{Async}`](#after-component-render)。
+
+![呈现生命周期](lifecycle/_static/lifecycle3.png)
+
+开发人员调用 [`StateHasChanged`](#state-changes) 会产生呈现。
 
 ## <a name="lifecycle-methods"></a>生命周期方法
 
@@ -151,7 +181,10 @@ protected override void OnAfterRender(bool firstRender)
 }
 ```
 
-*在服务器上进行预呈现时*未调用 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> 和 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>。
+在服务器上的预呈现过程中，不会调用 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> 和 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>。 在预呈现完成后以交互方式呈现组件时，将调用这些方法。 当应用预呈现时：
+
+1. 组件将在服务器上执行，以在 HTTP 响应中生成一些静态 HTML 标记。 在此阶段，不会调用 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> 和 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>。
+1. 当 `blazor.server.js` 或 `blazor.webassembly.js` 在浏览器中启动时，组件将以交互呈现模式重新启动。 组件重新启动后，将调用 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> 和 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>，因为应用不再处于预呈现阶段。
 
 如果设置有事件处理程序，处置时会将其解除挂接。 有关详细信息，请参阅[使用 `IDisposable` 处置组件](#component-disposal-with-idisposable)部分。
 
@@ -172,7 +205,7 @@ protected override bool ShouldRender()
 
 即使 <xref:Microsoft.AspNetCore.Components.ComponentBase.ShouldRender%2A> 被替代，组件也始终在最初呈现。
 
-有关详细信息，请参阅 <xref:blazor/webassembly-performance-best-practices#avoid-unnecessary-component-renders>。
+有关详细信息，请参阅 <xref:blazor/webassembly-performance-best-practices#avoid-unnecessary-rendering-of-component-subtrees>。
 
 ## <a name="state-changes"></a>状态更改
 
@@ -188,7 +221,7 @@ protected override bool ShouldRender()
 
 Blazor Server 模板中的 `Pages/FetchData.razor`：
 
-[!code-razor[](lifecycle/samples_snapshot/3.x/FetchData.razor?highlight=9,21,25)]
+[!code-razor[](lifecycle/samples_snapshot/FetchData.razor?highlight=9,21,25)]
 
 ## <a name="handle-errors"></a>处理错误
 
@@ -196,7 +229,7 @@ Blazor Server 模板中的 `Pages/FetchData.razor`：
 
 ## <a name="stateful-reconnection-after-prerendering"></a>预呈现后的有状态重新连接
 
-在 Blazor Server 应用中，当 <xref:Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper.RenderMode> 为 <xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.ServerPrerendered> 时，组件最初作为页面的一部分静态呈现。 浏览器重新建立与服务器的连接后，将*再次*呈现组件，并且该组件现在为交互式。 如果存在用于初始化组件的 [`OnInitialized{Async}`](#component-initialization-methods) 生命周期方法，则该方法执行两次：
+在 Blazor Server 应用中，当 <xref:Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper.RenderMode> 为 <xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.ServerPrerendered> 时，组件最初作为页面的一部分静态呈现。 浏览器重新建立与服务器的连接后，将 *再次* 呈现组件，并且该组件现在为交互式。 如果存在用于初始化组件的 [`OnInitialized{Async}`](#component-initialization-methods) 生命周期方法，则该方法执行两次：
 
 * 在静态预呈现组件时执行一次。
 * 在建立服务器连接后执行一次。
@@ -283,11 +316,11 @@ public class WeatherForecastService
 
 * 专用字段和 Lambda 方法
 
-  [!code-razor[](lifecycle/samples_snapshot/3.x/event-handler-disposal-1.razor?highlight=23,28)]
+  [!code-razor[](lifecycle/samples_snapshot/event-handler-disposal-1.razor?highlight=23,28)]
 
 * 专用方法
 
-  [!code-razor[](lifecycle/samples_snapshot/3.x/event-handler-disposal-2.razor?highlight=16,26)]
+  [!code-razor[](lifecycle/samples_snapshot/event-handler-disposal-2.razor?highlight=16,26)]
 
 ## <a name="cancelable-background-work"></a>可取消的后台工作
 

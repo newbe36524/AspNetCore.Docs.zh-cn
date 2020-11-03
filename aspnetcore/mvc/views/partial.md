@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 06/12/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,22 +18,22 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/views/partial
-ms.openlocfilehash: 7a370042520adfe5b06784b76acf41a81eb2c72d
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 01fb87205f7855f0995cbcd135b6b01f15835e3b
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630622"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060594"
 ---
 # <a name="partial-views-in-aspnet-core"></a>ASP.NET Core 中的分部视图
 
 作者：[Steve Smith](https://ardalis.com/)、[Maher JENDOUBI](https://twitter.com/maherjend)、[Rick Anderson](https://twitter.com/RickAndMSFT) 和 [Scott Sauber](https://twitter.com/scottsauber)
 
-分部视图是 [Razor](xref:mvc/views/razor) () 的标记文件 *.cshtml* ，用于在另一个标记文件呈现的输出*中*呈现 HTML 输出。
+分部视图是 [Razor](xref:mvc/views/razor) () 的标记文件 *.cshtml* ，没有在 [`@page`](xref:mvc/views/razor#page) 其他标记文件呈现的输出 *中* 呈现 HTML 输出的指令。
 
 ::: moniker range=">= aspnetcore-2.1"
 
-当开发 MVC 应用程序时，将使用术语 *分部视图* ，其中标记文件称为 *视图*，或 Razor 页面应用，其中的标记文件被称为 *页*。 本主题一般将 MVC 视图和 Razor 页面页称为 *标记文件*。
+当开发 MVC 应用程序时，将使用术语 *分部视图* ，其中标记文件称为 *视图* ，或 Razor 页面应用，其中的标记文件被称为 *页* 。 本主题一般将 MVC 视图和 Razor 页面页称为 *标记文件* 。
 
 ::: moniker-end
 
@@ -57,11 +58,11 @@ ms.locfileid: "88630622"
 
 ::: moniker range=">= aspnetcore-2.0"
 
-分部视图是在*Views*文件夹 (MVC) 或*pages*文件夹 (页) 中维护的一个 *.* Razor
+分部视图是未在 *.cshtml* [`@page`](xref:mvc/views/razor#page) *Views* 文件夹中维护的指令 (MVC) 或 *页面* 文件夹 (Razor 页面) 。
 
 在 ASP.NET Core MVC 中，控制器的 <xref:Microsoft.AspNetCore.Mvc.ViewResult> 能够返回视图或分部视图。 在 Razor 页中， <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel> 可以返回以对象形式表示的分部视图 <xref:Microsoft.AspNetCore.Mvc.PartialViewResult> 。 [引用分部视图](#reference-a-partial-view)部分介绍了引用和呈现分部视图。
 
-与 MVC 视图或页面呈现不同，分部视图不会运行 _ViewStart.cshtml**。 有关 _ViewStart.cshtml** 的详细信息，请参阅 <xref:mvc/views/layout>。
+与 MVC 视图或页面呈现不同，分部视图不会运行 _ViewStart.cshtml  。 有关 _ViewStart.cshtml  的详细信息，请参阅 <xref:mvc/views/layout>。
 
 分部视图的文件名通常以下划线 (`_`) 开头。 虽然未强制要求遵从此命名约定，但它有助于直观地将分部视图与视图和页面区分开来。
 
@@ -69,11 +70,11 @@ ms.locfileid: "88630622"
 
 ::: moniker range="< aspnetcore-2.0"
 
-分部视图是在 Views ** 文件夹中维护的 .cshtml ** 标记文件。
+分部视图是在 Views  文件夹中维护的 .cshtml  标记文件。
 
 控制器的 <xref:Microsoft.AspNetCore.Mvc.ViewResult> 能够返回视图或分部视图。 [引用分部视图](#reference-a-partial-view)部分介绍了引用和呈现分部视图。
 
-与 MVC 视图呈现不同，分部视图不会运行 _ViewStart.cshtml**。 有关 _ViewStart.cshtml** 的详细信息，请参阅 <xref:mvc/views/layout>。
+与 MVC 视图呈现不同，分部视图不会运行 _ViewStart.cshtml  。 有关 _ViewStart.cshtml  的详细信息，请参阅 <xref:mvc/views/layout>。
 
 分部视图的文件名通常以下划线 (`_`) 开头。 虽然未强制要求遵从此命名约定，但它有助于直观地将分部视图与视图区分开来。
 
@@ -85,7 +86,7 @@ ms.locfileid: "88630622"
 
 ### <a name="use-a-partial-view-in-a-no-locrazor-pages-pagemodel"></a>在页面中使用分部视图 Razor PageModel
 
-在 ASP.NET Core 2.0 或2.1 中，以下处理程序方法将* \_ AuthorPartialRP*分部视图呈现给响应：
+在 ASP.NET Core 2.0 或2.1 中，以下处理程序方法将 *\_ AuthorPartialRP* 分部视图呈现给响应：
 
 ```csharp
 public IActionResult OnGetPartial() =>
@@ -273,15 +274,15 @@ public IActionResult OnGetPartial() =>
 以下约定适用于分部视图发现：
 
 * 当分部视图位于不同的文件夹中时，允许使用具有相同文件名的不同分部视图。
-* 当按名称（无文件扩展名）引用分部视图且分部视图出现在调用方的文件夹和** 文件夹中时，调用方文件夹中的分部视图会提供分部视图。 如果调用方文件夹中不存在分部视图，则会从** 文件夹中提供分部视图。 ** 文件夹中的分部视图称为“共享分部视图”** 或“默认分部视图”**。
-* 分部视图可以*链接* &mdash; 到分部视图，如果不是由调用形成循环引用，则可以调用另一个分部视图。 相对路径始终相对于当前文件，而不是相对于文件的根视图或父视图。
+* 当按名称（无文件扩展名）引用分部视图且分部视图出现在调用方的文件夹和  文件夹中时，调用方文件夹中的分部视图会提供分部视图。 如果调用方文件夹中不存在分部视图，则会从  文件夹中提供分部视图。  文件夹中的分部视图称为“共享分部视图”  或“默认分部视图”  。
+* 分部视图可以 *链接* &mdash; 到分部视图，如果不是由调用形成循环引用，则可以调用另一个分部视图。 相对路径始终相对于当前文件，而不是相对于文件的根视图或父视图。
 
 > [!NOTE]
 > [Razor](xref:mvc/views/razor) `section` 分部视图中定义的对于父标记文件是不可见的。 `section` 仅对定义它时所在的分部视图可见。
 
 ## <a name="access-data-from-partial-views"></a>通过分部视图访问数据
 
-实例化分部视图时，它会获得父视图的 `ViewData` 字典的副本**。 在分部视图内对数据所做的更新不会保存到父视图中。 在分部视图中的 `ViewData` 更改会在分部视图返回时丢失。
+实例化分部视图时，它会获得父视图的 `ViewData` 字典的副本  。 在分部视图内对数据所做的更新不会保存到父视图中。 在分部视图中的 `ViewData` 更改会在分部视图返回时丢失。
 
 以下示例演示如何将 [ViewDataDictionary](/dotnet/api/microsoft.aspnetcore.mvc.viewfeatures.viewdatadictionary)的实例传递给分部视图：
 
@@ -303,11 +304,11 @@ public IActionResult OnGetPartial() =>
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Pages/ArticlesRP/ReadRP.cshtml?name=snippet_ReadPartialViewRP&highlight=5,15-20)]
 
-** Pages/Shared/_AuthorPartialRP.cshtml 是** ReadRP.cshtml 标记文件引用的第一个分部视图：
+ Pages/Shared/_AuthorPartialRP.cshtml 是  ReadRP.cshtml 标记文件引用的第一个分部视图：
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Pages/Shared/_AuthorPartialRP.cshtml)]
 
-** Pages/ArticlesRP/_ArticleSectionRP.cshtml 是** ReadRP.cshtml 标记文件引用的第二个分部视图：
+ Pages/ArticlesRP/_ArticleSectionRP.cshtml 是  ReadRP.cshtml 标记文件引用的第二个分部视图：
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Pages/ArticlesRP/_ArticleSectionRP.cshtml)]
 
@@ -315,19 +316,19 @@ public IActionResult OnGetPartial() =>
 
 ::: moniker-end
 
-示例应用中的以下标记显示 ** Views/Articles/Read.cshtml 视图。 此视图包含两个分部视图。 第二个分部视图将模型和 `ViewData` 传入分部视图。 `ViewDataDictionary` 构造函数重载可用于传递新 `ViewData` 字典，同时保留现有的 `ViewData` 字典。
+示例应用中的以下标记显示  Views/Articles/Read.cshtml 视图。 此视图包含两个分部视图。 第二个分部视图将模型和 `ViewData` 传入分部视图。 `ViewDataDictionary` 构造函数重载可用于传递新 `ViewData` 字典，同时保留现有的 `ViewData` 字典。
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Views/Articles/Read.cshtml?name=snippet_ReadPartialView&highlight=5,15-20)]
 
-Views/Shared/_AuthorPartial.cshtml 是 Read.cshtml 标记文件引用的第一个分部视图****：
+Views/Shared/_AuthorPartial.cshtml 是 Read.cshtml 标记文件引用的第一个分部视图  ：
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Views/Shared/_AuthorPartial.cshtml)]
 
-** Views/Articles/_ArticleSection.cshtml 是** Read.cshtml 标记文件引用的第二个分部视图：
+ Views/Articles/_ArticleSection.cshtml 是  Read.cshtml 标记文件引用的第二个分部视图：
 
 [!code-cshtml[](partial/sample/PartialViewsSample/Views/Articles/_ArticleSection.cshtml)]
 
-在运行时，分部视图在父标记文件呈现的输出中呈现，而父标记文件本身在共享的 _Layout.cshtml 内呈现**。 第一个分部视图呈现文章作者的姓名和发布日期：
+在运行时，分部视图在父标记文件呈现的输出中呈现，而父标记文件本身在共享的 _Layout.cshtml 内呈现  。 第一个分部视图呈现文章作者的姓名和发布日期：
 
 > Abraham Lincoln
 >

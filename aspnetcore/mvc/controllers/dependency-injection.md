@@ -5,6 +5,7 @@ description: 了解 ASP.NET Core MVC 控制器如何使用 ASP.NET Core 中的�
 ms.author: riande
 ms.date: 02/24/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/controllers/dependency-injection
-ms.openlocfilehash: 74c43e4f01e5b0d6923bf06f8859341c49088ef6
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 1282cd984584be423fba755e64e5d2f1afd2af89
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635237"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060607"
 ---
 # <a name="dependency-injection-into-controllers-in-aspnet-core"></a>在 ASP.NET Core 中将依赖项注入到控制器
 
@@ -63,9 +64,9 @@ ASP.NET Core MVC 控制器通过构造函数显式请求依赖关系。 ASP.NET 
 
 ## <a name="access-settings-from-a-controller"></a>从控制器访问设置
 
-从控制器中访问应用或配置设置是一种常见模式。 <xref:fundamentals/configuration/options> 中所述的选项模式是管理设置的首选方法**。 通常情况下，不直接将 <xref:Microsoft.Extensions.Configuration.IConfiguration> 注入到控制器。
+从控制器中访问应用或配置设置是一种常见模式。 <xref:fundamentals/configuration/options> 中所述的选项模式是管理设置的首选方法  。 通常情况下，不直接将 <xref:Microsoft.Extensions.Configuration.IConfiguration> 注入到控制器。
 
-创建表示选项的类。 例如：
+创建表示选项的类。 例如： 。
 
 [!code-csharp[](dependency-injection/3.1sample/ControllerDI/Models/SampleWebSettings.cs?name=snippet)]
 
@@ -127,9 +128,9 @@ ASP.NET Core MVC 控制器通过构造函数显式请求依赖关系。 ASP.NET 
 
 ## <a name="access-settings-from-a-controller"></a>从控制器访问设置
 
-从控制器中访问应用或配置设置是一种常见模式。 <xref:fundamentals/configuration/options> 中所述的选项模式是管理设置的首选方法**。 通常情况下，不直接将 <xref:Microsoft.Extensions.Configuration.IConfiguration> 注入到控制器。
+从控制器中访问应用或配置设置是一种常见模式。 <xref:fundamentals/configuration/options> 中所述的选项模式是管理设置的首选方法  。 通常情况下，不直接将 <xref:Microsoft.Extensions.Configuration.IConfiguration> 注入到控制器。
 
-创建表示选项的类。 例如：
+创建表示选项的类。 例如： 。
 
 [!code-csharp[](dependency-injection/sample/ControllerDI/Models/SampleWebSettings.cs?name=snippet)]
 

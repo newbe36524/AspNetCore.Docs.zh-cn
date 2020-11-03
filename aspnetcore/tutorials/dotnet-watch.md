@@ -16,12 +16,12 @@ no-loc:
 - Razor
 - SignalR
 uid: tutorials/dotnet-watch
-ms.openlocfilehash: cc152c2ca553b00619ddbf829f6044867c53bb98
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 3569e9440b8e431ec0e5357e548af2e3783481ac
+ms.sourcegitcommit: 422e02bad384775bfe19a90910737340ad106c5b
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635133"
+ms.lasthandoff: 09/15/2020
+ms.locfileid: "90083448"
 ---
 # <a name="develop-aspnet-core-apps-using-a-file-watcher"></a>使用文件观察程序开发 ASP.NET Core 应用
 
@@ -85,11 +85,25 @@ Application started. Press Ctrl+C to shut down.
 | 命令 | 带 watch 的命令 |
 | ---- | ----- |
 | dotnet run | dotnet watch run |
-| dotnet run -f netcoreapp2.0 | dotnet watch run -f netcoreapp2.0 |
-| dotnet run -f netcoreapp2.0 -- --arg1 | dotnet watch run -f netcoreapp2.0 -- --arg1 |
+| dotnet run -f netcoreapp3.1 | dotnet watch run -f netcoreapp3.1 |
+| dotnet run -f netcoreapp3.1 -- --arg1 | dotnet watch run -f netcoreapp3.1 -- --arg1 |
 | dotnet test | dotnet watch test |
 
 运行“WebApp”文件夹中的 `dotnet watch run`。 控制台输出指示 `watch` 已启动。
+
+::: moniker range=">= aspnetcore-5.0"
+在 Web 应用上运行 `dotnet watch run` 将启动一个浏览器，一旦准备就绪，该浏览器将导航到应用的 URL。 `dotnet watch` 通过读取应用的控制台输出并等待 <xref:Microsoft.AspNetCore.WebHost> 显示的就绪消息来完成此操作。
+
+当 `dotnet watch` 检测到监视文件的更改时刷新浏览器。 为此，watch 命令向应用注入一个中间件，用于修改应用创建的 HTML 响应。 中间件将 JavaScript 脚本块添加到页面，使 `dotnet watch` 可以指示浏览器进行刷新。 目前，对所有监视的文件（包括静态内容，如 .html 和 .css）的更改都会导致重建应用 。
+
+`dotnet watch`:
+
+* 默认情况下，仅监视影响生成的文件。
+* 任何（通过配置）额外监视的文件仍然会导致生成发生。
+
+有关配置的详细信息，请参阅本文档中的 [dotnet-watch 配置](#dotnet-watch-configuration)
+
+::: moniker-end
 
 > [!NOTE]
 > 可使用 `dotnet watch --project <PROJECT>` 来指定要监视的项目。 例如，从示例应用的根路径运行 `dotnet watch --project WebApp run` 还会运行并监视 WebApp 项目。
@@ -193,6 +207,17 @@ dotnet watch msbuild /t:Test
 ```
 
 当任一测试项目中的任何文件发生更改时，将会执行 VSTest。
+
+## <a name="dotnet-watch-configuration"></a>dotnet-watch 配置
+
+一些配置选项可以通过环境变量传递给 `dotnet watch`。 可用变量有：
+
+| 设置  | 说明 |
+| ------------- | ------------- |
+| `DOTNET_USE_POLLING_FILE_WATCHER`                | 如果设置为“1”或“true”，则 `dotnet watch` 使用轮询文件观察程序，而不是 CoreFx 的 `FileSystemWatcher`。 在监视网络共享或 Docker 装入卷上的文件时使用。                       |
+| `DOTNET_WATCH_SUPPRESS_MSBUILD_INCREMENTALISM`   | 默认情况下，`dotnet watch` 通过避免某些操作（如在每次文件更改时运行还原或重新评估监视的文件集）来优化生成。 如果设置为“1”或“true”，则禁用这些优化。 |
+| `DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER`   | `dotnet watch run` 尝试为在 launchSettings.json 中配置了 `launchBrowser` 的 Web 应用启动浏览器。 如果设置为“1”或“true”，则抑制此行为。 |
+| `DOTNET_WATCH_SUPPRESS_BROWSER_REFRESH`   | `dotnet watch run` 检测到文件更改时尝试刷新浏览器。 如果设置为“1”或“true”，则抑制此行为。 如果设置了 `DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER`，则也会抑制此行为。 |
 
 ## <a name="dotnet-watch-in-github"></a>GitHub 中的 `dotnet-watch`
 

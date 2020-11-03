@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 02/11/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/identity-configuration
-ms.openlocfilehash: ae4a2eb9d95339651c3810a9f8489d703d73a3fe
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: b11a2d584b7275a9065c9915021ac945823531f8
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632676"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051988"
 ---
 # <a name="configure-no-locaspnet-core-identity"></a>配置 ASP.NET Core Identity
 
@@ -130,7 +131,7 @@ ASP.NET Core Identity 使用密码策略、锁定和配置等设置的默认值 
 
 ### <a name="no-loccookie-settings"></a>Cookie 设置
 
-在中配置应用 cookie 程序 `Startup.ConfigureServices` 。 [ConfigureApplication Cookie ](/dotnet/api/microsoft.extensions.dependencyinjection.identityservicecollectionextensions.configureapplicationcookie#Microsoft_Extensions_DependencyInjection_IdentityServiceCollectionExtensions_ConfigureApplicationCookie_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Microsoft_AspNetCore_Authentication_Cookies_CookieAuthenticationOptions__)调用或**后**必须调用 `AddIdentity` `AddDefaultIdentity` 。
+在中配置应用 cookie 程序 `Startup.ConfigureServices` 。 [ConfigureApplication Cookie](/dotnet/api/microsoft.extensions.dependencyinjection.identityservicecollectionextensions.configureapplicationcookie#Microsoft_Extensions_DependencyInjection_IdentityServiceCollectionExtensions_ConfigureApplicationCookie_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Microsoft_AspNetCore_Authentication_Cookies_CookieAuthenticationOptions__)调用或 **后** 必须调用 `AddIdentity` `AddDefaultIdentity` 。
 
 [!code-csharp[](identity-configuration/sample/Startup.cs?name=snippet_cookie)]
 
@@ -142,7 +143,7 @@ ASP.NET Core Identity 使用密码策略、锁定和配置等设置的默认值 
 
 | 选项 | 说明 |
 | ------ | ----------- |
-| <xref:Microsoft.AspNetCore.Identity.PasswordHasherOptions.CompatibilityMode> | 对新密码进行哈希处理时使用的兼容性模式。 默认为 <xref:Microsoft.AspNetCore.Identity.PasswordHasherCompatibilityMode.IdentityV3>。 哈希密码的第一个字节称为 *格式标记*，它指定用于对密码进行哈希处理的哈希算法的版本。 针对哈希验证密码时，该方法会根据 <xref:Microsoft.AspNetCore.Identity.PasswordHasher`1.VerifyHashedPassword*> 第一个字节选择正确的算法。 无论使用哪个版本的算法对密码进行哈希处理，客户端都可以进行身份验证。 设置兼容性模式会影响 *新密码*的哈希。 |
+| <xref:Microsoft.AspNetCore.Identity.PasswordHasherOptions.CompatibilityMode> | 对新密码进行哈希处理时使用的兼容性模式。 默认为 <xref:Microsoft.AspNetCore.Identity.PasswordHasherCompatibilityMode.IdentityV3>。 哈希密码的第一个字节称为 *格式标记* ，它指定用于对密码进行哈希处理的哈希算法的版本。 针对哈希验证密码时，该方法会根据 <xref:Microsoft.AspNetCore.Identity.PasswordHasher`1.VerifyHashedPassword*> 第一个字节选择正确的算法。 无论使用哪个版本的算法对密码进行哈希处理，客户端都可以进行身份验证。 设置兼容性模式会影响 *新密码* 的哈希。 |
 | <xref:Microsoft.AspNetCore.Identity.PasswordHasherOptions.IterationCount> | 使用 PBKDF2 对密码进行哈希处理时使用的迭代次数。 仅当设置为时，才使用此值 <xref:Microsoft.AspNetCore.Identity.PasswordHasherOptions.CompatibilityMode> <xref:Microsoft.AspNetCore.Identity.PasswordHasherCompatibilityMode.IdentityV3> 。 该值必须是正整数并且默认值为 `10000` 。 |
 
 在下面的示例中，将 <xref:Microsoft.AspNetCore.Identity.PasswordHasherOptions.IterationCount> 设置为 `12000` in `Startup.ConfigureServices` ：

@@ -5,8 +5,9 @@ description: 了解如何将 Blazor WebAssemlby 应用作为单页应用程序 (
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/16/2020
+ms.date: 10/27/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/index
-ms.openlocfilehash: e1af8f1de61edd934505a44e75ea07e0f09a67b5
-ms.sourcegitcommit: a07f83b00db11f32313045b3492e5d1ff83c4437
+ms.openlocfilehash: fc6fa075faa4fed1c2bf938d82c4dbfe631c31d3
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/15/2020
-ms.locfileid: "90592951"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93055062"
 ---
 # <a name="secure-aspnet-core-no-locblazor-webassembly"></a>保护 ASP.NET Core Blazor WebAssembly
 
@@ -123,4 +124,17 @@ Blazor WebAssembly 中的身份验证支持建立在 `oidc-client.js` 库的基�
 * [Azure Active Directory (AAD) B2C](xref:blazor/security/webassembly/hosted-with-azure-active-directory-b2c)
 * [Identity 服务器](xref:blazor/security/webassembly/hosted-with-identity-server)
 
-有关配置方面的更多指南，请参阅 <xref:blazor/security/webassembly/additional-scenarios>。
+::: moniker range=">= aspnetcore-5.0"
+
+有关进一步的配置指南，请参阅以下文章：
+
+* <xref:blazor/security/webassembly/additional-scenarios>
+* <xref:blazor/security/webassembly/graph-api>
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+有关进一步的配置指南，请参阅 <xref:blazor/security/webassembly/additional-scenarios>。
+
+::: moniker-end

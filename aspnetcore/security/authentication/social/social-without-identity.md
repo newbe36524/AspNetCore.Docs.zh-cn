@@ -5,6 +5,7 @@ description: 有关使用 Facebook、Google、Twitter 等帐户用户身份验�
 ms.author: riande
 ms.date: 12/10/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/social/social-without-identity
-ms.openlocfilehash: a91a2f2fb7873e5a672c624e9cf863ae720c8005
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: cd7545a3ddaccedfa64ef5e9d5458c21c651257a
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634223"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060282"
 ---
 # <a name="use-social-sign-in-provider-authentication-without-no-locaspnet-core-identity"></a>在不使用社交登录提供程序身份验证的情况下使用 ASP.NET Core Identity
 
@@ -31,7 +32,7 @@ ms.locfileid: "88634223"
 
 <xref:security/authentication/social/index> 描述如何使用户能够使用 OAuth 2.0 通过外部身份验证提供程序中的凭据进行登录。 该主题中所述的方法包括 ASP.NET Core Identity 作为身份验证提供程序。
 
-此示例演示如何在不使用的 **情况下**使用外部身份验证提供程序 ASP.NET Core Identity 。 这对于不需要的所有功能 ASP.NET Core Identity 但仍需要与受信任的外部身份验证提供程序集成的应用很有用。
+此示例演示如何在不使用的 **情况下** 使用外部身份验证提供程序 ASP.NET Core Identity 。 这对于不需要的所有功能 ASP.NET Core Identity 但仍需要与受信任的外部身份验证提供程序集成的应用很有用。
 
 此示例使用 [Google 身份验证](xref:security/authentication/google-logins) 对用户进行身份验证。 使用 Google 身份验证将管理登录过程的许多复杂性转移到 Google。 若要与其他外部身份验证提供程序集成，请参阅以下主题：
 
@@ -40,7 +41,7 @@ ms.locfileid: "88634223"
 * [Twitter 身份验证](xref:security/authentication/twitter-logins)
 * [其他提供程序](xref:security/authentication/otherlogins)
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 在 `ConfigureServices` 方法中，使用 <xref:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddAuthentication*> 、 <xref:Microsoft.Extensions.DependencyInjection.CookieExtensions.AddCookie*> 和方法配置应用的身份验证方案 <xref:Microsoft.Extensions.DependencyInjection.GoogleExtensions.AddGoogle*> ：
 
@@ -86,7 +87,7 @@ ms.locfileid: "88634223"
 
 <xref:security/authentication/social/index> 描述如何使用户能够使用 OAuth 2.0 通过外部身份验证提供程序中的凭据进行登录。 该主题中所述的方法包括 ASP.NET Core Identity 作为身份验证提供程序。
 
-此示例演示如何在不使用的 **情况下**使用外部身份验证提供程序 ASP.NET Core Identity 。 这对于不需要的所有功能 ASP.NET Core Identity 但仍需要与受信任的外部身份验证提供程序集成的应用很有用。
+此示例演示如何在不使用的 **情况下** 使用外部身份验证提供程序 ASP.NET Core Identity 。 这对于不需要的所有功能 ASP.NET Core Identity 但仍需要与受信任的外部身份验证提供程序集成的应用很有用。
 
 此示例使用 [Google 身份验证](xref:security/authentication/google-logins) 对用户进行身份验证。 使用 Google 身份验证将管理登录过程的许多复杂性转移到 Google。 若要与其他外部身份验证提供程序集成，请参阅以下主题：
 
@@ -95,7 +96,7 @@ ms.locfileid: "88634223"
 * [Twitter 身份验证](xref:security/authentication/twitter-logins)
 * [其他提供程序](xref:security/authentication/otherlogins)
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 在 `ConfigureServices` 方法中，使用 `AddAuthentication` 、 `AddCookie` 和方法配置应用的身份验证方案 `AddGoogle` ：
 

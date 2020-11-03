@@ -5,6 +5,7 @@ description: Razor与 ASP.NET Core 中的应用程序部件共享控制器、视
 ms.author: riande
 ms.date: 11/11/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/extensibility/app-parts
-ms.openlocfilehash: 2e86025eaf98c4e2cbbd86a5a353664204c35594
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 33deb5ff794982e0c074186bb2abb88344e8a116
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630414"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061179"
 ---
 # <a name="share-controllers-views-no-locrazor-pages-and-more-with-application-parts"></a>与应用程序部件共享控制器、视图、 Razor 页和更多内容
 
@@ -31,7 +32,7 @@ ms.locfileid: "88630414"
 
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/mvc/advanced/app-parts)（[如何下载](xref:index#how-to-download-a-sample)）
 
-应用程序部件是对应用资源的抽象化。** 应用程序部件允许 ASP.NET Core 发现控制器、查看组件、标记帮助程序、 Razor 页面、razor 编译源等。 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts.AssemblyPart> 是应用程序部件。 `AssemblyPart` 用于封装程序集引用，并公开类型和编译引用。
+应用程序部件是对应用资源的抽象化。  应用程序部件允许 ASP.NET Core 发现控制器、查看组件、标记帮助程序、 Razor 页面、razor 编译源等。 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts.AssemblyPart> 是应用程序部件。 `AssemblyPart` 用于封装程序集引用，并公开类型和编译引用。
 
 [功能提供程序](#fp)使用应用程序部件填充 ASP.NET Core 应用的功能。 应用程序部件的主要用例是将应用配置为从程序集中发现（或避免加载）ASP.NET Core 功能。 例如，可能需要在多个应用之间共享通用功能。 使用应用程序部件，你可以使用多个应用共享包含控制器、视图、 Razor 页面、razor 编译源、标记帮助程序以及更多应用程序 (DLL) 的程序集。 相对于在多个项目中复制代码，首选共享程序集。
 
@@ -55,7 +56,7 @@ ASP.NET Core 应用从 <xref:System.Web.WebPages.ApplicationPart> 加载功能�
 
 ### <a name="prevent-loading-resources"></a>阻止加载资源
 
-可以使用应用程序部件来避免加载特定程序集或位置中的资源。** 添加或删除 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts> 集合的成员，将隐藏或提供资源。 `ApplicationParts` 集合中条目的顺序并不重要。 在使用 `ApplicationPartManager` 配置容器中的服务之前，对该类进行配置。 例如，在调用 `AddControllersAsServices` 之前配置 `ApplicationPartManager`。 在 `ApplicationParts` 集合上调用 `Remove`，将删除资源。
+可以使用应用程序部件来避免加载特定程序集或位置中的资源。  添加或删除 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts> 集合的成员，将隐藏或提供资源。 `ApplicationParts` 集合中条目的顺序并不重要。 在使用 `ApplicationPartManager` 配置容器中的服务之前，对该类进行配置。 例如，在调用 `AddControllersAsServices` 之前配置 `ApplicationPartManager`。 在 `ApplicationParts` 集合上调用 `Remove`，将删除资源。
 
 `ApplicationPartManager` 包括以下内容的部件：
 
@@ -121,9 +122,9 @@ View Components:
 
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/mvc/advanced/app-parts)（[如何下载](xref:index#how-to-download-a-sample)）
 
-应用程序部件是对应用资源的抽象化。** 应用程序部件允许 ASP.NET Core 发现控制器、查看组件、标记帮助程序、 Razor 页面、razor 编译源等。 [AssemblyPart](/dotnet/api/microsoft.aspnetcore.mvc.applicationparts.assemblypart#Microsoft_AspNetCore_Mvc_ApplicationParts_AssemblyPart) 是一种应用程序部件。 `AssemblyPart` 用于封装程序集引用，并公开类型和编译引用。
+应用程序部件是对应用资源的抽象化。  应用程序部件允许 ASP.NET Core 发现控制器、查看组件、标记帮助程序、 Razor 页面、razor 编译源等。 [AssemblyPart](/dotnet/api/microsoft.aspnetcore.mvc.applicationparts.assemblypart#Microsoft_AspNetCore_Mvc_ApplicationParts_AssemblyPart) 是一种应用程序部件。 `AssemblyPart` 用于封装程序集引用，并公开类型和编译引用。
 
-*功能提供程序*使用应用程序部件填充 ASP.NET Core 应用的功能。 应用程序部件的主要用例是将应用配置为从程序集中发现（或避免加载）ASP.NET Core 功能。 例如，可能需要在多个应用之间共享通用功能。 使用应用程序部件，你可以使用多个应用共享包含控制器、视图、 Razor 页面、razor 编译源、标记帮助程序以及更多应用程序 (DLL) 的程序集。 相对于在多个项目中复制代码，首选共享程序集。
+*功能提供程序* 使用应用程序部件填充 ASP.NET Core 应用的功能。 应用程序部件的主要用例是将应用配置为从程序集中发现（或避免加载）ASP.NET Core 功能。 例如，可能需要在多个应用之间共享通用功能。 使用应用程序部件，你可以使用多个应用共享包含控制器、视图、 Razor 页面、razor 编译源、标记帮助程序以及更多应用程序 (DLL) 的程序集。 相对于在多个项目中复制代码，首选共享程序集。
 
 ASP.NET Core 应用从 <xref:System.Web.WebPages.ApplicationPart> 加载功能。 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts.AssemblyPart> 类表示受程序集支持的应用程序部件。
 
@@ -145,7 +146,7 @@ ASP.NET Core 应用从 <xref:System.Web.WebPages.ApplicationPart> 加载功能�
 
 ### <a name="prevent-loading-resources"></a>阻止加载资源
 
-可以使用应用程序部件来避免加载特定程序集或位置中的资源。** 添加或删除 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts> 集合的成员，将隐藏或提供资源。 `ApplicationParts` 集合中条目的顺序并不重要。 在使用 `ApplicationPartManager` 配置容器中的服务之前，对该类进行配置。 例如，在调用 `AddControllersAsServices` 之前配置 `ApplicationPartManager`。 在 `ApplicationParts` 集合上调用 `Remove`，将删除资源。
+可以使用应用程序部件来避免加载特定程序集或位置中的资源。  添加或删除 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts> 集合的成员，将隐藏或提供资源。 `ApplicationParts` 集合中条目的顺序并不重要。 在使用 `ApplicationPartManager` 配置容器中的服务之前，对该类进行配置。 例如，在调用 `AddControllersAsServices` 之前配置 `ApplicationPartManager`。 在 `ApplicationParts` 集合上调用 `Remove`，将删除资源。
 
 以下代码使用 <xref:Microsoft.AspNetCore.Mvc.ApplicationParts> 删除应用中的 `MyDependentLibrary`：[!code-csharp[](./app-parts/sample1/WebAppParts/StartupRm.cs?name=snippet)]
 

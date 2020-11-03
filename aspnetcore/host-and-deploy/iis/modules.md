@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: host-and-deploy/iis/modules
-ms.openlocfilehash: 7ddc1b0f80625fbc39ac49f305f745b005cbce46
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 6936071339786262fa8eeb669a59225a695d7488
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634665"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722801"
 ---
 # <a name="iis-modules-with-aspnet-core"></a>IIS 模块与 ASP.NET Core
 
@@ -178,5 +178,5 @@ HTTP 缓存模块 (`HttpCacheModule`) 实现 IIS 输出缓存以及用于在 HTT
 
 * [IIS 体系结构简介：IIS 中的模块](/iis/get-started/introduction-to-iis/introduction-to-iis-architecture#modules-in-iis)
 * [IIS 模块概述](/iis/get-started/introduction-to-iis/iis-modules-overview)
-* [自定义 IIS 7.0 角色和模块](https://technet.microsoft.com/library/cc627313.aspx)
+* [自定义 IIS 7.0 角色和模块](/previous-versions/tn-archive/cc627313(v=technet.10))
 * [IIS \<system.webServer>](/iis/configuration/system.webServer/)

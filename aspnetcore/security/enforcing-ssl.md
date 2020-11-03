@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 12/06/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/enforcing-ssl
-ms.openlocfilehash: b5260084c2fdd296168e918f06d8b54faf1865d5
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: e473da9a7cbd91a601ad4af0c7c02c7f576f348c
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722652"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051117"
 ---
 # <a name="enforce-https-in-aspnet-core"></a>在 ASP.NET Core 强制实施 HTTPS
 
@@ -113,7 +114,7 @@ ms.locfileid: "90722652"
 
   * 在 "主机配置" 中。
   * 通过设置 `ASPNETCORE_HTTPS_PORT` 环境变量。
-  * 通过在 *appsettings.js上*的中添加顶级条目：
+  * 通过在中添加顶级条目 *appsettings.json* ：
 
     [!code-json[](enforcing-ssl/sample-snapshot/3.x/appsettings.json?highlight=2)]
 
@@ -127,7 +128,7 @@ ms.locfileid: "90722652"
 
   * 在 "主机配置" 中。
   * 通过设置 `ASPNETCORE_HTTPS_PORT` 环境变量。
-  * 通过在 *appsettings.js上*的中添加顶级条目：
+  * 通过在中添加顶级条目 *appsettings.json* ：
 
     [!code-json[](enforcing-ssl/sample-snapshot/2.x/appsettings.json?highlight=2)]
 
@@ -135,7 +136,7 @@ ms.locfileid: "90722652"
 
 ::: moniker-end
 
-* 在开发中，在 *launchsettings.js上*设置 HTTPS URL。 当使用 IIS Express 时，启用 HTTPS。
+* 在开发中，在 *launchsettings.js上* 设置 HTTPS URL。 当使用 IIS Express 时，启用 HTTPS。
 
 * 为 [Kestrel](xref:fundamentals/servers/kestrel) 服务器或 [HTTP.sys](xref:fundamentals/servers/httpsys) 服务器的面向公众的边缘部署配置 HTTPS URL 终结点。 此应用只使用 **一个 HTTPS 端口** 。 中间件通过发现端口 <xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature> 。
 
@@ -192,7 +193,7 @@ ms.locfileid: "90722652"
 
 ::: moniker range=">= aspnetcore-3.0"
 
-在 *Startup.cs*中配置服务时：
+在 *Startup.cs* 中配置服务时：
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -213,7 +214,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ::: moniker range="<= aspnetcore-2.2"
 
-在 *Startup.cs*中配置服务时：
+在 *Startup.cs* 中配置服务时：
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -272,7 +273,7 @@ ASP.NET Core 2.1 和更高版本通过 `UseHsts` 扩展方法实现 HSTS。 `Use
 
 对于第一次实现 HTTPS 的生产环境，请使用其中一种方法将初始[HstsOptions](xref:Microsoft.AspNetCore.HttpsPolicy.HstsOptions.MaxAge*)设置为较小的值。 <xref:System.TimeSpan> 将值从小时设置为不超过一天，以防需要将 HTTPS 基础结构还原到 HTTP。 在你确信 HTTPS 配置的可持续性后，请增加 HSTS `max-age` 值; 一个常用值为一年。
 
-以下代码：
+下面的代码：
 
 
 ::: moniker range=">= aspnetcore-3.0"

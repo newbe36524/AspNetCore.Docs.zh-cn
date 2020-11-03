@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 04/17/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/cors
-ms.openlocfilehash: cebaa9ae65557ca5d938c5728882382830deca9d
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 03008f40fc1c4b323535d08a1bb4c4007bc145f7
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88629257"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060815"
 ---
 # <a name="enable-cross-origin-requests-cors-in-aspnet-core"></a> (CORS) 启用跨域请求 ASP.NET Core
 
@@ -37,7 +38,7 @@ ms.locfileid: "88629257"
 [跨源资源共享](https://www.w3.org/TR/cors/) (CORS) ：
 
 * 是一种 W3C 标准，可让服务器放宽相同的源策略。
-* **不**是一项安全功能，CORS 放宽 security。 API 不能通过允许 CORS 来更安全。 有关详细信息，请参阅 [CORS 的工作](#how-cors)原理。
+* **不** 是一项安全功能，CORS 放宽 security。 API 不能通过允许 CORS 来更安全。 有关详细信息，请参阅 [CORS 的工作](#how-cors)原理。
 * 允许服务器明确允许一些跨源请求，同时拒绝其他请求。
 * 比早期的技术（如 [JSONP](/dotnet/framework/wcf/samples/jsonp)）更安全且更灵活。
 
@@ -120,7 +121,7 @@ CORS 中间件处理跨域请求。 以下代码将 CORS 策略应用到具有�
 
 ## <a name="enable-cors-with-endpoint-routing"></a>通过终结点路由启用 Cors
 
-目前使用每个终结点启用 CORS 不 `RequireCors` 支持[自动预检请求](#apf)。 **not** 有关详细信息，请参阅 [此 GitHub 问题](https://github.com/dotnet/aspnetcore/issues/20709) 和 [测试与终结点路由和 [HTTPOPTIONS] 的 CORS](#tcer)。
+目前使用每个终结点启用 CORS 不 `RequireCors` 支持 [自动预检请求](#apf)。 **not** 有关详细信息，请参阅 [此 GitHub 问题](https://github.com/dotnet/aspnetcore/issues/20709) 和 [测试与终结点路由和 [HTTPOPTIONS] 的 CORS](#tcer)。
 
 使用终结点路由，可以使用一组扩展方法在每个终结点上启用 CORS <xref:Microsoft.AspNetCore.Builder.CorsEndpointConventionBuilderExtensions.RequireCors*> ：
 
@@ -130,9 +131,9 @@ CORS 中间件处理跨域请求。 以下代码将 CORS 策略应用到具有�
 
 * `app.UseCors` 启用 CORS 中间件。 由于尚未配置默认策略，因此 `app.UseCors()` 单独不启用 CORS。
 * `/echo`和控制器端点允许使用指定策略的跨域请求。
-* `/echo2`和 Razor Pages 终结点**不**允许跨源请求，因为未指定默认策略。
+* `/echo2`和 Razor Pages 终结点 **不** 允许跨源请求，因为未指定默认策略。
 
-[[DisableCors]](#dc)特性**不**会禁用通过终结点路由启用的 CORS `RequireCors` 。
+[[DisableCors]](#dc)特性 **不** 会禁用通过终结点路由启用的 CORS `RequireCors` 。
 
 请参阅 [测试与终结点路由和 [HttpOptions] 的 CORS](#tcer) ，获取与前面类似的代码测试说明。
 
@@ -177,7 +178,7 @@ CORS 中间件处理跨域请求。 以下代码将 CORS 策略应用到具有�
 
 ### <a name="disable-cors"></a>禁用 CORS
 
-[[DisableCors]](xref:Microsoft.AspNetCore.Cors.DisableCorsAttribute) **特性不会禁用已**通过[终结点路由](#ecors)启用的 CORS。
+[[DisableCors]](xref:Microsoft.AspNetCore.Cors.DisableCorsAttribute) **特性不会禁用已** 通过 [终结点路由](#ecors)启用的 CORS。
 
 以下代码定义 CORS 策略 `"MyPolicy"` ：
 
@@ -270,7 +271,7 @@ Access-Control-Request-Headers: Cache-Control, Content-Language
 * `Last-Modified`
 * `Pragma`
 
-CORS 规范将这些标头称为 *简单的响应标头*。 若要使其他标头可用于应用程序，请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithExposedHeaders*> ：
+CORS 规范将这些标头称为 *简单的响应标头* 。 若要使其他标头可用于应用程序，请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithExposedHeaders*> ：
 
 [!code-csharp[](cors/3.1sample/Cors/WebAPI/StartupAllowSubdomain.cs?name=snippet5)]
 ### <a name="credentials-in-cross-origin-requests"></a>跨域请求中的凭据
@@ -333,7 +334,7 @@ CORS 规范还指出， `"*"` 如果 `Access-Control-Allow-Credentials` 标头�
 
 为客户端请求设置的请求标头上的规则适用于应用通过在对象上调用来设置的标头 `setRequestHeader` `XMLHttpRequest` 。 CORS 规范调用这些标头 [作者请求标头](https://www.w3.org/TR/cors/#author-request-headers)。 此规则不适用于浏览器可以设置的标头，如 `User-Agent` 、 `Host` 或 `Content-Length` 。
 
-下面是一个示例响应，它类似于在本文档的 "[测试 CORS](#testc) " 部分中通过 " **Put test** " 按钮发出的预检请求。
+下面是一个示例响应，它类似于在本文档的 " [测试 CORS](#testc) " 部分中通过 " **Put test** " 按钮发出的预检请求。
 
 ```
 General:
@@ -400,7 +401,7 @@ User-Agent: Mozilla/5.0
 
 ASP.NET Core 对 "预检选项" 请求做出响应。
 
-目前使用每个终结点启用 CORS 不 `RequireCors` 支持自动**not**预检请求。
+目前使用每个终结点启用 CORS 不 `RequireCors` 支持自动 **not** 预检请求。
 
 本文档的 " [测试 CORS](#testc) " 部分说明了此行为。
 
@@ -523,7 +524,7 @@ Sec-Fetch-Site: cross-site
 User-Agent: Mozilla/5.0
 ```
 
-在前面的 **响应标头**中，服务器设置响应中的 [访问控制允许源](https://developer.mozilla.org/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) 标头。 `https://cors1.azurewebsites.net`此标头的值与 `Origin` 请求中的标头相匹配。
+在前面的 **响应标头** 中，服务器设置响应中的 [访问控制允许源](https://developer.mozilla.org/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) 标头。 `https://cors1.azurewebsites.net`此标头的值与 `Origin` 请求中的标头相匹配。
 
 如果 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyOrigin*> 调用了，则将 `Access-Control-Allow-Origin: *` 返回通配符值。 `AllowAnyOrigin` 允许任何源。
 
@@ -571,7 +572,7 @@ User-Agent: Mozilla/5.0
 使用带有 F12 工具的浏览器：
 
 * 选择 " **值** " 按钮，然后查看 " **网络** " 选项卡中的标头。
-* 选择 " **放置测试** " 按钮。 请参阅 [显示选项请求](#options) ，以获取有关显示选项请求的说明。 **PUT 测试**创建两个请求：一个选项预检请求和 PUT 请求。
+* 选择 " **放置测试** " 按钮。 请参阅 [显示选项请求](#options) ，以获取有关显示选项请求的说明。 **PUT 测试** 创建两个请求：一个选项预检请求和 PUT 请求。
 * 选择此 **`GetValues2 [DisableCors]`** 按钮可触发失败的 CORS 请求。 如文档中所述，响应返回200成功，但不进行 CORS 请求。 选择 " **控制台** " 选项卡以查看 CORS 错误。 根据浏览器，将显示类似于以下内容的错误：
 
      `'https://cors1.azurewebsites.net/api/values/GetValues2'`CORS 策略已阻止从原始位置获取的访问权限 `'https://cors3.azurewebsites.net'` ：请求的资源上没有 "访问控制-允许" 标头。 如果非跳转响应可满足需求，请将请求的模式设置为“no-cors”，以便在禁用 CORS 的情况下提取资源。
@@ -596,7 +597,7 @@ C:\Program Files\Git\mingw64\bin\
 
 ### <a name="test-cors-with-endpoint-routing-and-httpoptions"></a>通过终结点路由和 [HttpOptions] 测试 CORS
 
-目前使用每个终结点启用 CORS 不 `RequireCors` 支持[自动预检请求](#apf)。 **not** 请考虑以下代码，它使用 [终结点路由启用 CORS](#ecors)：
+目前使用每个终结点启用 CORS 不 `RequireCors` 支持 [自动预检请求](#apf)。 **not** 请考虑以下代码，它使用 [终结点路由启用 CORS](#ecors)：
 
 [!code-csharp[](cors/3.1sample/Cors/WebAPI/StartupEndPointBugTest.cs?name=snippet2)]
 
@@ -606,7 +607,7 @@ C:\Program Files\Git\mingw64\bin\
 
 从已部署[示例](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/security/cors/3.1sample/Cors/WebAPI)的[测试页](https://cors1.azurewebsites.net/test?number=1)测试前面的代码。
 
-**Delete [EnableCors]** 和**GET [EnableCors]** 按钮成功，因为终结点具有 `[EnableCors]` 和响应预检请求。 其他终结点失败。 " **获取** " 按钮失败，因为 [JavaScript](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/security/cors/3.1sample/Cors/WebAPI/wwwroot/js/MyJS.js) 发送：
+**Delete [EnableCors]** 和 **GET [EnableCors]** 按钮成功，因为终结点具有 `[EnableCors]` 和响应预检请求。 其他终结点失败。 " **获取** " 按钮失败，因为 [JavaScript](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/security/cors/3.1sample/Cors/WebAPI/wwwroot/js/MyJS.js) 发送：
 
 ```javascript
  headers: {
@@ -618,7 +619,7 @@ C:\Program Files\Git\mingw64\bin\
 
 [!code-csharp[](cors/3.1sample/Cors/WebAPI/Controllers/TodoItems2Controller.cs?name=snippet2)]
 
-从已部署示例的 [测试页](https://cors1.azurewebsites.net/test?number=2) 测试前面的代码。 在 " **控制器** " 下拉列表中，选择 " **预检** "，然后 **设置 "控制器**"。 对终结点的所有 CORS 调用都将 `TodoItems2Controller` 成功。
+从已部署示例的 [测试页](https://cors1.azurewebsites.net/test?number=2) 测试前面的代码。 在 " **控制器** " 下拉列表中，选择 " **预检** "，然后 **设置 "控制器** "。 对终结点的所有 CORS 调用都将 `TodoItems2Controller` 成功。
 
 ## <a name="additional-resources"></a>其他资源
 
@@ -638,7 +639,7 @@ C:\Program Files\Git\mingw64\bin\
 [跨源资源共享](https://www.w3.org/TR/cors/) (CORS) ：
 
 * 是一种 W3C 标准，可让服务器放宽相同的源策略。
-* **不**是一项安全功能，CORS 放宽 security。 API 不能通过允许 CORS 来更安全。 有关详细信息，请参阅 [CORS 的工作](#how-cors)原理。
+* **不** 是一项安全功能，CORS 放宽 security。 API 不能通过允许 CORS 来更安全。 有关详细信息，请参阅 [CORS 的工作](#how-cors)原理。
 * 允许服务器明确允许一些跨源请求，同时拒绝其他请求。
 * 比早期的技术（如 [JSONP](/dotnet/framework/wcf/samples/jsonp)）更安全且更灵活。
 
@@ -723,7 +724,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 * 控制器
 * 控制器操作方法
 
-您可以使用属性将不同的策略应用到控制器/页模型/操作  `[EnableCors]` 。 如果将 `[EnableCors]` 属性应用于控制器/页面模型/操作方法，并在中间件中启用了 CORS，则会应用 **这两种** 策略。 建议 **不要** 合并策略。 使用 `[EnableCors]` 特性或中间件， **不能同时使用两者**。 使用时 `[EnableCors]` ，请 **不要** 定义默认策略。
+您可以使用属性将不同的策略应用到控制器/页模型/操作  `[EnableCors]` 。 如果将 `[EnableCors]` 属性应用于控制器/页面模型/操作方法，并在中间件中启用了 CORS，则会应用 **这两种** 策略。 建议 **不要** 合并策略。 使用 `[EnableCors]` 特性或中间件， **不能同时使用两者** 。 使用时 `[EnableCors]` ，请 **不要** 定义默认策略。
 
 下面的代码将不同的策略应用于每个方法：
 
@@ -774,7 +775,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 ### <a name="set-the-allowed-request-headers"></a>设置允许的请求标头
 
-若要允许在 CORS 请求中发送特定标头（称为 *作者请求标头*），请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithHeaders*> 并指定允许的标头：
+若要允许在 CORS 请求中发送特定标头（称为 *作者请求标头* ），请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithHeaders*> 并指定允许的标头：
 
 [!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=55-60&highlight=5)]
 
@@ -816,7 +817,7 @@ Access-Control-Request-Headers: Cache-Control, Content-Language
 * `Last-Modified`
 * `Pragma`
 
-CORS 规范将这些标头称为 *简单的响应标头*。 若要使其他标头可用于应用程序，请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithExposedHeaders*> ：
+CORS 规范将这些标头称为 *简单的响应标头* 。 若要使其他标头可用于应用程序，请调用 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithExposedHeaders*> ：
 
 [!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=73-78&highlight=5)]
 
@@ -867,7 +868,7 @@ CORS 规范还指出， `"*"` 如果 `Access-Control-Allow-Credentials` 标头�
 
 ### <a name="preflight-requests"></a>预检请求
 
-对于某些 CORS 请求，浏览器会在发出实际请求之前发送其他请求。 此请求称为 *预检请求*。 如果满足以下条件，浏览器可以跳过预检请求：
+对于某些 CORS 请求，浏览器会在发出实际请求之前发送其他请求。 此请求称为 *预检请求* 。 如果满足以下条件，浏览器可以跳过预检请求：
 
 * 请求方法为 GET、HEAD 或 POST。
 * 应用不会设置、、、或以外的请求标头 `Accept` `Accept-Language` `Content-Language` `Content-Type` `Last-Event-ID` 。
@@ -876,7 +877,7 @@ CORS 规范还指出， `"*"` 如果 `Access-Control-Allow-Credentials` 标头�
   * `multipart/form-data`
   * `text/plain`
 
-为客户端请求设置的请求标头上的规则适用于应用通过在对象上调用来设置的标头 `setRequestHeader` `XMLHttpRequest` 。 CORS 规范调用这些标头 *作者请求标头*。 此规则不适用于浏览器可以设置的标头，如 `User-Agent` 、 `Host` 或 `Content-Length` 。
+为客户端请求设置的请求标头上的规则适用于应用通过在对象上调用来设置的标头 `setRequestHeader` `XMLHttpRequest` 。 CORS 规范调用这些标头 *作者请求标头* 。 此规则不适用于浏览器可以设置的标头，如 `User-Agent` 、 `Host` 或 `Content-Length` 。
 
 下面是预检请求的示例：
 
@@ -991,7 +992,7 @@ Test message
 测试 CORS：
 
 1. [创建 API 项目](xref:tutorials/first-web-api)。 或者，您也可以 [下载该示例](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/security/cors/sample/Cors)。
-1. 使用本文档中的方法之一启用 CORS。 例如：
+1. 使用本文档中的方法之一启用 CORS。 例如： 。
 
   [!code-csharp[](cors/sample/Cors/WebAPI/StartupTest.cs?name=snippet2&highlight=13-18)]
 
@@ -1005,7 +1006,7 @@ Test message
 
 1. 在上面的代码中，将替换 `url: 'https://<web app>.azurewebsites.net/api/values/1',` 为已部署应用的 URL。
 1. 部署 API 项目。 例如， [部署到 Azure](xref:host-and-deploy/azure-apps/index)。
-1. Razor从桌面运行页面或 MVC 应用，并单击 "**测试**" 按钮。 使用 F12 工具查看错误消息。
+1. Razor从桌面运行页面或 MVC 应用，并单击 " **测试** " 按钮。 使用 F12 工具查看错误消息。
 1. 从中删除 localhost 源 `WithOrigins` 并部署应用。 或者，使用其他端口运行客户端应用。 例如，在 Visual Studio 中运行。
 1. 与客户端应用程序进行测试。 CORS 故障返回一个错误，但错误消息不能用于 JavaScript。 使用 F12 工具中的 "控制台" 选项卡查看错误。 根据浏览器，你会在 "F12 工具" 控制台 (出现错误，如下所示) ：
 

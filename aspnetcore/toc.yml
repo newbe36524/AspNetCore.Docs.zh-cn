@@ -174,6 +174,12 @@
             - name: 实施复原 >>
               displayName: 'tutorial, kubernetes, aks, acr, docker'
               href: /learn/modules/microservices-resiliency-aspnet-core/
+            - name: 使用 GitHub Actions 进行部署 >>
+              display: 'tutorial, kubernetes, aks, acr, docker, devops'
+              href: /learn/modules/microservices-devops-aspnet-core/
+            - name: 日志和监视器 >>
+              display: 'tutorial, kubernetes, aks, acr, docker, serilog'
+              href: /learn/modules/microservices-logging-aspnet-core/
         - name: 数据访问 >>
           displayName: 'tutorial, ef, entity framework'
           href: /learn/modules/persist-data-ef-core/
@@ -379,6 +385,8 @@
               uid: blazor/components/virtualization
             - name: 模板化组件
               uid: blazor/components/templated-components
+            - name: CSS 隔离
+              uid: blazor/components/css-isolation
             - name: 集成组件
               uid: blazor/components/integrate-components-into-razor-pages-and-mvc-apps
             - name: 组件库
@@ -423,6 +431,8 @@
                   uid: blazor/security/webassembly/additional-scenarios
                 - name: AAD 组和角色
                   uid: blazor/security/webassembly/aad-groups-roles
+                - name: 图形 API
+                  uid: blazor/security/webassembly/graph-api
             - name: Blazor 服务器
               items:
                 - name: 概述
@@ -441,7 +451,7 @@
           uid: blazor/webassembly-lazy-load-assemblies
         - name: WebAssembly 性能
           uid: blazor/webassembly-performance-best-practices
-        - name: 测试
+        - name: 测试组件
           uid: blazor/test
         - name: 渐进式 Web 应用程序
           uid: blazor/progressive-web-app
@@ -699,6 +709,9 @@
     - name: 日志记录和诊断
       displayName: signalr
       uid: signalr/diagnostics
+    - name: 疑难解答
+      displayName: signalr
+      uid: signalr/troubleshoot
     - name: 规范
       displayName: 'signalr, specs'
       items:
@@ -915,21 +928,42 @@
         - name: ASP.NET Core 模块
           displayName: 'deploy, publish'
           uid: host-and-deploy/aspnet-core-module
+        - name: 进程内托管
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/in-process-hosting
+        - name: 进程外托管
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/out-of-process-hosting
+        - name: 托管捆绑包
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/hosting-bundle
+        - name: web.config 文件
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/web-config
         - name: Visual Studio 中的 IIS 支持
           displayName: 'deploy, publish'
           uid: host-and-deploy/iis/development-time-iis-support
         - name: IIS 模块
           displayName: 'deploy, publish'
           uid: host-and-deploy/iis/modules
+        - name: 日志记录和诊断
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/logging-and-diagnostics
         - name: 疑难解答
           displayName: 'deploy, publish'
           uid: test/troubleshoot-azure-iis
         - name: 错误参考
           displayName: 'deploy, publish'
           uid: host-and-deploy/azure-iis-errors-reference
+        - name: 高级
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/advanced
         - name: 转换 web.config
           displayName: 'deploy, publish'
           uid: host-and-deploy/iis/transform-webconfig
+        - name: HTTP/2
+          displayName: 'deploy, publish'
+          uid: host-and-deploy/iis/protocols
     - name: Kestrel
       uid: fundamentals/servers/kestrel
       displayName: 'deploy, publish, server'
@@ -1094,6 +1128,8 @@
           uid: security/authorization/policies
         - name: 授权策略提供程序
           uid: security/authorization/iauthorizationpolicyprovider
+        - name: 自定义 AuthorizationMiddleware 的行为
+          uid: security/authorization/authorizationmiddlewareresulthandler
         - name: 要求处理程序中的依赖关系注入
           uid: security/authorization/dependencyinjection
         - name: 基于资源的授权

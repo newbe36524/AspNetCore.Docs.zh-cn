@@ -5,6 +5,7 @@ description: 了解如何为 ASP.NET Core 中的 Web API 创建和使用自定�
 ms.author: riande
 ms.date: 06/25/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: web-api/advanced/custom-formatters
-ms.openlocfilehash: 9f87d02dd3abe6dca8db495e482ccf9c440a2469
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e4d73fdc0db3faeace5d68b3d71718315e68cae3
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88627541"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93058917"
 ---
 # <a name="custom-formatters-in-aspnet-core-web-api"></a>ASP.NET Core Web API 中的自定义格式化程序
 
@@ -132,7 +133,7 @@ ASP.NET Core MVC 使用输入和输出格式化程序支持 Web API 中的数据
 
 [!code-csharp[](custom-formatters/samples/3.x/CustomFormattersSample/Formatters/VcardInputFormatter.cs?name=snippet_Class)]
 
-## <a name="test-the-app"></a>测试应用程序
+## <a name="test-the-app"></a>测试应用
 
 [运行本文的示例应用程序](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/web-api/advanced/custom-formatters/samples)，它实现基本 vCard 输入和输出格式化程序。 此应用程序读取和写入电子名片，如下所示：
 

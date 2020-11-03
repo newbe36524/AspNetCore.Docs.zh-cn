@@ -7,6 +7,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 01/17/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/scale
-ms.openlocfilehash: 2bfe05748e6740043be7f1ccc6dbe22ad4b0ca44
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: d3e9cd23a55702bcf9b002dcce556428683afeca
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722561"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052768"
 ---
 # <a name="aspnet-core-no-locsignalr-hosting-and-scaling"></a>ASP.NET Core SignalR 托管和缩放
 
@@ -45,13 +46,13 @@ SignalR 要求针对特定连接的所有 HTTP 请求都由同一服务器进程
 
 ## <a name="tcp-connection-resources"></a>TCP 连接资源
 
-Web 服务器可以支持的并发 TCP 连接数受到限制。 标准 HTTP 客户端使用 *临时* 连接。 当客户端进入空闲状态并在稍后重新打开时，可以关闭这些连接。 另一方面， SignalR 连接是 *永久性*的。 SignalR 即使客户端进入空闲状态，连接仍保持打开状态。 在服务于多个客户端的高流量应用程序中，这些持久连接可能会导致服务器达到其最大连接数。
+Web 服务器可以支持的并发 TCP 连接数受到限制。 标准 HTTP 客户端使用 *临时* 连接。 当客户端进入空闲状态并在稍后重新打开时，可以关闭这些连接。 另一方面， SignalR 连接是 *永久性* 的。 SignalR 即使客户端进入空闲状态，连接仍保持打开状态。 在服务于多个客户端的高流量应用程序中，这些持久连接可能会导致服务器达到其最大连接数。
 
 持久性连接还会占用一些额外的内存，用于跟踪每个连接。
 
 与连接相关的资源的大量使用 SignalR 会影响托管在同一服务器上的其他 web 应用程序。 当 SignalR 打开并保存最近可用的 TCP 连接时，同一服务器上的其他 web 应用也不会有更多的可用连接。
 
-如果服务器的连接用尽，你会看到随机套接字错误和连接重置错误。 例如：
+如果服务器的连接用尽，你会看到随机套接字错误和连接重置错误。 例如： 。
 
 ```
 An attempt was made to access a socket in a way forbidden by its access permissions...
@@ -111,7 +112,7 @@ Azure SignalR 服务是一种代理，而不是底板。 每次客户端启动�
 Windows 10 和 Windows 8.x 是客户端操作系统。 客户端操作系统上的 IIS 的并发连接数限制为10个。 SignalR的连接是：
 
 * 暂时性并经常重新建立。
-* 不再使用时**不会**立即释放。
+* 不再使用时 **不会** 立即释放。
 
 上述情况可能导致在客户端操作系统上达到10个连接限制。 当客户端操作系统用于开发时，建议：
 
@@ -120,14 +121,85 @@ Windows 10 和 Windows 8.x 是客户端操作系统。 客户端操作系统上�
 
 ## <a name="linux-with-nginx"></a>Linux 与 Nginx
 
-对于 websocket，请将代理 `Connection` 和 `Upgrade` 标头设置为以下 SignalR 内容：
+以下内容包含为启用 Websocket、ServerSentEvents 和 LongPolling 所需的最低设置 SignalR ：
 
 ```nginx
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection $connection_upgrade;
+http {
+  map $http_connection $connection_upgrade {
+    "~*Upgrade" $http_connection;
+    default keep-alive;
+}
+
+  server {
+    listen 80;
+    server_name example.com *.example.com;
+
+    # Configure the SignalR Endpoint
+    location /hubroute {
+      # App server url
+      proxy_pass http://localhost:5000;
+
+      # Configuration for WebSockets
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_cache off;
+
+      # Configuration for ServerSentEvents
+      proxy_buffering off;
+
+      # Configuration for LongPolling or if your KeepAliveInterval is longer than 60 seconds
+      proxy_read_timeout 100s;
+
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+  }
+}
 ```
 
-有关详细信息，请参阅 [NGINX 作为 WebSocket 代理](https://www.nginx.com/blog/websocket-nginx/)。
+当使用多个后端服务器时，必须添加粘滞会话，以防 SignalR 连接时无法切换服务器。 有多种方法可在 Nginx 中添加粘滞会话。 下面显示了两种方法，具体取决于你提供的功能。
+
+除了前面的配置外，还添加了以下。 在以下示例中， `backend` 是服务器组的名称。
+
+使用 [Nginx 开放源代码](https://nginx.org/en/)，使用将 `ip_hash` 连接路由到基于客户端 IP 地址的服务器：
+
+```nginx
+http {
+  upstream backend {
+    # App server 1
+    server http://localhost:5000;
+    # App server 2
+    server http://localhost:5002;
+
+    ip_hash;
+  }
+}
+```
+
+使用 [Nginx Plus](https://www.nginx.com/products/nginx)，使用 `sticky` 将添加 cookie 到请求，并将用户的请求固定到服务器：
+
+```nginx
+http {
+  upstream backend {
+    # App server 1
+    server http://localhost:5000;
+    # App server 2
+    server http://localhost:5002;
+
+    sticky cookie srv_id expires=max domain=.example.com path=/ httponly;
+  }
+}
+```
+
+最后，将 `proxy_pass http://localhost:5000` 节中的更改 `server` 为 `proxy_pass http://backend` 。
+
+有关 Nginx 上的 Websocket 的详细信息，请参阅 [Nginx 作为 WebSocket 代理](https://www.nginx.com/blog/websocket-nginx)。
+
+有关负载平衡和粘滞会话的详细信息，请参阅 [NGINX 负载均衡](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/)。
+
+有关 Nginx ASP.NET Core 的详细信息，请参阅以下文章：
+* <xref:host-and-deploy/linux-nginx>
 
 ## <a name="third-party-no-locsignalr-backplane-providers"></a>第三方 SignalR 底板提供程序
 

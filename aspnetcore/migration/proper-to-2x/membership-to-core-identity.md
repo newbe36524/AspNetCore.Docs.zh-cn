@@ -6,6 +6,7 @@ ms.author: scaddie
 ms.custom: mvc
 ms.date: 01/10/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: migration/proper-to-2x/membership-to-core-identity
-ms.openlocfilehash: a9ec02381b156a6599042d8e504a476036246302
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: d981c424fd2d6cad95b9164420f093672325c347
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865561"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051351"
 ---
 # <a name="migrate-from-aspnet-membership-authentication-to-aspnet-core-20-no-locidentity"></a>从 ASP.NET 成员身份验证迁移到 ASP.NET Core 2。0 Identity
 
@@ -48,15 +49,15 @@ ASP.NET Core 2.0 遵循 [Identity](/aspnet/identity/index) ASP.NET 4.5 中引入
 查看 ASP.NET Core 2.0 的架构的最快方法 Identity 是创建新的 ASP.NET Core 2.0 应用。 在 Visual Studio 2017 中执行以下步骤：
 
 1. 选择“文件” > “新建” > “项目”  。
-1. 创建名为*Core Identity Sample*的新**ASP.NET Core Web 应用程序**项目。
-1. 在下拉列表中选择 **ASP.NET Core 2.0** ，然后选择 " **Web 应用程序**"。 此模板生成[ Razor 页面](xref:razor-pages/index)应用。 单击 **"确定"** 之前，请单击 " **更改身份验证**"。
-1. 为模板选择 **单个用户帐户** Identity 。 最后，单击 **"确定**"，然后单击 **"确定"**。 Visual Studio 将使用模板创建一个项目 ASP.NET Core Identity 。
-1. 选择 "**工具**" "  >  **NuGet 包管理器**" "  >  **包管理器控制台**" 打开**包管理器控制台** (PMC) "窗口。
+1. 创建名为 *Core Identity Sample* 的新 **ASP.NET Core Web 应用程序** 项目。
+1. 在下拉列表中选择 **ASP.NET Core 2.0** ，然后选择 " **Web 应用程序** "。 此模板生成[ Razor 页面](xref:razor-pages/index)应用。 单击 **"确定"** 之前，请单击 " **更改身份验证** "。
+1. 为模板选择 **单个用户帐户** Identity 。 最后，单击 **"确定** "，然后单击 **"确定"** 。 Visual Studio 将使用模板创建一个项目 ASP.NET Core Identity 。
+1. 选择 " **工具** " "  >  **NuGet 包管理器** " "  >  **包管理器控制台** " 打开 **包管理器控制台** (PMC) "窗口。
 1. 导航到 PMC 中的项目根，并运行 [实体框架 (EF) Core](/ef/core) `Update-Database` 命令。
 
     ASP.NET Core 2.0 Identity 使用 EF Core 与存储身份验证数据的数据库进行交互。 为了使新创建的应用程序正常工作，需要有数据库来存储此数据。 创建新应用后，在数据库环境中检查架构的最快方法是使用 [EF Core 迁移](/ef/core/managing-schemas/migrations/)来创建数据库。 此过程将创建一个在本地或其他位置模拟该架构的数据库。 有关详细信息，请查看前面的文档。
 
-    EF Core 命令使用 *appsettings.js上*指定的数据库的连接字符串。 以下连接字符串针对名为 *.asp 的* *localhost*上的数据库。 在此设置中，EF Core 配置为使用 `DefaultConnection` 连接字符串。
+    EF Core 命令使用中指定的数据库的连接字符串 *appsettings.json* 。 以下连接字符串针对名为 *.asp 的* *localhost* 上的数据库。 在此设置中，EF Core 配置为使用 `DefaultConnection` 连接字符串。
 
     ```json
     {
@@ -66,7 +67,7 @@ ASP.NET Core 2.0 遵循 [Identity](/aspnet/identity/index) ASP.NET 4.5 中引入
     }
     ```
 
-1. 选择 "**查看**  >  **SQL Server 对象资源管理器**"。 展开与 `ConnectionStrings:DefaultConnection` *appsettings.js上*的的属性中指定的数据库名称相对应的节点。
+1. 选择 " **查看**  >  **SQL Server 对象资源管理器** "。 展开与的属性中指定的数据库名称相对应的节点 `ConnectionStrings:DefaultConnection` *appsettings.json* 。
 
     该 `Update-Database` 命令创建了用架构指定的数据库以及应用初始化所需的任何数据。 下图描绘了在前面的步骤中创建的表结构。
 
@@ -74,7 +75,7 @@ ASP.NET Core 2.0 遵循 [Identity](/aspnet/identity/index) ASP.NET 4.5 中引入
 
 ## <a name="migrate-the-schema"></a>迁移架构
 
-对于成员身份和的表结构和字段存在细微的差异 ASP.NET Core Identity 。 此模式已因 ASP.NET 和 ASP.NET Core 应用的身份验证/授权而发生了重大更改。 仍用于的关键对象 Identity 是 *用户* 和 *角色*。 下面是 *用户*、 *角色*和 *UserRoles*的映射表。
+对于成员身份和的表结构和字段存在细微的差异 ASP.NET Core Identity 。 此模式已因 ASP.NET 和 ASP.NET Core 应用的身份验证/授权而发生了重大更改。 仍用于的关键对象 Identity 是 *用户* 和 *角色* 。 下面是 *用户* 、 *角色* 和 *UserRoles* 的映射表。
 
 ### <a name="users"></a>用户
 
@@ -106,7 +107,7 @@ ASP.NET Core 2.0 遵循 [Identity](/aspnet/identity/index) ASP.NET 4.5 中引入
 |`RoleId`                 |`string`  |`RoleId`      |`string`                   |
 |`UserId`                 |`string`  |`UserId`      |`string`                   |
 
-创建 *用户* 和 *角色*的迁移脚本时引用前面的映射表。 下面的示例假定数据库服务器上有两个数据库。 一个数据库包含现有的 ASP.NET 成员身份架构和数据。 其他 *核心 Identity 示例* 数据库是使用前面所述的步骤创建的。 有关详细信息，请以内联方式包含注释。
+创建 *用户* 和 *角色* 的迁移脚本时引用前面的映射表。 下面的示例假定数据库服务器上有两个数据库。 一个数据库包含现有的 ASP.NET 成员身份架构和数据。 其他 *核心 Identity 示例* 数据库是使用前面所述的步骤创建的。 有关详细信息，请以内联方式包含注释。
 
 ```sql
 -- THIS SCRIPT NEEDS TO RUN FROM THE CONTEXT OF THE MEMBERSHIP DB
@@ -200,7 +201,7 @@ COMMIT TRANSACTION MigrateUsersAndRoles
 > [!NOTE]
 > 如果成员资格系统中的用户的用户名与其电子邮件地址不匹配，则需要对之前创建的应用进行更改，以满足此要求。 默认模板需要 `UserName` 和 `Email` 相同。 对于不同的情况，需要将登录过程修改为使用 `UserName` 而不是 `Email` 。
 
-在登录页的 "Pages\Account\Login.cshtml.cs" 中， `PageModel` 从 " *Pages\Account\Login.cshtml.cs* `[EmailAddress]` *电子邮件*" 属性中删除该属性。 将其重命名为 *UserName*。 这需要 `EmailAddress` 在 *视图* 和 *PageModel*中提到的任何位置进行更改。 结果应类似如下所示：
+在登录页的 "Pages\Account\Login.cshtml.cs" 中， `PageModel` 从 " *Pages\Account\Login.cshtml.cs* `[EmailAddress]` *电子邮件* " 属性中删除该属性。 将其重命名为 *UserName* 。 这需要 `EmailAddress` 在 *视图* 和 *PageModel* 中提到的任何位置进行更改。 结果应类似如下所示：
 
  ![固定登录](identity/_static/fixed-login.png)
 

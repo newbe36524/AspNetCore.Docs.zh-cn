@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/24/2018
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/index
-ms.openlocfilehash: 0378fd06b5cae5b8911e8a2f41937b28d5444538
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 3c86c66bebe8a5ce1c195ebf931193e7e2a73fef
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632858"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051624"
 ---
 # <a name="overview-of-aspnet-core-security"></a>ASP.NET Core 安全性概述
 
@@ -47,4 +48,4 @@ ASP.NET Core 和 EF 提供维护应用安全、预防安全漏洞的功能。 �
 * [跨站点请求伪造 (XSRF/CSRF) 攻击](xref:security/anti-request-forgery)
 * [打开重定向攻击](xref:security/preventing-open-redirects)
 
-还应注意其他漏洞。 有关详细信息，请参阅目录的“安全性和 Identity”部分中的其他文章****。
+还应注意其他漏洞。 有关详细信息，请参阅目录的“安全性和 Identity”部分中的其他文章  。

@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 02/07/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/response-compression
-ms.openlocfilehash: b8947e3c3c4f634fbd838c22ff60799257143480
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 9327c98c22a4d42d31ea8ba1eb8337153040b5b5
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634990"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93056967"
 ---
 # <a name="response-compression-in-aspnet-core"></a>ASP.NET Core 中的响应压缩
 
@@ -69,7 +70,7 @@ ms.locfileid: "88634990"
 
 中间件能够对质量值 (qvalue， `q` 客户端发送时) 权重来确定压缩方案的优先级。 有关详细信息，请参阅 [RFC 7231：接受编码](https://tools.ietf.org/html/rfc7231#section-5.3.4)。
 
-压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的*有效性*是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
+压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的 *有效性* 是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
 
 下表介绍了请求、发送、缓存和接收压缩内容所涉及的标头。
 
@@ -87,11 +88,11 @@ ms.locfileid: "88634990"
 * 使用 Gzip 和自定义压缩提供程序的应用程序响应的压缩。
 * 如何将 MIME 类型添加到 MIME 类型的默认列表以进行压缩。
 
-## <a name="package"></a>包
+## <a name="package"></a>程序包
 
 响应压缩中间件由 [AspNetCore. ResponseCompression](https://www.nuget.org/packages/Microsoft.AspNetCore.ResponseCompression/) 包提供，后者隐式包含在 ASP.NET Core 应用中。
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 下面的代码演示如何为默认 MIME 类型和压缩提供程序 ([Brotli](#brotli-compression-provider) 和 [Gzip](#gzip-compression-provider)) 启用响应压缩中间件：
 
@@ -110,18 +111,18 @@ public class Startup
 }
 ```
 
-注意：
+说明：
 
 * `app.UseResponseCompression` 必须在压缩响应的任何中间件前调用。 有关详细信息，请参阅 <xref:fundamentals/middleware/index#middleware-order>。
 * 使用 [Fiddler](https://www.telerik.com/fiddler)、 [Firebug](https://getfirebug.com/)或 [Postman](https://www.getpostman.com/) 等工具设置 `Accept-Encoding` 请求标头，并检查响应标头、大小和正文。
 
 在没有标头的情况下向示例应用程序提交请求 `Accept-Encoding` ，并观察响应是否未压缩。 `Content-Encoding`响应中 `Vary` 不存在和标头。
 
-![Fiddler 窗口显示请求的结果，无需接受编码标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
+![Fiddler 窗口显示请求的结果，而不包含 Accept-Encoding 标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
 
 将请求提交到带有 `Accept-Encoding: br` 标头 (Brotli 压缩) 的示例应用，并观察响应是否已压缩。 `Content-Encoding`和 `Vary` 标头出现在响应中。
 
-![Fiddler 窗口，其中显示带有接受编码标头和值为 br 的请求的结果。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed-br.png)
+![Fiddler 窗口显示请求的结果，其中 Accept-Encoding 标头和值为 br。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed-br.png)
 
 ## <a name="providers"></a>提供程序
 
@@ -218,7 +219,7 @@ public void ConfigureServices(IServiceCollection services)
 
 将请求提交到带有标头的示例应用 `Accept-Encoding: mycustomcompression` ，并观察响应标头。 `Vary`和 `Content-Encoding` 标头出现在响应中。 该示例未压缩)  (显示的响应正文。 示例的类中没有压缩实现 `CustomCompressionProvider` 。 但是，该示例显示了实现此类压缩算法的位置。
 
-![Fiddler 窗口，其中显示带有接受编码标头和值 mycustomcompression 的请求的结果。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
+![显示 Accept-Encoding 标头和值为 mycustomcompression 的请求结果的 Fiddler 窗口。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
 
 ## <a name="mime-types"></a>MIME 类型
 
@@ -315,7 +316,7 @@ public void ConfigureServices(IServiceCollection services)
 
 中间件能够对质量值 (qvalue， `q` 客户端发送时) 权重来确定压缩方案的优先级。 有关详细信息，请参阅 [RFC 7231：接受编码](https://tools.ietf.org/html/rfc7231#section-5.3.4)。
 
-压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的*有效性*是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
+压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的 *有效性* 是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
 
 下表介绍了请求、发送、缓存和接收压缩内容所涉及的标头。
 
@@ -333,11 +334,11 @@ public void ConfigureServices(IServiceCollection services)
 * 使用 Gzip 和自定义压缩提供程序的应用程序响应的压缩。
 * 如何将 MIME 类型添加到 MIME 类型的默认列表以进行压缩。
 
-## <a name="package"></a>包
+## <a name="package"></a>程序包
 
 若要将中间件包含在项目中，请添加对 [AspNetCore 元包](xref:fundamentals/metapackage-app)的引用，其中包括 [AspNetCore. ResponseCompression](https://www.nuget.org/packages/Microsoft.AspNetCore.ResponseCompression/) 包。
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 下面的代码演示如何为默认 MIME 类型和压缩提供程序 ([Brotli](#brotli-compression-provider) 和 [Gzip](#gzip-compression-provider)) 启用响应压缩中间件：
 
@@ -356,18 +357,18 @@ public class Startup
 }
 ```
 
-注意：
+说明：
 
 * `app.UseResponseCompression` 必须在压缩响应的任何中间件前调用。 有关详细信息，请参阅 <xref:fundamentals/middleware/index#middleware-order>。
 * 使用 [Fiddler](https://www.telerik.com/fiddler)、 [Firebug](https://getfirebug.com/)或 [Postman](https://www.getpostman.com/) 等工具设置 `Accept-Encoding` 请求标头，并检查响应标头、大小和正文。
 
 在没有标头的情况下向示例应用程序提交请求 `Accept-Encoding` ，并观察响应是否未压缩。 `Content-Encoding`响应中 `Vary` 不存在和标头。
 
-![Fiddler 窗口显示请求的结果，无需接受编码标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
+![Fiddler 窗口显示请求的结果，而不包含 Accept-Encoding 标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
 
 将请求提交到带有 `Accept-Encoding: br` 标头 (Brotli 压缩) 的示例应用，并观察响应是否已压缩。 `Content-Encoding`和 `Vary` 标头出现在响应中。
 
-![Fiddler 窗口，其中显示带有接受编码标头和值为 br 的请求的结果。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed-br.png)
+![Fiddler 窗口显示请求的结果，其中 Accept-Encoding 标头和值为 br。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed-br.png)
 
 ## <a name="providers"></a>提供程序
 
@@ -463,7 +464,7 @@ public void ConfigureServices(IServiceCollection services)
 
 将请求提交到带有标头的示例应用 `Accept-Encoding: mycustomcompression` ，并观察响应标头。 `Vary`和 `Content-Encoding` 标头出现在响应中。 该示例未压缩)  (显示的响应正文。 示例的类中没有压缩实现 `CustomCompressionProvider` 。 但是，该示例显示了实现此类压缩算法的位置。
 
-![Fiddler 窗口，其中显示带有接受编码标头和值 mycustomcompression 的请求的结果。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
+![显示 Accept-Encoding 标头和值为 mycustomcompression 的请求结果的 Fiddler 窗口。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
 
 ## <a name="mime-types"></a>MIME 类型
 
@@ -560,7 +561,7 @@ public void ConfigureServices(IServiceCollection services)
 
 中间件能够对质量值 (qvalue， `q` 客户端发送时) 权重来确定压缩方案的优先级。 有关详细信息，请参阅 [RFC 7231：接受编码](https://tools.ietf.org/html/rfc7231#section-5.3.4)。
 
-压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的*有效性*是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
+压缩算法会在压缩速度与压缩效率之间进行权衡。 此上下文的 *有效性* 是指压缩后的输出大小。 最小大小是通过 *最佳* 压缩来实现的。
 
 下表介绍了请求、发送、缓存和接收压缩内容所涉及的标头。
 
@@ -578,11 +579,11 @@ public void ConfigureServices(IServiceCollection services)
 * 使用 Gzip 和自定义压缩提供程序的应用程序响应的压缩。
 * 如何将 MIME 类型添加到 MIME 类型的默认列表以进行压缩。
 
-## <a name="package"></a>包
+## <a name="package"></a>程序包
 
 若要将中间件包含在项目中，请添加对 [AspNetCore 元包](xref:fundamentals/metapackage-app)的引用，其中包括 [AspNetCore. ResponseCompression](https://www.nuget.org/packages/Microsoft.AspNetCore.ResponseCompression/) 包。
 
-## <a name="configuration"></a>配置
+## <a name="configuration"></a>Configuration
 
 下面的代码演示如何为默认 MIME 类型和 [Gzip 压缩提供程序](#gzip-compression-provider)启用响应压缩中间件：
 
@@ -601,18 +602,18 @@ public class Startup
 }
 ```
 
-注意：
+说明：
 
 * `app.UseResponseCompression` 必须在压缩响应的任何中间件前调用。 有关详细信息，请参阅 <xref:fundamentals/middleware/index#middleware-order>。
 * 使用 [Fiddler](https://www.telerik.com/fiddler)、 [Firebug](https://getfirebug.com/)或 [Postman](https://www.getpostman.com/) 等工具设置 `Accept-Encoding` 请求标头，并检查响应标头、大小和正文。
 
 在没有标头的情况下向示例应用程序提交请求 `Accept-Encoding` ，并观察响应是否未压缩。 `Content-Encoding`响应中 `Vary` 不存在和标头。
 
-![Fiddler 窗口显示请求的结果，无需接受编码标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
+![Fiddler 窗口显示请求的结果，而不包含 Accept-Encoding 标头。 响应未压缩。](response-compression/_static/request-uncompressed.png)
 
 将请求提交到带有标头的示例应用 `Accept-Encoding: gzip` ，并观察是否已压缩响应。 `Content-Encoding`和 `Vary` 标头出现在响应中。
 
-![显示带有接受编码标头和值 gzip 的请求结果的 Fiddler 窗口。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed.png)
+![Fiddler 窗口显示请求的结果，其中 Accept-Encoding 标头和值为 gzip。 将 Vary 和内容编码标头添加到响应中。 响应已压缩。](response-compression/_static/request-compressed.png)
 
 ## <a name="providers"></a>提供程序
 
@@ -668,7 +669,7 @@ public void ConfigureServices(IServiceCollection services)
 
 将请求提交到带有标头的示例应用 `Accept-Encoding: mycustomcompression` ，并观察响应标头。 `Vary`和 `Content-Encoding` 标头出现在响应中。 该示例未压缩)  (显示的响应正文。 示例的类中没有压缩实现 `CustomCompressionProvider` 。 但是，该示例显示了实现此类压缩算法的位置。
 
-![Fiddler 窗口，其中显示带有接受编码标头和值 mycustomcompression 的请求的结果。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
+![显示 Accept-Encoding 标头和值为 mycustomcompression 的请求结果的 Fiddler 窗口。 将 Vary 和内容编码标头添加到响应中。](response-compression/_static/request-custom-compression.png)
 
 ## <a name="mime-types"></a>MIME 类型
 

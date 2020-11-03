@@ -5,7 +5,7 @@ description: 了解如何使用 Azure Active Directory 保护 ASP.NET Core Blazo
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: devx-track-csharp, mvc
-ms.date: 07/08/2020
+ms.date: 10/08/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/hosted-with-azure-active-directory
-ms.openlocfilehash: 12a2509998bb9b4d56e250518b2db91f73dd0e67
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: e6f514793a2efde120f70ac58f4ad4be7516ada7
+ms.sourcegitcommit: daa9ccf580df531254da9dce8593441ac963c674
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712410"
+ms.lasthandoff: 10/09/2020
+ms.locfileid: "91900829"
 ---
 # <a name="secure-an-aspnet-core-no-locblazor-webassembly-hosted-app-with-azure-active-directory"></a>使用 Azure Active Directory 保护 ASP.NET Core Blazor WebAssembly 托管应用
 
@@ -45,7 +45,7 @@ ms.locfileid: "88712410"
 1. 提供应用的名称（例如 Blazor Server AAD） 。
 1. 选择支持的帐户类型。 为此体验选择“仅此组织目录中的帐户”（单个租户）。
 1. 在这种情况下，“服务器 API 应用”不需要“重定向 URI”，因此请将下拉列表设置为 Web，并且不输入重定向 URI 。
-1. 禁用“权限” > “授予对 openid 和 offline_access 权限的管理员同意”复选框 。
+1. 清除“权限” > “授予对 openid 和 offline_access 权限的管理员同意”复选框。
 1. 选择“注册”。
 
 记录以下信息：
@@ -68,30 +68,52 @@ ms.locfileid: "88712410"
 
 记录以下信息：
 
-* 应用 ID URI（例如 `https://contoso.onmicrosoft.com/41451fa7-82d9-4673-8fa5-69eff5a761fd`、`api://41451fa7-82d9-4673-8fa5-69eff5a761fd` 或你提供的自定义值）
+* 应用 ID URI（例如 `api://41451fa7-82d9-4673-8fa5-69eff5a761fd`、`https://contoso.onmicrosoft.com/41451fa7-82d9-4673-8fa5-69eff5a761fd` 或你提供的自定义值）
 * 范围名称（如 `API.Access`）
-
-应用 ID URI 可能需要在客户端应用中进行专门的配置，如本主题的后续部分[访问令牌作用域](#access-token-scopes)中所述。
 
 ### <a name="register-a-client-app"></a>注册客户端应用
 
-请按照[快速入门：向 Microsoft 标识平台注册应用程序](/azure/active-directory/develop/quickstart-register-app)中的指南和后续 Azure AAD 主题操作，以便为服务器客户端应用注册 AAD 应用，然后执行以下操作：
+请按照[快速入门：向 Microsoft 标识平台注册应用程序](/azure/active-directory/develop/quickstart-register-app)中的指南和后续 Azure AAD 主题操作，以便为 `Client` 应用注册 AAD 应用，然后执行以下操作：
 
-1. 在“Azure Active Directory” > “应用注册”中，选择“新建注册”  。
+::: moniker range=">= aspnetcore-5.0"
+
+1. 在“Azure Active Directory”>“应用注册”中，选择“新建注册”。
 1. 提供应用的名称（例如 Blazor 客户端 AAD） 。
 1. 选择支持的帐户类型。 为此体验选择“仅此组织目录中的帐户”（单个租户）。
-1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的服务器应用属性中找到该应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
-1. 禁用“权限” > “授予对 openid 和 offline_access 权限的管理员同意”复选框 。
+1. 将“重定向 URI”下拉列表设置为“单页应用程序(SPA)”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback`。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的 `Server` 应用属性中找到应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 取消选中“权限”>“授予对 openid 和 offline_access 权限的管理员同意”复选框。
 1. 选择“注册”。
 
-记录“客户端应用”应用程序（客户端）ID（例如 `4369008b-21fa-427c-abaa-9b53bf58e538`）。
+记录 `Client` 应用程序（客户端）ID（例如 `4369008b-21fa-427c-abaa-9b53bf58e538`）。
 
-在“身份验证” > “平台配置” > “Web”  中，执行以下操作：
+在“身份验证”>“平台配置”>“单页应用程序(SPA)”中：
+
+1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
+1. 对于“隐式授权”，请确保没有选中“访问令牌”和“ID 令牌”的复选框。
+1. 此体验可接受应用的其余默认值。
+1. 选择“保存”按钮。
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+1. 在“Azure Active Directory”>“应用注册”中，选择“新建注册”。
+1. 提供应用的名称（例如 Blazor 客户端 AAD） 。
+1. 选择支持的帐户类型。 为此体验选择“仅此组织目录中的帐户”（单个租户）。
+1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的 `Server` 应用属性中找到应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 取消选中“权限”>“授予对 openid 和 offline_access 权限的管理员同意”复选框。
+1. 选择“注册”。
+
+记录 `Client` 应用程序（客户端）ID（例如 `4369008b-21fa-427c-abaa-9b53bf58e538`）。
+
+在“身份验证”>“平台配置”>“Web”中：
 
 1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
 1. 对于“隐式授权”，选中“访问令牌”和“ID 令牌”的复选框  。
 1. 此体验可接受应用的其余默认值。
 1. 选择“保存”按钮。
+
+::: moniker-end
 
 在“API 权限”中：
 
@@ -111,33 +133,62 @@ ms.locfileid: "88712410"
 dotnet new blazorwasm -au SingleOrg --api-client-id "{SERVER API APP CLIENT ID}" --app-id-uri "{SERVER API APP ID URI}" --client-id "{CLIENT APP CLIENT ID}" --default-scope "{DEFAULT SCOPE}" --domain "{TENANT DOMAIN}" -ho -o {APP NAME} --tenant-id "{TENANT ID}"
 ```
 
-| 占位符                  | Azure 门户中的名称                                     | 示例                                |
-| ---------------------------- | ----------------------------------------------------- | -------------------------------------- |
-| `{APP NAME}`                 | &mdash;                                               | `BlazorSample`                         |
-| `{CLIENT APP CLIENT ID}`     | “客户端应用”的应用程序（客户端）ID          | `4369008b-21fa-427c-abaa-9b53bf58e538` |
-| `{DEFAULT SCOPE}`            | 作用域名                                            | `API.Access`                           |
-| `{SERVER API APP CLIENT ID}` | “服务器 API 应用”的应用程序（客户端）ID      | `41451fa7-82d9-4673-8fa5-69eff5a761fd` |
-| `{SERVER API APP ID URI}`    | 应用程序 ID URI（[请参阅说明](#access-token-scopes)） | `41451fa7-82d9-4673-8fa5-69eff5a761fd` |
-| `{TENANT DOMAIN}`            | 主域/发布者域/租户域                       | `contoso.onmicrosoft.com`              |
-| `{TENANT ID}`                | 目录（租户）ID                                 | `e86c78e2-8bb4-4c41-aefd-918e0565a45e` |
+| 占位符                  | Azure 门户中的名称                                     | 示例                                      |
+| ---------------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| `{APP NAME}`                 | &mdash;                                               | `BlazorSample`                               |
+| `{CLIENT APP CLIENT ID}`     | `Client` 应用的应用程序（客户端）ID        | `4369008b-21fa-427c-abaa-9b53bf58e538`       |
+| `{DEFAULT SCOPE}`            | 作用域名                                            | `API.Access`                                 |
+| `{SERVER API APP CLIENT ID}` | “服务器 API 应用”的应用程序（客户端）ID      | `41451fa7-82d9-4673-8fa5-69eff5a761fd`       |
+| `{SERVER API APP ID URI}`    | 应用程序 ID URI                                    | `api://41451fa7-82d9-4673-8fa5-69eff5a761fd` |
+| `{TENANT DOMAIN}`            | 主域/发布者域/租户域                       | `contoso.onmicrosoft.com`                    |
+| `{TENANT ID}`                | 目录（租户）ID                                 | `e86c78e2-8bb4-4c41-aefd-918e0565a45e`       |
 
 使用 `-o|--output` 选项指定的输出位置将创建一个项目文件夹（如果该文件夹不存在）并成为应用程序名称的一部分。
 
-> [!NOTE]
-> 将应用 ID URI 传递给 `app-id-uri` 选项，但请注意，客户端应用中可能需要更改配置，如[访问令牌作用域](#access-token-scopes)部分中所述。
+::: moniker range=">= aspnetcore-5.0"
 
 > [!NOTE]
-> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置了客户端应用的“身份验证” > “平台配置” > “Web” > “重定向 URI”   。
->
-> 如果“客户端应用”是在随机 IIS Express 端口上运行的，则可以在“调试”面板的“服务器 API 应用”属性中找到该应用的端口 。
->
-> 如果端口之前未使用“客户端应用”的已知端口进行配置，请返回到 Azure 门户中“客户端应用”的注册，并使用正确的端口更新重定向 URI 。
+> 将 Azure 租户与未验证的发布者域一起使用时，可能需要进行配置更改，[应用设置](#app-settings)部分对此进行了介绍。
 
-## <a name="server-app-configuration"></a>服务器应用配置
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+> [!NOTE]
+> 将 Azure 租户与未验证的发布者域一起使用时，可能需要进行配置更改，[访问令牌作用域](#access-token-scopes)部分对此进行了介绍。
+
+::: moniker-end
+
+> [!NOTE]
+> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置 `Client` 应用的平台配置“重定向 URI”。
+>
+> 如果 `Client` 应用是在随机 IIS Express 端口上运行的，则可以在“调试”面板的“服务器 API 应用”属性中找到该应用的端口。
+>
+> 如果端口之前未使用 `Client` 应用的已知端口进行配置，请返回到 Azure 门户中 `Client` 应用的注册，并使用正确的端口更新重定向 URI。
+
+## <a name="server-app-configuration"></a>`Server` 应用配置
 
 本部分涉及解决方案的 `Server` 应用**。
 
 ### <a name="authentication-package"></a>身份验证包
+
+::: moniker range=">= aspnetcore-5.0"
+
+以下包提供使用 Microsoft Identity 平台验证和授权对 ASP.NET Core Web API 的调用的支持：
+
+* [`Microsoft.Identity.Web`](https://www.nuget.org/packages/Microsoft.Identity.Web)
+* [`Microsoft.Identity.Web.UI`](https://www.nuget.org/packages/Microsoft.Identity.Web.UI)
+
+```xml
+<PackageReference Include="Microsoft.Identity.Web" Version="{VERSION}" />
+<PackageReference Include="Microsoft.Identity.Web.UI" Version="{VERSION}" />
+```
+
+对于占位符 `{VERSION}`，可在包的版本历史记录（位于 NuGet.org）中找到与应用的共享框架版本匹配的最新稳定版本的包。
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
 
 [`Microsoft.AspNetCore.Authentication.AzureAD.UI`](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.AzureAD.UI) 包提供验证和授权对 ASP.NET Core Web API 的调用的支持：
 
@@ -148,7 +199,22 @@ dotnet new blazorwasm -au SingleOrg --api-client-id "{SERVER API APP CLIENT ID}"
 
 对于占位符 `{VERSION}`，可在包的版本历史记录（位于 [NuGet.org](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.AzureAD.UI)）中找到与应用的共享框架版本匹配的最新稳定版本的包。
 
+::: moniker-end
+
 ### <a name="authentication-service-support"></a>身份验证服务支持
+
+::: moniker range=">= aspnetcore-5.0"
+
+`AddAuthentication` 方法在应用中设置身份验证服务，并将 JWT 持有者处理程序配置为默认身份验证方法。 <xref:Microsoft.Identity.Web.MicrosoftIdentityWebApiAuthenticationBuilderExtensions.AddMicrosoftIdentityWebApi%2A> 方法将服务配置为使用 Microsoft Identity 平台 v2.0 保护 Web API。 此方法需要应用配置中的 `AzureAd` 部分通过必要的设置来初始化身份验证选项。
+
+```csharp
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+```
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
 
 `AddAuthentication` 方法在应用中设置身份验证服务，并将 JWT 持有者处理程序配置为默认身份验证方法。 <xref:Microsoft.AspNetCore.Authentication.AzureADAuthenticationBuilderExtensions.AddAzureADBearer%2A> 方法在 JWT 持有者处理程序中设置验证 Azure Active Directory 发出的令牌所需的特定参数：
 
@@ -156,6 +222,8 @@ dotnet new blazorwasm -au SingleOrg --api-client-id "{SERVER API APP CLIENT ID}"
 services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
     .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
 ```
+
+::: moniker-end
 
 <xref:Microsoft.AspNetCore.Builder.AuthAppBuilderExtensions.UseAuthentication%2A> 和 <xref:Microsoft.AspNetCore.Builder.AuthorizationAppBuilderExtensions.UseAuthorization%2A> 确保：
 
@@ -169,7 +237,7 @@ app.UseAuthorization();
 
 ### <a name="userno-locidentityname"></a>User.Identity.Name
 
-默认情况下，服务器应用 API 使用 `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` 声明类型（例如 `2d64b3da-d9d5-42c6-9352-53d8df33d770@contoso.onmicrosoft.com`）中的值填充 `User.Identity.Name`。
+默认情况下，`Server` 应用 API 使用 `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` 声明类型（例如 `2d64b3da-d9d5-42c6-9352-53d8df33d770@contoso.onmicrosoft.com`）中的值填充 `User.Identity.Name`。
 
 要将应用配置为从 `name` 声明类型接收值，请在 `Startup.ConfigureServices` 中配置 <xref:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions> 的 <xref:Microsoft.IdentityModel.Tokens.TokenValidationParameters.NameClaimType?displayProperty=nameWithType>：
 
@@ -186,6 +254,42 @@ services.Configure<JwtBearerOptions>(
 ```
 
 ### <a name="app-settings"></a>应用设置
+
+::: moniker range=">= aspnetcore-5.0"
+
+`appsettings.json` 文件包含用于配置 JWT 持有者处理程序（用于验证访问令牌）的选项：
+
+```json
+{
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "{DOMAIN}",
+    "TenantId": "{TENANT ID}",
+    "ClientId": "{SERVER API APP CLIENT ID}",
+    "CallbackPath": "/signin-oidc"
+  }
+}
+```
+
+示例：
+
+```json
+{
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "contoso.onmicrosoft.com",
+    "TenantId": "e86c78e2-8bb4-4c41-aefd-918e0565a45e",
+    "ClientId": "41451fa7-82d9-4673-8fa5-69eff5a761fd",
+    "CallbackPath": "/signin-oidc"
+  }
+}
+```
+
+[!INCLUDE[](~/includes/blazor-security/azure-scope-5x.md)]
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
 
 `appsettings.json` 文件包含用于配置 JWT 持有者处理程序（用于验证访问令牌）的选项：
 
@@ -213,6 +317,8 @@ services.Configure<JwtBearerOptions>(
 }
 ```
 
+::: moniker-end
+
 ### <a name="weatherforecast-controller"></a>WeatherForecast 控制器
 
 WeatherForecast 控制器 (Controllers/WeatherForecastController.cs) 公开了一个受保护的 API，并将 [`[Authorize]`](xref:Microsoft.AspNetCore.Authorization.AuthorizeAttribute) 属性应用于控制器。 务必了解以下内容：
@@ -234,7 +340,7 @@ public class WeatherForecastController : ControllerBase
 }
 ```
 
-## <a name="client-app-configuration"></a>客户端应用配置
+## <a name="client-app-configuration"></a>`Client` 应用配置
 
 本部分涉及解决方案的 `Client` 应用**。
 
@@ -325,7 +431,17 @@ builder.Services.AddMsalAuthentication(options =>
 });
 ```
 
-[!INCLUDE[](~/includes/blazor-security/azure-scope.md)]
+使用 `AdditionalScopesToConsent` 指定其他作用域：
+
+```csharp
+options.ProviderOptions.AdditionalScopesToConsent.Add("{ADDITIONAL SCOPE URI}");
+```
+
+::: moniker range="< aspnetcore-5.0"
+
+[!INCLUDE[](~/includes/blazor-security/azure-scope-3x.md)]
+
+::: moniker-end
 
 有关详细信息，请参阅“其他方案”一文的以下部分：
 

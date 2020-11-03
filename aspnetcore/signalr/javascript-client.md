@@ -4,9 +4,10 @@ author: bradygaster
 description: ASP.NET Core SignalR JavaScript 客户端概述。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
-ms.custom: mvc
+ms.custom: mvc, devx-track-js
 ms.date: 04/08/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/javascript-client
-ms.openlocfilehash: 359aa2b9e6b7f826d75f10645b7f2b565ab48b7a
-ms.sourcegitcommit: 62cc131969b2379f7a45c286a751e22d961dfbdb
+ms.openlocfilehash: b4b1bc6131a6676710adbf2503efe3f304d89a58
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/22/2020
-ms.locfileid: "90847684"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93050844"
 ---
 # <a name="aspnet-core-no-locsignalr-javascript-client"></a>ASP.NET Core SignalR JavaScript 客户端
 
@@ -41,16 +42,16 @@ SignalRJavaScript 客户端库以[npm](https://www.npmjs.com/)包的形式提供
 
 ### <a name="install-with-npm"></a>通过 npm 安装
 
-对于 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端**运行以下命令。
+对于 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端** 运行以下命令。
 
 ```bash
 npm init -y
 npm install @microsoft/signalr
 ```
 
-npm 将包内容安装到*node_modules \\ @microsoft\signalr\dist\browser *文件夹中。 在*wwwroot \\ lib*文件夹下创建名为*signalr*的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
+npm 将包内容安装到 *node_modules \\ @microsoft\signalr\dist\browser* 文件夹中。 在 *wwwroot \\ lib* 文件夹下创建名为 *signalr* 的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
 
-SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
+SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如： 。
 
 ```html
 <script src="~/lib/signalr/signalr.js"></script>
@@ -58,7 +59,7 @@ SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 
 ### <a name="use-a-content-delivery-network-cdn"></a>使用内容交付网络 (CDN) 
 
-若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如：
+若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如： 。
 
 [!code-html[](javascript-client/samples/3.x/SignalRChat/Pages/Index.cshtml?name=snippet_CDN)]
 
@@ -81,6 +82,9 @@ SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 ### <a name="cross-origin-connections"></a>跨域连接
 
 通常，浏览器从与请求的页相同的域中加载连接。 但是，在某些情况下，需要与另一个域建立连接。
+
+> [!IMPORTANT]
+> 客户端代码必须使用绝对 URL，而不是相对 URL。 将 `.withUrl("/chathub")` 更改为 `.withUrl("https://myappurl/chathub")`。
 
 为了防止恶意站点读取其他站点中的敏感数据，默认情况下会禁用 [跨域连接](xref:security/cors) 。 若要允许跨源请求，请在类中启用该请求 `Startup` ：
 
@@ -288,6 +292,7 @@ const connection = new signalR.HubConnectionBuilder()
 * [发布到 Azure](xref:signalr/publish-to-azure-web-app)
 * [ (CORS 的跨源请求) ](xref:security/cors)
 * [Azure SignalR Service 无服务器文档](/azure/azure-signalr/signalr-concept-serverless-development-config)
+* [排查连接错误](xref:signalr/troubleshoot)
 
 ::: moniker-end
 
@@ -305,16 +310,16 @@ SignalRJavaScript 客户端库以[npm](https://www.npmjs.com/)包的形式提供
 
 ### <a name="install-with-npm"></a>通过 npm 安装
 
-如果使用的是 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端**运行以下命令。
+如果使用的是 Visual Studio，请在根文件夹中的 " **包管理器控制台** " 中运行以下命令。 对于 Visual Studio Code，请从 **集成终端** 运行以下命令。
 
 ```bash
 npm init -y
 npm install @aspnet/signalr
 ```
 
-npm 将包内容安装到*node_modules \\ @aspnet\signalr\dist\browser *文件夹中。 在*wwwroot \\ lib*文件夹下创建名为*signalr*的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
+npm 将包内容安装到 *node_modules \\ @aspnet\signalr\dist\browser* 文件夹中。 在 *wwwroot \\ lib* 文件夹下创建名为 *signalr* 的新文件夹。 将 *signalr.js* 文件复制到 *wwwroot\lib\signalr* 文件夹。
 
-SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
+SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如： 。
 
 ```html
 <script src="~/lib/signalr/signalr.js"></script>
@@ -322,7 +327,7 @@ SignalR在元素中引用 JavaScript 客户端 `<script>` 。 例如：
 
 ### <a name="use-a-content-delivery-network-cdn"></a>使用内容交付网络 (CDN) 
 
-若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如：
+若要在不使用 npm 先决条件的情况下使用客户端库，请引用 CDN 托管的客户端库副本。 例如： 。
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>

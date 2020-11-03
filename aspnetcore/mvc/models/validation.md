@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 12/15/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/models/validation
-ms.openlocfilehash: e911512c1dce892c670659f04959be89cea067bb
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 77d49710b9d69f6fbbe92970f1c455de32489444
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630102"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93056954"
 ---
 # <a name="model-validation-in-aspnet-core-mvc-and-no-locrazor-pages"></a>ASP.NET Core MVC 和页面中的模型验证 Razor
 
@@ -73,15 +74,15 @@ ms.locfileid: "88630102"
 
 在 [System.ComponentModel.DataAnnotations](xref:System.ComponentModel.DataAnnotations) 命名空间中可找到验证特性的完整列表。
 
-### <a name="error-messages"></a>Error messages
+### <a name="error-messages"></a>错误消息
 
-通过验证特性可以指定要为无效输入显示的错误消息。 例如：
+通过验证特性可以指定要为无效输入显示的错误消息。 例如： 。
 
 ```csharp
 [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
 ```
 
-在内部，特性使用用于字段名的某个占位符调用 `String.Format`，有时还使用额外占位符。 例如：
+在内部，特性使用用于字段名的某个占位符调用 `String.Format`，有时还使用额外占位符。 例如： 。
 
 ```csharp
 [StringLength(8, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 6)]
@@ -175,9 +176,9 @@ public string MiddleName { get; set; }
 
 对于内置验证特性无法处理的情况，可以创建自定义验证特性。 创建继承自 <xref:System.ComponentModel.DataAnnotations.ValidationAttribute> 的类，并替代 <xref:System.ComponentModel.DataAnnotations.ValidationAttribute.IsValid*> 方法。
 
-`IsValid` 方法接受名为 value 的对象，该对象是要进行验证的输入**。 重载还接受 `ValidationContext` 对象，该对象提供其他信息，例如模型绑定创建的模型实例。
+`IsValid` 方法接受名为 value 的对象，该对象是要进行验证的输入  。 重载还接受 `ValidationContext` 对象，该对象提供其他信息，例如模型绑定创建的模型实例。
 
-以下示例验证“经典”流派电影的发行日期是否不晚于指定年份**。 `[ClassicMovie]` 属性：
+以下示例验证“经典”流派电影的发行日期是否不晚于指定年份  。 `[ClassicMovie]` 属性：
 
 * 仅在服务器上运行。
 * 对于经典电影，验证发行日期：
@@ -209,7 +210,7 @@ public string MiddleName { get; set; }
 
 [!code-csharp[](validation/samples/3.x/ValidationSample/Controllers/UsersController.cs?name=snippet_CheckAgeSignature)]
 
-在“检查年限”页 (CheckAge.cshtml) 中，有两个表单**。 第一个表单将 `99` 的 `Age` 值作为查询字符串参数提交：`https://localhost:5001/Users/CheckAge?Age=99`。
+在“检查年限”页 (CheckAge.cshtml) 中，有两个表单  。 第一个表单将 `99` 的 `Age` 值作为查询字符串参数提交：`https://localhost:5001/Users/CheckAge?Age=99`。
 
 当提交查询字符串中格式设置正确的 `age` 参数时，表单将进行验证。
 
@@ -247,7 +248,7 @@ public string MiddleName { get; set; }
 
 客户端验证将阻止提交，直到表单变为有效为止。 “提交”按钮运行 JavaScript：要么提交表单要么显示错误消息。
 
-表单上存在输入错误时，客户端验证会避免到服务器的不必要往返。 _Layout.cshtml 和 _ValidationScriptsPartial.cshtml 中的以下脚本引用支持客户端验证****：
+表单上存在输入错误时，客户端验证会避免到服务器的不必要往返。 _Layout.cshtml 和 _ValidationScriptsPartial.cshtml 中的以下脚本引用支持客户端验证  ：
 
 [!code-cshtml[](validation/samples/3.x/ValidationSample/Views/Shared/_Layout.cshtml?name=snippet_Scripts)]
 
@@ -270,7 +271,7 @@ JQuery 非介入式 [验证](https://github.com/aspnet/jquery-validation-unobtru
 </div>
 ```
 
-请注意，HTML 输出中的 `data-` 特性与 `Movie.ReleaseDate` 属性的验证特性相对应。 `data-val-required` 特性包含在用户未填写上映日期字段时将显示的错误消息。 jQuery 非介入式验证将此值传递给 [所需的 JQuery 验证 ( # B1 ](https://jqueryvalidation.org/required-method/) 方法，然后在随附的元素中显示该消息 **\<span>** 。
+请注意，HTML 输出中的 `data-` 特性与 `Movie.ReleaseDate` 属性的验证特性相对应。 `data-val-required` 特性包含在用户未填写上映日期字段时将显示的错误消息。 jQuery 非介入式验证将此值传递给 [所需的 JQuery 验证 ( # B1](https://jqueryvalidation.org/required-method/) 方法，然后在随附的元素中显示该消息 **\<span>** 。
 
 如果 `[DataType]` 特性未替代属性的 .NET 类型，则数据类型验证基于该类型。 浏览器具有自己的默认错误消息，但是 jQuery 验证非介入式验证包可以替代这些消息。 通过 `[DataType]` 特性和 `[EmailAddress]` 等子类可以指定错误消息。
 
@@ -429,7 +430,7 @@ $.get({
 内置验证特性包括：
 
 * `[CreditCard]`：验证属性是否具有信用卡格式。
-* `[Compare]`：验证模型中的两个属性是否匹配。 例如，*Register.cshtml.cs* 文件使用 `[Compare]` 来验证输入的两个密码是否匹配。 [基架 Identity ](xref:security/authentication/scaffold-identity)查看注册代码。
+* `[Compare]`：验证模型中的两个属性是否匹配。 例如， *Register.cshtml.cs* 文件使用 `[Compare]` 来验证输入的两个密码是否匹配。 [基架 Identity ](xref:security/authentication/scaffold-identity)查看注册代码。
 * `[EmailAddress]`：验证属性是否具有电子邮件格式。
 * `[Phone]`：验证属性是否具有电话号码格式。
 * `[Range]`：验证属性值是否在指定的范围内。
@@ -443,15 +444,15 @@ $.get({
 
 在 [System.ComponentModel.DataAnnotations](xref:System.ComponentModel.DataAnnotations) 命名空间中可找到验证特性的完整列表。
 
-### <a name="error-messages"></a>Error messages
+### <a name="error-messages"></a>错误消息
 
-通过验证特性可以指定要为无效输入显示的错误消息。 例如：
+通过验证特性可以指定要为无效输入显示的错误消息。 例如： 。
 
 ```csharp
 [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
 ```
 
-在内部，特性使用用于字段名的某个占位符调用 `String.Format`，有时还使用额外占位符。 例如：
+在内部，特性使用用于字段名的某个占位符调用 `String.Format`，有时还使用额外占位符。 例如： 。
 
 ```csharp
 [StringLength(8, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 6)]
@@ -541,9 +542,9 @@ public string MiddleName { get; set; }
 
 对于内置验证特性无法处理的情况，可以创建自定义验证特性。 创建继承自 <xref:System.ComponentModel.DataAnnotations.ValidationAttribute> 的类，并替代 <xref:System.ComponentModel.DataAnnotations.ValidationAttribute.IsValid*> 方法。
 
-`IsValid` 方法接受名为 value 的对象，该对象是要进行验证的输入**。 重载还接受 `ValidationContext` 对象，该对象提供其他信息，例如模型绑定创建的模型实例。
+`IsValid` 方法接受名为 value 的对象，该对象是要进行验证的输入  。 重载还接受 `ValidationContext` 对象，该对象提供其他信息，例如模型绑定创建的模型实例。
 
-以下示例验证“经典”流派电影的发行日期是否不晚于指定年份**。 `[ClassicMovie2]` 特性首先检查流派，只有流派为“经典”时才会继续检查**。 如果电影流派为经典，它会检查发行日期，确保该日期不晚于传递给特性构造函数的限值。）
+以下示例验证“经典”流派电影的发行日期是否不晚于指定年份  。 `[ClassicMovie2]` 特性首先检查流派，只有流派为“经典”时才会继续检查  。 如果电影流派为经典，它会检查发行日期，确保该日期不晚于传递给特性构造函数的限值。）
 
 [!code-csharp[](validation/samples/2.x/ValidationSample/Attributes/ClassicMovieAttribute.cs?name=snippet_ClassicMovieAttribute)]
 
@@ -572,7 +573,7 @@ public string MiddleName { get; set; }
 
 [!code-csharp[](validation/samples/2.x/ValidationSample/Controllers/UsersController.cs?name=snippet_CheckAge)]
 
-在“检查年限”页 (CheckAge.cshtml) 中，有两个表单**。 第一个表单提交 `Age` 的值 `99` 作为查询字符串：`https://localhost:5001/Users/CheckAge?Age=99`。
+在“检查年限”页 (CheckAge.cshtml) 中，有两个表单  。 第一个表单提交 `Age` 的值 `99` 作为查询字符串：`https://localhost:5001/Users/CheckAge?Age=99`。
 
 当提交查询字符串中格式设置正确的 `age` 参数时，表单将进行验证。
 
@@ -614,7 +615,7 @@ public string MiddleName { get; set; }
 
 客户端验证将阻止提交，直到表单变为有效为止。 “提交”按钮运行 JavaScript：要么提交表单要么显示错误消息。
 
-表单上存在输入错误时，客户端验证会避免到服务器的不必要往返。 _Layout.cshtml 和 _ValidationScriptsPartial.cshtml 中的以下脚本引用支持客户端验证****：
+表单上存在输入错误时，客户端验证会避免到服务器的不必要往返。 _Layout.cshtml 和 _ValidationScriptsPartial.cshtml 中的以下脚本引用支持客户端验证  ：
 
 [!code-cshtml[](validation/samples/2.x/ValidationSample/Views/Shared/_Layout.cshtml?name=snippet_ScriptTag)]
 
@@ -645,7 +646,7 @@ public string MiddleName { get; set; }
 </form>
 ```
 
-请注意，HTML 输出中的 `data-` 特性与 `ReleaseDate` 属性的验证特性相对应。 `data-val-required` 特性包含在用户未填写上映日期字段时将显示的错误消息。 jQuery 非介入式验证将此值传递给 [所需的 JQuery 验证 ( # B1 ](https://jqueryvalidation.org/required-method/) 方法，然后在随附的元素中显示该消息 **\<span>** 。
+请注意，HTML 输出中的 `data-` 特性与 `ReleaseDate` 属性的验证特性相对应。 `data-val-required` 特性包含在用户未填写上映日期字段时将显示的错误消息。 jQuery 非介入式验证将此值传递给 [所需的 JQuery 验证 ( # B1](https://jqueryvalidation.org/required-method/) 方法，然后在随附的元素中显示该消息 **\<span>** 。
 
 如果 `[DataType]` 特性未替代属性的 .NET 类型，则数据类型验证基于该类型。 浏览器具有自己的默认错误消息，但是 jQuery 验证非介入式验证包可以替代这些消息。 通过 `[DataType]` 特性和 `[EmailAddress]` 等子类可以指定错误消息。
 
@@ -757,7 +758,7 @@ Razor页面：
 
 [!code-csharp[](validation/samples_snapshot/2.x/Startup3.cs?name=snippet_DisableClientValidation)]
 
-禁用客户端验证的另一方式是在 .cshtml 文件中为 `_ValidationScriptsPartial` 的引用添加注释**。
+禁用客户端验证的另一方式是在 .cshtml 文件中为 `_ValidationScriptsPartial` 的引用添加注释  。
 
 ## <a name="additional-resources"></a>其他资源
 

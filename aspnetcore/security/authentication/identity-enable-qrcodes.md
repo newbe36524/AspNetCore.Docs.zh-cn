@@ -5,6 +5,7 @@ description: 了解如何为使用 ASP.NET Core 双因素身份验证的 TOTP �
 ms.author: riande
 ms.date: 08/14/2018
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/identity-enable-qrcodes
-ms.openlocfilehash: e61aa925262fc9fe25c7bb2d37958cfaa308aeaf
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: b778e7238911ec9966edf7f0f7becd113b1e197a
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630791"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060828"
 ---
 # <a name="enable-qr-code-generation-for-totp-authenticator-apps-in-aspnet-core"></a>为 ASP.NET Core 中的 TOTP 验证器应用启用 QR 代码生成
 
@@ -49,8 +50,8 @@ ASP.NET Core web 应用模板支持验证器，但不要为 QRCode 生成提供�
 
 ::: moniker range=">= aspnetcore-2.1"
 
-* 按照[基架 Identity ](xref:security/authentication/scaffold-identity)中的说明生成 */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml*。
-* 在 */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml*中，找到 `Scripts` 文件末尾的部分：
+* 按照 [基架 Identity](xref:security/authentication/scaffold-identity)中的说明生成 */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml* 。
+* 在 */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml* 中，找到 `Scripts` 文件末尾的部分：
 
 ::: moniker-end
 
@@ -96,7 +97,7 @@ ASP.NET Core web 应用模板支持验证器，但不要为 QRCode 生成提供�
 
 ::: moniker range=">= aspnetcore-2.1"
 
-QR 代码中的站点名称取自最初创建项目时选择的项目名称。 可以通过在 `GenerateQrCodeUri(string email, string unformattedKey)` */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml.cs*中查找方法来更改该方法。
+QR 代码中的站点名称取自最初创建项目时选择的项目名称。 可以通过在 `GenerateQrCodeUri(string email, string unformattedKey)` */Areas/ Identity /Pages/Account/Manage/EnableAuthenticator.cshtml.cs* 中查找方法来更改该方法。
 
 ::: moniker-end
 
@@ -134,6 +135,6 @@ private string GenerateQrCodeUri(string email, string unformattedKey)
 
 ## <a name="totp-client-and-server-time-skew"></a>TOTP 客户端和服务器时间偏差
 
-TOTP (基于时间的一次性密码) 身份验证取决于服务器和验证器设备的时间是否准确。 标记只持续30秒。 如果 TOTP 2FA 登录失败，请检查服务器时间是否准确，并最好是同步到准确的 NTP 服务。
+TOTP (基于时间的 One-Time 密码) 身份验证取决于服务器和验证器设备的时间是否准确。 标记只持续30秒。 如果 TOTP 2FA 登录失败，请检查服务器时间是否准确，并最好是同步到准确的 NTP 服务。
 
 ::: moniker-end

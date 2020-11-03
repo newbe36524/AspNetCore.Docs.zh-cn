@@ -6,6 +6,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 11/12/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/client-features
-ms.openlocfilehash: bb8352b11e78582c4a32b67da7dcb701d020b0d9
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: 1d1778f95c53179ca05eaced3d1913f208220df4
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90721705"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93050974"
 ---
 # <a name="aspnet-core-no-locsignalr-clients"></a>ASP.NET Core SignalR 客户端
 
@@ -46,14 +47,14 @@ SignalR2.1 和 2.2 .Net Core 的1.x 版本映射到相同的生存期。 对于�
 
 下表显示提供实时支持的客户端的功能和支持。 对于每项功能，将列出支持此功能的 *最低* 版本。 如果未列出任何版本，则不支持此功能。
 
-| Feature | 服务器 | .NET 客户端 | JavaScript 客户端 | Java 客户端 |
+| 功能 | 服务器 | .NET 客户端 | JavaScript 客户端 | Java 客户端 |
 | ---- | :-: | :-: | :-: | :-: |
 | Azure SignalR 服务支持 |2.1.0|1.0.0|1.0.0|1.0.0|
 | [服务器到客户端流式处理](xref:signalr/streaming)          |2.1.0|1.0.0|1.0.0|1.0.0|
 | [客户端到服务器的流式处理](xref:signalr/streaming)          |3.0.0|3.0.0|3.0.0|3.0.0|
 | [.Net](./dotnet-client.md?tabs=visual-studio&view=aspnetcore-3.0#handle-lost-connection)、 [JavaScript](./javascript-client.md?view=aspnetcore-3.0#reconnect-clients))  (自动重新连接          |3.0.0|3.0.0|3.0.0|❌|
 | Websocket 传输 |2.1.0|1.0.0|1.0.0|1.0.0|
-| 服务器发送的事件传输 |2.1.0|1.0.0|1.0.0|❌|
+| Server-Sent 事件传输 |2.1.0|1.0.0|1.0.0|❌|
 | 长轮询传输 |2.1.0|1.0.0|1.0.0|3.0.0|
 | JSON 集线器协议 |2.1.0|1.0.0|1.0.0|1.0.0|
 | MessagePack 中心协议 |2.1.0|1.0.0|1.0.0|❌|

@@ -5,6 +5,7 @@ description: 基于通过单独用户帐户创建的 ASP.NET Core 项目发现�
 ms.author: riande
 ms.date: 12/11/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/individual
-ms.openlocfilehash: 0cbde7cf0be830dab9dd094df6d102d81f9f0949
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 656006396de120b7feae6f2e08b5dad3b5a170b5
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632611"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93053340"
 ---
 # <a name="articles-based-on-aspnet-core-projects-created-with-individual-user-accounts"></a>基于通过单独用户帐户创建的 ASP.NET Core 项目的项目
 
@@ -53,7 +54,7 @@ dotnet new razor -au Individual
 
 ## <a name="no-authentication"></a>无身份验证
 
-在 .NET Core CLI 中通过选项指定了身份验证 `-au` 。 在 Visual Studio 中，" **更改身份验证** " 对话框可用于新的 web 应用程序。 Visual Studio 中新 web 应用的默认值为 " **无身份验证**"。
+在 .NET Core CLI 中通过选项指定了身份验证 `-au` 。 在 Visual Studio 中，" **更改身份验证** " 对话框可用于新的 web 应用程序。 Visual Studio 中新 web 应用的默认值为 " **无身份验证** "。
 
 用无身份验证创建的项目：
 
@@ -74,7 +75,7 @@ Windows 身份验证是通过选项在 .NET Core CLI 中为新 web 应用指定�
 
 | 选项 | 身份验证类型 | 有关详细信息的链接 |
  | ----------------- | ------------ | ---------- |
-| 无            |  无身份验证 | | 
+| None            |  无身份验证 | | 
 | 个人      |  单个身份验证 | <xref:security/authentication/identity>
 | IndividualB2C   |  Azure AD B2C 的云托管的单个身份验证 | [Azure AD B2C](/azure/active-directory-b2c/) |
 | SingleOrg       |  对一个租户进行组织身份验证 | [Azure AD](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |
@@ -87,7 +88,7 @@ Windows 身份验证是通过选项在 .NET Core CLI 中为新 web 应用指定�
 
 | 选项 | 身份验证类型 | 有关详细信息的链接 |
  | ----------------- | ------------ | ---------- |
-| 无            |  无身份验证 | | 
+| None            |  无身份验证 | | 
 | 应用中的单个用户帐户/存储用户帐户 |  单个身份验证 | <xref:security/authentication/identity> |
 | 单个用户帐户/连接到云中的现有用户存储 |  Azure AD B2C 的云托管的单个身份验证 | [Azure AD B2C](/azure/active-directory-b2c/) |
 | 工作或学校云/单个组织  |  对一个租户进行组织身份验证 | [Azure AD](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |

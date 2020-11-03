@@ -15,12 +15,12 @@ no-loc:
 - Razor
 - SignalR
 uid: fundamentals/static-files
-ms.openlocfilehash: 24fda96dbe48945d172eb36e8a91af31f168ff7f
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 36eeb3532ed5ea6f5f75c20cbe14331ed840a788
+ms.sourcegitcommit: 74f4a4ddbe3c2f11e2e09d05d2a979784d89d3f5
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88627658"
+ms.lasthandoff: 09/27/2020
+ms.locfileid: "91393933"
 ---
 # <a name="static-files-in-aspnet-core"></a>ASP.NET Core 中的静态文件
 
@@ -127,7 +127,7 @@ ms.locfileid: "88627658"
 
 目录浏览允许在指定目录中列出目录。
 
-出于安全考虑，目录浏览默认处于禁用状态。 有关详细信息，请参阅[注意事项](#sc)。
+出于安全考虑，目录浏览默认处于禁用状态。 有关详细信息，请参阅[注意事项](#considerations)。
 
 通过以下方式启用目录浏览：
 
@@ -363,7 +363,7 @@ app.UseFileServer(enableDirectoryBrowsing: true);
 
 ## <a name="enable-directory-browsing"></a>启用目录浏览
 
-通过目录浏览，Web 应用的用户可查看目录列表和指定目录中的文件。 出于安全考虑，目录浏览默认处于禁用状态（请参阅[注意事项](#sc)）。 调用 `Startup.Configure` 中的 <xref:Microsoft.AspNetCore.Builder.DirectoryBrowserExtensions.UseDirectoryBrowser%2A> 方法来启用目录浏览：
+通过目录浏览，Web 应用的用户可查看目录列表和指定目录中的文件。 出于安全考虑，目录浏览默认处于禁用状态（请参阅[注意事项](#considerations)）。 调用 `Startup.Configure` 中的 <xref:Microsoft.AspNetCore.Builder.DirectoryBrowserExtensions.UseDirectoryBrowser%2A> 方法来启用目录浏览：
 
 [!code-csharp[](static-files/samples/1.x/StaticFilesSample/StartupBrowse.cs?name=snippet_ConfigureMethod&highlight=12-17)]
 

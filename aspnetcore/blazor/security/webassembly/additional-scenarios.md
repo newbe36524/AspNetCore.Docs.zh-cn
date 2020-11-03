@@ -5,7 +5,7 @@ description: 了解如何为其他安全方案配置 Blazor WebAssembly。
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 08/03/2020
+ms.date: 10/27/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/additional-scenarios
-ms.openlocfilehash: 889e7b4736157b1bb563bd3e606c0d5d855c2226
-ms.sourcegitcommit: 4df148cbbfae9ec8d377283ee71394944a284051
+ms.openlocfilehash: 055e248abfadd9092c173e4630e56ea69517da3b
+ms.sourcegitcommit: 2e3a967331b2c69f585dd61e9ad5c09763615b44
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88876706"
+ms.lasthandoff: 10/27/2020
+ms.locfileid: "92690578"
 ---
 # <a name="aspnet-core-no-locblazor-webassembly-additional-security-scenarios"></a>ASP.NET Core Blazor WebAssembly 其他安全方案
 
@@ -139,8 +139,6 @@ builder.Services.AddHttpClient("ServerAPI",
 
             examples = 
                 await client.GetFromJsonAsync<ExampleType[]>("ExampleAPIMethod");
-
-            ...
         }
         catch (AccessTokenNotAvailableException exception)
         {
@@ -312,9 +310,7 @@ builder.Services.AddHttpClient("ServerAPI.NoAuthenticationClient",
 
 ## <a name="request-additional-access-tokens"></a>请求其他访问令牌
 
-可以通过调用 `IAccessTokenProvider.RequestAccessToken` 手动获取访问令牌。
-
-在以下示例中，应用需要其他 Azure Active Directory (AAD) Microsoft Graph API 作用域才能读取用户数据和发送邮件。 在 Azure AAD 门户中添加 Microsoft Graph API 权限后，将在客户端应用中配置其他作用域。
+可以通过调用 `IAccessTokenProvider.RequestAccessToken` 手动获取访问令牌。 在下面的示例中，应用需要一个额外的作用域作为默认 <xref:System.Net.Http.HttpClient>。 Microsoft 身份验证库 (MSAL) 示例使用 `MsalProviderOptions` 配置作用域：
 
 `Program.Main` (`Program.cs`):
 
@@ -323,12 +319,12 @@ builder.Services.AddMsalAuthentication(options =>
 {
     ...
 
-    options.ProviderOptions.AdditionalScopesToConsent.Add(
-        "https://graph.microsoft.com/Mail.Send");
-    options.ProviderOptions.AdditionalScopesToConsent.Add(
-        "https://graph.microsoft.com/User.Read");
+    options.ProviderOptions.AdditionalScopesToConsent.Add("{CUSTOM SCOPE 1}");
+    options.ProviderOptions.AdditionalScopesToConsent.Add("{CUSTOM SCOPE 2}");
 }
 ```
+
+上例中的 `{CUSTOM SCOPE 1}` 和 `{CUSTOM SCOPE 2}` 占位符是自定义作用域。
 
 `IAccessTokenProvider.RequestToken` 方法提供重载，该重载允许应用使用一组给定的作用域来配置访问令牌。
 
@@ -343,8 +339,7 @@ builder.Services.AddMsalAuthentication(options =>
 var tokenResult = await TokenProvider.RequestAccessToken(
     new AccessTokenRequestOptions
     {
-        Scopes = new[] { "https://graph.microsoft.com/Mail.Send", 
-            "https://graph.microsoft.com/User.Read" }
+        Scopes = new[] { "{CUSTOM SCOPE 1}", "{CUSTOM SCOPE 2}" }
     });
 
 if (tokenResult.TryGetToken(out var token))
@@ -352,6 +347,8 @@ if (tokenResult.TryGetToken(out var token))
     ...
 }
 ```
+
+上例中的 `{CUSTOM SCOPE 1}` 和 `{CUSTOM SCOPE 2}` 占位符是自定义作用域。
 
 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccessTokenResult.TryGetToken%2A?displayProperty=nameWithType> 返回：
 
@@ -707,9 +704,13 @@ builder.Services.AddApiAuthorization(options => {
 
 ## <a name="customize-the-user"></a>自定义用户
 
-可自定义绑定到应用的用户。 在以下示例中，所有经过身份验证的用户都会收到每种用户身份验证方法的 `amr` 声明。
+可自定义绑定到应用的用户。
 
-创建扩展 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.RemoteUserAccount> 类的类：
+### <a name="customize-the-user-with-a-payload-claim"></a>使用有效负载声明自定义用户
+
+在以下示例中，所有经过应用身份验证的用户都会收到每种用户身份验证方法的 `amr` 声明。 `amr` 声明确定在 Microsoft Identity Platform v1.0 [有效负载声明](/azure/active-directory/develop/access-tokens#the-amr-claim)中如何对令牌主体进行身份验证。 该示例使用基于 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.RemoteUserAccount> 的自定义用户帐户类。
+
+创建扩展 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.RemoteUserAccount> 类的类。 下面的示例将 `AuthenticationMethod` 属性设置为用户的 `amr` JSON 属性值数组。 对用户进行身份验证时，由框架自动填充 `AuthenticationMethod`。
 
 ```csharp
 using System.Text.Json.Serialization;
@@ -722,7 +723,7 @@ public class CustomUserAccount : RemoteUserAccount
 }
 ```
 
-创建扩展 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccountClaimsPrincipalFactory%601> 的中心：
+创建一个扩展 <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccountClaimsPrincipalFactory%601> 的工厂，根据存储在 `CustomUserAccount.AuthenticationMethod` 中的用户身份验证方法创建声明：
 
 ```csharp
 using System.Security.Claims;
@@ -743,7 +744,7 @@ public class CustomAccountFactory
         CustomUserAccount account, RemoteAuthenticationUserOptions options)
     {
         var initialUser = await base.CreateUserAsync(account, options);
-        
+
         if (initialUser.Identity.IsAuthenticated)
         {
             foreach (var value in account.AuthenticationMethod)
@@ -752,13 +753,13 @@ public class CustomAccountFactory
                     .AddClaim(new Claim("amr", value));
             }
         }
-           
+
         return initialUser;
     }
 }
 ```
 
-为正在使用的验证提供程序注册 `CustomAccountFactory`。 以下任何注册均有效： 
+为正在使用的验证提供程序注册 `CustomAccountFactory`。 以下任何注册均有效：
 
 * <xref:Microsoft.Extensions.DependencyInjection.WebAssemblyAuthenticationServiceCollectionExtensions.AddOidcAuthentication%2A>:
 
@@ -769,11 +770,11 @@ public class CustomAccountFactory
 
   builder.Services.AddOidcAuthentication<RemoteAuthenticationState, 
       CustomUserAccount>(options =>
-  {
-      ...
-  })
-  .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
-      CustomUserAccount, CustomAccountFactory>();
+      {
+          ...
+      })
+      .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
+          CustomUserAccount, CustomAccountFactory>();
   ```
 
 * <xref:Microsoft.Extensions.DependencyInjection.MsalWebAssemblyServiceCollectionExtensions.AddMsalAuthentication%2A>:
@@ -785,11 +786,11 @@ public class CustomAccountFactory
 
   builder.Services.AddMsalAuthentication<RemoteAuthenticationState, 
       CustomUserAccount>(options =>
-  {
-      ...
-  })
-  .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
-      CustomUserAccount, CustomAccountFactory>();
+      {
+          ...
+      })
+      .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
+          CustomUserAccount, CustomAccountFactory>();
   ```
   
 * <xref:Microsoft.Extensions.DependencyInjection.WebAssemblyAuthenticationServiceCollectionExtensions.AddApiAuthorization%2A>:
@@ -801,12 +802,16 @@ public class CustomAccountFactory
 
   builder.Services.AddApiAuthorization<RemoteAuthenticationState, 
       CustomUserAccount>(options =>
-  {
-      ...
-  })
-  .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
-      CustomUserAccount, CustomAccountFactory>();
+      {
+          ...
+      })
+      .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, 
+          CustomUserAccount, CustomAccountFactory>();
   ```
+
+### <a name="aad-security-groups-and-roles-with-a-custom-user-account-class"></a>具有自定义用户帐户类的 AAD 安全组和角色
+
+关于使用 AAD 安全组、AAD 管理员角色和自定义用户帐户类的其他示例，请参阅 <xref:blazor/security/webassembly/aad-groups-roles>。
 
 ## <a name="support-prerendering-with-authentication"></a>支持预呈现身份验证
 
@@ -815,7 +820,7 @@ public class CustomAccountFactory
 * 预呈现不需要授权的路径。
 * 不预呈现需要授权的路径。
 
-在客户端应用的 `Program` 类 (`Program.cs`) 中，将常见服务注册纳入单独的方法（例如 `ConfigureCommonServices`）：
+在 `Client` 应用的 `Program` 类 (`Program.cs`) 中，将常见服务注册纳入单独的方法（例如 `ConfigureCommonServices`）：
 
 ```csharp
 public class Program
@@ -875,7 +880,7 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
-在服务器应用中，如果不存在 `Pages` 文件夹，请创建一个。 在服务器应用的 `Pages` 文件夹中创建 `_Host.cshtml` 页。 将客户端应用 `wwwroot/index.html` 文件中的内容粘贴到 `Pages/_Host.cshtml` 文件。 更新文件的内容：
+在服务器应用中，如果不存在 `Pages` 文件夹，请创建一个。 在服务器应用的 `Pages` 文件夹中创建 `_Host.cshtml` 页。 将 `Client` 应用 `wwwroot/index.html` 文件中的内容粘贴到 `Pages/_Host.cshtml` 文件。 更新文件的内容：
 
 * 将 `@page "_Host"` 添加到文件顶部。
 * 将 `<app>Loading...</app>` 标记替换为以下内容：
@@ -1044,4 +1049,5 @@ Server response: <strong>@serverResponse</strong>
 
 ## <a name="additional-resources"></a>其他资源
 
+* <xref:blazor/security/webassembly/graph-api>
 * [具有提取 API 请求选项的 `HttpClient` 和 `HttpRequestMessage`](xref:blazor/call-web-api#httpclient-and-httprequestmessage-with-fetch-api-request-options)

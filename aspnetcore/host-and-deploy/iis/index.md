@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 5/7/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,27 +19,69 @@ no-loc:
 - Razor
 - SignalR
 uid: host-and-deploy/iis/index
-ms.openlocfilehash: 1338ecd6205a351b54a58522b1713a6d70e2d22a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e4a94ca9e3607868f3eb25d88338e8156f7f5206
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634743"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061517"
 ---
 # <a name="host-aspnet-core-on-windows-with-iis"></a>使用 IIS 在 Windows 上托管 ASP.NET Core
 
-<!-- 
+::: moniker range=">= aspnetcore-5.0"
 
-    NOTE FOR 5.0
-    
-    When making the 5.0 version of this topic, remove the Hosting Bundle
-    direct download section from the (new) <5.0 & >2.2 version and modify 
-    the text and heading for the *Earlier versions of the installer* 
-    section. See the 2.2 version for an example.
-    
--->
+Internet Information Services (IIS) 是一种灵活、安全且可管理的 Web 服务器，用于托管 Web 应用（包括 ASP.NET Core）。
 
-::: moniker range=">= aspnetcore-3.0"
+## <a name="supported-platforms"></a>受支持的平台
+
+支持下列操作系统：
+
+* Windows 7 或更高版本
+* Windows Server 2012 R2 或更高版本
+
+支持针对 32 位 (x86) 或 64 位 (x64) 部署发布的应用。 使用 32 位 (x86) .NET Core SDK 部署 32 位应用，除非应用符合以下情况：
+
+* 需要适用于 64 位应用的更大虚拟内存地址空间。
+* 需要更大 IIS 堆栈大小。
+* 具有 64 位本机依赖项。
+
+## <a name="install-the-aspnet-core-modulehosting-bundle"></a>安装 ASP.NET Core 模块/托管捆绑包
+
+使用以下链接下载安装程序：
+
+[当前 .NET Core 托管捆绑包安装程序（直接下载）](https://dotnet.microsoft.com/permalink/dotnetcore-current-windows-runtime-bundle-installer)
+
+有关如何安装 ASP.NET Core Module 或不同版本的详细说明，请参阅[安装 .NET Core 托管捆绑包](xref:host-and-deploy/iis/hosting-bundle)。
+
+## <a name="get-started"></a>入门
+
+有关在 IIS 上托管网站的入门知识，请参阅[入门指南](xref:tutorials/publish-to-iis)。
+
+有关在 Azure 应用服务上托管网站的入门知识，请参阅[“部署到 Azure 应用服务”指南](xref:host-and-deploy/azure-apps/index)。
+
+## <a name="deployment-resources-for-iis-administrators"></a>面向 IIS 管理员的部署资源
+
+* [IIS 文档](/iis)
+* [IIS 中 IIS 管理器入门](/iis/get-started/getting-started-with-iis/getting-started-with-the-iis-manager-in-iis-7-and-iis-8)
+* [.NET Core 应用程序部署](/dotnet/core/deploying/)
+* <xref:host-and-deploy/aspnet-core-module>
+* <xref:host-and-deploy/directory-structure>
+* <xref:host-and-deploy/iis/modules>
+* <xref:test/troubleshoot-azure-iis>
+* <xref:host-and-deploy/azure-iis-errors-reference>
+
+## <a name="additional-resources"></a>其他资源
+
+* <xref:test/troubleshoot>
+* <xref:index>
+* [Microsoft IIS 官方网站](https://www.iis.net/)
+* [Windows Server 技术内容库](/windows-server/windows-server)
+* [IIS 上的 HTTP/2](/iis/get-started/whats-new-in-iis-10/http2-on-iis)
+* <xref:host-and-deploy/iis/transform-webconfig>
+
+::: moniker-end
+
+::: moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
 
 若要学习将 ASP.NET Core 应用发布到 IIS 服务器的教程，请参阅<xref:tutorials/publish-to-iis>。
 
@@ -99,7 +142,7 @@ ms.locfileid: "88634743"
 
 对于现有应用，进程内托管是可选功能。 ASP.NET Core Web 模板使用进程内托管模型。
 
-`CreateDefaultBuilder` 将通过调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIIS*> 方法添加 <xref:Microsoft.AspNetCore.Hosting.Server.IServer> 实例，来启动 [CoreCLR](/dotnet/standard/glossary#coreclr) 并在 IIS 工作进程（w3wp.exe 或 iisexpress.exe）内托管应用。  性能测试表明，与在进程外托管应用并将请求代理传入 [Kestrel](xref:fundamentals/servers/kestrel) 相比，在进程中托管 .NET Core 应用可提供明显更高的请求吞吐量。
+`CreateDefaultBuilder` 添加 <xref:Microsoft.AspNetCore.Hosting.Server.IServer> 实例的方式是：调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIIS%2A> 方法来启动 [CoreCLR](/dotnet/standard/glossary#coreclr) 和将应用托管在 IIS 工作进程（`w3wp.exe` 或 `iisexpress.exe`）内。 性能测试表明，与在进程外托管应用并将请求代理传入 [Kestrel](xref:fundamentals/servers/kestrel) 相比，在进程中托管 .NET Core 应用可提供明显更高的请求吞吐量。
 
 作为单个文件可执行文件发布的应用无法由进程内托管模型加载。
 
@@ -116,7 +159,7 @@ ms.locfileid: "88634743"
 1. 此模块将该请求转发到应用的随机端口上的 Kestrel。 随机端口不是 80 或 443。
 
 <!-- make this a bullet list -->
-ASP.NET Core 模块在启动时通过环境变量指定端口。 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIISIntegration*> 扩展将服务器配置为侦听 `http://localhost:{PORT}`。 执行其他检查，拒绝不是来自该模块的请求。 此模块不支持 HTTPS 转发。 即使请求由 IIS 通过 HTTPS 接收，它们还是通过 HTTP 转发。
+ASP.NET Core 模块在启动时通过环境变量指定端口。 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIISIntegration%2A> 扩展将服务器配置为侦听 `http://localhost:{PORT}`。 执行其他检查，拒绝不是来自该模块的请求。 此模块不支持 HTTPS 转发。 即使请求由 IIS 通过 HTTPS 接收，它们还是通过 HTTP 转发。
 
 Kestrel 从模块获取请求后，请求会被转发到 ASP.NET Core 中间件管道中。 中间件管道处理该请求并将其作为 `HttpContext` 实例传递给应用的逻辑。 IIS 集成添加的中间件会将方案、远程 IP 和 pathbase 更新到帐户以将请求转发到 Kestrel。 应用的响应传递回 IIS，IIS 将响应转发回发起请求的 HTTP 客户端。
 
@@ -128,7 +171,7 @@ Kestrel 从模块获取请求后，请求会被转发到 ASP.NET Core 中间件�
 
 ### <a name="enable-the-iisintegration-components"></a>启用 IISIntegration 组件
 
-在 `CreateHostBuilder` 中生成主机 (*Program.cs*)，请调用 <xref:Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder*> 以启用 IIS 集成：
+在 `CreateHostBuilder` 中生成主机 (`Program.cs`)，请调用 <xref:Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder%2A> 以启用 IIS 集成：
 
 ```csharp
 public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -142,7 +185,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 **进程内承载模型**
 
-要配置 IIS 服务器选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices*> 中包括 <xref:Microsoft.AspNetCore.Builder.IISServerOptions> 的服务配置。 下面的示例禁用 AutomaticAuthentication：
+要配置 IIS 服务器选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices%2A> 中包括 <xref:Microsoft.AspNetCore.Builder.IISServerOptions> 的服务配置。 下面的示例禁用 AutomaticAuthentication：
 
 ```csharp
 services.Configure<IISServerOptions>(options => 
@@ -156,11 +199,11 @@ services.Configure<IISServerOptions>(options =>
 | `AutomaticAuthentication`      | `true`  | 若为 `true`，IIS 服务器将设置经过 [Windows 身份验证](xref:security/authentication/windowsauth)进行身份验证的 `HttpContext.User`。 若为 `false`，服务器仅提供 `HttpContext.User` 的标识并在 `AuthenticationScheme` 显式请求时响应质询。 必须在 IIS 中启用 Windows 身份验证使 `AutomaticAuthentication` 得以运行。 有关详细信息，请参阅 [Windows 身份验证](xref:security/authentication/windowsauth)。 |
 | `AuthenticationDisplayName`    | `null`  | 设置在登录页上向用户显示的显示名。 |
 | `AllowSynchronousIO`           | `false` | `HttpContext.Request` 和 `HttpContext.Response` 是否允许同步 I/O。 |
-| `MaxRequestBodySize`           | `30000000`  | 获取或设置 `HttpRequest` 的最大请求正文大小。 请注意，IIS 本身有限制 `maxAllowedContentLength`，这一限制将在 `IISServerOptions` 中设置 `MaxRequestBodySize` 之前进行处理。 更改 `MaxRequestBodySize` 不会影响 `maxAllowedContentLength`。 若要增加 `maxAllowedContentLength`，请在 web.config 中添加一个条目，将 `maxAllowedContentLength` 设置为更高值。 有关更多详细信息，请参阅[配置](/iis/configuration/system.webServer/security/requestFiltering/requestLimits/#configuration)。 |
+| `MaxRequestBodySize`           | `30000000`  | 获取或设置 `HttpRequest` 的最大请求正文大小。 请注意，IIS 本身有限制 `maxAllowedContentLength`，这一限制将在 `IISServerOptions` 中设置 `MaxRequestBodySize` 之前进行处理。 更改 `MaxRequestBodySize` 不会影响 `maxAllowedContentLength`。 若要增加 `maxAllowedContentLength`，请在 `web.config` 中添加一个将 `maxAllowedContentLength` 设置为更高值的项。 有关更多详细信息，请参阅[配置](/iis/configuration/system.webServer/security/requestFiltering/requestLimits/#configuration)。 |
 
 **进程外承载模型**
 
-要配置 IIS 选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices*> 中包括 <xref:Microsoft.AspNetCore.Builder.IISOptions> 的服务配置。 下面的示例阻止应用填充 `HttpContext.Connection.ClientCertificate`：
+要配置 IIS 选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices%2A> 中包括 <xref:Microsoft.AspNetCore.Builder.IISOptions> 的服务配置。 下面的示例阻止应用填充 `HttpContext.Connection.ClientCertificate`：
 
 ```csharp
 services.Configure<IISOptions>(options => 
@@ -186,21 +229,21 @@ services.Configure<IISOptions>(options =>
 
 对于托管在其他代理服务器和负载均衡器后方的应用，可能需要附加配置。 有关详细信息，请参阅[配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)。
 
-### <a name="webconfig-file"></a>web.config 文件
+### <a name="webconfig-file"></a>`web.config` 文件
 
-web.config 文件配置 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)。 发布项目时，MSBuild 目标 (`_TransformWebConfig`) 负责创建、转换和发布 web.config 文件。 此目标位于 Web SDK 目标 (`Microsoft.NET.Sdk.Web`) 中。 SDK 设置在项目文件的顶部：
+`web.config` 文件配置 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)。 发布项目时，`web.config` 文件的创建、转换和发布是由 MSBuild 目标 (`_TransformWebConfig`) 处理的。 此目标位于 Web SDK 目标 (`Microsoft.NET.Sdk.Web`) 中。 SDK 设置在项目文件的顶部：
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
 ```
 
-如果项目中不存在 web.config 文件，则会使用正确的 processPath 和参数创建该文件，以便配置 ASP.NET Core 模块，并将该文件移动到[已发布的输出](xref:host-and-deploy/directory-structure)  。
+如果项目中没有 `web.config` 文件，则该文件是使用正确的 `processPath` 和 `arguments`（用于配置 ASP.NET Core 模块）创建的，并且已被移到[发布的输出](xref:host-and-deploy/directory-structure)中。
 
-如果项目中存在 web.config 文件，则会使用正确的 processPath 和参数转换该文件，以便配置 ASP.NET Core 模块，并将该文件移动到已发布的输出。 转换不会修改文件中的 IIS 配置设置。
+如果项目中没有 `web.config` 文件，则该文件是通过正确的 `processPath` 和 `arguments`（用于配置 ASP.NET Core 模块）转换的，并且已被移到发布的输出中。 转换不会修改文件中的 IIS 配置设置。
 
-web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS 模块。 有关能够处理 ASP.NET Core 应用请求的 IIS 模块的信息，请参阅 [IIS 模块](xref:host-and-deploy/iis/modules)主题。
+`web.config` 文件可能会提供控制活动 IIS 模块的额外 IIS 配置设置。 有关能够处理 ASP.NET Core 应用请求的 IIS 模块的信息，请参阅 [IIS 模块](xref:host-and-deploy/iis/modules)主题。
 
-要防止 Web SDK 转换 web.config 文件，请使用项目文件中的 \<IsTransformWebConfigDisabled> 属性：
+为了防止 Web SDK 转换 `web.config` 文件，请在项目文件中使用 `<IsTransformWebConfigDisabled>` 属性：
 
 ```xml
 <PropertyGroup>
@@ -208,19 +251,19 @@ web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS
 </PropertyGroup>
 ```
 
-在禁用 Web SDK 转换文件时，开发人员应手动设置 processPath 和参数。 有关详细信息，请参阅 <xref:host-and-deploy/aspnet-core-module>。
+禁用 Web SDK 对文件的转换时，`processPath` 和 `arguments` 应由开发人员手动设置。 有关详细信息，请参阅 <xref:host-and-deploy/aspnet-core-module>。
 
-### <a name="webconfig-file-location"></a>web.config 文件位置
+### <a name="webconfig-file-location"></a>`web.config` 文件位置
 
-为了正确设置 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)，web.config 文件必须位于已部署应用的[内容根](xref:fundamentals/index#content-root)路径（通常为应用基路径）中。 该位置与向 IIS 提供的网站物理路径相同。 若要使用 Web 部署发布多个应用，应用的根路径中需要包含 web.config 文件。
+为了正确设置 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)，`web.config` 文件必须存在于已部署应用的[内容根](xref:fundamentals/index#content-root)路径（通常为应用基路径）中。 该位置与向 IIS 提供的网站物理路径相同。 若要使用 Web 部署发布多个应用，应用的根路径中需要包含 `web.config` 文件。
 
-敏感文件存在于应用的物理路径中，如 \<assembly>.runtimeconfig.json、\<assembly>.xml（XML 文档注释）和 \<assembly>.deps.json  。 如果存在 web.config 文件且站点正常启动，则请求获取这些敏感文件时，IIS 不会提供。 如果缺少 web.config 文件、命名不正确，或无法配置站点以正常启动，IIS 可能会公开提供敏感文件。
+敏感文件存在于应用的物理路径中，如 `{ASSEMBLY}.runtimeconfig.json`、`{ASSEMBLY}.xml`（XML 文档注释）和 `{ASSEMBLY}.deps.json`，其中 `{ASSEMBLY}` 占位符为程序集名称。 如果有 `web.config` 文件且站点正常启动时，IIS 在收到敏感文件请求时不会提供这些敏感文件。 如果 `web.config` 文件缺失、名字错误或者无法将站点配置为正常启动，IIS 可能会公开提供敏感文件。
 
-部署中必须始终存在 web.config 文件且正确命名，并可以配置站点以正常启动。**请勿从生产部署中删除 web.config 文件。**
+`web.config` 文件必须始终存在于部署中、名称正确以及能够将站点配置为正常启动。切勿从生产部署中删除 `web.config` 文件。
 
 ### <a name="transform-webconfig"></a>转换 web.config
 
-如果需要在发布时转换 web.config，请参阅 <xref:host-and-deploy/iis/transform-webconfig>。 你可能需要在发布时转换 web.config，以便基于配置、配置文件或环境设置环境变量。
+如果在发布时需要转换 `web.config`，请参阅 <xref:host-and-deploy/iis/transform-webconfig>。 你需要在发布时转换 `web.config`，以根据配置、配置文件或环境来设置环境变量。
 
 ## <a name="iis-configuration"></a>IIS 配置
 
@@ -237,7 +280,7 @@ web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS
    ![在选择角色服务步骤中选择了默认角色服务。](index/_static/role-services-ws2016.png)
 
    **Windows 身份验证（可选）**  
-   若要启用 Windows 身份验证，请依次展开以下节点：“Web 服务器” > “安全”。 选择“Windows 身份验证”功能。 有关详细信息，请参阅 [Windows 身份验证 \<windowsAuthentication>](/iis/configuration/system.webServer/security/authentication/windowsAuthentication/) 和[配置 Windows 身份验证](xref:security/authentication/windowsauth)。
+   若要启用 Windows 身份验证，请依次展开以下节点：“Web 服务器” > “安全”。 选择“Windows 身份验证”功能。 有关详细信息，请参阅 [Windows 身份验证 `<windowsAuthentication>`](/iis/configuration/system.webServer/security/authentication/windowsAuthentication/) 和[配置 Windows 身份验证](xref:security/authentication/windowsauth)。
 
    **Websocket（可选）**  
    Websocket 支持 ASP.NET Core 1.1 或更高版本。 若要启用 WebSocket，请依次展开以下节点：“Web 服务器” > “应用开发”。 选择“WebSocket 协议”功能。 有关详细信息，请参阅 [WebSockets](xref:fundamentals/websockets)。
@@ -303,7 +346,7 @@ web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS
    * `OPT_NO_RUNTIME=1`：跳过安装 .NET Core 运行时。 当服务器仅承载[独立部署 (SCD)](/dotnet/core/deploying/#self-contained-deployments-scd) 时使用。
    * `OPT_NO_SHAREDFX=1`：跳过安装 ASP.NET 共享框架（ASP.NET 运行时）。 当服务器仅承载[独立部署 (SCD)](/dotnet/core/deploying/#self-contained-deployments-scd) 时使用。
    * `OPT_NO_X86=1`：跳过安装 x86 运行时。 确定不会托管 32 位应用时，请使用此参数。 如果有可能会同时托管 32 位和 64 位应用，请勿使用此参数，并安装两个运行时。
-   * `OPT_NO_SHARED_CONFIG_CHECK=1`：当共享配置 (applicationHost.config) 与 IIS 安装位于同一台计算机上时，禁止对使用的是否是 IIS 共享配置进行检查。 仅适用于 ASP.NET Core 2.2 或更高版本托管捆绑程序安装程序。 有关详细信息，请参阅 <xref:host-and-deploy/aspnet-core-module#aspnet-core-module-with-an-iis-shared-configuration>。
+   * `OPT_NO_SHARED_CONFIG_CHECK=1`：当共享配置 (`applicationHost.config`) 与 IIS 安装位于同一台计算机上时，禁止对使用的是否是 IIS 共享配置进行检查。 仅适用于 ASP.NET Core 2.2 或更高版本托管捆绑程序安装程序。 有关详细信息，请参阅 <xref:host-and-deploy/aspnet-core-module#aspnet-core-module-with-an-iis-shared-configuration>。
 1. 重新启动系统，或在命令行界面中执行以下命令：
 
    ```console
@@ -349,7 +392,7 @@ net start w3svc
 
     ASP.NET Core 在单独的进程中运行，并管理运行时。 ASP.NET Core 不依赖桌面 CLR (.NET CLR) 加载。 将启动 .NET Core 的 Core 公共语言运行时 (CoreCLR)，在工作进程中托管应用。 将“.NET CLR 版本”设置为“无托管代码”是可选步骤，但建议采用此设置。
 
-1. *ASP.NET Core 2.2 或更高版本*：
+1. *ASP.NET Core 2.2 或更高版本* ：
 
    * 对于使用 32 位 SDK 发布的 32 位 (x86) [独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)，且该 SDK 使用[进程内托管模型](#in-process-hosting-model)，请为 32 位启用应用程序池。 在 IIS 管理器中，导航到“连接”边栏中的“应用程序池” 。 选择应用的应用程序池。 在“操作”边栏中，选择，“高级设置” 。 将“启用 32 位应用程序”设置为 `True`。 
 
@@ -364,7 +407,7 @@ net start w3svc
 
 ## <a name="deploy-the-app"></a>部署应用
 
-将应用程序部署到 IIS 物理路径文件夹中，该文件夹是在[创建 IIS 站点](#create-the-iis-site)部分中创建的。 [Web 部署](/iis/publish/using-web-deploy/introduction-to-web-deploy)是建议使用的部署机制，但有几个选项可以将应用程序从项目的发布文件夹移动到托管系统的部署文件夹。
+将应用程序部署到 IIS 物理路径文件夹中，该文件夹是在[创建 IIS 站点](#create-the-iis-site)部分中创建的。 建议使用[Web 部署](/iis/publish/using-web-deploy/introduction-to-web-deploy)这种部署机制，不过将应用从项目的 `publish` 文件夹移到托管系统的部署文件夹还有几种选择。
 
 ### <a name="web-deploy-with-visual-studio"></a>在 Visual Studio 内使用 Web 部署
 
@@ -394,9 +437,9 @@ net start w3svc
 
 如果应用正在运行，部署文件夹中的文件会被锁定。 在部署期间，无法覆盖已锁定的文件。 若要在部署中解除已锁定的文件，请使用以下方法之一停止应用池：
 
-* 使用 Web 部署并在项目文件中引用 `Microsoft.NET.Sdk.Web`。 系统会在 Web 应用目录的根目录中放置一个 app_offline.htm 文件。 该文件存在时，ASP.NET Core 模块会在部署过程中正常关闭该应用并提供 app_offline.htm 文件。 有关详细信息，请参阅 [ASP.NET Core 模块配置参考](xref:host-and-deploy/aspnet-core-module#app_offlinehtm)。
+* 使用 Web 部署并在项目文件中引用 `Microsoft.NET.Sdk.Web`。 `app_offline.htm` 文件位于 Web 应用目录的根路径下。 如果该文件存在，ASP.NET Core 模块在部署期间正常关闭应用并提供 `app_offline.htm` 文件。 有关详细信息，请参阅 [ASP.NET Core 模块配置参考](xref:host-and-deploy/aspnet-core-module#app_offlinehtm)。
 * 在服务器上的 IIS 管理器中手动停止应用池。
-* 使用 PowerShell 删除 app_offline.html（需要使用 PowerShell 5 或更高版本）：
+* 使用 PowerShell 删除 `app_offline.htm`（要求 PowerShell 5 或更高版本）：
 
   ```powershell
   $pathToApp = 'PATH_TO_APP'
@@ -408,7 +451,6 @@ net start w3svc
 
   # Restart the AppPool
   Remove-Item -Path $pathToApp app_offline.htm
-
   ```
 
 ## <a name="data-protection"></a>数据保护
@@ -531,7 +573,7 @@ IIS 管理进程使用 Windows 安全系统中应用池的名称创建安全标�
 
 1. 选择“位置”按钮，并确保该系统处于选中状态。
 
-1. 在“输入要选择的对象名称”区域中输入**IIS AppPool\\<app_pool_name>** 。 选择“检查名称”按钮。 有关 DefaultAppPool，请检查使用 IIS AppPool\DefaultAppPool 的名称。 当选择“检查名称”按钮时，对象名称区域中会显示 DefaultAppPool 的值。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时，请使用 **IIS AppPool\\<app_pool_name>** 格式。
+1. 在“输入要选择的对象名”区域中输入 `IIS AppPool\{APP POOL NAME}`，其中 `{APP POOL NAME}` 占位符为应用池名称。 选择“检查名称”按钮。 对于 DefaultAppPool，请使用 `IIS AppPool\DefaultAppPool` 检查名称。 如果选择了“检查名称”按钮，对象名称区域中将指示 `DefaultAppPool`。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时使用 `IIS AppPool\{APP POOL NAME}` 格式，其中 `{APP POOL NAME}` 占位符是应用池名称。
 
    ![应用文件夹的“选择用户或组”对话框：在选择“检查名称”前，将“DefaultAppPool\"”的应用池名称追加到对象名称区域中的“IIS AppPool”。](index/_static/select-users-or-groups-1.png)
 
@@ -541,7 +583,7 @@ IIS 管理进程使用 Windows 安全系统中应用池的名称创建安全标�
 
 1. 默认情况下应授予读取 &amp; 执行权限。 根据需要请提供其他权限。
 
-也可使用 ICACLS 工具在命令提示符处授予访问权限。 以 DefaultAppPool 为例，使用以下命令：
+也可使用 ICACLS 工具在命令提示符处授予访问权限。 以 `DefaultAppPool` 为例，使用了以下命令：
 
 ```console
 ICACLS C:\sites\MyWebApp /grant "IIS AppPool\DefaultAppPool":F
@@ -561,7 +603,7 @@ ICACLS C:\sites\MyWebApp /grant "IIS AppPool\DefaultAppPool":F
   * 面向公众的边缘服务器连接使用 HTTP/2，但与 [Kestrel 服务器](xref:fundamentals/servers/kestrel)的反向代理连接使用 HTTP/1.1。
   * TLS 1.2 或更高版本的连接
 
-对于已建立 HTTP/2 连接时的进程内部署，[HttpRequest.Protocol](xref:Microsoft.AspNetCore.Http.HttpRequest.Protocol*) 会报告 `HTTP/2`。 对于已建立 HTTP/2 连接时的进程外部署，[HttpRequest.Protocol](xref:Microsoft.AspNetCore.Http.HttpRequest.Protocol*) 会报告 `HTTP/1.1`。
+对于建立了 HTTP/2 连接时的进程内部署，[`HttpRequest.Protocol`](xref:Microsoft.AspNetCore.Http.HttpRequest.Protocol*) 报告 `HTTP/2`。 对于建立了 HTTP/2 连接时的进程外部署，[`HttpRequest.Protocol`](xref:Microsoft.AspNetCore.Http.HttpRequest.Protocol*) 报告 `HTTP/1.1`。
 
 若要详细了解进程内和进程外托管模型，请参阅 <xref:host-and-deploy/aspnet-core-module>。
 
@@ -571,7 +613,7 @@ ICACLS C:\sites\MyWebApp /grant "IIS AppPool\DefaultAppPool":F
 
 本部分仅适用于面向 .NET Framework 的 ASP.NET Core 应用程序。
 
-对于面向 .NET Framework 的 ASP.NET Core 应用程序，默认情况下，IIS 不会将 OPTIONS 请求传递给应用程序。 若要了解如何在 web.config 中配置应用程序的 IIS 处理程序以传递 OPTIONS 请求，请参阅[在 ASP.NET Web API 2 中启用跨域请求：CORS 的工作原理](/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api#how-cors-works)。
+对于面向 .NET Framework 的 ASP.NET Core 应用程序，默认情况下，IIS 不会将 OPTIONS 请求传递给应用程序。 若要了解如何在 `web.config` 中配置应用的 IIS 处理程序以传递 OPTIONS 请求，请参阅[在 ASP.NET Web API 2 中启用跨域请求：CORS 的工作原理](/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api#how-cors-works)。
 
 ## <a name="application-initialization-module-and-idle-timeout"></a>应用程序初始化模块和空闲超时
 
@@ -609,9 +651,9 @@ Windows Server 2008 R2 或更高版本：
   1. 默认的“启动模式”为“按需” 。 将“启动模式”设置为“始终运行”。 选择“确定”。
   1. 打开“连接”面板中的“网站”节点。
   1. 右键单击应用，并选择“管理网站”>“高级设置” 。
-  1. 默认的“预加载已启用”设置为“False” 。 将“预加载已启用”设置为“True”。 选择“确定”。
+  1. 默认的“预加载已启用”设置为“False” 。 将“预加载已启用”设置为“True”。 选择“确定”  。
 
-* 使用 web.config 将 `doAppInitAfterRestart` 已设置为 `true` 的 `<applicationInitialization>` 元素添加到应用的 web.config 文件中的 `<system.webServer>` 元素中 ：
+* 使用 `web.config` 向应用的 web.config` 文件中的 `<system.webServer>` 元素添加 `<applicationInitialization>` 元素（其中 `doAppInitAfterRestart` 设置为 `true`）：
 
   ```xml
   <?xml version="1.0" encoding="utf-8"?>
@@ -726,7 +768,7 @@ IIS HTTP 服务器处理请求之后，请求会被推送到 ASP.NET Core 中间
 
 进程内托管选择使用现有应用，但 [dotnet new](/dotnet/core/tools/dotnet-new) 模板默认使用所有 IIS 和 IIS Express 方案的进程内托管模型。
 
-`CreateDefaultBuilder` 将通过调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIIS*> 方法添加 <xref:Microsoft.AspNetCore.Hosting.Server.IServer> 实例，来启动 [CoreCLR](/dotnet/standard/glossary#coreclr) 并在 IIS 工作进程（w3wp.exe 或 iisexpress.exe）内托管应用。  性能测试表明，与在进程外托管应用并将请求代理到 [Kestrel](xref:fundamentals/servers/kestrel) 服务器相比，在进程中托管 .NET Core 应用可以大大提升请求吞吐量。
+`CreateDefaultBuilder` 将通过调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIIS%2A> 方法添加 <xref:Microsoft.AspNetCore.Hosting.Server.IServer> 实例，来启动 [CoreCLR](/dotnet/standard/glossary#coreclr) 并在 IIS 工作进程（w3wp.exe 或 iisexpress.exe）内托管应用。  性能测试表明，与在进程外托管应用并将请求代理到 [Kestrel](xref:fundamentals/servers/kestrel) 服务器相比，在进程中托管 .NET Core 应用可以大大提升请求吞吐量。
 
 ### <a name="out-of-process-hosting-model"></a>进程外托管模型
 
@@ -750,7 +792,7 @@ Kestrel 从模块获取请求后，请求会被推送到 ASP.NET Core 中间件�
 
 ### <a name="enable-the-iisintegration-components"></a>启用 IISIntegration 组件
 
-在 `CreateWebHostBuilder` 中生成主机 (*Program.cs*)，请调用 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*> 以启用 IIS 集成：
+在 `CreateWebHostBuilder` 中生成主机 ( *Program.cs* )，请调用 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder%2A> 以启用 IIS 集成：
 
 ```csharp
 public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -764,7 +806,7 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 
 **进程内承载模型**
 
-要配置 IIS 服务器选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices*> 中包括 <xref:Microsoft.AspNetCore.Builder.IISServerOptions> 的服务配置。 下面的示例禁用 AutomaticAuthentication：
+要配置 IIS 服务器选项，请在 <xref:Microsoft.AspNetCore.Hosting.IStartup.ConfigureServices%2A> 中包括 <xref:Microsoft.AspNetCore.Builder.IISServerOptions> 的服务配置。 下面的示例禁用 AutomaticAuthentication：
 
 ```csharp
 services.Configure<IISServerOptions>(options => 
@@ -829,7 +871,7 @@ web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS
 
 敏感文件存在于应用的物理路径中，如 \<assembly>.runtimeconfig.json、\<assembly>.xml（XML 文档注释）和 \<assembly>.deps.json  。 如果存在 web.config 文件且站点正常启动，则请求获取这些敏感文件时，IIS 不会提供。 如果缺少 web.config 文件、命名不正确，或无法配置站点以正常启动，IIS 可能会公开提供敏感文件。
 
-部署中必须始终存在 web.config 文件且正确命名，并可以配置站点以正常启动。**请勿从生产部署中删除 web.config 文件。**
+部署中必须始终存在 web.config 文件且正确命名，并可以配置站点以正常启动。 **请勿从生产部署中删除 web.config 文件。**
 
 ### <a name="transform-webconfig"></a>转换 web.config
 
@@ -951,7 +993,7 @@ ASP.NET Core 采用共享框架包的修补程序版本的前滚行为。 当 II
 
     ASP.NET Core 在单独的进程中运行，并管理运行时。 ASP.NET Core 不依赖桌面 CLR (.NET CLR) 加载：将启动 .NET Core 的 Core 公共语言运行时 (CoreCLR) ，在工作进程中托管应用。 将“.NET CLR 版本”设置为“无托管代码”是可选步骤，但建议采用此设置。
 
-1. *ASP.NET Core 2.2 或更高版本*：对于使用[进程内托管模型](#in-process-hosting-model)的 64 位 (x64) [独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)，为 32 位 (x86) 进程禁用应用池。
+1. *ASP.NET Core 2.2 或更高版本* ：对于使用 [进程内托管模型](#in-process-hosting-model)的 64 位 (x64) [独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)，为 32 位 (x86) 进程禁用应用池。
 
    在 IIS 管理器 >“应用程序池”的“操作”侧栏中，选择“设置应用程序池默认设置”或“高级设置”。 找到“启用 32 位应用程序”并将值设置为 `False`。 此设置不会影响针对[进程外托管](xref:host-and-deploy/aspnet-core-module#out-of-process-hosting-model)部署的应用。
 
@@ -1131,7 +1173,7 @@ IIS 管理进程使用 Windows 安全系统中应用池的名称创建安全标�
 
 1. 选择“位置”按钮，并确保该系统处于选中状态。
 
-1. 在“输入要选择的对象名称”区域中输入**IIS AppPool\\<app_pool_name>** 。 选择“检查名称”按钮。 有关 DefaultAppPool，请检查使用 IIS AppPool\DefaultAppPool 的名称。 当选择“检查名称”按钮时，对象名称区域中会显示 DefaultAppPool 的值。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时，请使用 **IIS AppPool\\<app_pool_name>** 格式。
+1. 在“输入要选择的对象名称”区域中输入 **IIS AppPool\\<app_pool_name>** 。 选择“检查名称”按钮。 有关 DefaultAppPool，请检查使用 IIS AppPool\DefaultAppPool 的名称。 当选择“检查名称”按钮时，对象名称区域中会显示 DefaultAppPool 的值。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时，请使用 **IIS AppPool\\<app_pool_name>** 格式。
 
    ![应用文件夹的“选择用户或组”对话框：在选择“检查名称”前，将“DefaultAppPool\"”的应用池名称追加到对象名称区域中的“IIS AppPool”。](index/_static/select-users-or-groups-1.png)
 
@@ -1315,7 +1357,7 @@ Kestrel 从模块获取请求后，请求会被推送到 ASP.NET Core 中间件�
 
 `CreateDefaultBuilder` 将 [Kestrel](xref:fundamentals/servers/kestrel) 服务器配置为 Web 服务器，并通过配置 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)的基础路径和端口来启用 IIS 集成。
 
-ASP.NET Core 模块生成分配给后端进程的动态端口。 `CreateDefaultBuilder` 调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIISIntegration*> 方法。 `UseIISIntegration` 配置在 localhost IP 地址 (`127.0.0.1`) 中的动态端口上侦听的 Kestrel。 如果动态端口为 1234，则 Kestrel 在 `127.0.0.1:1234` 中侦听。 此配置将替换以下 API 提供的其他 URL 配置：
+ASP.NET Core 模块生成分配给后端进程的动态端口。 `CreateDefaultBuilder` 调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIISIntegration%2A> 方法。 `UseIISIntegration` 配置在 localhost IP 地址 (`127.0.0.1`) 中的动态端口上侦听的 Kestrel。 如果动态端口为 1234，则 Kestrel 在 `127.0.0.1:1234` 中侦听。 此配置将替换以下 API 提供的其他 URL 配置：
 
 * `UseUrls`
 * [Kestrel 的侦听 API](xref:fundamentals/servers/kestrel#endpoint-configuration)
@@ -1331,7 +1373,7 @@ ASP.NET Core 模块生成分配给后端进程的动态端口。 `CreateDefaultB
 
 ### <a name="enable-the-iisintegration-components"></a>启用 IISIntegration 组件
 
-在 `CreateWebHostBuilder` 中生成主机 (*Program.cs*)，请调用 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*> 以启用 IIS 集成：
+在 `CreateWebHostBuilder` 中生成主机 ( *Program.cs* )，请调用 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder%2A> 以启用 IIS 集成：
 
 ```csharp
 public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -1397,7 +1439,7 @@ web.config 文件可能会提供其他 IIS 配置设置，以控制活动的 IIS
 
 敏感文件存在于应用的物理路径中，如 \<assembly>.runtimeconfig.json、\<assembly>.xml（XML 文档注释）和 \<assembly>.deps.json  。 如果存在 web.config 文件且站点正常启动，则请求获取这些敏感文件时，IIS 不会提供。 如果缺少 web.config 文件、命名不正确，或无法配置站点以正常启动，IIS 可能会公开提供敏感文件。
 
-部署中必须始终存在 web.config 文件且正确命名，并可以配置站点以正常启动。**请勿从生产部署中删除 web.config 文件。**
+部署中必须始终存在 web.config 文件且正确命名，并可以配置站点以正常启动。 **请勿从生产部署中删除 web.config 文件。**
 
 ### <a name="transform-webconfig"></a>转换 web.config
 
@@ -1519,7 +1561,7 @@ ASP.NET Core 采用共享框架包的修补程序版本的前滚行为。 当 II
 
     ASP.NET Core 在单独的进程中运行，并管理运行时。 ASP.NET Core 不依赖桌面 CLR (.NET CLR) 加载：将启动 .NET Core 的 Core 公共语言运行时 (CoreCLR) ，在工作进程中托管应用。 将“.NET CLR 版本”设置为“无托管代码”是可选步骤，但建议采用此设置。
 
-1. *ASP.NET Core 2.2 或更高版本*：对于使用[进程内托管模型](#in-process-hosting-model)的 64 位 (x64) [独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)，为 32 位 (x86) 进程禁用应用池。
+1. *ASP.NET Core 2.2 或更高版本* ：对于使用 [进程内托管模型](#in-process-hosting-model)的 64 位 (x64) [独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)，为 32 位 (x86) 进程禁用应用池。
 
    在 IIS 管理器 >“应用程序池”的“操作”侧栏中，选择“设置应用程序池默认设置”或“高级设置”。 找到“启用 32 位应用程序”并将值设置为 `False`。 此设置不会影响针对[进程外托管](xref:host-and-deploy/aspnet-core-module#out-of-process-hosting-model)部署的应用。
 
@@ -1727,7 +1769,7 @@ IIS 管理进程使用 Windows 安全系统中应用池的名称创建安全标�
 
 1. 选择“位置”按钮，并确保该系统处于选中状态。
 
-1. 在“输入要选择的对象名称”区域中输入**IIS AppPool\\<app_pool_name>** 。 选择“检查名称”按钮。 有关 DefaultAppPool，请检查使用 IIS AppPool\DefaultAppPool 的名称。 当选择“检查名称”按钮时，对象名称区域中会显示 DefaultAppPool 的值。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时，请使用 **IIS AppPool\\<app_pool_name>** 格式。
+1. 在“输入要选择的对象名称”区域中输入 **IIS AppPool\\<app_pool_name>** 。 选择“检查名称”按钮。 有关 DefaultAppPool，请检查使用 IIS AppPool\DefaultAppPool 的名称。 当选择“检查名称”按钮时，对象名称区域中会显示 DefaultAppPool 的值。 无法直接在对象名称区域中输入应用池名称。 检查对象名称时，请使用 **IIS AppPool\\<app_pool_name>** 格式。
 
    ![应用文件夹的“选择用户或组”对话框：在选择“检查名称”前，将“DefaultAppPool\"”的应用池名称追加到对象名称区域中的“IIS AppPool”。](index/_static/select-users-or-groups-1.png)
 

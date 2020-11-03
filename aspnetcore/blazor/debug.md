@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/debug
-ms.openlocfilehash: 7681deb70610a8fbc27ccda7317b73921646794a
-ms.sourcegitcommit: 4df148cbbfae9ec8d377283ee71394944a284051
+ms.openlocfilehash: b8dd272d673e84b45a39272531385ebfd1d06175
+ms.sourcegitcommit: daa9ccf580df531254da9dce8593441ac963c674
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88876771"
+ms.lasthandoff: 10/09/2020
+ms.locfileid: "91900981"
 ---
 # <a name="debug-aspnet-core-no-locblazor-webassembly"></a>调试 ASP.NET Core Blazor WebAssembly
 
@@ -93,7 +93,7 @@ Visual Studio for Mac 需要版本 8.8（内部版本 1532）或更高版本：
    > [!NOTE]
    > 不支持“启动时不调试”(<kbd>Ctrl</kbd>+<kbd>F5</kbd>)。 当应用以调试配置运行时，调试开销始终会导致性能的小幅下降。
 
-1. 在客户端应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
+1. 在 `*Client*` 应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
 1. 在浏览器中，导航到 `Counter` 页，然后选择“单击此处”按钮以命中断点。
 1. 在 Visual Studio 中，检查“局部变量”窗口中 `currentCount` 字段的值。
 1. 按 <kbd>F5</kbd> 继续执行。
@@ -109,11 +109,55 @@ Visual Studio for Mac 需要版本 8.8（内部版本 1532）或更高版本：
 > [!NOTE]
 > 在运行调试代理之前，在应用启动期间不会命中断点。 这包括 `Program.Main` (`Program.cs`) 中的断点和组件的 [`OnInitialized{Async}` 方法](xref:blazor/components/lifecycle#component-initialization-methods) 中的断点，其中这些组件由请求自应用的第一页加载。
 
+如果应用托管在不同于 `/` 的[应用程序基路径](xref:blazor/host-and-deploy/index#app-base-path)上，请更新 `Properties/launchSettings.json` 中的以下属性，以反映应用程序的基路径：
+
+* `applicationUrl`:
+
+  ```json
+  "iisSettings": {
+    ...
+    "iisExpress": {
+      "applicationUrl": "http://localhost:{INSECURE PORT}/{APP BASE PATH}/",
+      "sslPort": {SECURE PORT}
+    }
+  },
+  ```
+
+* 每个配置文件的 `inspectUri`：
+
+  ```json
+  "profiles": {
+    ...
+    "{PROFILE 1, 2, ... N}": {
+      ...
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/{APP BASE PATH}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      ...
+    }
+  }
+  ```
+
+前面设置中的占位符：
+
+* `{INSECURE PORT}`：不安全的端口。 默认情况下提供随机值，但允许使用自定义端口。
+* `{APP BASE PATH}`：应用程序的基路径。
+* `{SECURE PORT}`：安全的端口。 默认情况下提供随机值，但允许使用自定义端口。
+* `{PROFILE 1, 2, ... N}`：启动设置配置文件。 通常，应用会默认指定多个配置文件（例如，IIS Express 的配置文件和 Kestrel 服务器使用的项目配置文件）。
+
+在下面的示例中，应用托管在 `/OAT` 上，并在 `wwwroot/index.html` 中将应用程序基路径配置为 `<base href="/OAT/">`：
+
+```json
+"applicationUrl": "http://localhost:{INSECURE PORT}/OAT/",
+```
+
+```json
+"inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/OAT/_framework/debug/ws-proxy?browser={browserInspectUri}",
+```
+
+有关将自定义应用基路径用于 Blazor WebAssembly 应用的信息，请参阅 <xref:blazor/host-and-deploy/index#app-base-path>。
+
 # <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 
-<a id="vscode"></a>
-
-## <a name="debug-standalone-no-locblazor-webassembly"></a>调试独立 Blazor WebAssembly
+<h2 id="vscode">调试独立 Blazor WebAssembly</h2>
 
 1. 在 VS Code 中打开独立 Blazor WebAssembly 应用。
 
@@ -136,7 +180,7 @@ Visual Studio for Mac 需要版本 8.8（内部版本 1532）或更高版本：
 
 1. 此时会启动独立应用，并打开调试浏览器。
 
-1. 在客户端应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
+1. 在 `*Client*` 应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
 
 1. 在浏览器中，导航到 `Counter` 页，然后选择“单击此处”按钮以命中断点。
 
@@ -241,7 +285,7 @@ Visual Studio for Mac 需要版本 8.8（内部版本 1532）或更高版本：
    > [!IMPORTANT]
    > Google Chrome 或 Microsoft Edge 必须是调试会话的选定浏览器。
 
-1. 在客户端应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
+1. 在 `*Client*` 应用中，在 `Pages/Counter.razor` 中的 `currentCount++;` 行上设置断点。
 1. 在浏览器中，导航到 `Counter` 页，然后选择“单击此处”按钮以命中断点：
 1. 在 Visual Studio 中，检查“局部变量”窗口中 `currentCount` 字段的值。
 1. 按 <kbd>&#8984;</kbd>+<kbd>&#8617;</kbd> 继续执行。
@@ -257,7 +301,7 @@ Visual Studio for Mac 需要版本 8.8（内部版本 1532）或更高版本：
 > [!NOTE]
 > 在运行调试代理之前，在应用启动期间不会命中断点。 这包括 `Program.Main` (`Program.cs`) 中的断点和组件的 [`OnInitialized{Async}` 方法](xref:blazor/components/lifecycle#component-initialization-methods) 中的断点，其中这些组件由请求自应用的第一页加载。
 
-有关详细信息，请参阅[使用 Visual Studio for Mac 进行调试](/visualstudio/mac/debugging?view=vsmac-2019)。
+有关详细信息，请参阅[使用 Visual Studio for Mac 进行调试](/visualstudio/mac/debugging)。
 
 ---
 
@@ -301,6 +345,9 @@ Blazor 提供调试代理，该代理实现 [Chrome DevTools Protocol](https://c
 * 在“调试程序”选项卡中，在浏览器中打开开发人员工具。 在控制台中，执行 `localStorage.clear()` 以删除所有断点。
 * 确认你已安装并信任 ASP.NET Core HTTPS 开发证书。 有关详细信息，请参阅 <xref:security/enforcing-ssl#troubleshoot-certificate-problems>。
 * Visual Studio 要求在“工具” > “选项” > “调试” > “常规”中选择“对 ASP.NET 启用 JavaScript 调试(Chrome、Edge 和 IE)”选项。 这是 Visual Studio 的默认设置。 如果调试不起作用，请确认已选中该选项。
+* 如果你的环境使用 HTTP 代理，请确保在代理绕过设置中包含 `localhost`。 这可以通过在以下二者之一中设置 `NO_PROXY` 环境变量来实现：
+  * 项目的 `launchSettings.json` 文件。
+  * 在将其应用于所有应用时所在的用户或系统环境变量级别。 使用环境变量时，请重新启动 Visual Studio 以使更改生效。
 
 ### <a name="breakpoints-in-oninitializedasync-not-hit"></a>`OnInitialized{Async}` 中的未命中断点
 

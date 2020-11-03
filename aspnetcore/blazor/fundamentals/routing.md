@@ -5,7 +5,7 @@ description: 了解如何在应用中路由请求以及有关 NavLink 组件的�
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/14/2020
+ms.date: 09/02/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/fundamentals/routing
-ms.openlocfilehash: eb9e3cbddd2eaca8fef9a6782c28bbce4c029f58
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: 09e7ca9c03103de116c566352496174e97fbc3ce
+ms.sourcegitcommit: a07f83b00db11f32313045b3492e5d1ff83c4437
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865321"
+ms.lasthandoff: 09/15/2020
+ms.locfileid: "90593003"
 ---
 # <a name="aspnet-core-no-locblazor-routing"></a>ASP.NET Core Blazor 路由
 
@@ -161,16 +161,35 @@ Blazor Server 已集成到 [ASP.NET Core 终结点路由](xref:fundamentals/rout
 
 ### <a name="routing-with-urls-that-contain-dots"></a>使用包含点的 URL 进行路由
 
-在 Blazor Server 应用中，`_Host.cshtml` 中的默认路由为 `/` (`@page "/"`)。 包含点 (`.`) 的请求 URL 与默认路由不匹配，因为 URL 似乎在请求文件。 Blazor 应用针对不存在的静态文件返回“404 - 找不到”响应。 若要使用包含点的路由，请使用以下路由模板配置 `_Host.cshtml`：
+对于托管的 Blazor WebAssembly 和 Blazor Server 应用，服务器端默认路由模板假定，如果请求 URL 的最后一段包含一个点 (`.`)，则请求一个文件（例如 `https://localhost.com:5001/example/some.thing`）。 在没有额外配置的情况下，应用将返回“404 - 未找到”响应（如果这将路由到组件）。 若要使用具有包含点的一个或多个参数的路由，则应用必须使用自定义模板配置该路由。
 
-```cshtml
-@page "/{**path}"
+请考虑下面的 `Example` 组件，它可以从 URL 的最后一段接收路由参数：
+
+```razor
+@page "/example"
+@page "/example/{param}"
+
+<p>
+    Param: @Param
+</p>
+
+@code {
+    [Parameter]
+    public string Param { get; set; }
+}
 ```
 
-`"/{**path}"` 模板包括：
+若要允许托管的 Blazor WebAssembly 解决方案的服务器应用路由 `param` 参数中包含一个点的请求，请添加一个回退文件路由模板，在该模板的 `Startup.Configure` (`Startup.cs`) 中包含该可选参数：
 
-* 双星号 *catch-all* 语法 (`**`)，用于捕获跨多个文件夹边界的路径，而无需解码正斜杠 (`/`)。
-* `path` 路由参数名称。
+```csharp
+endpoints.MapFallbackToFile("/example/{param?}", "index.html");
+```
+
+若要配置 Blazor Server 应用以在 `param` 参数中使用一个点来路由请求，请添加一个回退页面路由模板，该模板具有 `Startup.Configure` (`Startup.cs`) 中的可选参数：
+
+```csharp
+endpoints.MapFallbackToPage("/example/{param?}", "/_Host");
+```
 
 有关详细信息，请参阅 <xref:fundamentals/routing>。
 
@@ -178,7 +197,7 @@ Blazor Server 已集成到 [ASP.NET Core 终结点路由](xref:fundamentals/rout
 
 ::: moniker range=">= aspnetcore-5.0"
 
-本部分适用于 .NET 5 候选发布 1 (RC1) 或更高版本，该版本将于九月中旬发布。
+*本部分应用于 .NET 5 候选发布 1 (RC1) 或更高版本中的 ASP.NET Core。*
 
 组件支持可跨多个文件夹边界捕获路径的 catch-all 路由参数。 catch-all 路由参数必须满足以下条件：
 
@@ -203,7 +222,7 @@ Blazor Server 已集成到 [ASP.NET Core 终结点路由](xref:fundamentals/rout
 
 ::: moniker range="< aspnetcore-5.0"
 
-catch-all 路由参数将受 .NET 5 候选发布 1 (RC1) 或更高版本（将于九月中旬发布）支持。*
+.NET 5 候选发布 1 (RC1) 或更高版本的 ASP.NET Core 中支持 catch-all 路由参数。
 
 ::: moniker-end
 

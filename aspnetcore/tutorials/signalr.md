@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: tutorials/signalr
-ms.openlocfilehash: e98cfc5e95233ce4d1001ab1225fc15e5fd23733
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: b69d60e7d0e24f6d3c8032b391c98a6cd1589305
+ms.sourcegitcommit: 9c031530d2e652fe422e786bd43392bc500d622f
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634495"
+ms.lasthandoff: 09/18/2020
+ms.locfileid: "90770176"
 ---
 # <a name="tutorial-get-started-with-aspnet-core-no-locsignalr"></a>教程：ASP.NET Core SignalR 入门
 
@@ -45,15 +45,15 @@ ms.locfileid: "88634495"
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-[!INCLUDE[](~/includes/net-core-prereqs-vs-3.0.md)]
+[!INCLUDE[](~/includes/net-core-prereqs-vs-3.1.md)]
 
 # <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 
-[!INCLUDE[](~/includes/net-core-prereqs-vsc-3.0.md)]
+[!INCLUDE[](~/includes/net-core-prereqs-vsc-3.1.md)]
 
 # <a name="visual-studio-for-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
 
-[!INCLUDE[](~/includes/net-core-prereqs-mac-3.0.md)]
+[!INCLUDE[](~/includes/net-core-prereqs-mac-3.1.md)]
 
 ---
 
@@ -67,7 +67,7 @@ ms.locfileid: "88634495"
 
 * 在“配置新项目”对话框中，将项目命名为“SignalRChat”，然后选择“创建”。
 
-* 在“创建新的 ASP.NET Core Web 应用程序”对话框中，选择“.NET Core”和“ASP.NET Core 3.0”  。 
+* 在“创建新的 ASP.NET Core Web 应用程序”对话框中，选择 .NET Core 和 ASP.NET Core 3.1  。 
 
 * 选择“Web 应用程序”以创建使用 Razor Pages 的项目，然后选择“创建” 。
 
@@ -90,7 +90,7 @@ ms.locfileid: "88634495"
 
 * 选择“.NET Core”>“应用”>“Web 应用程序”（不要选择“Web 应用程序(Model-View-Controller)”），然后选择“下一步”  。
 
-* 确保“目标框架”设置为“.NET Core 3.0”，然后选择“下一步”  。
+* 确保“目标框架”设置为 .NET Core 3.1，然后选择“下一步”  。
 
 * 将项目命名为“SignalRChat”，然后选择“创建”。
 
@@ -98,7 +98,7 @@ ms.locfileid: "88634495"
 
 ## <a name="add-the-no-locsignalr-client-library"></a>添加 SignalR 客户端库
 
-SignalR 服务器库包含在 ASP.NET Core 3.0 共享框架中。 JavaScript 客户端库不会自动包含在项目中。 对于此教程，使用库管理器 (LibMan) 从 unpkg 获取客户端库。 unpkg 是一个内容分发网络 (CDN)，可分发在 npm（即 Node.js 包管理器）中找到的任何内容。
+ASP.NET Core 3.1 共享框架中包含 SignalR 服务器库。 JavaScript 客户端库不会自动包含在项目中。 对于此教程，使用库管理器 (LibMan) 从 unpkg 获取客户端库。 unpkg 是一个内容分发网络 (CDN)，可分发在 npm（即 Node.js 包管理器）中找到的任何内容。
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio/)
 

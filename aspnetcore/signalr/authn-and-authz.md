@@ -7,6 +7,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 12/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/authn-and-authz
-ms.openlocfilehash: 3a2ae5c7bc4853bad7b94af0d26ad5cd0358688f
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 0e220d72fe9ef4ada402b449ef20e31324f7bcd2
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88628925"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060113"
 ---
 # <a name="authentication-and-authorization-in-aspnet-core-no-locsignalr"></a>ASP.NET Core 中的身份验证和授权 SignalR
 
@@ -99,8 +100,6 @@ Cookies 是一种特定于浏览器的发送访问令牌的方法，但非浏览
 
 客户端可以提供访问令牌，而不是使用 cookie 。 服务器验证令牌并使用它来标识用户。 仅在建立连接时才执行此验证。 在连接的生命周期内，服务器不会自动重新验证以检查令牌是否已吊销。
 
-在服务器上，使用 [JWT 持有者中间件](/dotnet/api/microsoft.extensions.dependencyinjection.jwtbearerextensions.addjwtbearer)配置持有者令牌身份验证。
-
 在 JavaScript 客户端中，可使用 [accessTokenFactory](xref:signalr/configuration#configure-bearer-authentication) 选项提供令牌。
 
 [!code-typescript[Configure Access Token](authn-and-authz/sample/wwwroot/js/chat.ts?range=52-55)]
@@ -119,14 +118,60 @@ var connection = new HubConnectionBuilder()
 > [!NOTE]
 > 提供的访问令牌函数在发出的 **每个** HTTP 请求之前调用 SignalR 。 如果你需要续订标记以便保持连接处于活动状态， (因为它可能会在连接) 期间过期，请在此函数中执行此操作，并返回已更新的令牌。
 
-在标准 web Api 中，持有者令牌是在 HTTP 标头中发送的。 但是，在 SignalR 使用某些传输时，无法在浏览器中设置这些标头。 使用 Websocket 和服务器发送事件时，会将令牌作为查询字符串参数进行传输。 若要在服务器上支持此操作，需要进行其他配置：
+在标准 web Api 中，持有者令牌是在 HTTP 标头中发送的。 但是，在 SignalR 使用某些传输时，无法在浏览器中设置这些标头。 使用 Websocket 和 Server-Sent 事件时，会将令牌作为查询字符串参数进行传输。 
+
+#### <a name="built-in-jwt-authentication"></a>内置的 JWT 身份验证
+
+在服务器上，使用 [JWT 持有者中间件](xref:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions.AddJwtBearer%2A)配置持有者令牌身份验证：
 
 [!code-csharp[Configure Server to accept access token from Query String](authn-and-authz/sample/Startup.cs?name=snippet)]
 
 [!INCLUDE[request localized comments](~/includes/code-comments-loc.md)]
 
 > [!NOTE]
-> 由于浏览器 API 限制，连接到 Websocket 和服务器发送事件时，将在浏览器上使用查询字符串。 使用 HTTPS 时，查询字符串值受 TLS 连接保护。 但是，许多服务器都记录查询字符串值。 有关详细信息，请参阅[ASP.NET Core SignalR 中的安全注意事项](xref:signalr/security)。 SignalR 使用标头在支持 (如 .NET 和 Java 客户端) 的环境中传输标记。
+> 由于浏览器 API 限制，连接到 Websocket 和 Server-Sent 事件时，将在浏览器上使用查询字符串。 使用 HTTPS 时，查询字符串值受 TLS 连接保护。 但是，许多服务器都记录查询字符串值。 有关详细信息，请参阅[ASP.NET Core SignalR 中的安全注意事项](xref:signalr/security)。 SignalR 使用标头在支持 (如 .NET 和 Java 客户端) 的环境中传输标记。
+
+#### <a name="no-locidentity-server-jwt-authentication"></a>Identity 服务器 JWT 身份验证
+
+使用 Identity 服务器时，将 <xref:Microsoft.Extensions.Options.PostConfigureOptions%601> 服务添加到项目：
+
+```csharp
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+public class ConfigureJwtBearerOptions : IPostConfigureOptions<JwtBearerOptions>
+{
+    public void PostConfigure(string name, JwtBearerOptions options)
+    {
+        var originalOnMessageReceived = options.Events.OnMessageReceived;
+        options.Events.OnMessageReceived = async context =>
+        {
+            await originalOnMessageReceived(context);
+                
+            if (string.IsNullOrEmpty(context.Token))
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                
+                if (!string.IsNullOrEmpty(accessToken) && 
+                    path.StartsWithSegments("/hubs"))
+                {
+                    context.Token = accessToken;
+                }
+            }
+        };
+    }
+}
+```
+
+将服务添加到 `Startup.ConfigureServices` 身份验证 (<xref:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddAuthentication%2A>) 和 Identity 服务器 () 的身份验证处理程序之后，请在中注册该服务 <xref:Microsoft.AspNetCore.Authentication.AuthenticationBuilderExtensions.AddIdentityServerJwt%2A> ：
+
+```csharp
+services.AddAuthentication()
+    .AddIdentityServerJwt();
+services.TryAddEnumerable(
+    ServiceDescriptor.Singleton<IPostConfigureOptions<JwtBearerOptions>, 
+        ConfigureJwtBearerOptions>());
+```
 
 ### <a name="no-loccookies-vs-bearer-tokens"></a>Cookie和持有者令牌 
 

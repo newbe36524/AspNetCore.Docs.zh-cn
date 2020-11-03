@@ -12,7 +12,7 @@ Cookie 和站点数据在经过应用更新后仍可保持不变，并且会干�
 
 * 配置浏览器
   * 使用浏览器测试是否可以配置为在每次关闭浏览器时删除所有 Cookie 和站点数据。
-  * 请确保在应用、测试用户或提供程序配置的任何更改之间手动或通过 IDE 关闭浏览器。
+  * 对于应用、测试用户或提供程序配置的任何更改，请确保浏览器是手动关闭的或由 IDE 关闭的。
 * 在 Visual Studio 中使用自定义命令以 incognito 或 private 模式打开浏览器：
   * 通过 Visual Studio 的“运行”按钮打开“浏览工具”对话框 。
   * 选择“添加”按钮。
@@ -21,13 +21,13 @@ Cookie 和站点数据在经过应用更新后仍可保持不变，并且会干�
     * Google Chrome：`C:\Program Files (x86)\Google\Chrome\Application\chrome.exe`
     * Mozilla Firefox：`C:\Program Files\Mozilla Firefox\firefox.exe`
   * 在“参数”字段中，提供浏览器用来在 incognito 或 private 模式下执行打开操作的命令行选项。 某些浏览器需要应用的 URL。
-    * Microsoft Edge：`-inprivate`
-    * Google Chrome：`--incognito --new-window https://localhost:5001`
-    * Mozilla Firefox：`-private -url https://localhost:5001`
+    * Microsoft Edge：请使用 `-inprivate`。
+    * Google Chrome：使用 `--incognito --new-window {URL}`，其中占位符 `{URL}` 是要打开的 URL（例如，`https://localhost:5001`）。
+    * Mozilla Firefox：使用 `-private -url {URL}`，其中占位符 `{URL}` 是要打开的 URL（例如，`https://localhost:5001`）。
   * 在“友好名称”字段中提供名称。 例如 `Firefox Auth Testing`。
   * 选择“确定”按钮。
   * 若要避免在每次迭代使用应用进行测试时必须选择浏览器配置文件，请使用“设置为默认值”按钮将配置文件设置为默认值。
-  * 请确保在应用、测试用户或提供程序配置的任何更改之间通过 IDE 关闭浏览器。
+  * 对于应用、测试用户或提供程序配置的任何更改，请确保浏览器是由 IDE 关闭的。
 
 ### <a name="run-the-server-app"></a>运行 Server 应用
 

@@ -5,7 +5,7 @@ description: 了解如何使用 Azure Active Directory 保护 ASP.NET Core Blazo
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: devx-track-csharp, mvc
-ms.date: 07/08/2020
+ms.date: 10/08/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/standalone-with-azure-active-directory
-ms.openlocfilehash: 50aed0e0bc9058e54518512b9570ca0fdcde9b4e
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: b44c5372d694dcc16ff66e24233171e3320d7294
+ms.sourcegitcommit: daa9ccf580df531254da9dce8593441ac963c674
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712423"
+ms.lasthandoff: 10/09/2020
+ms.locfileid: "91900892"
 ---
 # <a name="secure-an-aspnet-core-no-locblazor-webassembly-standalone-app-with-azure-active-directory"></a>使用 Azure Active Directory 保护 ASP.NET Core Blazor WebAssembly 独立应用
 
@@ -35,10 +35,12 @@ ms.locfileid: "88712423"
 
 在 Azure 门户的“Azure Active Directory” > “应用注册”区域中注册 AAD 应用 ：
 
+::: moniker range=">= aspnetcore-5.0"
+
 1. 提供应用的名称（例如 Blazor 独立 AAD） 。
 1. 选择支持的帐户类型。 为此体验选择“仅此组织目录中的帐户”。
-1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的应用属性中找到该应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 本主题后面部分会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
-1. 禁用“权限” > “授予对 openid 和 offline_access 权限的管理员同意”复选框 。
+1. 将“重定向 URI”下拉列表设置为“单页应用程序(SPA)”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback`。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的应用属性中找到该应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 本主题后面部分会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 取消选中“权限”>“授予对 openid 和 offline_access 权限的管理员同意”复选框。
 1. 选择“注册”。
 
 记录以下信息：
@@ -46,12 +48,36 @@ ms.locfileid: "88712423"
 * 应用程序（客户端）ID（例如 `41451fa7-82d9-4673-8fa5-69eff5a761fd`）
 * 目录（租户）ID（例如 `e86c78e2-8bb4-4c41-aefd-918e0565a45e`）
 
-在“身份验证” > “平台配置” > “Web”  中，执行以下操作：
+在“身份验证”>“平台配置”>“单页应用程序(SPA)”中：
+
+1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
+1. 对于“隐式授权”，请确保没有选中“访问令牌”和“ID 令牌”的复选框。
+1. 此体验可接受应用的其余默认值。
+1. 选择“保存”按钮。
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+1. 提供应用的名称（例如 Blazor 独立 AAD） 。
+1. 选择支持的帐户类型。 为此体验选择“仅此组织目录中的帐户”。
+1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的应用属性中找到该应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 本主题后面部分会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 取消选中“权限”>“授予对 openid 和 offline_access 权限的管理员同意”复选框。
+1. 选择“注册”。
+
+记录以下信息：
+
+* 应用程序（客户端）ID（例如 `41451fa7-82d9-4673-8fa5-69eff5a761fd`）
+* 目录（租户）ID（例如 `e86c78e2-8bb4-4c41-aefd-918e0565a45e`）
+
+在“身份验证”>“平台配置”>“Web”中：
 
 1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
 1. 对于“隐式授权”，选中“访问令牌”和“ID 令牌”的复选框  。
 1. 此体验可接受应用的其余默认值。
 1. 选择“保存”按钮。
+
+::: moniker-end
 
 在空文件夹中创建应用。 将以下命令中的占位符替换为前面记录的信息，然后在命令行界面中执行该命令：
 
@@ -68,11 +94,17 @@ dotnet new blazorwasm -au SingleOrg --client-id "{CLIENT ID}" -o {APP NAME} --te
 使用 `-o|--output` 选项指定的输出位置将创建一个项目文件夹（如果该文件夹不存在）并成为应用程序名称的一部分。
 
 > [!NOTE]
-> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置应用的“身份验证” > “平台配置” > “Web” > “重定向 URI”   。
+> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置应用的平台配置“重定向 URI”。
 >
 > 如果应用是在随机 IIS Express 端口上运行的，则可以在“调试”面板的应用属性中找到该应用的端口。
 >
 > 如果端口之前未使用应用的已知端口进行配置，请返回到 Azure 门户中应用的注册，并使用正确的端口更新重定向 URI。
+
+::: moniker range=">= aspnetcore-5.0"
+
+[!INCLUDE[](~/includes/blazor-security/additional-scopes-standalone-AAD.md)]
+
+::: moniker-end
 
 创建应用后，应该能够：
 
@@ -147,7 +179,17 @@ builder.Services.AddMsalAuthentication(options =>
 });
 ```
 
-[!INCLUDE[](~/includes/blazor-security/azure-scope.md)]
+使用 `AdditionalScopesToConsent` 指定其他作用域：
+
+```csharp
+options.ProviderOptions.AdditionalScopesToConsent.Add("{ADDITIONAL SCOPE URI}");
+```
+
+::: moniker range="< aspnetcore-5.0"
+
+[!INCLUDE[](~/includes/blazor-security/azure-scope-3x.md)]
+
+::: moniker-end
 
 有关详细信息，请参阅“其他方案”一文的以下部分：
 

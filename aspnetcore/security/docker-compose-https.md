@@ -7,6 +7,7 @@ ms.author: ravipal
 ms.custom: mvc
 ms.date: 03/28/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/docker-compose-https
-ms.openlocfilehash: 71ead7dcce32dab090a9b0b3573aa855d00fa7f1
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: 37a0142dac1e26afd26dbf2aad46bee20693652e
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722756"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051637"
 ---
 # <a name="hosting-aspnet-core-images-with-docker-compose-over-https"></a>通过 HTTPS Docker Compose 宿主 ASP.NET Core 映像
 
@@ -51,7 +52,7 @@ ms.locfileid: "90722756"
 * 此 `dotnet dev-certs` 工具不是必需的。
 * 无需将证书存储在说明中使用的位置。 将证书存储在站点目录之外的任何位置。
 
-以下部分中包含的说明使用 `volumes` *docker-compose.yml. docker-compose.override.yml*中的属性将证书装载到容器中。 可以使用 Dockerfile 中的命令将证书添加到容器映像 `COPY` 中，但不建议这样做。 *Dockerfile* 由于以下原因，不建议将证书复制到映像：
+以下部分中包含的说明使用 `volumes` *docker-compose.yml. docker-compose.override.yml* 中的属性将证书装载到容器中。 可以使用 Dockerfile 中的命令将证书添加到容器映像 `COPY` 中，但不建议这样做。 *Dockerfile* 由于以下原因，不建议将证书复制到映像：
 
 * 这使得使用开发人员证书进行测试变得困难。
 * 这使得难以使用同一个映像来托管生产证书。
@@ -74,7 +75,7 @@ dotnet dev-certs https --trust
 
 创建包含以下内容的 _docker-compose.yml docker-compose.override.yml_ 文件：
 
-```json
+```yaml
 version: '3.4'
 
 services:
@@ -114,7 +115,7 @@ dotnet dev-certs https --trust
 
 创建包含以下内容的 _docker-compose.yml docker-compose.override.yml_ 文件：
 
-```json
+```yaml
 version: '3.4'
 
 services:
@@ -152,7 +153,7 @@ dotnet dev-certs https --trust
 
 创建包含以下内容的 _docker-compose.yml docker-compose.override.yml_ 文件：
 
-```json
+```yaml
 version: '3.4'
 
 services:

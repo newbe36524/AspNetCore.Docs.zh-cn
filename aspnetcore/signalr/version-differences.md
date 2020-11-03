@@ -6,6 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.date: 11/21/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/version-differences
-ms.openlocfilehash: 965fbb3d8007cb64aaf51d82d87ed7a3a5298e9b
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: c4c0ff83cb789e9aa35085496daa461404615726
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90721783"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061205"
 ---
 # <a name="differences-between-aspnet-no-locsignalr-and-aspnet-core-no-locsignalr"></a>ASP.NET SignalR 与 ASP.NET Core 之间的差异 SignalR
 
@@ -38,7 +39,7 @@ ASP.NET Core SignalR 与 ASP.NET 的客户端或服务器不兼容 SignalR 。 �
 | **客户端 NuGet 包** | [Microsoft SignalR 。机](https://www.nuget.org/packages/Microsoft.AspNet.SignalR.Client/)<br>[Microsoft SignalR 。JS](https://www.nuget.org/packages/Microsoft.AspNet.SignalR.JS/) | [AspNetCore SignalR 。机](https://www.nuget.org/packages/Microsoft.AspNetCore.SignalR.Client/) |
 | **JavaScript 客户端 npm 包** | [signalr](https://www.npmjs.com/package/signalr) | [`@microsoft/signalr`](https://www.npmjs.com/package/@microsoft/signalr) |
 | **Java 客户端** | [GitHub 存储库](https://github.com/SignalR/java-client) (弃用)   | Maven 包 [signalr](https://search.maven.org/artifact/com.microsoft.signalr/signalr) |
-| **服务器应用类型** | ASP.NET (System.web) 或 OWIN 自承载 | ASP.NET Core |
+| **服务器应用类型** | ASP.NET (system.web) 或 OWIN Self-Host | ASP.NET Core |
 | **支持的服务器平台** | .NET Framework 4.5 或更高版本 | .NET Core 3.0 或更高版本 |
 
 ::: moniker-end
@@ -51,7 +52,7 @@ ASP.NET Core SignalR 与 ASP.NET 的客户端或服务器不兼容 SignalR 。 �
 | **客户端 NuGet 包** | [Microsoft SignalR 。机](https://www.nuget.org/packages/Microsoft.AspNet.SignalR.Client/)<br>[Microsoft SignalR 。JS](https://www.nuget.org/packages/Microsoft.AspNet.SignalR.JS/) | [AspNetCore SignalR 。机](https://www.nuget.org/packages/Microsoft.AspNetCore.SignalR.Client/) |
 | **JavaScript 客户端 npm 包** | [signalr](https://www.npmjs.com/package/signalr) | [`@aspnet/signalr`](https://www.npmjs.com/package/@aspnet/signalr) |
 | **Java 客户端** | [GitHub 存储库](https://github.com/SignalR/java-client) (弃用)   | Maven 包 [signalr](https://search.maven.org/artifact/com.microsoft.signalr/signalr) |
-| **服务器应用类型** | ASP.NET (System.web) 或 OWIN 自承载 | ASP.NET Core |
+| **服务器应用类型** | ASP.NET (system.web) 或 OWIN Self-Host | ASP.NET Core |
 | **支持的服务器平台** | .NET Framework 4.5 或更高版本 | .NET Framework 4.6.1 或更高版本<br>.NET Core 2.1 或更高版本 |
 
 ::: moniker-end
@@ -202,7 +203,8 @@ npm install @aspnet/signalr
 
 ### <a name="internet-explorer-support"></a>Internet Explorer 支持
 
-ASP.NET Core SignalR 需要 Microsoft internet explorer 11 或更高版本 (ASP.NET SignalR 支持的 Microsoft internet explorer 8 及更高版本) 。
+ASP.NET Core SignalR 支持 Microsoft Internet explorer 11 或更高版本，而 ASP.NET SignalR 支持 Microsoft internet explorer 8 或更高版本。
+有关浏览器支持的详细信息，请参阅 [支持的平台](xref:signalr/supported-platforms#javascript-client)。
 
 ### <a name="javascript-client-method-syntax"></a>JavaScript 客户端方法语法
 

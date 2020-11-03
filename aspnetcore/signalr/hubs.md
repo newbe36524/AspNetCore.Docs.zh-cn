@@ -7,6 +7,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 01/16/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/hubs
-ms.openlocfilehash: 71ca0896bc645b7625f60c3a9e8fe321079d524a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 4a31c16eb44e2244574d0df49c30e7a44b2bba6e
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631272"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93050935"
 ---
 # <a name="use-hubs-in-no-locsignalr-for-aspnet-core"></a>使用中 SignalR 的中心进行 ASP.NET Core
 
@@ -155,7 +156,7 @@ public class ChatHub : Hub
 
 通过使用 `Hub<IChatClient>` ，可以对客户端方法进行编译时检查。 这可以防止由于使用神奇字符串而导致的问题，因为 `Hub<T>` 只能提供对在接口中定义的方法的访问。
 
-使用强类型 `Hub<T>` 禁用功能 `SendAsync` 。 接口上定义的任何方法仍可以定义为异步方法。 事实上，其中每个方法应返回 `Task` 。 由于它是一个接口，因此请勿使用 `async` 关键字。 例如：
+使用强类型 `Hub<T>` 禁用功能 `SendAsync` 。 接口上定义的任何方法仍可以定义为异步方法。 事实上，其中每个方法应返回 `Task` 。 由于它是一个接口，因此请勿使用 `async` 关键字。 例如： 。
 
 ```csharp
 public interface IClient
@@ -191,7 +192,7 @@ SignalR中心 API 提供 `OnConnectedAsync` 和 `OnDisconnectedAsync` 虚拟方�
 
 [!code-javascript[Error](hubs/sample/wwwroot/js/chat.js?range=23)]
 
-如果中心引发异常，则不会关闭连接。 默认情况下， SignalR 将向客户端返回一般性错误消息。 例如：
+如果中心引发异常，则不会关闭连接。 默认情况下， SignalR 将向客户端返回一般性错误消息。 例如： 。
 
 ```
 Microsoft.AspNetCore.SignalR.HubException: An unexpected error occurred invoking 'MethodName' on the server.

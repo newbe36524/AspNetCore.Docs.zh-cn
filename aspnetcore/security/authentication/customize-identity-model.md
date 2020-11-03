@@ -5,6 +5,7 @@ description: 本文介绍如何为自定义基础 Entity Framework Core 数据�
 ms.author: avickers
 ms.date: 07/01/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/customize_identity_model
-ms.openlocfilehash: 71f532aa00c2afeeb0d6b93c01cb6a1fbd0a686c
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 6e520c76a3377e889166ca8d08b75754ef34b6a1
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634301"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052040"
 ---
 # <a name="no-locidentity-model-customization-in-aspnet-core"></a>Identity ASP.NET Core 中的模型自定义
 
@@ -83,7 +84,7 @@ Identity模型包含以下实体类型。
 
 ### <a name="default-model-configuration"></a>默认模型配置
 
-Identity定义多个继承自[DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)的*上下文类*，以配置和使用模型。 此配置是使用上下文类的[OnModelCreating](/dotnet/api/microsoft.entityframeworkcore.dbcontext.onmodelcreating)方法中的[EF CORE Code First 熟知 API](/ef/core/modeling/)完成的。 默认配置为：
+Identity定义多个继承自 [DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)的 *上下文类* ，以配置和使用模型。 此配置是使用上下文类的[OnModelCreating](/dotnet/api/microsoft.entityframeworkcore.dbcontext.onmodelcreating)方法中的[EF CORE Code First 熟知 API](/ef/core/modeling/)完成的。 默认配置为：
 
 ```csharp
 builder.Entity<TUser>(b =>
@@ -220,7 +221,7 @@ Identity 为上面列出的每种实体类型 (CLR) 类型定义默认 [公共�
 
 可以将类型用作应用自己的类型的基类，而不是直接使用这些类型。 `DbContext`定义的类 Identity 是泛型类，因此，不同的 CLR 类型可用于模型中的一个或多个实体类型。 这些泛型类型还允许 `User` 更改主键 (PK) 数据类型。
 
-使用 Identity 支持角色时， <xref:Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext> 应使用类。 例如：
+使用 Identity 支持角色时， <xref:Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext> 应使用类。 例如： 。
 
 ```csharp
 // Uses all the built-in Identity types
@@ -358,7 +359,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 @inject UserManager<ApplicationUser> UserManager
 ```
 
-更新*区域/ Identity / Identity HostingStartup.cs*或 `Startup.ConfigureServices` ，并将替换 `IdentityUser` 为 `ApplicationUser` 。
+更新 *区域/ Identity / Identity HostingStartup.cs* 或 `Startup.ConfigureServices` ，并将替换 `IdentityUser` 为 `ApplicationUser` 。
 
 ```csharp
 services.AddIdentity<ApplicationUser>()
@@ -435,7 +436,7 @@ services.AddIdentity<ApplicationUser>()
 
     ::: moniker-end
 
-4. 如果 `ApplicationUser` 正在使用自定义类，请将类更新为从继承 `IdentityUser` 。 例如：
+4. 如果 `ApplicationUser` 正在使用自定义类，请将类更新为从继承 `IdentityUser` 。 例如： 。
 
     ::: moniker range="<= aspnetcore-1.1"
 
@@ -503,7 +504,7 @@ services.AddIdentity<ApplicationUser>()
 
     ::: moniker-end
 
-5. 如果 `ApplicationRole` 正在使用自定义类，请将类更新为从继承 `IdentityRole<TKey>` 。 例如：
+5. 如果 `ApplicationRole` 正在使用自定义类，请将类更新为从继承 `IdentityRole<TKey>` 。 例如： 。
 
     [!code-csharp[](customize-identity-model/samples/2.1/RazorPagesSampleApp/Data/ApplicationRole.cs?name=snippet_ApplicationRole&highlight=4)]
 
@@ -742,7 +743,7 @@ public class ApplicationDbContext
 }
 ```
 
-注意：
+说明：
 
 * 此示例还包括 `UserRole` 联接实体，需要将多对多关系从用户导航到角色。
 * 请记住更改导航属性的类型，以反映 `Application{...}` 现在正在使用的类型而不是 `Identity{...}` 类型。
@@ -952,7 +953,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 ### <a name="map-to-a-different-schema"></a>映射到其他架构
 
-架构在数据库提供程序中的行为可能有所不同。 对于 SQL Server，默认设置是在 *dbo* 架构中创建所有表。 可在其他架构中创建这些表。 例如：
+架构在数据库提供程序中的行为可能有所不同。 对于 SQL Server，默认设置是在 *dbo* 架构中创建所有表。 可在其他架构中创建这些表。 例如： 。
 
 ```csharp
 protected override void OnModelCreating(ModelBuilder modelBuilder)

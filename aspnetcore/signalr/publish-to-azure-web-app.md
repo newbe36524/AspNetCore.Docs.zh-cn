@@ -5,8 +5,9 @@ description: 了解如何将 ASP.NET Core SignalR 应用程序发布到 Azure Ap
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
-ms.date: 11/12/2019
+ms.date: 11/02/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/publish-to-azure-web-app
-ms.openlocfilehash: b9d32e2f3c37f652be15c5857d14ac48f66695ad
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 8e6d36fe0b38486f94078b8f9cf12b852da7e0d9
+ms.sourcegitcommit: d64bf0cbe763beda22a7728c7f10d07fc5e19262
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631922"
+ms.lasthandoff: 11/03/2020
+ms.locfileid: "93234500"
 ---
 # <a name="publish-an-aspnet-core-no-locsignalr-app-to-azure-app-service"></a>SignalR将 ASP.NET Core 应用程序发布到 Azure App Service
 
@@ -40,26 +41,26 @@ ms.locfileid: "88631922"
 
 1. 在“解决方案资源管理器”中右键单击该项目，然后选择“发布”。
 
-1. 确认已在 "**选取发布目标**" 对话框中选择 "**应用服务**" 和 "**新建**"。
+1. 确认已在 " **选取发布目标** " 对话框中选择 " **应用服务** " 和 " **新建** "。
 
-1. 从 "**发布**" 按钮下拉菜单中选择 "**创建配置文件**"。
+1. 从 " **发布** " 按钮下拉菜单中选择 " **创建配置文件** "。
 
-   在 " **创建应用服务** " 对话框中，输入下表中所述的信息，然后选择 " **创建**"。
+   在 " **创建应用服务** " 对话框中，输入下表中所述的信息，然后选择 " **创建** "。
 
-   | Item               | 说明 |
+   | 项目               | 说明 |
    | ------------------ | ----------- |
    | **名称**           | 应用的唯一名称。 |
    | **订阅**   | 应用使用的 Azure 订阅。 |
    | **资源组** | 应用所属的一组相关资源。 |
    | **托管计划**   | Web 应用的定价计划。 |
 
-1. 在 "**依赖关系**" 下拉列表中选择**Azure SignalR 服务**  >  **Add** ：
+1. 选择 " **服务依赖关系** " 部分中的 " **Azure SignalR 服务** "。 选择 **+** 按钮：
 
    !["依赖关系" 区域显示在 "添加" 下拉列表中选择的 Azure：：： no (SignalR) ：：： Service](publish-to-azure-web-app/_static/signalr-service-dependency.png)
 
-1. 在 " **Azure SignalR 服务** " 对话框中，选择 " **创建新的 Azure SignalR 服务实例**"。
+1. 在 " **Azure SignalR 服务** " 对话框中，选择 " **创建新的 Azure SignalR 服务实例** "。
 
-1. 提供 **名称**、 **资源组**和 **位置**。 返回到 " **Azure SignalR 服务** " 对话框，然后选择 " **添加**"。
+1. 提供 **名称** 、 **资源组** 和 **位置** 。 返回到 " **Azure SignalR 服务** " 对话框，然后选择 " **添加** "。
 
 Visual Studio 完成以下任务：
 
@@ -81,17 +82,17 @@ Visual Studio 完成以下任务：
 
 对于不使用 Azure 服务托管的应用 SignalR ，请启用：
 
-* [ARR 相关性] (https://azure.github.io/AppService/2016/05/16/Disable-Session-affinity- cookie (ARR cookie) # B0 l) 将来自用户的请求路由回同一应用服务实例。 默认设置为 **"打开**"。
-* 允许 Web 套接字传输正常工作的[Web 套接字](xref:fundamentals/websockets)。 默认设置为 " **关闭**"。
+* [ARR 相关性] (https://azure.github.io/AppService/2016/05/16/Disable-Session-affinity- cookie (ARR cookie) # B0 l) 将来自用户的请求路由回同一应用服务实例。 默认设置为 **"打开** "。
+* 允许 Web 套接字传输正常工作的[Web 套接字](xref:fundamentals/websockets)。 默认设置为 " **关闭** "。
 
-1. 在 Azure 门户中，导航到 **应用服务**中的 web 应用。
-1. 打开**配置**  >  **常规设置**。
-1. 将 " **Web 套接字** " 设置为 **"开"**。
-1. 验证 **ARR 相关性** 是否设置为 **On**。
+1. 在 Azure 门户中，导航到 **应用服务** 中的 web 应用。
+1. 打开 **配置**  >  **常规设置** 。
+1. 将 " **Web 套接字** " 设置为 **"开"** 。
+1. 验证 **ARR 相关性** 是否设置为 **On** 。
 
 ## <a name="app-service-plan-limits"></a>应用服务计划限制
 
-基于所选的应用服务计划，Web 套接字和其他传输受到限制。 有关详细信息，请参阅 azure[订阅和服务限制、配额和约束](/azure/azure-subscription-service-limits#app-service-limits)一文中的*azure 云服务限制*和*应用服务限制*部分。
+基于所选的应用服务计划，Web 套接字和其他传输受到限制。 有关详细信息，请参阅 azure [订阅和服务限制、配额和约束](/azure/azure-subscription-service-limits#app-service-limits)一文中的 *azure 云服务限制* 和 *应用服务限制* 部分。
 
 ## <a name="additional-resources"></a>其他资源
 

@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 08/21/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/models/file-uploads
-ms.openlocfilehash: 6ff78b26e8e2363cf6c54ebb2a392f390fb2995c
-ms.sourcegitcommit: cd412a44f26cb416ceb348fc0a1ccc9a6e9ca73e
+ms.openlocfilehash: 14561bace565c104d0a9c926cad3105c4865e72a
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88720274"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061166"
 ---
 # <a name="upload-files-in-aspnet-core"></a>在 ASP.NET Core 中上传文件
 
@@ -46,7 +47,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 降低成功攻击可能性的安全措施如下：
 
 * 将文件上传到专用文件上传区域，最好是非系统驱动器。 使用专用位置便于对上传的文件实施安全限制。 禁用对文件上传位置的执行权限。&dagger;
-* 请勿将上传的文件保存在与应用相同的目录树中****。&dagger;
+* 请勿将上传的文件保存在与应用相同的目录树中  。&dagger;
 * 使用应用确定的安全的文件名。 请勿使用用户提供的文件名或上载文件的不受信任的文件名。 &dagger; 显示时，HTML 对不受信任的文件名进行编码。 例如，记录文件名或在 UI 中显示 (Razor 会自动对输出) 进行 HTML 编码。
 * 仅允许应用设计规范的已批准文件扩展名。&dagger; <!-- * Check the file format signature to prevent a user from uploading a masqueraded file.&dagger; For example, don't permit a user to upload an *.exe* file with a *.txt* extension. Add this back when we get instructions how to do this.  -->
 * 验证是否在服务器上执行了客户端检查。 &dagger; 客户端检查很容易规避。
@@ -87,7 +88,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
     * 数据库限制可能会限制上传的大小。
     * 相对于数据库存储，物理存储通常成本更高。
   * 相对于使用数据存储服务，物理存储的成本可能更低。
-  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。****
+  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。 
 
 * 数据存储服务（例如，[Azure Blob 存储](https://azure.microsoft.com/services/storage/blobs/)）
 
@@ -124,7 +125,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 
 要上传小文件，请使用多部分窗体或使用 JavaScript 构造 POST 请求。
 
-下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 (*Pages/BufferedSingleFileUploadPhysical* ：
+下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 ( *Pages/BufferedSingleFileUploadPhysical* ：
 
 ```cshtml
 <form enctype="multipart/form-data" method="post">
@@ -194,7 +195,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 若要使用 JavaScript 为[不支持 Fetch API](https://caniuse.com/#feat=fetch) 的客户端执行窗体发布，请使用以下方法之一：
 
 * 使用 Fetch Polyfill（例如，[window.fetch polyfill (github/fetch)](https://github.com/github/fetch)）。
-* 改用 `XMLHttpRequest` 例如：
+* 请使用 `XMLHttpRequest`。 例如： 。
 
   ```javascript
   <script>
@@ -225,7 +226,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 <a name="filename"></a>
 
 > [!WARNING]
-> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性****。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
+> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性  。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
 >
 > * 从用户提供的文件名中删除路径。
 > * 为 UI 或日志记录保存经 HTML 编码、已删除路径的文件名。
@@ -303,11 +304,11 @@ foreach (var formFile in files)
 }
 ```
 
-传递到  的路径必须包含文件名<xref:System.IO.FileStream> **。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
+传递到  的路径必须包含文件名<xref:System.IO.FileStream>  。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
 
 使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 技术上传的文件在处理之前会缓冲在内存中或服务器的磁盘中。 在操作方法中，<xref:Microsoft.AspNetCore.Http.IFormFile> 内容可作为 <xref:System.IO.Stream> 访问。 除本地文件系统之外，还可以将文件保存到网络共享或文件存储服务，如 [Azure Blob 存储](/azure/visual-studio/vs-storage-aspnet5-getting-started-blobs)。
 
-若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。**
+若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。 
 
 > [!WARNING]
 > 如果在未删除先前临时文件的情况下创建了 65,535 个以上的文件，则 [Path.GetTempFileName](xref:System.IO.Path.GetTempFileName*) 将抛出一个 <xref:System.IO.IOException>。 65,535 个文件限制是每个服务器的限制。 有关 Windows 操作系统上的此限制的详细信息，请参阅以下主题中的说明：
@@ -435,7 +436,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 [!code-csharp[](file-uploads/samples/3.x/SampleApp/Controllers/StreamingController.cs?name=snippet_UploadDatabase)]
 
-`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)：**
+`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)： 
 
 [!code-csharp[](file-uploads/samples/3.x/SampleApp/Utilities/MultipartRequestHelper.cs)]
 
@@ -447,7 +448,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ## <a name="validation"></a>验证
 
-示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。** 有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
+示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。  有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
 
 > [!WARNING]
 > 示例应用演示的验证处理方法不扫描上传的文件的内容。 在多数生产方案中，会先将病毒/恶意软件扫描程序 API 用于文件，然后再向用户或其他系统提供文件。
@@ -461,13 +462,13 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ### <a name="content-validation"></a>内容验证
 
-**将第三方病毒/恶意软件扫描 API 用于上传的内容**。
+**将第三方病毒/恶意软件扫描 API 用于上传的内容** 。
 
 在大容量方案中，在服务器资源上扫描文件较为困难。 若文件扫描导致请求处理性能降低，请考虑将扫描工作卸载到[后台服务](xref:fundamentals/host/hosted-services)，该服务可以是在应用服务器之外的服务器上运行的服务。 通常会将卸载的文件保留在隔离区，直至后台病毒扫描程序检查它们。 文件通过检查时，会将相应的文件移到常规的文件存储位置。 通常在执行这些步骤的同时，会提供指示文件扫描状态的数据库记录。 通过此方法，应用和应用服务器可以持续以响应请求为重点。
 
 ### <a name="file-extension-validation"></a>文件扩展名验证
 
-应在允许的扩展名列表中查找上传的文件的扩展名。 例如：
+应在允许的扩展名列表中查找上传的文件的扩展名。 例如： 。
 
 ```csharp
 private string[] permittedExtensions = { ".txt", ".pdf" };
@@ -533,7 +534,7 @@ Razor 自动对属性值进行 HTML 编码以便显示。 以下代码安全可�
 
 限制上传的文件的大小。
 
-在示例应用中，文件大小限制为 2 MB（以字节为单位）。 通过 appsettings.json 文件中的[配置](xref:fundamentals/configuration/index)提供此限制：**
+在示例应用中，文件大小限制为 2 MB（以字节为单位）。 此限制是通过以下文件的 [配置](xref:fundamentals/configuration/index) 提供的 *appsettings.json* ：
 
 ```json
 {
@@ -770,7 +771,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 降低成功攻击可能性的安全措施如下：
 
 * 将文件上传到专用文件上传区域，最好是非系统驱动器。 使用专用位置便于对上传的文件实施安全限制。 禁用对文件上传位置的执行权限。&dagger;
-* 请勿将上传的文件保存在与应用相同的目录树中****。&dagger;
+* 请勿将上传的文件保存在与应用相同的目录树中  。&dagger;
 * 使用应用确定的安全的文件名。 请勿使用用户提供的文件名或上载文件的不受信任的文件名。 &dagger; 显示时，HTML 对不受信任的文件名进行编码。 例如，记录文件名或在 UI 中显示 (Razor 会自动对输出) 进行 HTML 编码。
 * 仅允许应用设计规范的已批准文件扩展名。&dagger; <!-- * Check the file format signature to prevent a user from uploading a masqueraded file.&dagger; For example, don't permit a user to upload an *.exe* file with a *.txt* extension. Add this back when we get instructions how to do this.  -->
 * 验证是否在服务器上执行了客户端检查。 &dagger; 客户端检查很容易规避。
@@ -811,7 +812,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
     * 数据库限制可能会限制上传的大小。
     * 相对于数据库存储，物理存储通常成本更高。
   * 相对于使用数据存储服务，物理存储的成本可能更低。
-  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。****
+  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。 
 
 * 数据存储服务（例如，[Azure Blob 存储](https://azure.microsoft.com/services/storage/blobs/)）
 
@@ -848,7 +849,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 
 要上传小文件，请使用多部分窗体或使用 JavaScript 构造 POST 请求。
 
-下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 (*Pages/BufferedSingleFileUploadPhysical* ：
+下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 ( *Pages/BufferedSingleFileUploadPhysical* ：
 
 ```cshtml
 <form enctype="multipart/form-data" method="post">
@@ -918,7 +919,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 若要使用 JavaScript 为[不支持 Fetch API](https://caniuse.com/#feat=fetch) 的客户端执行窗体发布，请使用以下方法之一：
 
 * 使用 Fetch Polyfill（例如，[window.fetch polyfill (github/fetch)](https://github.com/github/fetch)）。
-* 改用 `XMLHttpRequest` 例如：
+* 请使用 `XMLHttpRequest`。 例如： 。
 
   ```javascript
   <script>
@@ -949,7 +950,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 <a name="filename"></a>
 
 > [!WARNING]
-> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性****。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
+> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性  。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
 >
 > * 从用户提供的文件名中删除路径。
 > * 为 UI 或日志记录保存经 HTML 编码、已删除路径的文件名。
@@ -1027,11 +1028,11 @@ foreach (var formFile in files)
 }
 ```
 
-传递到  的路径必须包含文件名<xref:System.IO.FileStream> **。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
+传递到  的路径必须包含文件名<xref:System.IO.FileStream>  。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
 
 使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 技术上传的文件在处理之前会缓冲在内存中或服务器的磁盘中。 在操作方法中，<xref:Microsoft.AspNetCore.Http.IFormFile> 内容可作为 <xref:System.IO.Stream> 访问。 除本地文件系统之外，还可以将文件保存到网络共享或文件存储服务，如 [Azure Blob 存储](/azure/visual-studio/vs-storage-aspnet5-getting-started-blobs)。
 
-若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。**
+若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。 
 
 > [!WARNING]
 > 如果在未删除先前临时文件的情况下创建了 65,535 个以上的文件，则 [Path.GetTempFileName](xref:System.IO.Path.GetTempFileName*) 将抛出一个 <xref:System.IO.IOException>。 65,535 个文件限制是每个服务器的限制。 有关 Windows 操作系统上的此限制的详细信息，请参阅以下主题中的说明：
@@ -1159,7 +1160,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 [!code-csharp[](file-uploads/samples/3.x/SampleApp/Controllers/StreamingController.cs?name=snippet_UploadDatabase)]
 
-`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)：**
+`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)： 
 
 [!code-csharp[](file-uploads/samples/3.x/SampleApp/Utilities/MultipartRequestHelper.cs)]
 
@@ -1171,7 +1172,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ## <a name="validation"></a>验证
 
-示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。** 有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
+示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。  有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
 
 > [!WARNING]
 > 示例应用演示的验证处理方法不扫描上传的文件的内容。 在多数生产方案中，会先将病毒/恶意软件扫描程序 API 用于文件，然后再向用户或其他系统提供文件。
@@ -1185,13 +1186,13 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ### <a name="content-validation"></a>内容验证
 
-**将第三方病毒/恶意软件扫描 API 用于上传的内容**。
+**将第三方病毒/恶意软件扫描 API 用于上传的内容** 。
 
 在大容量方案中，在服务器资源上扫描文件较为困难。 若文件扫描导致请求处理性能降低，请考虑将扫描工作卸载到[后台服务](xref:fundamentals/host/hosted-services)，该服务可以是在应用服务器之外的服务器上运行的服务。 通常会将卸载的文件保留在隔离区，直至后台病毒扫描程序检查它们。 文件通过检查时，会将相应的文件移到常规的文件存储位置。 通常在执行这些步骤的同时，会提供指示文件扫描状态的数据库记录。 通过此方法，应用和应用服务器可以持续以响应请求为重点。
 
 ### <a name="file-extension-validation"></a>文件扩展名验证
 
-应在允许的扩展名列表中查找上传的文件的扩展名。 例如：
+应在允许的扩展名列表中查找上传的文件的扩展名。 例如： 。
 
 ```csharp
 private string[] permittedExtensions = { ".txt", ".pdf" };
@@ -1257,7 +1258,7 @@ Razor 自动对属性值进行 HTML 编码以便显示。 以下代码安全可�
 
 限制上传的文件的大小。
 
-在示例应用中，文件大小限制为 2 MB（以字节为单位）。 通过 appsettings.json 文件中的[配置](xref:fundamentals/configuration/index)提供此限制：**
+在示例应用中，文件大小限制为 2 MB（以字节为单位）。 此限制是通过以下文件的 [配置](xref:fundamentals/configuration/index) 提供的 *appsettings.json* ：
 
 ```json
 {
@@ -1505,7 +1506,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 降低成功攻击可能性的安全措施如下：
 
 * 将文件上传到专用文件上传区域，最好是非系统驱动器。 使用专用位置便于对上传的文件实施安全限制。 禁用对文件上传位置的执行权限。&dagger;
-* 请勿将上传的文件保存在与应用相同的目录树中****。&dagger;
+* 请勿将上传的文件保存在与应用相同的目录树中  。&dagger;
 * 使用应用确定的安全的文件名。 请勿使用用户提供的文件名或上载文件的不受信任的文件名。 &dagger; 显示时，HTML 对不受信任的文件名进行编码。 例如，记录文件名或在 UI 中显示 (Razor 会自动对输出) 进行 HTML 编码。
 * 仅允许应用设计规范的已批准文件扩展名。&dagger; <!-- * Check the file format signature to prevent a user from uploading a masqueraded file.&dagger; For example, don't permit a user to upload an *.exe* file with a *.txt* extension. Add this back when we get instructions how to do this.  -->
 * 验证是否在服务器上执行了客户端检查。 &dagger; 客户端检查很容易规避。
@@ -1546,7 +1547,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
     * 数据库限制可能会限制上传的大小。
     * 相对于数据库存储，物理存储通常成本更高。
   * 相对于使用数据存储服务，物理存储的成本可能更低。
-  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。****
+  * 应用的进程必须具有存储位置的读写权限。 切勿授予执行权限。 
 
 * 数据存储服务（例如，[Azure Blob 存储](https://azure.microsoft.com/services/storage/blobs/)）
 
@@ -1583,7 +1584,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 
 要上传小文件，请使用多部分窗体或使用 JavaScript 构造 POST 请求。
 
-下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 (*Pages/BufferedSingleFileUploadPhysical* ：
+下面的示例演示 Razor 如何使用页面窗体上传示例应用) 中的单个文件 ( *Pages/BufferedSingleFileUploadPhysical* ：
 
 ```cshtml
 <form enctype="multipart/form-data" method="post">
@@ -1653,7 +1654,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 若要使用 JavaScript 为[不支持 Fetch API](https://caniuse.com/#feat=fetch) 的客户端执行窗体发布，请使用以下方法之一：
 
 * 使用 Fetch Polyfill（例如，[window.fetch polyfill (github/fetch)](https://github.com/github/fetch)）。
-* 改用 `XMLHttpRequest` 例如：
+* 请使用 `XMLHttpRequest`。 例如： 。
 
   ```javascript
   <script>
@@ -1684,7 +1685,7 @@ ASP.NET Core 支持使用缓冲的模型绑定（针对较小文件）和无缓�
 <a name="filename2"></a>
 
 > [!WARNING]
-> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性****。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
+> 除了显示和日志记录用途外，请勿使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 的 `FileName` 属性  。 显示或日志记录时，HTML 对文件名进行编码。 攻击者可以提供恶意文件名，包括完整路径或相对路径。 应用程序应：
 >
 > * 从用户提供的文件名中删除路径。
 > * 为 UI 或日志记录保存经 HTML 编码、已删除路径的文件名。
@@ -1762,11 +1763,11 @@ foreach (var formFile in files)
 }
 ```
 
-传递到  的路径必须包含文件名<xref:System.IO.FileStream> **。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
+传递到  的路径必须包含文件名<xref:System.IO.FileStream>  。 如果未提供文件名，则会在运行时引发 <xref:System.UnauthorizedAccessException>。
 
 使用 <xref:Microsoft.AspNetCore.Http.IFormFile> 技术上传的文件在处理之前会缓冲在内存中或服务器的磁盘中。 在操作方法中，<xref:Microsoft.AspNetCore.Http.IFormFile> 内容可作为 <xref:System.IO.Stream> 访问。 除本地文件系统之外，还可以将文件保存到网络共享或文件存储服务，如 [Azure Blob 存储](/azure/visual-studio/vs-storage-aspnet5-getting-started-blobs)。
 
-若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。**
+若要查看循环访问要上传的多个文件并且使用安全文件名的其他示例，请参阅示例应用中的 Pages/BufferedMultipleFileUploadPhysical.cshtml.cs。 
 
 > [!WARNING]
 > 如果在未删除先前临时文件的情况下创建了 65,535 个以上的文件，则 [Path.GetTempFileName](xref:System.IO.Path.GetTempFileName*) 将抛出一个 <xref:System.IO.IOException>。 65,535 个文件限制是每个服务器的限制。 有关 Windows 操作系统上的此限制的详细信息，请参阅以下主题中的说明：
@@ -1894,7 +1895,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 [!code-csharp[](file-uploads/samples/2.x/SampleApp/Controllers/StreamingController.cs?name=snippet_UploadDatabase)]
 
-`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)：**
+`MultipartRequestHelper` (Utilities/MultipartRequestHelper.cs)： 
 
 [!code-csharp[](file-uploads/samples/2.x/SampleApp/Utilities/MultipartRequestHelper.cs)]
 
@@ -1906,7 +1907,7 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ## <a name="validation"></a>验证
 
-示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。** 有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
+示例应用的 `FileHelpers` 类演示对缓冲 <xref:Microsoft.AspNetCore.Http.IFormFile> 和流式传输文件上传的多项检查。 有关示例应用如何处理 <xref:Microsoft.AspNetCore.Http.IFormFile> 缓冲文件上传的信息，请参阅 Utilities/FileHelpers.cs 文件中的 `ProcessFormFile` 方法。  有关如何处理流式传输的文件的信息，请参阅同一个文件中的 `ProcessStreamedFile` 方法。
 
 > [!WARNING]
 > 示例应用演示的验证处理方法不扫描上传的文件的内容。 在多数生产方案中，会先将病毒/恶意软件扫描程序 API 用于文件，然后再向用户或其他系统提供文件。
@@ -1920,13 +1921,13 @@ public async Task<IActionResult> OnPostUploadAsync()
 
 ### <a name="content-validation"></a>内容验证
 
-**将第三方病毒/恶意软件扫描 API 用于上传的内容**。
+**将第三方病毒/恶意软件扫描 API 用于上传的内容** 。
 
 在大容量方案中，在服务器资源上扫描文件较为困难。 若文件扫描导致请求处理性能降低，请考虑将扫描工作卸载到[后台服务](xref:fundamentals/host/hosted-services)，该服务可以是在应用服务器之外的服务器上运行的服务。 通常会将卸载的文件保留在隔离区，直至后台病毒扫描程序检查它们。 文件通过检查时，会将相应的文件移到常规的文件存储位置。 通常在执行这些步骤的同时，会提供指示文件扫描状态的数据库记录。 通过此方法，应用和应用服务器可以持续以响应请求为重点。
 
 ### <a name="file-extension-validation"></a>文件扩展名验证
 
-应在允许的扩展名列表中查找上传的文件的扩展名。 例如：
+应在允许的扩展名列表中查找上传的文件的扩展名。 例如： 。
 
 ```csharp
 private string[] permittedExtensions = { ".txt", ".pdf" };
@@ -1992,7 +1993,7 @@ Razor 自动对属性值进行 HTML 编码以便显示。 以下代码安全可�
 
 限制上传的文件的大小。
 
-在示例应用中，文件大小限制为 2 MB（以字节为单位）。 通过 appsettings.json 文件中的[配置](xref:fundamentals/configuration/index)提供此限制：**
+在示例应用中，文件大小限制为 2 MB（以字节为单位）。 此限制是通过以下文件的 [配置](xref:fundamentals/configuration/index) 提供的 *appsettings.json* ：
 
 ```json
 {

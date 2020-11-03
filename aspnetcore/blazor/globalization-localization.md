@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/globalization-localization
-ms.openlocfilehash: deb68b50f408532af22d20ba9b06a9ee3eccb335
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 4345dd8525c2e72aaddc8e45a4fd4d9bfdd63040
+ms.sourcegitcommit: b5ebaf42422205d212e3dade93fcefcf7f16db39
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88628217"
+ms.lasthandoff: 10/21/2020
+ms.locfileid: "92326519"
 ---
 # <a name="aspnet-core-no-locblazor-globalization-and-localization"></a>ASP.NET Core Blazor 全球化和本地化
 
@@ -74,7 +74,44 @@ Blazor WebAssembly 应用使用用户的[语言首选项](https://developer.mozi
 
 若要显式配置区域性，请在 `Program.Main` 中设置 <xref:System.Globalization.CultureInfo.DefaultThreadCurrentCulture?displayProperty=nameWithType> 和 <xref:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture?displayProperty=nameWithType>。
 
-默认情况下，Blazor 对于 Blazor WebAssembly 应用的链接器配置会去除国际化信息（显式请求的区域设置除外）。 有关控制链接器行为的详细信息和指南，请参阅 <xref:blazor/host-and-deploy/configure-linker#configure-the-linker-for-internationalization>。
+::: moniker range=">= aspnetcore-5.0"
+
+默认情况下，Blazor WebAssembly 携带在用户区域性中显示值（如日期和货币）所需的最小全球化资源。 必须支持动态更改区域性的应用程序应在项目文件中配置 `BlazorWebAssemblyLoadAllGlobalizationData`：
+
+```xml
+<PropertyGroup>
+  <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+</PropertyGroup>
+```
+
+还可以通过传递给 `Blazor.start` 的选项将 Blazor WebAssembly 配置为使用特定应用程序区域性启动。 例如，下面的示例显示配置为使用 `en-GB` 区域性启动的应用：
+
+```html
+<script src="_framework/blazor.webassembly.js" autostart="false"></script>
+<script>
+  Blazor.start({
+    applicationCulture: 'en-GB'
+  });
+</script>
+```
+
+`applicationCulture` 的值应符合 [BCP-47 语言标记格式](https://tools.ietf.org/html/bcp47)。
+
+如果应用不需要本地化，你可以将应用配置为支持不变区域性，这基于 `en-US` 区域性：
+
+```xml
+<PropertyGroup>
+  <InvariantGlobalization>true</InvariantGlobalization>
+</PropertyGroup>
+```
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+默认情况下，Blazor WebAssembly 应用的中间语言 (IL) 链接器配置去除国际化信息（显式请求的区域设置除外）。 有关详细信息，请参阅 <xref:blazor/host-and-deploy/configure-linker#configure-the-linker-for-internationalization>。
+
+::: moniker-end
 
 虽然 Blazor 默认选择的区域性可能足以满足大多数用户的需求，但请考虑为用户提供一种指定其首选区域设置的方法。 如需获取具有区域性选取器的 Blazor WebAssembly 示例应用，请参阅 [`LocSample`](https://github.com/pranavkm/LocSample) 本地化示例应用。
 

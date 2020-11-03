@@ -6,6 +6,7 @@ ms.author: scaddie
 ms.custom: mvc
 ms.date: 4/20/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/app-secrets
-ms.openlocfilehash: 74c9ae63ffbe39d6ba6e77aee8f6adcc8c8a157a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 174f831583c2ef6cb7f122a22fe855acc8fe3047
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634899"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93056863"
 ---
 # <a name="safe-storage-of-app-secrets-in-development-in-aspnet-core"></a>ASP.NET Core 中的开发中安全存储应用机密
 
@@ -38,7 +39,7 @@ ms.locfileid: "88634899"
 
 环境变量用于避免在代码中或在本地配置文件中存储应用程序机密。 环境变量会重写所有以前指定的配置源的配置值。
 
-请考虑一个 ASP.NET Core web 应用，其中启用了 **单个用户帐户** 安全。 带有密钥的文件中的项目 *appsettings.js上* 包含一个默认的数据库连接字符串 `DefaultConnection` 。 默认连接字符串用于 LocalDB，后者在用户模式下运行，不需要密码。 在应用程序部署过程中， `DefaultConnection` 可使用环境变量的值覆盖密钥值。 环境变量可以存储具有敏感凭据的完整连接字符串。
+请考虑一个 ASP.NET Core web 应用，其中启用了 **单个用户帐户** 安全。 带有密钥的项目文件中包含默认的数据库连接字符串 *appsettings.json* `DefaultConnection` 。 默认连接字符串用于 LocalDB，后者在用户模式下运行，不需要密码。 在应用程序部署过程中， `DefaultConnection` 可使用环境变量的值覆盖密钥值。 环境变量可以存储具有敏感凭据的完整连接字符串。
 
 > [!WARNING]
 > 环境变量通常以未加密的纯文本格式存储。 如果计算机或进程受到危害，则不受信任方可以访问环境变量。 可能需要其他措施来防止泄露用户机密。
@@ -100,7 +101,7 @@ dotnet user-secrets set "Movies:ServiceApiKey" "12345"
 
 在前面的示例中，冒号表示 `Movies` 是具有属性的对象文本 `ServiceApiKey` 。
 
-机密管理器工具也可用于其他目录。 使用 `--project` 选项可提供 *.csproj* 文件所在的文件系统路径。 例如：
+机密管理器工具也可用于其他目录。 使用 `--project` 选项可提供 *.csproj* 文件所在的文件系统路径。 例如： 。
 
 ```dotnetcli
 dotnet user-secrets set "Movies:ServiceApiKey" "12345" --project "C:\apps\WebApp1\src\WebApp1"
@@ -108,7 +109,7 @@ dotnet user-secrets set "Movies:ServiceApiKey" "12345" --project "C:\apps\WebApp
 
 ### <a name="json-structure-flattening-in-visual-studio"></a>Visual Studio 中的 JSON 结构平展
 
-Visual Studio 的 " **管理用户机密** " 手势在文本编辑器中打开文件的 *secrets.js* 。 将 * 上secrets.js* 的内容替换为要存储的键值对。 例如：
+Visual Studio 的 " **管理用户机密** " 手势在文本编辑器中打开文件的 *secrets.js* 。 将 *上secrets.js* 的内容替换为要存储的键值对。 例如： 。
 
 ```json
 {
@@ -181,17 +182,17 @@ JSON 结构是通过或进行修改后平展的 `dotnet user-secrets remove` `do
 
 ## <a name="string-replacement-with-secrets"></a>用机密替换字符串
 
-以纯文本形式存储密码是不安全的。 例如，存储在 *appsettings.js* 中的数据库连接字符串可能包含指定用户的密码：
+以纯文本形式存储密码是不安全的。 例如，存储在中的数据库连接字符串 *appsettings.json* 可能包含指定用户的密码：
 
 [!code-json[](app-secrets/samples/3.x/UserSecrets/appsettings-unsecure.json?highlight=3)]
 
-更安全的方法是将密码存储为机密。 例如：
+更安全的方法是将密码存储为机密。 例如： 。
 
 ```dotnetcli
 dotnet user-secrets set "DbPassword" "pass123"
 ```
 
-`Password`从*appsettings.js上*的连接字符串中删除键值对。 例如：
+`Password`从中的连接字符串中移除键值对 *appsettings.json* 。 例如： 。
 
 [!code-json[](app-secrets/samples/3.x/UserSecrets/appsettings.json?highlight=3)]
 
@@ -216,7 +217,7 @@ Movies:ConnectionString = Server=(localdb)\mssqllocaldb;Database=Movie-1;Trusted
 Movies:ServiceApiKey = 12345
 ```
 
-在前面的示例中，键名称中的冒号表示 *secrets.js上*的中的对象层次结构。
+在前面的示例中，键名称中的冒号表示 *secrets.js上* 的中的对象层次结构。
 
 ## <a name="remove-a-single-secret"></a>删除单个机密
 
@@ -228,7 +229,7 @@ Movies:ServiceApiKey = 12345
 dotnet user-secrets remove "Movies:ConnectionString"
 ```
 
-已修改文件 * 上* 应用的secrets.js，以删除与密钥关联的键值对 `MoviesConnectionString` ：
+已修改文件 *上* 应用的secrets.js，以删除与密钥关联的键值对 `MoviesConnectionString` ：
 
 ```json
 {
@@ -286,7 +287,7 @@ No secrets configured for this application.
 
 环境变量用于避免在代码中或在本地配置文件中存储应用程序机密。 环境变量会重写所有以前指定的配置源的配置值。
 
-请考虑一个 ASP.NET Core web 应用，其中启用了 **单个用户帐户** 安全。 带有密钥的文件中的项目 *appsettings.js上* 包含一个默认的数据库连接字符串 `DefaultConnection` 。 默认连接字符串用于 LocalDB，后者在用户模式下运行，不需要密码。 在应用程序部署过程中， `DefaultConnection` 可使用环境变量的值覆盖密钥值。 环境变量可以存储具有敏感凭据的完整连接字符串。
+请考虑一个 ASP.NET Core web 应用，其中启用了 **单个用户帐户** 安全。 带有密钥的项目文件中包含默认的数据库连接字符串 *appsettings.json* `DefaultConnection` 。 默认连接字符串用于 LocalDB，后者在用户模式下运行，不需要密码。 在应用程序部署过程中， `DefaultConnection` 可使用环境变量的值覆盖密钥值。 环境变量可以存储具有敏感凭据的完整连接字符串。
 
 > [!WARNING]
 > 环境变量通常以未加密的纯文本格式存储。 如果计算机或进程受到危害，则不受信任方可以访问环境变量。 可能需要其他措施来防止泄露用户机密。
@@ -343,7 +344,7 @@ dotnet user-secrets set "Movies:ServiceApiKey" "12345"
 
 在前面的示例中，冒号表示 `Movies` 是具有属性的对象文本 `ServiceApiKey` 。
 
-机密管理器工具也可用于其他目录。 使用 `--project` 选项可提供 *.csproj* 文件所在的文件系统路径。 例如：
+机密管理器工具也可用于其他目录。 使用 `--project` 选项可提供 *.csproj* 文件所在的文件系统路径。 例如： 。
 
 ```dotnetcli
 dotnet user-secrets set "Movies:ServiceApiKey" "12345" --project "C:\apps\WebApp1\src\WebApp1"
@@ -351,7 +352,7 @@ dotnet user-secrets set "Movies:ServiceApiKey" "12345" --project "C:\apps\WebApp
 
 ### <a name="json-structure-flattening-in-visual-studio"></a>Visual Studio 中的 JSON 结构平展
 
-Visual Studio 的 " **管理用户机密** " 手势在文本编辑器中打开文件的 *secrets.js* 。 将 * 上secrets.js* 的内容替换为要存储的键值对。 例如：
+Visual Studio 的 " **管理用户机密** " 手势在文本编辑器中打开文件的 *secrets.js* 。 将 *上secrets.js* 的内容替换为要存储的键值对。 例如： 。
 
 ```json
 {
@@ -426,17 +427,17 @@ JSON 结构是通过或进行修改后平展的 `dotnet user-secrets remove` `do
 
 ## <a name="string-replacement-with-secrets"></a>用机密替换字符串
 
-以纯文本形式存储密码是不安全的。 例如，存储在 *appsettings.js* 中的数据库连接字符串可能包含指定用户的密码：
+以纯文本形式存储密码是不安全的。 例如，存储在中的数据库连接字符串 *appsettings.json* 可能包含指定用户的密码：
 
 [!code-json[](app-secrets/samples/2.x/UserSecrets/appsettings-unsecure.json?highlight=3)]
 
-更安全的方法是将密码存储为机密。 例如：
+更安全的方法是将密码存储为机密。 例如： 。
 
 ```dotnetcli
 dotnet user-secrets set "DbPassword" "pass123"
 ```
 
-`Password`从*appsettings.js上*的连接字符串中删除键值对。 例如：
+`Password`从中的连接字符串中移除键值对 *appsettings.json* 。 例如： 。
 
 [!code-json[](app-secrets/samples/2.x/UserSecrets/appsettings.json?highlight=3)]
 
@@ -461,7 +462,7 @@ Movies:ConnectionString = Server=(localdb)\mssqllocaldb;Database=Movie-1;Trusted
 Movies:ServiceApiKey = 12345
 ```
 
-在前面的示例中，键名称中的冒号表示 *secrets.js上*的中的对象层次结构。
+在前面的示例中，键名称中的冒号表示 *secrets.js上* 的中的对象层次结构。
 
 ## <a name="remove-a-single-secret"></a>删除单个机密
 
@@ -473,7 +474,7 @@ Movies:ServiceApiKey = 12345
 dotnet user-secrets remove "Movies:ConnectionString"
 ```
 
-已修改文件 * 上* 应用的secrets.js，以删除与密钥关联的键值对 `MoviesConnectionString` ：
+已修改文件 *上* 应用的secrets.js，以删除与密钥关联的键值对 `MoviesConnectionString` ：
 
 ```json
 {

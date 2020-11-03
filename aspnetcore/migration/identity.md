@@ -5,6 +5,7 @@ description: 了解如何从 ASP.NET MVC 项目将身份验证和标识迁移到
 ms.author: riande
 ms.date: 3/22/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: migration/identity
-ms.openlocfilehash: c8e6a1a8bf9ef06d98db0e7e0a6a0e5ff393e322
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: 8ceff0596c069d815c38b9bb526477a9d1430951
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865551"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060646"
 ---
 # <a name="migrate-authentication-and-no-locidentity-to-aspnet-core"></a>迁移身份验证和 Identity ASP.NET Core
 
@@ -31,7 +32,7 @@ ms.locfileid: "88865551"
 
 ## <a name="configure-no-locidentity-and-membership"></a>配置 Identity 和成员资格
 
-在 ASP.NET MVC 中，身份验证和标识功能是使用 Identity *Startup.Auth.cs*和* Identity Config.cs*中的 ASP.NET 配置的，位于*App_Start*文件夹中。 在 ASP.NET Core MVC 中，这些功能在 *Startup.cs*中进行配置。
+在 ASP.NET MVC 中，身份验证和标识功能是使用 Identity *Startup.Auth.cs* 和 *Identity Config.cs* 中的 ASP.NET 配置的，位于 *App_Start* 文件夹中。 在 ASP.NET Core MVC 中，这些功能在 *Startup.cs* 中进行配置。
 
 安装以下 NuGet 包：
 
@@ -39,7 +40,7 @@ ms.locfileid: "88865551"
 * `Microsoft.AspNetCore.Authentication.Cookies`
 * `Microsoft.EntityFrameworkCore.SqlServer`
 
-在 *Startup.cs*中，更新 `Startup.ConfigureServices` 方法以使用实体框架和 Identity 服务：
+在 *Startup.cs* 中，更新 `Startup.ConfigureServices` 方法以使用实体框架和 Identity 服务：
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -56,9 +57,9 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-此时，在上面的代码中引用了两个类型，这些类型尚未从 ASP.NET MVC 项目迁移： `ApplicationDbContext` 和 `ApplicationUser` 。 在 ASP.NET Core 项目中创建新的 " *模型* " 文件夹，并将两个与这些类型对应的类添加到其中。 你将在 */Models/ Identity Models.cs*中找到这些类的 ASP.NET MVC 版本，但我们会在迁移的项目中对每个类使用一个文件，因为这样做更为清晰。
+此时，在上面的代码中引用了两个类型，这些类型尚未从 ASP.NET MVC 项目迁移： `ApplicationDbContext` 和 `ApplicationUser` 。 在 ASP.NET Core 项目中创建新的 " *模型* " 文件夹，并将两个与这些类型对应的类添加到其中。 你将在 */Models/ Identity Models.cs* 中找到这些类的 ASP.NET MVC 版本，但我们会在迁移的项目中对每个类使用一个文件，因为这样做更为清晰。
 
-*ApplicationUser.cs*：
+*ApplicationUser.cs* ：
 
 ```csharp
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -71,7 +72,7 @@ namespace NewMvcProject.Models
 }
 ```
 
-*ApplicationDbContext.cs*：
+*ApplicationDbContext.cs* ：
 
 ```csharp
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -114,9 +115,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 ## <a name="migrate-registration-and-login-logic"></a>迁移注册和登录逻辑
 
-通过为 Identity 应用配置的服务和使用实体框架和 SQL Server 配置的数据访问，我们已准备好添加注册和登录到应用的支持。 请记住，在[迁移过程](xref:migration/mvc#migrate-the-layout-file)中，我们已注释掉对 *_Layout*中 *_LoginPartial*的引用。 现在可以返回到该代码，取消注释，并添加必要的控制器和视图以支持登录功能。
+通过为 Identity 应用配置的服务和使用实体框架和 SQL Server 配置的数据访问，我们已准备好添加注册和登录到应用的支持。 请记住，在 [迁移过程](xref:migration/mvc#migrate-the-layout-file)中，我们已注释掉对 *_Layout* 中 *_LoginPartial* 的引用。 现在可以返回到该代码，取消注释，并添加必要的控制器和视图以支持登录功能。
 
-取消注释 `@Html.Partial` *_Layout*中的行：
+取消注释 `@Html.Partial` *_Layout* 中的行：
 
 ```cshtml
       <li>@Html.ActionLink("Contact", "Contact", "Home")</li>

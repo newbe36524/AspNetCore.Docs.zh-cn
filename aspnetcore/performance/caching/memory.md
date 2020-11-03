@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 02/02/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/caching/memory
-ms.openlocfilehash: c4d21992695828e81e03eca92f167c0a3d69c724
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 4d5f459d54a3c74a2eb23a50db6537eeaf8596b3
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88627281"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061439"
 ---
 # <a name="cache-in-memory-in-aspnet-core"></a>ASP.NET Core 中的缓存内存
 
@@ -65,11 +66,11 @@ Web 场中的非粘滞会话需要 [分布式缓存](distributed.md) ，以避�
 ## <a name="use-imemorycache"></a>使用 IMemoryCache
 
 > [!WARNING]
-> 使用[依赖关系注入](xref:fundamentals/dependency-injection)中的*共享*内存缓存，并调用 `SetSize` 、 `Size` 或 `SizeLimit` 以限制缓存大小可能会导致应用程序失败。 在缓存上设置大小限制时，在添加时，所有项都必须指定大小。 这可能会导致问题，因为开发人员可能无法完全控制使用共享缓存的内容。 例如，Entity Framework Core 使用共享缓存并且未指定大小。 如果应用设置了缓存大小限制并使用 EF Core，则应用将引发 `InvalidOperationException` 。
+> 使用 [依赖关系注入](xref:fundamentals/dependency-injection)中的 *共享* 内存缓存，并调用 `SetSize` 、 `Size` 或 `SizeLimit` 以限制缓存大小可能会导致应用程序失败。 在缓存上设置大小限制时，在添加时，所有项都必须指定大小。 这可能会导致问题，因为开发人员可能无法完全控制使用共享缓存的内容。 例如，Entity Framework Core 使用共享缓存并且未指定大小。 如果应用设置了缓存大小限制并使用 EF Core，则应用将引发 `InvalidOperationException` 。
 > 当使用 `SetSize` 、 `Size` 或 `SizeLimit` 来限制缓存时，为缓存创建一个缓存单独。 有关详细信息和示例，请参阅 [使用 SetSize、Size 和 SizeLimit 限制缓存大小](#use-setsize-size-and-sizelimit-to-limit-cache-size)。
 > 共享缓存由其他框架或库共享。 例如，EF Core 使用共享缓存并且未指定大小。 
 
-内存中缓存是从应用程序中使用[依赖关系注入](xref:fundamentals/dependency-injection)引用的一种*服务*。 `IMemoryCache`在构造函数中请求实例：
+内存中缓存是从应用程序中使用 [依赖关系注入](xref:fundamentals/dependency-injection)引用的一种 *服务* 。 `IMemoryCache`在构造函数中请求实例：
 
 [!code-csharp[](memory/3.0sample/WebCacheSample/Controllers/HomeController.cs?name=snippet_ctor)]
 
@@ -121,7 +122,7 @@ Web 场中的非粘滞会话需要 [分布式缓存](distributed.md) ，以避�
 
 `MemoryCache`实例可以选择指定并强制实施大小限制。 缓存大小限制没有定义的度量单位，因为缓存没有度量条目大小的机制。 如果设置了缓存大小限制，则所有条目都必须指定 size。 ASP.NET Core 运行时不会根据内存压力限制缓存大小。 开发人员需要限制缓存大小。 指定的大小以开发人员选择的单位为单位。
 
-例如：
+例如： 。
 
 * 如果 web 应用主要是缓存字符串，则每个缓存条目大小都可以是字符串长度。
 * 应用可以将所有条目的大小指定为1，而大小限制则为条目的计数。
@@ -246,10 +247,10 @@ Web 场中的非粘滞会话需要 [分布式缓存](distributed.md) ，以避�
 ## <a name="using-imemorycache"></a>使用 IMemoryCache
 
 > [!WARNING]
-> 使用[依赖关系注入](xref:fundamentals/dependency-injection)中的*共享*内存缓存，并调用 `SetSize` 、 `Size` 或 `SizeLimit` 以限制缓存大小可能会导致应用程序失败。 在缓存上设置大小限制时，在添加时，所有项都必须指定大小。 这可能会导致问题，因为开发人员可能无法完全控制使用共享缓存的内容。 例如，Entity Framework Core 使用共享缓存并且未指定大小。 如果应用设置了缓存大小限制并使用 EF Core，则应用将引发 `InvalidOperationException` 。
+> 使用 [依赖关系注入](xref:fundamentals/dependency-injection)中的 *共享* 内存缓存，并调用 `SetSize` 、 `Size` 或 `SizeLimit` 以限制缓存大小可能会导致应用程序失败。 在缓存上设置大小限制时，在添加时，所有项都必须指定大小。 这可能会导致问题，因为开发人员可能无法完全控制使用共享缓存的内容。 例如，Entity Framework Core 使用共享缓存并且未指定大小。 如果应用设置了缓存大小限制并使用 EF Core，则应用将引发 `InvalidOperationException` 。
 > 当使用 `SetSize` 、 `Size` 或 `SizeLimit` 来限制缓存时，为缓存创建一个缓存单独。 有关详细信息和示例，请参阅 [使用 SetSize、Size 和 SizeLimit 限制缓存大小](#use-setsize-size-and-sizelimit-to-limit-cache-size)。
 
-内存中缓存是从应用程序中使用[依赖关系注入](../../fundamentals/dependency-injection.md)引用的一种*服务*。 调用 `AddMemoryCache` 于 `ConfigureServices` ：
+内存中缓存是从应用程序中使用 [依赖关系注入](../../fundamentals/dependency-injection.md)引用的一种 *服务* 。 调用 `AddMemoryCache` 于 `ConfigureServices` ：
 
 [!code-csharp[](memory/sample/WebCache/Startup.cs?highlight=9)]
 
@@ -297,7 +298,7 @@ Web 场中的非粘滞会话需要 [分布式缓存](distributed.md) ，以避�
 
 `MemoryCache`实例可以选择指定并强制实施大小限制。 缓存大小限制没有定义的度量单位，因为缓存没有度量条目大小的机制。 如果设置了缓存大小限制，则所有条目都必须指定 size。 ASP.NET Core 运行时不会根据内存压力限制缓存大小。 开发人员需要限制缓存大小。 指定的大小以开发人员选择的单位为单位。
 
-例如：
+例如： 。
 
 * 如果 web 应用主要是缓存字符串，则每个缓存条目大小都可以是字符串长度。
 * 应用可以将所有条目的大小指定为1，而大小限制则为条目的计数。

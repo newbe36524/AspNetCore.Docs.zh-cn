@@ -5,7 +5,7 @@ description: 了解可用于构建 Blazor 应用程序的工具。
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/07/2020
+ms.date: 09/28/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -19,12 +19,12 @@ no-loc:
 - SignalR
 uid: blazor/tooling
 zone_pivot_groups: operating-systems
-ms.openlocfilehash: d7e3743d12c235c20cc27f6a3263e2994a9e160a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: d1626fe753782d524bf75c398c11235c3110633a
+ms.sourcegitcommit: d7991068bc6b04063f4bd836fc5b9591d614d448
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88625825"
+ms.lasthandoff: 10/06/2020
+ms.locfileid: "91762147"
 ---
 # <a name="tooling-for-aspnet-core-no-locblazor"></a>用于 ASP.NET Core Blazor 的工具
 
@@ -52,13 +52,13 @@ ms.locfileid: "88625825"
 
 ::: zone pivot="linux"
 
-1. 安装最新版本的 [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1)。 如果以前安装了该 SDK，可以通过在命令行界面中执行以下命令来确定已安装的版本：
+1. 安装最新版本的 [.NET Core SDK](https://dotnet.microsoft.com/download)。 如果以前安装了该 SDK，可以通过在命令行界面中执行以下命令来确定已安装的版本：
 
    ```dotnetcli
    dotnet --version
    ```
 
-1. 安装最新版本的 [Visual Studio Code](https://code.visualstudio.com/)。
+1. 安装最新版本的 [Visual Studio Code](https://code.visualstudio.com)。
 
 1. 安装最新的 [C# for Visual Studio Code 扩展](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)。
 
@@ -90,7 +90,7 @@ Linux 上没有用于信任证书的集中途径。 通常采用以下方法之�
 * 信任 `localhost` 的所有自签名证书。
 * 将证书添加到浏览器的受信任证书列表。
 
-有关详细信息，请参阅浏览器和 Linux 发行版提供的指南。
+有关详细信息，请参阅浏览器制造商和 Linux 发行版提供的指南。
 
 ::: zone-end
 

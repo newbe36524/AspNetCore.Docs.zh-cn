@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 04/14/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/views/view-compilation
-ms.openlocfilehash: 3d76eff93d5c7c53b57136e5183e1ca5287dec81
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 77ca96b329136ee044ab6fc5f6b5ebb5b67fe64c
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631116"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059073"
 ---
 # <a name="no-locrazor-file-compilation-in-aspnet-core"></a>Razor ASP.NET Core 中的文件编译
 
@@ -30,7 +31,7 @@ ms.locfileid: "88631116"
 
 ::: moniker range=">= aspnetcore-3.1"
 
-Razor使用[ Razor SDK](xref:razor-pages/sdk)的生成和发布时间都将编译带有 *..* 扩展名的文件。 可以选择通过配置项目来启用运行时编译。
+Razor使用 [ Razor SDK](xref:razor-pages/sdk)的生成和发布时间都将编译带有 *..* 扩展名的文件。 可以选择通过配置项目来启用运行时编译。
 
 ## <a name="no-locrazor-compilation"></a>Razor 汇编
 
@@ -44,7 +45,7 @@ Razor页面和 MVC 项目模板包括一个选项，用于在创建项目时启�
 
 在 " **新建 ASP.NET Core web 应用程序** " 对话框中：
 
-1. 选择 " **Web 应用程序** " 或 " **web 应用程序 (模型-视图-控制器) ** " 项目模板。
+1. 选择 " **Web 应用程序** " 或 " **web 应用程序 (模型-视图-控制器)** " 项目模板。
 1. 选中 " **启用 Razor 运行时编译** " 复选框。
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
@@ -62,7 +63,7 @@ dotnet new webapp --razor-runtime-compilation
 若要为现有项目中的所有环境启用运行时编译：
 
 1. 安装 [AspNetCore Razor .。RuntimeCompilation](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation/) NuGet 包。
-1. 更新项目的 `Startup.ConfigureServices` 方法以包含对 <xref:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation*> 的调用。 例如：
+1. 更新项目的 `Startup.ConfigureServices` 方法以包含对 <xref:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation*> 的调用。 例如： 。
 
     ```csharp
     public void ConfigureServices(IServiceCollection services)
@@ -84,7 +85,7 @@ dotnet new webapp --razor-runtime-compilation
 仅在开发环境中启用运行时编译：
 
 1. 安装 [AspNetCore Razor .。RuntimeCompilation](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation/) NuGet 包。
-1. 修改 `environmentVariables` *launchSettings.js上*的启动配置文件部分：
+1. 修改 `environmentVariables` *launchSettings.js上* 的启动配置文件部分：
     * 验证 `ASPNETCORE_ENVIRONMENT` 是否设置为 `"Development"` 。
     * 将 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 设置为 `"Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"`。
 
@@ -96,7 +97,7 @@ dotnet new webapp --razor-runtime-compilation
 
 ## <a name="enable-runtime-compilation-for-a-no-locrazor-class-library"></a>为类库启用运行时编译 Razor
 
-请考虑以下方案 Razor ：页面项目引用类库 (名为*MYCLASSLIB*的[ Razor RCL) ](xref:razor-pages/ui-class) 。 RCL 包含一个 *_Layout 的 cshtml* 文件，其中的所有团队 MVC 和 Razor 页面项目都使用。 需要为 RCL 中的 *_Layout cshtml* 文件启用运行时编译。 在页面项目中进行以下更改 Razor ：
+请考虑以下方案 Razor ：页面项目引用类库 (名为 *MYCLASSLIB* 的 [ Razor RCL)](xref:razor-pages/ui-class) 。 RCL 包含一个 *_Layout 的 cshtml* 文件，其中的所有团队 MVC 和 Razor 页面项目都使用。 需要为 RCL 中的 *_Layout cshtml* 文件启用运行时编译。 在页面项目中进行以下更改 Razor ：
 
 1. 使用在 [现有项目中有条件地启用运行时编译中](#conditionally-enable-runtime-compilation-in-an-existing-project)的说明启用运行时编译。
 1. 配置中的运行时编译选项 `Startup.ConfigureServices` ：
@@ -116,7 +117,7 @@ dotnet new webapp --razor-runtime-compilation
 
 ::: moniker range="= aspnetcore-3.0"
 
-Razor使用[ Razor SDK](xref:razor-pages/sdk)的生成和发布时间都将编译带有 *..* 扩展名的文件。 通过配置应用程序，可以选择启用运行时编译。
+Razor使用 [ Razor SDK](xref:razor-pages/sdk)的生成和发布时间都将编译带有 *..* 扩展名的文件。 通过配置应用程序，可以选择启用运行时编译。
 
 ## <a name="no-locrazor-compilation"></a>Razor 汇编
 
@@ -128,7 +129,7 @@ Razor默认情况下，SDK 会启用文件的生成时间和发布时编译 Razo
 
 1. 安装 [AspNetCore Razor .。RuntimeCompilation](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation/) NuGet 包。
 
-1. 更新项目的 `Startup.ConfigureServices` 方法以包含对 <xref:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation*> 的调用。 例如：
+1. 更新项目的 `Startup.ConfigureServices` 方法以包含对 <xref:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation*> 的调用。 例如： 。
 
     ```csharp
     public void ConfigureServices(IServiceCollection services)
@@ -176,7 +177,7 @@ Razor调用关联的 Razor 页或 MVC 视图时，将在运行时编译文件。
 
 ## <a name="no-locrazor-compilation"></a>Razor 汇编
 
-Razor默认情况下，SDK 会启用文件的生成和发布时编译 Razor 。 在 Razor 生成时，支持更新已更新的文件。 默认情况下，仅编译*Views.dll*编译的Views.dll*和不需要*的文件或引用程序集。 Razor
+Razor默认情况下，SDK 会启用文件的生成和发布时编译 Razor 。 在 Razor 生成时，支持更新已更新的文件。 默认情况下，仅编译 *Views.dll* 编译的Views.dll *和不需要* 的文件或引用程序集。 Razor
 
 > [!IMPORTANT]
 > 已弃用预编译工具，并且将在 ASP.NET Core 3.0 中删除该工具。 建议迁移到[ Razor Sdk](xref:razor-pages/sdk)。

@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 07/23/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/identity-custom-storage-providers
-ms.openlocfilehash: a8414efeece1afd55d0f30d232ef360d0a21714c
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: c89098bf0b2c4396f9856aca2be9967af5df0cb7
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630128"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051897"
 ---
 # <a name="custom-storage-providers-for-no-locaspnet-core-identity"></a>自定义存储提供程序 ASP.NET Core Identity
 
@@ -34,7 +35,7 @@ ASP.NET Core Identity 是一个可扩展系统，可让你创建自定义存储�
 
 ## <a name="introduction"></a>简介
 
-默认情况下， ASP.NET Core Identity 系统使用 Entity Framework Core 将用户信息存储在 SQL Server 数据库中。 对于许多应用程序而言，这种方法的效果很好。 但是，你可能希望使用不同的持久性机制或数据架构。 例如：
+默认情况下， ASP.NET Core Identity 系统使用 Entity Framework Core 将用户信息存储在 SQL Server 数据库中。 对于许多应用程序而言，这种方法的效果很好。 但是，你可能希望使用不同的持久性机制或数据架构。 例如： 。
 
 * 使用 [Azure 表存储](/azure/storage/) 或其他数据存储。
 * 数据库表具有不同的结构。 
@@ -180,7 +181,7 @@ ASP.NET Core Identity 由称为管理器和存储的类组成。 *管理* 层是
 * **IQueryableUserStore**  
  [IQueryableUserStore &lt; TUser &gt; ](/dotnet/api/microsoft.aspnetcore.identity.iqueryableuserstore-1)接口定义为提供可查询用户存储而实现的成员。
 
-只需实现应用程序中所需的接口。 例如：
+只需实现应用程序中所需的接口。 例如： 。
 
 ```csharp
 public class UserStore : IUserStore<IdentityUser>,

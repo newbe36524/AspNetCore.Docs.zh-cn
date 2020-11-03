@@ -5,8 +5,9 @@ description: 将 MessagePack Hub 协议添加到 ASP.NET Core SignalR 。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
-ms.date: 04/13/2020
+ms.date: 09/24/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/messagepackhubprotocol
-ms.openlocfilehash: ab9bd11e37182f5b24db5595d5d050f4cc0e32da
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e7d19a42e48048d2be4b87d6b0ac1ba6b2596ff1
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88626644"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93058163"
 ---
 # <a name="use-messagepack-hub-protocol-in-no-locsignalr-for-aspnet-core"></a>使用中的 MessagePack Hub 协议 SignalR 进行 ASP.NET Core
 
@@ -72,6 +73,9 @@ services.AddSignalR()
 若要在 .NET 客户端中启用 MessagePack，请 `Microsoft.AspNetCore.SignalR.Protocols.MessagePack` 在上安装包并调用 `AddMessagePackProtocol` `HubConnectionBuilder` 。
 
 ```csharp
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+
 var hubConnection = new HubConnectionBuilder()
                         .WithUrl("/chathub")
                         .AddMessagePackProtocol()
@@ -93,10 +97,10 @@ npm install @microsoft/signalr-protocol-msgpack
 
 *node_modules\\@microsoft\signalr-protocol-msgpack\dist\browser\signalr-protocol-msgpack.js* 
 
-在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js*中找到库。
+在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js* 中找到库。
 
 > [!NOTE]
-> 使用元素时 `<script>` ，顺序很重要。 如果在*msgpack5.js*之前引用*signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js*之前也需要*signalr.js* 。
+> 使用元素时 `<script>` ，顺序很重要。 如果在 *msgpack5.js* 之前引用 *signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js* 之前也需要 *signalr.js* 。
 
 ```html
 <script src="~/lib/signalr/signalr.js"></script>
@@ -132,7 +136,7 @@ public class ChatMessage
 }
 ```
 
-从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如：
+从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如： 。
 
 ```javascript
 connection.invoke("SomeMethod", { Sender: "Sally", Message: "Hello!" });
@@ -226,9 +230,11 @@ services.AddSignalR()
 ```
 
 > [!WARNING]
-> 强烈建议查看 [CVE-2020-5234](https://github.com/neuecc/MessagePack-CSharp/security/advisories/GHSA-7q36-4xx7-xcxf) 和应用建议的修补程序。 例如，将 `MessagePackSecurity.Active` 静态属性设置为 `MessagePackSecurity.UntrustedData` 。 设置 `MessagePackSecurity.Active` 需要手动安装[MessagePack 的1.9 版。](https://www.nuget.org/packages/MessagePack/1.9.3) 正在安装 `MessagePack` 版本为的 1.9. x 的升级 SignalR 。 当未 `MessagePackSecurity.Active` 设置为时 `MessagePackSecurity.UntrustedData` ，恶意客户端可能会导致拒绝服务。 `MessagePackSecurity.Active`在中设置 `Program.Main` ，如下面的代码所示：
+> 强烈建议查看 [CVE-2020-5234](https://github.com/neuecc/MessagePack-CSharp/security/advisories/GHSA-7q36-4xx7-xcxf) 和应用建议的修补程序。 例如，将 `MessagePackSecurity.Active` 静态属性设置为 `MessagePackSecurity.UntrustedData` 。 设置 `MessagePackSecurity.Active` 需要手动安装[MessagePack 的1.9 版。](https://www.nuget.org/packages/MessagePack/1.9.3) 正在安装 `MessagePack` 版本为的 1.9. x 的升级 SignalR 。 `MessagePack` 版本2.x 引入了重大更改，与 SignalR 版本3.1 及更早版本不兼容。 如果 `MessagePackSecurity.Active` 未设置为 `MessagePackSecurity.UntrustedData` ，则恶意客户端可能会导致拒绝服务。 `MessagePackSecurity.Active`在中设置 `Program.Main` ，如下面的代码所示：
 
 ```csharp
+using MessagePack;
+
 public static void Main(string[] args)
 {
   MessagePackSecurity.Active = MessagePackSecurity.UntrustedData;
@@ -247,6 +253,9 @@ public static void Main(string[] args)
 若要在 .NET 客户端中启用 MessagePack，请 `Microsoft.AspNetCore.SignalR.Protocols.MessagePack` 在上安装包并调用 `AddMessagePackProtocol` `HubConnectionBuilder` 。
 
 ```csharp
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+
 var hubConnection = new HubConnectionBuilder()
                         .WithUrl("/chathub")
                         .AddMessagePackProtocol()
@@ -268,10 +277,10 @@ npm install @microsoft/signalr-protocol-msgpack
 
 *node_modules\\@microsoft\signalr-protocol-msgpack\dist\browser\signalr-protocol-msgpack.js* 
 
-在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js*中找到库。
+在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js* 中找到库。
 
 > [!NOTE]
-> 使用元素时 `<script>` ，顺序很重要。 如果在*msgpack5.js*之前引用*signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js*之前也需要*signalr.js* 。
+> 使用元素时 `<script>` ，顺序很重要。 如果在 *msgpack5.js* 之前引用 *signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js* 之前也需要 *signalr.js* 。
 
 ```html
 <script src="~/lib/signalr/signalr.js"></script>
@@ -307,7 +316,7 @@ public class ChatMessage
 }
 ```
 
-从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如：
+从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如： 。
 
 ```javascript
 connection.invoke("SomeMethod", { Sender: "Sally", Message: "Hello!" });
@@ -404,6 +413,8 @@ services.AddSignalR()
 > 强烈建议查看 [CVE-2020-5234](https://github.com/neuecc/MessagePack-CSharp/security/advisories/GHSA-7q36-4xx7-xcxf) 和应用建议的修补程序。 例如，将 `MessagePackSecurity.Active` 静态属性设置为 `MessagePackSecurity.UntrustedData` 。 设置 `MessagePackSecurity.Active` 需要手动安装[MessagePack 的1.9 版。](https://www.nuget.org/packages/MessagePack/1.9.3) 正在安装 `MessagePack` 版本为的 1.9. x 的升级 SignalR 。 当未 `MessagePackSecurity.Active` 设置为时 `MessagePackSecurity.UntrustedData` ，恶意客户端可能会导致拒绝服务。 `MessagePackSecurity.Active`在中设置 `Program.Main` ，如下面的代码所示：
 
 ```csharp
+using MessagePack;
+
 public static void Main(string[] args)
 {
   MessagePackSecurity.Active = MessagePackSecurity.UntrustedData;
@@ -422,6 +433,9 @@ public static void Main(string[] args)
 若要在 .NET 客户端中启用 MessagePack，请 `Microsoft.AspNetCore.SignalR.Protocols.MessagePack` 在上安装包并调用 `AddMessagePackProtocol` `HubConnectionBuilder` 。
 
 ```csharp
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+
 var hubConnection = new HubConnectionBuilder()
                         .WithUrl("/chathub")
                         .AddMessagePackProtocol()
@@ -443,10 +457,10 @@ npm install @aspnet/signalr-protocol-msgpack
 
 *node_modules\\@aspnet\signalr-protocol-msgpack\dist\browser\signalr-protocol-msgpack.js*
 
-在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js*中找到库。
+在浏览器中， `msgpack5` 还必须引用库。 使用 `<script>` 标记创建引用。 可在 *node_modules\msgpack5\dist\msgpack5.js* 中找到库。
 
 > [!NOTE]
-> 使用元素时 `<script>` ，顺序很重要。 如果在*msgpack5.js*之前引用*signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js*之前也需要*signalr.js* 。
+> 使用元素时 `<script>` ，顺序很重要。 如果在 *msgpack5.js* 之前引用 *signalr-protocol-msgpack.js* ，则在尝试使用 MessagePack 进行连接时将出现错误。 *signalr-protocol-msgpack.js* 之前也需要 *signalr.js* 。
 
 ```html
 <script src="~/lib/signalr/signalr.js"></script>
@@ -482,7 +496,7 @@ public class ChatMessage
 }
 ```
 
-从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如：
+从 JavaScript 客户端发送时，必须使用 `PascalCased` 属性名称，因为大小写必须与 c # 类完全匹配。 例如： 。
 
 ```javascript
 connection.invoke("SomeMethod", { Sender: "Sally", Message: "Hello!" });

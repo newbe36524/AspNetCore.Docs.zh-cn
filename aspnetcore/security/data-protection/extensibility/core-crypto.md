@@ -5,6 +5,7 @@ description: 了解 IAuthenticatedEncryptor、IAuthenticatedEncryptorDescriptor�
 ms.author: riande
 ms.date: 08/11/2017
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/data-protection/extensibility/core-crypto
-ms.openlocfilehash: 4c802bc4beb1f1fde812e6c3f55fc43b5d569b66
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 99ce283d56a6010ddd846f21e0ca9a9a324d55fc
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635315"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060776"
 ---
 # <a name="core-cryptography-extensibility-in-aspnet-core"></a>ASP.NET Core 中的核心加密扩展性
 
@@ -34,7 +35,7 @@ ms.locfileid: "88635315"
 
 ## <a name="iauthenticatedencryptor"></a>IAuthenticatedEncryptor
 
-**IAuthenticatedEncryptor**接口是加密子系统的基本构建基块。 通常，每个密钥有一个 IAuthenticatedEncryptor，IAuthenticatedEncryptor 实例包装执行加密操作所需的所有加密密钥材料和算法信息。
+**IAuthenticatedEncryptor** 接口是加密子系统的基本构建基块。 通常，每个密钥有一个 IAuthenticatedEncryptor，IAuthenticatedEncryptor 实例包装执行加密操作所需的所有加密密钥材料和算法信息。
 
 顾名思义，类型负责提供经过身份验证的加密和解密服务。 它公开了以下两个 Api。
 
@@ -54,7 +55,7 @@ ms.locfileid: "88635315"
 
 # <a name="aspnet-core-2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x)
 
-**IAuthenticatedEncryptorFactory**接口表示知道如何创建[IAuthenticatedEncryptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptor)实例的类型。 其 API 如下所示。
+**IAuthenticatedEncryptorFactory** 接口表示知道如何创建 [IAuthenticatedEncryptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptor)实例的类型。 其 API 如下所示。
 
 * CreateEncryptorInstance (IKey key) ： IAuthenticatedEncryptor
 
@@ -81,7 +82,7 @@ byte[] roundTripped = encryptor2.Decrypt(new ArraySegment<byte>(ciphertext), aad
 
 # <a name="aspnet-core-1x"></a>[ASP.NET Core 1.x](#tab/aspnetcore1x)
 
-**IAuthenticatedEncryptorDescriptor**接口表示知道如何创建[IAuthenticatedEncryptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptor)实例的类型。 其 API 如下所示。
+**IAuthenticatedEncryptorDescriptor** 接口表示知道如何创建 [IAuthenticatedEncryptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptor)实例的类型。 其 API 如下所示。
 
 * CreateEncryptorInstance ( # A1： IAuthenticatedEncryptor
 
@@ -115,7 +116,7 @@ byte[] roundTripped = encryptor2.Decrypt(new ArraySegment<byte>(ciphertext), aad
 
 # <a name="aspnet-core-2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x)
 
-**IAuthenticatedEncryptorDescriptor**接口表示一种类型，该类型知道如何将自身导出到 XML。 其 API 如下所示。
+**IAuthenticatedEncryptorDescriptor** 接口表示一种类型，该类型知道如何将自身导出到 XML。 其 API 如下所示。
 
 * ExportToXml ( # A1： XmlSerializedDescriptorInfo
 
@@ -142,7 +143,7 @@ IAuthenticatedEncryptor 和 IAuthenticatedEncryptorDescriptor 之间的主要区
 
 ## <a name="iauthenticatedencryptordescriptordeserializer"></a>IAuthenticatedEncryptorDescriptorDeserializer
 
-**IAuthenticatedEncryptorDescriptorDeserializer**接口表示知道如何从 system.xml.linq.xelement> 反序列化 IAuthenticatedEncryptorDescriptor 实例的类型。 它公开了单一方法：
+**IAuthenticatedEncryptorDescriptorDeserializer** 接口表示知道如何从 system.xml.linq.xelement> 反序列化 IAuthenticatedEncryptorDescriptor 实例的类型。 它公开了单一方法：
 
 * ImportFromXml (System.xml.linq.xelement> 元素) ： IAuthenticatedEncryptorDescriptor
 
@@ -161,7 +162,7 @@ ImportFromXml 方法采用 [IAuthenticatedEncryptorDescriptor](xref:security/dat
 
 # <a name="aspnet-core-2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x)
 
-**AlgorithmConfiguration**类表示一种知道如何创建[IAuthenticatedEncryptorDescriptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptordescriptor)实例的类型。 它公开一个 API。
+**AlgorithmConfiguration** 类表示一种知道如何创建 [IAuthenticatedEncryptorDescriptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptordescriptor)实例的类型。 它公开一个 API。
 
 * CreateNewDescriptor ( # A1： IAuthenticatedEncryptorDescriptor
 
@@ -173,7 +174,7 @@ AlgorithmConfiguration 类型用作密钥创建例程（如 [自动密钥滚动]
 
 # <a name="aspnet-core-1x"></a>[ASP.NET Core 1.x](#tab/aspnetcore1x)
 
-**IAuthenticatedEncryptorConfiguration**接口表示知道如何创建[IAuthenticatedEncryptorDescriptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptordescriptor)实例的类型。 它公开一个 API。
+**IAuthenticatedEncryptorConfiguration** 接口表示知道如何创建 [IAuthenticatedEncryptorDescriptor](xref:security/data-protection/extensibility/core-crypto#data-protection-extensibility-core-crypto-iauthenticatedencryptordescriptor)实例的类型。 它公开一个 API。
 
 * CreateNewDescriptor ( # A1： IAuthenticatedEncryptorDescriptor
 

@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/hosting-models
-ms.openlocfilehash: a8d2ceaffb670723d7662234f3dc964c864e6763
-ms.sourcegitcommit: 8ed9a413bdc2d665ad11add8828898d726ccb106
+ms.openlocfilehash: 0830214029d59d0820ed3c5806267c766314c74f
+ms.sourcegitcommit: 8fcb08312a59c37e3542e7a67dad25faf5bb8e76
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/01/2020
-ms.locfileid: "89280421"
+ms.lasthandoff: 09/11/2020
+ms.locfileid: "90009669"
 ---
 # <a name="aspnet-core-no-locblazor-hosting-models"></a>ASP.NET Core Blazor 托管模型
 
@@ -41,7 +41,7 @@ Blazor 的主要托管模型在 WebAssembly 上的浏览器中运行客户端。
 
 选择“Blazor WebAssembly 应用”模板后，可选中“ASP.NET Core 托管”复选框 ([`dotnet new blazorwasm --hosted`](/dotnet/core/tools/dotnet-new))，将应用配置为使用 ASP.NET Core 后端 。 ASP.NET Core 应用可将 Blazor 应用提供给客户端。 具有 ASP.NET Core 后端的应用称为托管 Blazor WebAssembly 应用。 Blazor WebAssembly 应用可使用 Web API 调用或 [SignalR](xref:signalr/introduction) (<xref:tutorials/signalr-blazor-webassembly>) 通过网络与服务器交互。
 
-模板包括 `blazor.webassembly.js` 脚本，可处理以下任务：
+`blazor.webassembly.js` 脚本由框架和句柄提供：
 
 * 下载 .NET 运行时、应用和应用依赖项。
 * 初始化运行应用的运行时。
@@ -75,7 +75,7 @@ ASP.NET Core 应用会引用应用的 `Startup` 类以添加以下内容：
 * 服务器端服务。
 * 用于请求处理管道的应用。
 
-`blazor.server.js` 脚本会建立客户端连接。 应用负责根据需要保存和还原应用状态（例如在网络连接丢失时）。 `blazor.server.js` 脚本由 ASP.NET Core 共享框架中的嵌入资源提供。
+在客户端上，`blazor.server.js` 脚本与服务器建立 SignalR 连接。 脚本由 ASP.NET Core 共享框架中的嵌入资源提供给客户端应用。 客户端应用负责根据需要保持和还原应用状态。 
 
 Blazor Server 托管模型具有以下优点：
 

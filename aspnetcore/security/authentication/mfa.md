@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 03/17/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,16 +19,18 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/mfa
-ms.openlocfilehash: e224f947335ea8ea6ed8887dfadb52202bfd7866
-ms.sourcegitcommit: 8fcb08312a59c37e3542e7a67dad25faf5bb8e76
+ms.openlocfilehash: 873f7d113df84c931ad7fbf2c72aa292e4e87c48
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/11/2020
-ms.locfileid: "90009500"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060386"
 ---
 # <a name="multi-factor-authentication-in-aspnet-core"></a>ASP.NET Core 中的多重身份验证
 
 作者： [Damien Bowden](https://github.com/damienbod)
+
+[ (damienbod/AspNetCoreHybridFlowWithApi GitHub 存储库查看或下载示例代码) ](https://github.com/damienbod/AspNetCoreHybridFlowWithApi)
 
 多重身份验证 (MFA) 是在登录事件期间请求用户执行其他形式的标识的过程。 此提示可以是输入手机中的代码，使用 FIDO2 键，或提供指纹扫描。 当你需要另一种形式的身份验证时，安全性得到了增强。 攻击者无法轻松获取或复制额外的因素。
 
@@ -149,7 +152,7 @@ namespace IdentityStandaloneMfa
 }
 ```
 
-由于 Identity 服务设置在类中发生了更改 `Startup` ， Identity 需要更新的布局。 将 Identity 页面基架到应用。 在* Identity /Account/Manage/_Layout cshtml*文件中定义布局。
+由于 Identity 服务设置在类中发生了更改 `Startup` ， Identity 需要更新的布局。 将 Identity 页面基架到应用。 在 *Identity /Account/Manage/_Layout cshtml* 文件中定义布局。
 
 ```cshtml
 @{
@@ -223,7 +226,7 @@ services.AddAuthorization(options =>
 @inject IAuthorizationService AuthorizationService
 ```
 
-如果标识已使用 MFA 登录，则会显示 " **管理** " 菜单而不显示工具提示警告。 如果用户登录时未启用 MFA，将显示 " **管理员 (未启用") ** 菜单与工具提示一起显示，通知用户 (解释警告) 。
+如果标识已使用 MFA 登录，则会显示 " **管理** " 菜单而不显示工具提示警告。 如果用户登录时未启用 MFA，将显示 " **管理员 (未启用")** 菜单与工具提示一起显示，通知用户 (解释警告) 。
 
 ```cshtml
 @if (SignInManager.IsSignedIn(User))
@@ -330,7 +333,7 @@ You can enable MFA to login here:
 
 在 `Login` 方法中， `IIdentityServerInteractionService` 接口实现 `_interaction` 用于访问 OpenID connect 请求参数。 `acr_values`使用属性访问参数 `AcrValues` 。 当客户端通过集发送此时 `mfa` ，可以检查此情况。
 
-如果需要 MFA，并且中的用户 ASP.NET Core Identity 启用了 mfa，则登录将继续。 如果用户未启用 MFA，则会将用户重定向到自定义视图 *ErrorEnable2FA*。 然后 ASP.NET Core Identity 在中对用户进行签名。
+如果需要 MFA，并且中的用户 ASP.NET Core Identity 启用了 mfa，则登录将继续。 如果用户未启用 MFA，则会将用户重定向到自定义视图 *ErrorEnable2FA* 。 然后 ASP.NET Core Identity 在中对用户进行签名。
 
 ```csharp
 //

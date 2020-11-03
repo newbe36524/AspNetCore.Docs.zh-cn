@@ -2,8 +2,8 @@
 
 ## <a name="visual-studio-help"></a>Visual Studio 帮助
 
-* [了解如何使用 Visual Studio 调试 C# 代码](https://docs.microsoft.com/visualstudio/debugger/getting-started-with-the-debugger?view=vs-2017)
-* [Visual Studio IDE 简介](https://docs.microsoft.com/visualstudio/ide/visual-studio-ide?view=vs-2017)
+* [了解如何使用 Visual Studio 调试 C# 代码](/visualstudio/debugger/getting-started-with-the-debugger?view=vs-2017)
+* [Visual Studio IDE 简介](/visualstudio/ide/visual-studio-ide?view=vs-2017)
 
 # <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 
@@ -22,7 +22,7 @@
 
 ## <a name="visual-studio-for-mac-help"></a>Visual Studio for Mac 帮助
 
-* [Visual Studio for Mac 教程](https://docs.microsoft.com/visualstudio/mac/ide-tour)
-* [Visual Studio for Mac 介绍](https://docs.microsoft.com/visualstudio/mac/)
+* [Visual Studio for Mac 教程](/visualstudio/mac/ide-tour)
+* [Visual Studio for Mac 介绍](/visualstudio/mac/)
 
 ---

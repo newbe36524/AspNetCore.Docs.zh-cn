@@ -7,6 +7,7 @@ ms.author: anurse
 ms.custom: mvc
 ms.date: 01/16/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/security
-ms.openlocfilehash: 12293c5cb3dc49d505225f1b44e824e9273cfffc
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 5ecbf07b1527e9c68443870f7fce77adc29a5416
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630986"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93050831"
 ---
 # <a name="security-considerations-in-aspnet-core-no-locsignalr"></a>ASP.NET Core 中的安全注意事项 SignalR
 
@@ -33,14 +34,14 @@ ms.locfileid: "88630986"
 
 ## <a name="cross-origin-resource-sharing"></a>跨域资源共享
 
-[跨域资源共享 (CORS) ](https://www.w3.org/TR/cors/) 可用于 SignalR 在浏览器中允许跨域连接。 如果 JavaScript 代码托管在应用的另一个域中 SignalR ，则必须启用 [CORS 中间件](xref:security/cors) ，以允许 JavaScript 连接到 SignalR 应用。 仅允许来自你信任或控制的域的跨域请求。 例如：
+[跨域资源共享 (CORS) ](https://www.w3.org/TR/cors/) 可用于 SignalR 在浏览器中允许跨域连接。 如果 JavaScript 代码托管在应用的另一个域中 SignalR ，则必须启用 [CORS 中间件](xref:security/cors) ，以允许 JavaScript 连接到 SignalR 应用。 仅允许来自你信任或控制的域的跨域请求。 例如： 。
 
 * 你的网站承载于 `http://www.example.com`
 * 你的 SignalR 应用程序承载于 `http://signalr.example.com`
 
 应在应用程序中配置 CORS，使其 SignalR 仅允许源 `www.example.com` 。
 
-有关配置 CORS 的详细信息，请参阅 [ (CORS) 启用跨域请求 ](xref:security/cors)。 SignalR**需要**以下 CORS 策略：
+有关配置 CORS 的详细信息，请参阅 [ (CORS) 启用跨域请求 ](xref:security/cors)。 SignalR**需要** 以下 CORS 策略：
 
 * 允许特定的预期来源。 允许任何来源是可行的，但不安全或 **不** 推荐使用。
 * `GET` `POST` 必须允许使用 HTTP 方法。
@@ -108,7 +109,7 @@ CORS 提供的保护不适用于 WebSocket。 浏览器不会：
 
 但是，浏览器在发出 WebSocket 请求时会发送 `Origin` 标头。 应将应用程序配置为验证这些标头，以确保只允许来自预期来源的 WebSocket。
 
-在 ASP.NET Core 2.1 及更高版本中，可以使用在中放置的自定义中间件和中的 ** `UseSignalR` 身份验证中间** 件来实现标题验证 `Configure` ：
+在 ASP.NET Core 2.1 及更高版本中，可以使用在中放置的自定义中间件和中的 **`UseSignalR` 身份验证中间** 件来实现标题验证 `Configure` ：
 
 [!code-csharp[Main](security/sample/Startup.cs?name=snippet2)]
 
@@ -123,7 +124,7 @@ CORS 提供的保护不适用于 WebSocket。 浏览器不会：
 
 ## <a name="access-token-logging"></a>访问令牌日志记录
 
-使用 Websocket 或服务器发送事件时，浏览器客户端会在查询字符串中发送访问令牌。 使用标准标头，通过查询字符串接收访问令牌通常是安全的 `Authorization` 。 始终使用 HTTPS 确保客户端和服务器之间安全的端到端连接。 许多 web 服务器都记录每个请求的 URL，包括查询字符串。 记录 Url 可能会记录访问令牌。 默认情况下，ASP.NET Core 记录每个请求的 URL，其中将包括查询字符串。 例如：
+使用 Websocket 或 Server-Sent 事件时，浏览器客户端会在查询字符串中发送访问令牌。 使用标准标头，通过查询字符串接收访问令牌通常是安全的 `Authorization` 。 始终使用 HTTPS 确保客户端和服务器之间安全的端到端连接。 许多 web 服务器都记录每个请求的 URL，包括查询字符串。 记录 Url 可能会记录访问令牌。 默认情况下，ASP.NET Core 记录每个请求的 URL，其中将包括查询字符串。 例如： 。
 
 ```
 info: Microsoft.AspNetCore.Hosting.Internal.WebHost[1]

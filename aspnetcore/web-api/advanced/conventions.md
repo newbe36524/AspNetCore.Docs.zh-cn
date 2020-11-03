@@ -7,6 +7,7 @@ ms.author: scaddie
 ms.custom: mvc
 ms.date: 12/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: web-api/advanced/conventions
-ms.openlocfilehash: 425f1aaf1fa86f10d857c34e621c302f2db258e5
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 0c5ea8ba69e4c6287afce1771ac9cee65bb188a8
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88626787"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052534"
 ---
 # <a name="use-web-api-conventions"></a>使用 Web API 约定
 
@@ -36,7 +37,7 @@ ASP.NET Core 2.2 及更高版本附带一种方法，可提取常见的 [API 文
 * 定义通过特定操作类型返回的、最常见的返回类型和状态代码。
 * 识别偏离所定义的标准的操作。
 
-ASP.NET Core MVC 2.2 及更高版本在 <xref:Microsoft.AspNetCore.Mvc.DefaultApiConventions?displayProperty=fullName> 中包含一组默认的约定。 约定基于 ASP.NET Core API 项目模板中提供的控件 (ValuesController.cs)******。 若操作遵循模板中的模式，则应成功使用默认约定。 如果默认约定不能满足需要，请参阅[创建 Web API 约定](#create-web-api-conventions)。
+ASP.NET Core MVC 2.2 及更高版本在 <xref:Microsoft.AspNetCore.Mvc.DefaultApiConventions?displayProperty=fullName> 中包含一组默认的约定。 约定基于 ASP.NET Core API 项目模板中提供的控件 (ValuesController.cs)  。 若操作遵循模板中的模式，则应成功使用默认约定。 如果默认约定不能满足需要，请参阅[创建 Web API 约定](#create-web-api-conventions)。
 
 在运行时，<xref:Microsoft.AspNetCore.Mvc.ApiExplorer> 会了解约定。 `ApiExplorer` 是 MVC 与 [OpenAPI](https://www.openapis.org/)（也称为 Swagger）文档生成器进行通信的抽象内容。 已应用的约定中的属性与某个操作相关联，并包含在操作的 OpenAPI 文档中。 [API 分析器](xref:web-api/advanced/analyzers) 还了解约定。 若操作为非常规操作（例如，它返回已应用的约定未记录的状态代码），则会生成警告，建议记录该状态代码。
 
@@ -65,11 +66,11 @@ ASP.NET Core MVC 2.2 及更高版本在 <xref:Microsoft.AspNetCore.Mvc.DefaultAp
 
 1. `Microsoft.AspNetCore.Mvc.ApiConventionTypeAttribute` 应用于控制器 &mdash; 将指定约定类型应用于控制器上的所有操作。 约定方法都标记有提示，可确定要向其应用约定方法的操作。 有关提示的详细信息，请参阅[创建 Web API 约定](#create-web-api-conventions)）。
 
-    在以下示例中，默认的约定集将应用于 ContactsConventionController 中的所有操作**：
+    在以下示例中，默认的约定集将应用于 ContactsConventionController 中的所有操作  ：
 
     [!code-csharp[](conventions/sample/Controllers/ContactsConventionController.cs?name=snippet_ApiConventionTypeAttribute&highlight=2)]
 
-1. `Microsoft.AspNetCore.Mvc.ApiConventionTypeAttribute` 应用于程序集 &mdash; 将指定约定类型应用于当前程序集中的所有控制器。 建议将程序集级别的属性应用于 Startup.cs** 文件。
+1. `Microsoft.AspNetCore.Mvc.ApiConventionTypeAttribute` 应用于程序集 &mdash; 将指定约定类型应用于当前程序集中的所有控制器。 建议将程序集级别的属性应用于 Startup.cs  文件。
 
     在以下示例中，默认的约定集将应用于程序集中的所有操作：
 
@@ -84,7 +85,7 @@ ASP.NET Core MVC 2.2 及更高版本在 <xref:Microsoft.AspNetCore.Mvc.DefaultAp
 
 ### <a name="response-types"></a>响应类型
 
-这些方法使用 `[ProducesResponseType]` 或 `[ProducesDefaultResponseType]` 属性进行批注。 例如：
+这些方法使用 `[ProducesResponseType]` 或 `[ProducesDefaultResponseType]` 属性进行批注。 例如： 。
 
 ```csharp
 public static class MyAppConventions
@@ -104,7 +105,7 @@ public static class MyAppConventions
 
 ### <a name="naming-requirements"></a>命名要求
 
-`[ApiConventionNameMatch]` 和 `[ApiConventionTypeMatch]` 属性可应用于约定方法，确定它们所要应用的操作。 例如：
+`[ApiConventionNameMatch]` 和 `[ApiConventionTypeMatch]` 属性可应用于约定方法，确定它们所要应用的操作。 例如： 。
 
 ```csharp
 [ProducesResponseType(StatusCodes.Status200OK)]

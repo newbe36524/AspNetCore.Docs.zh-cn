@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 09/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/cookie-sharing
-ms.openlocfilehash: 6ac808d11790ae27e82606b442ff215d95b93e41
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 8f54f2e4894328f8471d5f80c8184839ce47add6
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631363"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93059684"
 ---
 # <a name="share-authentication-no-loccookies-among-aspnet-apps"></a>cookie在 ASP.NET 应用之间共享身份验证
 
@@ -134,7 +135,7 @@ ASP.NET 4.x 应用必须面向 .NET Framework 4.5.1 或更高版本。 否则，
 
 如果未设置 `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier` 和 `http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider` ，则将设置 <xref:System.Web.Helpers.AntiForgeryConfig.UniqueClaimTypeIdentifier> 为区分唯一用户的声明。
 
-*App_Start/startup.auth.cs*：
+*App_Start/startup.auth.cs* ：
 
 ```csharp
 app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -167,9 +168,9 @@ System.Web.Helpers.AntiForgeryConfig.UniqueClaimTypeIdentifier =
     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
 ```
 
-生成用户标识时， () 的身份验证类型 `Identity.Application` 必须与 `AuthenticationType` `UseCookieAuthentication` *App_Start/startup.auth.cs*中的 "设置" 中定义的类型匹配。
+生成用户标识时， () 的身份验证类型 `Identity.Application` 必须与 `AuthenticationType` `UseCookieAuthentication` *App_Start/startup.auth.cs* 中的 "设置" 中定义的类型匹配。
 
-*模型/ IdentityModels.cs*：
+*模型/ IdentityModels.cs* ：
 
 ```csharp
 public class ApplicationUser : IdentityUser

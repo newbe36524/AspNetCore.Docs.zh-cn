@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: fundamentals/routing
-ms.openlocfilehash: cf450385db3c7327de233357d4c13d556ee44bad
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e3dd7168e6974f63fa963d3732bc5df41814c70e
+ms.sourcegitcommit: d5ecad1103306fac8d5468128d3e24e529f1472c
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633664"
+ms.lasthandoff: 10/23/2020
+ms.locfileid: "92491610"
 ---
 # <a name="routing-in-aspnet-core"></a>ASP.NET Core 中的路由
 
@@ -50,7 +50,7 @@ ms.locfileid: "88633664"
 本文档中所述的终结点路由系统适用于 ASP.NET Core 3.0 及更高版本。 有关以前基于 <xref:Microsoft.AspNetCore.Routing.IRouter> 的路由系统信息，请使用以下方法之一选择 ASP.NET Core 2.1 版本：
 
 * 以前版本的版本选择器。
-* 选择 [ASP.NET Core 2.1 路由](https://docs.microsoft.com/aspnet/core/fundamentals/routing?view=aspnetcore-2.1)。
+* 选择 [ASP.NET Core 2.1 路由](?view=aspnetcore-2.1)。
 
 [查看或下载示例代码](https://github.com/aspnet/AspNetCore.Docs/tree/master/aspnetcore/fundamentals/routing/samples/3.x)（[如何下载](xref:index#how-to-download-a-sample)）
 
@@ -339,8 +339,6 @@ URL 匹配在可配置的阶段集中运行。 在每个阶段中，输出为一
 > 
 > * 没有路由的概念。
 > * 不提供顺序保证。 同时处理所有终结点。
->
-> 如果这表示你无法使用旧版路由系统，请[提出 GitHub 问题以获取帮助](https://github.com/dotnet/aspnetcore/issues)。
 
 <a name="rtp"></a>
 
@@ -507,14 +505,14 @@ URL 生成：
 
 | 约束 | 示例 | 匹配项示例 | 说明 |
 | ---------- | ------- | --------------- | ----- |
-| `int` | `{id:int}` | `123456789`，`-123456789` | 匹配任何整数 |
-| `bool` | `{active:bool}` | `true`，`FALSE` | 匹配 `true` 或 `false`。 不区分大小写 |
-| `datetime` | `{dob:datetime}` | `2016-12-31`，`2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。 |
-| `decimal` | `{price:decimal}` | `49.99`，`-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
-| `double` | `{weight:double}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
-| `float` | `{weight:float}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
+| `int` | `{id:int}` | `123456789`, `-123456789` | 匹配任何整数 |
+| `bool` | `{active:bool}` | `true`, `FALSE` | 匹配 `true` 或 `false`。 不区分大小写 |
+| `datetime` | `{dob:datetime}` | `2016-12-31`, `2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。 |
+| `decimal` | `{price:decimal}` | `49.99`, `-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
+| `double` | `{weight:double}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
+| `float` | `{weight:float}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
 | `guid` | `{id:guid}` | `CD2C1638-1638-72D5-1638-DEADBEEF1638` | 匹配有效的 `Guid` 值 |
-| `long` | `{ticks:long}` | `123456789`，`-123456789` | 匹配有效的 `long` 值 |
+| `long` | `{ticks:long}` | `123456789`, `-123456789` | 匹配有效的 `long` 值 |
 | `minlength(value)` | `{username:minlength(4)}` | `Rick` | 字符串必须至少为 4 个字符 |
 | `maxlength(value)` | `{filename:maxlength(8)}` | `MyFile` | 字符串不得超过 8 个字符 |
 | `length(length)` | `{filename:length(12)}` | `somefile.txt` | 字符串必须正好为 12 个字符 |
@@ -1025,7 +1023,7 @@ services.AddMvc(options => options.EnableEndpointRouting = false)
     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ```
 
-有关基于 <xref:Microsoft.AspNetCore.Routing.IRouter> 的路由的详细信息，请参阅本主题的 [ASP.NET Core 2.1 版本](/aspnet/core/fundamentals/routing?view=aspnetcore-2.1)。
+有关基于 <xref:Microsoft.AspNetCore.Routing.IRouter> 的路由的详细信息，请参阅本主题的 [ASP.NET Core 2.1 版本](?view=aspnetcore-2.1)。
 
 > [!IMPORTANT]
 > 本文档介绍较低级别的 ASP.NET Core 路由。 有关 ASP.NET Core MVC 路由的信息，请参阅 <xref:mvc/controllers/routing>。 有关 Razor Pages 中路由约定的信息，请参阅 <xref:razor-pages/razor-pages-conventions>。
@@ -1175,7 +1173,7 @@ ASP.NET Core 2.2 或更高版本中的终结点路由与 ASP.NET Core 中早期�
 
 * 与终结点路由一起使用时，链接生成环境值失效算法的行为会有所不同。
 
-  *环境值失效*是一种算法，用于决定当前正在执行的请求（环境值）中的哪些路由值可用于链接生成操作。 链接到不同操作时，传统路由会使额外的路由值失效。 ASP.NET Core 2.2 之前的版本中，属性路由不具有此行为。 在 ASP.NET Core 的早期版本中，如果有另一个操作使用同一路由参数名称，则该操作的链接会导致发生链接生成错误。 在 ASP.NET Core 2.2 或更高版本中，链接到另一个操作时，这两种路由形式都会使值失效。
+  *环境值失效* 是一种算法，用于决定当前正在执行的请求（环境值）中的哪些路由值可用于链接生成操作。 链接到不同操作时，传统路由会使额外的路由值失效。 ASP.NET Core 2.2 之前的版本中，属性路由不具有此行为。 在 ASP.NET Core 的早期版本中，如果有另一个操作使用同一路由参数名称，则该操作的链接会导致发生链接生成错误。 在 ASP.NET Core 2.2 或更高版本中，链接到另一个操作时，这两种路由形式都会使值失效。
 
   请考虑 ASP.NET Core2.1 或更高版本中的以下示例。 链接到另一个操作（或另一页面）时，路由值可能会按非预期的方式被重用。
 
@@ -1441,14 +1439,14 @@ routes.MapRoute(
 
 | 约束 | 示例 | 匹配项示例 | 说明 |
 |------------|---------|-----------------|-------|
-| `int` | `{id:int}` | `123456789`，`-123456789` | 匹配任何整数。|
-| `bool` | `{active:bool}` | `true`，`FALSE` | 匹配 `true` 或 `false`。 不区分大小写。|
-| `datetime` | `{dob:datetime}` | `2016-12-31`，`2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。|
-| `decimal` | `{price:decimal}` | `49.99`，`-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
-| `double` | `{weight:double}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
-| `float` | `{weight:float}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
-| `guid` | `{id:guid}` | `CD2C1638-1638-72D5-1638-DEADBEEF1638`，`{CD2C1638-1638-72D5-1638-DEADBEEF1638}` | 匹配有效的 `Guid` 值。|
-| `long` | `{ticks:long}` | `123456789`，`-123456789` | 匹配有效的 `long` 值。|
+| `int` | `{id:int}` | `123456789`, `-123456789` | 匹配任何整数。|
+| `bool` | `{active:bool}` | `true`, `FALSE` | 匹配 `true` 或 `false`。 不区分大小写。|
+| `datetime` | `{dob:datetime}` | `2016-12-31`, `2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。|
+| `decimal` | `{price:decimal}` | `49.99`, `-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
+| `double` | `{weight:double}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
+| `float` | `{weight:float}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
+| `guid` | `{id:guid}` | `CD2C1638-1638-72D5-1638-DEADBEEF1638`, `{CD2C1638-1638-72D5-1638-DEADBEEF1638}` | 匹配有效的 `Guid` 值。|
+| `long` | `{ticks:long}` | `123456789`, `-123456789` | 匹配有效的 `long` 值。|
 | `minlength(value)` | `{username:minlength(4)}` | `Rick` | 字符串必须至少为 4 个字符。|
 | `maxlength(value)` | `{filename:maxlength(8)}` | `MyFile` | 字符串最多包含 8 个字符。|
 | `length(length)` | `{filename:length(12)}` | `somefile.txt` | 字符串必须正好为 12 个字符。|
@@ -1557,8 +1555,8 @@ routes.MapRoute(
 
 对于结合使用参数转换器和所生成的路由，ASP.NET Core 提供了 API 约定：
 
-* ASP.NET Core MVC 还具有 `Microsoft.AspNetCore.Mvc.ApplicationModels.RouteTokenTransformerConvention` API 约定。 该约定将指定的参数转换器应用于应用中的所有属性路由。 在替换属性路径令牌时，参数转换器将转换这些令牌。 有关详细信息，请参阅[使用参数转换器自定义标记替换](/aspnet/core/mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement)。
-* Razor Pages 具有 `Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteTransformerConvention` API 约定。 此约定将指定的参数转换器应用于所有自动发现的 Razor Pages。 参数转换器转换 Razor Pages 路由的文件夹和文件名段。 有关详细信息，请参阅[使用参数转换器自定义页面路由](/aspnet/core/razor-pages/razor-pages-conventions#use-a-parameter-transformer-to-customize-page-routes)。
+* ASP.NET Core MVC 还具有 `Microsoft.AspNetCore.Mvc.ApplicationModels.RouteTokenTransformerConvention` API 约定。 该约定将指定的参数转换器应用于应用中的所有属性路由。 在替换属性路径令牌时，参数转换器将转换这些令牌。 有关详细信息，请参阅[使用参数转换器自定义标记替换](xref:mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement)。
+* Razor Pages 具有 `Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteTransformerConvention` API 约定。 此约定将指定的参数转换器应用于所有自动发现的 Razor Pages。 参数转换器转换 Razor Pages 路由的文件夹和文件名段。 有关详细信息，请参阅[使用参数转换器自定义页面路由](xref:razor-pages/razor-pages-conventions#use-a-parameter-transformer-to-customize-page-routes)。
 
 ## <a name="url-generation-reference"></a>URL 生成参考
 
@@ -1592,7 +1590,7 @@ routes.MapRoute("blog_route", "blog/{*slug}",
 
 ## <a name="complex-segments"></a>复杂段
 
-复杂段（例如，`[Route("/x{token}y")]`）通过非贪婪的方式从右到左匹配文字进行处理。 请参阅[此代码](https://github.com/dotnet/AspNetCore/blob/release/2.2/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)以了解有关如何匹配复杂段的详细说明。 ASP.NET Core 无法使用[代码示例](https://github.com/dotnet/AspNetCore/blob/release/2.2/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)，但它提供了对复杂段的合理说明。
+复杂段（例如，`[Route("/x{token}y")]`）通过非贪婪的方式从右到左匹配文字进行处理。 请参阅[此代码](https://github.com/dotnet/aspnetcore/blob/v2.2.13/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)以了解有关如何匹配复杂段的详细说明。 ASP.NET Core 无法使用[代码示例](https://github.com/dotnet/aspnetcore/blob/v2.2.13/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)，但它提供了对复杂段的合理说明。
 <!-- While that code is no longer used by ASP.NET Core for complex segment matching, it provides a good match to the current algorithm. The [current code](https://github.com/dotnet/AspNetCore/blob/91514c9af7e0f4c44029b51f05a01c6fe4c96e4c/src/Http/Routing/src/Matching/DfaMatcherBuilder.cs#L227-L244) is too abstracted from matching to be useful for understanding complex segment matching.
 -->
 
@@ -1891,14 +1889,14 @@ routes.MapRoute(
 
 | 约束 | 示例 | 匹配项示例 | 说明 |
 | ---------- | ------- | --------------- | ----- |
-| `int` | `{id:int}` | `123456789`，`-123456789` | 匹配任何整数 |
-| `bool` | `{active:bool}` | `true`，`FALSE` | 匹配 `true`或 `false`（区分大小写） |
-| `datetime` | `{dob:datetime}` | `2016-12-31`，`2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。|
-| `decimal` | `{price:decimal}` | `49.99`，`-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
-| `double` | `{weight:double}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
-| `float` | `{weight:float}` | `1.234`，`-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
-| `guid` | `{id:guid}` | `CD2C1638-1638-72D5-1638-DEADBEEF1638`，`{CD2C1638-1638-72D5-1638-DEADBEEF1638}` | 匹配有效的 `Guid` 值 |
-| `long` | `{ticks:long}` | `123456789`，`-123456789` | 匹配有效的 `long` 值 |
+| `int` | `{id:int}` | `123456789`, `-123456789` | 匹配任何整数 |
+| `bool` | `{active:bool}` | `true`, `FALSE` | 匹配 `true`或 `false`（区分大小写） |
+| `datetime` | `{dob:datetime}` | `2016-12-31`, `2016-12-31 7:32pm` | 在固定区域性中匹配有效的 `DateTime` 值。 请参阅前面的警告。|
+| `decimal` | `{price:decimal}` | `49.99`, `-1,000.01` | 在固定区域性中匹配有效的 `decimal` 值。 请参阅前面的警告。|
+| `double` | `{weight:double}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `double` 值。 请参阅前面的警告。|
+| `float` | `{weight:float}` | `1.234`, `-1,001.01e8` | 在固定区域性中匹配有效的 `float` 值。 请参阅前面的警告。|
+| `guid` | `{id:guid}` | `CD2C1638-1638-72D5-1638-DEADBEEF1638`, `{CD2C1638-1638-72D5-1638-DEADBEEF1638}` | 匹配有效的 `Guid` 值 |
+| `long` | `{ticks:long}` | `123456789`, `-123456789` | 匹配有效的 `long` 值 |
 | `minlength(value)` | `{username:minlength(4)}` | `Rick` | 字符串必须至少为 4 个字符 |
 | `maxlength(value)` | `{filename:maxlength(8)}` | `Richard` | 字符串不得超过 8 个字符 |
 | `length(length)` | `{filename:length(12)}` | `somefile.txt` | 字符串必须正好为 12 个字符 |
@@ -1998,6 +1996,6 @@ routes.MapRoute("blog_route", "blog/{*slug}",
 
 ## <a name="complex-segments"></a>复杂段
 
-复杂段（例如，`[Route("/x{token}y")]`）通过非贪婪的方式从右到左匹配文字进行处理。 请参阅[此代码](https://github.com/aspnet/AspNetCore/blob/release/2.2/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)以了解有关如何匹配复杂段的详细说明。 ASP.NET Core 无法使用[代码示例](https://github.com/aspnet/AspNetCore/blob/release/2.2/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)，但它提供了对复杂段的合理说明。
+复杂段（例如，`[Route("/x{token}y")]`）通过非贪婪的方式从右到左匹配文字进行处理。 请参阅[此代码](https://github.com/dotnet/aspnetcore/blob/v2.2.13/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)以了解有关如何匹配复杂段的详细说明。 ASP.NET Core 无法使用[代码示例](https://github.com/dotnet/aspnetcore/blob/v2.2.13/src/Http/Routing/src/Patterns/RoutePatternMatcher.cs#L293)，但它提供了对复杂段的合理说明。
 
 ::: moniker-end

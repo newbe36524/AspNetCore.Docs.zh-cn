@@ -7,6 +7,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 04/12/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/configuration
-ms.openlocfilehash: fc0e6398884bb5c3b806a587a8a361d7f279461f
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 7dac8c84683553a52e07ecc61c8bcf8616e77dc6
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88625552"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061231"
 ---
 # <a name="aspnet-core-no-locsignalr-configuration"></a>ASP.NET Core SignalR 配置
 
@@ -85,6 +86,7 @@ var connection = new HubConnectionBuilder()
 | `EnableDetailedErrors` | `false` | 如果为，则在 `true` 集线器方法中引发异常时，详细的异常消息将返回到客户端。 默认值为 `false` ，因为这些异常消息可能包含敏感信息。 |
 | `StreamBufferCapacity` | `10` | 可为客户端上载流缓冲的最大项数。 如果达到此限制，则会阻止处理调用，直到服务器处理流项。|
 | `MaximumReceiveMessageSize` | 32 KB | 单个传入集线器消息的最大大小。 |
+| `MaximumParallelInvocationsPerClient` | 1 | 每个客户端可以在进行排队之前并行调用的最大集线器方法数。 |
 
 可以通过在中提供对调用的选项委托，为所有中心配置选项 `AddSignalR` `Startup.ConfigureServices` 。
 
@@ -195,14 +197,14 @@ let connection = new signalR.HubConnectionBuilder()
     .build();
 ```
 
-下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别**。
+下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别** 。
 
-| 字符串                      | LogLevel               |
+| String                      | LogLevel               |
 | --------------------------- | ---------------------- |
 | `trace`                     | `LogLevel.Trace`       |
 | `debug`                     | `LogLevel.Debug`       |
-| `info`**或**`information` | `LogLevel.Information` |
-| `warn`**或**`warning`     | `LogLevel.Warning`     |
+| `info` **或** `information` | `LogLevel.Information` |
+| `warn` **或** `warning`     | `LogLevel.Warning`     |
 | `error`                     | `LogLevel.Error`       |
 | `critical`                  | `LogLevel.Critical`    |
 | `none`                      | `LogLevel.None`        |
@@ -232,7 +234,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 使用的传输 SignalR 可在 `WithUrl` JavaScript) 的调用 (中进行配置 `withUrl` 。 的值的按位 "或" `HttpTransportType` 可用于将客户端限制为仅使用指定的传输。 默认情况下，将启用所有传输。
 
-例如，若要禁用服务器发送的事件传输，但允许 Websocket 和长轮询连接，请执行以下操作：
+例如，禁用 Server-Sent 事件传输，但允许 Websocket 和长轮询连接：
 
 ```csharp
 var connection = new HubConnectionBuilder()
@@ -263,7 +265,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 
 ### <a name="configure-bearer-authentication"></a>配置持有者身份验证
 
-若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在服务器发送的事件和 websocket 请求) 中应用标 (头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
+若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在 Server-Sent 事件和 websocket 请求)  (具体应用标头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
 
 在 .NET 客户端中， `AccessTokenProvider` 可使用中的选项委托指定选项 `WithUrl` ：
 
@@ -341,7 +343,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | .NET 选项 |  默认值 | 说明 |
 | ----------- | -------------- | ----------- |
 | `AccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `ClientCertificates` | 空 | 要发送以对请求进行身份验证的 TLS 证书的集合。 |
 | `Cookies` | 空 | cookie要随每个 http 请求一起发送的 http 的集合。 |
 | `Credentials` | 空 | 要随每个 HTTP 请求一起发送的凭据。 |
@@ -357,9 +359,10 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | JavaScript 选项 | 默认值 | 说明 |
 | ----------------- | ------------- | ----------- |
 | `accessTokenFactory` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
+| `transport` | `null` | 一个 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType> 值，该值指定用于连接的传输。 |
 | `headers` | `null` | 每个 HTTP 请求发送的标头的字典。 在浏览器中发送标头对于 Websocket 或流不起作用 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType.ServerSentEvents> 。 |
 | `logMessageContent` | `null` | 设置为 `true` 可记录客户端发送和接收的消息的字节数/字符数。 |
-| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withCredentials` | `true` | 指定是否将凭据与 CORS 请求一起发送。 Azure App Service cookie 将用于粘滞会话，并且需要启用此选项才能正常工作。 有关 CORS 的详细信息 SignalR ，请参阅 <xref:signalr/security#cross-origin-resource-sharing> 。 |
 
 # <a name="java"></a>[Java](#tab/java)
@@ -367,7 +370,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | Java 选项 | 默认值 | 说明 |
 | ----------- | ------------- | ----------- |
 | `withAccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withHeader` `withHeaders` | 空 | 要随每个 HTTP 请求一起发送的附加 HTTP 标头的映射。 |
 
 ---
@@ -378,6 +381,8 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 var connection = new HubConnectionBuilder()
     .WithUrl("https://example.com/chathub", options => {
         options.Headers["Foo"] = "Bar";
+        options.SkipNegotiation = true;
+        options.Transports = HttpTransportType.WebSockets;
         options.Cookies.Add(new Cookie(/* ... */);
         options.ClientCertificates.Add(/* ... */);
     })
@@ -389,8 +394,9 @@ var connection = new HubConnectionBuilder()
 ```javascript
 let connection = new signalR.HubConnectionBuilder()
     .withUrl("/chathub", {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
+        // "Foo: Bar" will not be sent with WebSockets or Server-Sent Events requests
+        headers: { "Foo": "Bar" },
+        transport: signalR.HttpTransportType.LongPolling 
     })
     .build();
 ```
@@ -583,14 +589,14 @@ let connection = new signalR.HubConnectionBuilder()
     .build();
 ```
 
-下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别**。
+下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别** 。
 
-| 字符串                      | LogLevel               |
+| String                      | LogLevel               |
 | --------------------------- | ---------------------- |
 | `trace`                     | `LogLevel.Trace`       |
 | `debug`                     | `LogLevel.Debug`       |
-| `info`**或**`information` | `LogLevel.Information` |
-| `warn`**或**`warning`     | `LogLevel.Warning`     |
+| `info` **或** `information` | `LogLevel.Information` |
+| `warn` **或** `warning`     | `LogLevel.Warning`     |
 | `error`                     | `LogLevel.Error`       |
 | `critical`                  | `LogLevel.Critical`    |
 | `none`                      | `LogLevel.None`        |
@@ -620,7 +626,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 使用的传输 SignalR 可在 `WithUrl` JavaScript) 的调用 (中进行配置 `withUrl` 。 的值的按位 "或" `HttpTransportType` 可用于将客户端限制为仅使用指定的传输。 默认情况下，将启用所有传输。
 
-例如，若要禁用服务器发送的事件传输，但允许 Websocket 和长轮询连接，请执行以下操作：
+例如，禁用 Server-Sent 事件传输，但允许 Websocket 和长轮询连接：
 
 ```csharp
 var connection = new HubConnectionBuilder()
@@ -651,7 +657,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 
 ### <a name="configure-bearer-authentication"></a>配置持有者身份验证
 
-若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在服务器发送的事件和 websocket 请求) 中应用标 (头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
+若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在 Server-Sent 事件和 websocket 请求)  (具体应用标头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
 
 在 .NET 客户端中， `AccessTokenProvider` 可使用中的选项委托指定选项 `WithUrl` ：
 
@@ -729,7 +735,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | .NET 选项 |  默认值 | 说明 |
 | ----------- | -------------- | ----------- |
 | `AccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `ClientCertificates` | 空 | 要发送以对请求进行身份验证的 TLS 证书的集合。 |
 | `Cookies` | 空 | cookie要随每个 http 请求一起发送的 http 的集合。 |
 | `Credentials` | 空 | 要随每个 HTTP 请求一起发送的凭据。 |
@@ -745,15 +751,16 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | JavaScript 选项 | 默认值 | 说明 |
 | ----------------- | ------------- | ----------- |
 | `accessTokenFactory` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
+| `transport` | `null` | 一个 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType> 值，该值指定用于连接的传输。 |
 | `logMessageContent` | `null` | 设置为 `true` 可记录客户端发送和接收的消息的字节数/字符数。 |
-| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 
 # <a name="java"></a>[Java](#tab/java)
 
 | Java 选项 | 默认值 | 说明 |
 | ----------- | ------------- | ----------- |
 | `withAccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withHeader` `withHeaders` | 空 | 要随每个 HTTP 请求一起发送的附加 HTTP 标头的映射。 |
 
 ---
@@ -968,14 +975,14 @@ let connection = new signalR.HubConnectionBuilder()
     .build();
 ```
 
-下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别**。
+下表列出了可用的日志级别。 为 `configureLogging` 设置将记录的 **最小** 日志级别而提供的值。 将记录在此级别上记录的消息 **或在表中列出的级别** 。
 
-| 字符串                      | LogLevel               |
+| String                      | LogLevel               |
 | --------------------------- | ---------------------- |
 | `trace`                     | `LogLevel.Trace`       |
 | `debug`                     | `LogLevel.Debug`       |
-| `info`**或**`information` | `LogLevel.Information` |
-| `warn`**或**`warning`     | `LogLevel.Warning`     |
+| `info` **或** `information` | `LogLevel.Information` |
+| `warn` **或** `warning`     | `LogLevel.Warning`     |
 | `error`                     | `LogLevel.Error`       |
 | `critical`                  | `LogLevel.Critical`    |
 | `none`                      | `LogLevel.None`        |
@@ -1005,7 +1012,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 使用的传输 SignalR 可在 `WithUrl` JavaScript) 的调用 (中进行配置 `withUrl` 。 的值的按位 "或" `HttpTransportType` 可用于将客户端限制为仅使用指定的传输。 默认情况下，将启用所有传输。
 
-例如，若要禁用服务器发送的事件传输，但允许 Websocket 和长轮询连接，请执行以下操作：
+例如，禁用 Server-Sent 事件传输，但允许 Websocket 和长轮询连接：
 
 ```csharp
 var connection = new HubConnectionBuilder()
@@ -1036,7 +1043,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 
 ### <a name="configure-bearer-authentication"></a>配置持有者身份验证
 
-若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在服务器发送的事件和 websocket 请求) 中应用标 (头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
+若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在 Server-Sent 事件和 websocket 请求)  (具体应用标头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
 
 在 .NET 客户端中， `AccessTokenProvider` 可使用中的选项委托指定选项 `WithUrl` ：
 
@@ -1114,7 +1121,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | .NET 选项 |  默认值 | 说明 |
 | ----------- | -------------- | ----------- |
 | `AccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `ClientCertificates` | 空 | 要发送以对请求进行身份验证的 TLS 证书的集合。 |
 | `Cookies` | 空 | cookie要随每个 http 请求一起发送的 http 的集合。 |
 | `Credentials` | 空 | 要随每个 HTTP 请求一起发送的凭据。 |
@@ -1130,15 +1137,16 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | JavaScript 选项 | 默认值 | 说明 |
 | ----------------- | ------------- | ----------- |
 | `accessTokenFactory` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
+| `transport` | `null` | 一个 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType> 值，该值指定用于连接的传输。 |
 | `logMessageContent` | `null` | 设置为 `true` 可记录客户端发送和接收的消息的字节数/字符数。 |
-| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 
 # <a name="java"></a>[Java](#tab/java)
 
 | Java 选项 | 默认值 | 说明 |
 | ----------- | ------------- | ----------- |
 | `withAccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withHeader` `withHeaders` | 空 | 要随每个 HTTP 请求一起发送的附加 HTTP 标头的映射。 |
 
 ---
@@ -1365,7 +1373,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 使用的传输 SignalR 可在 `WithUrl` JavaScript) 的调用 (中进行配置 `withUrl` 。 的值的按位 "或" `HttpTransportType` 可用于将客户端限制为仅使用指定的传输。 默认情况下，将启用所有传输。
 
-例如，若要禁用服务器发送的事件传输，但允许 Websocket 和长轮询连接，请执行以下操作：
+例如，禁用 Server-Sent 事件传输，但允许 Websocket 和长轮询连接：
 
 ```csharp
 var connection = new HubConnectionBuilder()
@@ -1385,7 +1393,7 @@ let connection = new signalR.HubConnectionBuilder()
 
 ### <a name="configure-bearer-authentication"></a>配置持有者身份验证
 
-若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在服务器发送的事件和 websocket 请求) 中应用标 (头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
+若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在 Server-Sent 事件和 websocket 请求)  (具体应用标头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
 
 在 .NET 客户端中， `AccessTokenProvider` 可使用中的选项委托指定选项 `WithUrl` ：
 
@@ -1463,7 +1471,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | .NET 选项 |  默认值 | 说明 |
 | ----------- | -------------- | ----------- |
 | `AccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `ClientCertificates` | 空 | 要发送以对请求进行身份验证的 TLS 证书的集合。 |
 | `Cookies` | 空 | cookie要随每个 http 请求一起发送的 http 的集合。 |
 | `Credentials` | 空 | 要随每个 HTTP 请求一起发送的凭据。 |
@@ -1479,15 +1487,16 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | JavaScript 选项 | 默认值 | 说明 |
 | ----------------- | ------------- | ----------- |
 | `accessTokenFactory` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
+| `transport` | `null` | 一个 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType> 值，该值指定用于连接的传输。 |
 | `logMessageContent` | `null` | 设置为 `true` 可记录客户端发送和接收的消息的字节数/字符数。 |
-| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 
 # <a name="java"></a>[Java](#tab/java)
 
 | Java 选项 | 默认值 | 说明 |
 | ----------- | ------------- | ----------- |
 | `withAccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withHeader` `withHeaders` | 空 | 要随每个 HTTP 请求一起发送的附加 HTTP 标头的映射。 |
 
 ---
@@ -1713,7 +1722,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 使用的传输 SignalR 可在 `WithUrl` JavaScript) 的调用 (中进行配置 `withUrl` 。 的值的按位 "或" `HttpTransportType` 可用于将客户端限制为仅使用指定的传输。 默认情况下，将启用所有传输。
 
-例如，若要禁用服务器发送的事件传输，但允许 Websocket 和长轮询连接，请执行以下操作：
+例如，禁用 Server-Sent 事件传输，但允许 Websocket 和长轮询连接：
 
 ```csharp
 var connection = new HubConnectionBuilder()
@@ -1731,7 +1740,7 @@ let connection = new signalR.HubConnectionBuilder()
 
 ### <a name="configure-bearer-authentication"></a>配置持有者身份验证
 
-若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在服务器发送的事件和 websocket 请求) 中应用标 (头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
+若要与请求一起提供身份验证数据 SignalR ，请使用 `AccessTokenProvider` `accessTokenFactory` JavaScript) 中 (选项来指定返回所需访问令牌的函数。 在 .NET 客户端中，此访问令牌作为 HTTP "持有者身份验证" 令牌传入 (使用 `Authorization`) 类型的标头 `Bearer` 。 在 JavaScript 客户端中，访问令牌用作持有者令牌， **但** 在某些情况下，浏览器 api 会限制在 Server-Sent 事件和 websocket 请求)  (具体应用标头的能力。 在这些情况下，访问令牌作为查询字符串值提供 `access_token` 。
 
 在 .NET 客户端中， `AccessTokenProvider` 可使用中的选项委托指定选项 `WithUrl` ：
 
@@ -1806,7 +1815,7 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | .NET 选项 |  默认值 | 说明 |
 | ----------- | -------------- | ----------- |
 | `AccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `SkipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `ClientCertificates` | 空 | 要发送以对请求进行身份验证的 TLS 证书的集合。 |
 | `Cookies` | 空 | cookie要随每个 http 请求一起发送的 http 的集合。 |
 | `Credentials` | 空 | 要随每个 HTTP 请求一起发送的凭据。 |
@@ -1822,15 +1831,16 @@ HubConnection hubConnection = HubConnectionBuilder.create("https://example.com/c
 | JavaScript 选项 | 默认值 | 说明 |
 | ----------------- | ------------- | ----------- |
 | `accessTokenFactory` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
+| `transport` | `null` | 一个 <xref:Microsoft.AspNetCore.Http.Connections.HttpTransportType> 值，该值指定用于连接的传输。 |
 | `logMessageContent` | `null` | 设置为 `true` 可记录客户端发送和接收的消息的字节数/字符数。 |
-| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `skipNegotiation` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 
 # <a name="java"></a>[Java](#tab/java)
 
 | Java 选项 | 默认值 | 说明 |
 | ----------- | ------------- | ----------- |
 | `withAccessTokenProvider` | `null` | 一个函数，它返回作为 HTTP 请求中的持有者身份验证令牌提供的字符串。 |
-| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持**。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
+| `shouldSkipNegotiate` | `false` | 将此设置为 `true` 以跳过协商步骤。 **仅当 websocket 传输为唯一启用的传输时才受支持** 。 使用 Azure 服务时，无法启用此设置 SignalR 。 |
 | `withHeader` `withHeaders` | 空 | 要随每个 HTTP 请求一起发送的附加 HTTP 标头的映射。 |
 
 ---

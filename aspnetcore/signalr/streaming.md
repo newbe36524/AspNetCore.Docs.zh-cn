@@ -4,9 +4,10 @@ author: bradygaster
 description: 了解如何在客户端和服务器之间流式传输数据。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
-ms.custom: mvc
-ms.date: 11/12/2019
+ms.custom: mvc, devx-track-js
+ms.date: 10/29/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/streaming
-ms.openlocfilehash: 29748ebe24fea03415b5a01b21300433e3fbc0f0
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: b07c280f271ccdd525128b973da065001a5cf0ed
+ms.sourcegitcommit: 0d40fc4932531ce13fc4ee9432144584e03c2f1c
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634210"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93062436"
 ---
 # <a name="use-streaming-in-aspnet-core-no-locsignalr"></a>使用 ASP.NET Core 中的流式处理 SignalR
 
@@ -74,7 +75,7 @@ ASP.NET Core SignalR 支持服务器方法的流返回值。 这适用于数据�
 > [!NOTE]
 > `ChannelWriter<T>`在后台线程上写入，并尽快返回 `ChannelReader` 。 在返回之前，其他中心调用会被阻止 `ChannelReader` 。
 >
-> 在中环绕逻辑 `try ... catch` 。 完成 `Channel` 中 `catch` 和之外的， `catch` 以确保中心方法调用正确完成。
+> 在[ `try ... catch` 语句](/dotnet/csharp/language-reference/keywords/try-catch)中环绕逻辑。 `Channel`在[ `finally` 块](/dotnet/csharp/language-reference/keywords/try-catch-finally)中完成。 如果要流式传输错误，请将其捕获到块中， `catch` 并将其写入 `finally` 块。
 
 ::: moniker range=">= aspnetcore-3.0"
 
@@ -320,11 +321,27 @@ hubConnection.stream(String.class, "ExampleStreamingHubMethod", "Arg1")
 
 `stream`上的方法 `HubConnection` 返回流项类型的可观察对象。 可观察的类型的 `subscribe` 方法是 `onNext` 定义的位置 `onError` `onCompleted` 。
 
+### <a name="client-to-server-streaming"></a>客户端到服务器的流式处理
+
+SignalRJava 客户端可以通过将可[观察](https://rxjs-dev.firebaseapp.com/api/index/class/Observable)的作为自变量传入、或，来调用集线器上的客户端到服务器流式处理方法， `send` `invoke` `stream` 具体取决于所调用的集线器方法。
+
+```java
+ReplaySubject<String> stream = ReplaySubject.create();
+hubConnection.send("UploadStream", stream);
+stream.onNext("FirstItem");
+stream.onNext("SecondItem");
+stream.onComplete();
+```
+
+使用项调用会将 `stream.onNext(item)` 项写入流，集线器方法接收服务器上的项。
+
+若要结束流，请调用 `stream.onComplete()` 。
+
 ::: moniker-end
 
 ## <a name="additional-resources"></a>其他资源
 
-* [集线器](xref:signalr/hubs)
+* [中心](xref:signalr/hubs)
 * [.NET 客户端](xref:signalr/dotnet-client)
 * [JavaScript 客户端](xref:signalr/javascript-client)
 * [发布到 Azure](xref:signalr/publish-to-azure-web-app)

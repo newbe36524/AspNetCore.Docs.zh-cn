@@ -5,6 +5,7 @@ description: 了解 ASP.NET Core MVC 中的视图如何处理应用的数据表�
 ms.author: riande
 ms.date: 12/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/views/overview
-ms.openlocfilehash: 6afd69414f2dc0158f724c6e6f7b3a3e51c1e92c
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 373b17377740441d3859e3b7d942017a22bc7a68
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630674"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060620"
 ---
 # <a name="views-in-aspnet-core-mvc"></a>ASP.NET Core MVC 中的视图
 
@@ -29,13 +30,13 @@ ms.locfileid: "88630674"
 
 本文档介绍在 ASP.NET Core MVC 应用程序中使用的视图。 有关页面的信息 Razor ，请参阅 [ Razor 页面简介](xref:razor-pages/index)。
 
-在“模型-视图-控制器(MVC)”模式中，视图处理应用的数据表示和用户交互**。 视图是具有嵌入[ Razor 标记](xref:mvc/views/razor)的 HTML 模板。 Razor 标记是与 HTML 标记交互以生成发送到客户端的网页的代码。
+在“模型-视图-控制器(MVC)”模式中，视图处理应用的数据表示和用户交互  。 视图是具有嵌入[ Razor 标记](xref:mvc/views/razor)的 HTML 模板。 Razor 标记是与 HTML 标记交互以生成发送到客户端的网页的代码。
 
-在 ASP.NET Core MVC 中，视图是在标记中使用[c # 编程语言](/dotnet/csharp/)的*cshtml*文件。 Razor 通常，视图文件会分组到以每个应用的[控制器](xref:mvc/controllers/actions)命名的文件夹中。 此文件夹存储在应用根目录的“Views”文件夹中**：
+在 ASP.NET Core MVC 中，视图是在标记中使用 [c # 编程语言](/dotnet/csharp/)的 *cshtml* 文件。 Razor 通常，视图文件会分组到以每个应用的[控制器](xref:mvc/controllers/actions)命名的文件夹中。 此文件夹存储在应用根目录的“Views”文件夹中  ：
 
 ![Visual Studio 解决方案资源管理器中的“Views”文件夹与“Home”文件夹一同打开，显示 About.cshtml、Contact.cshtml 和 Index.cshtml 文件](overview/_static/views_solution_explorer.png)
 
-主页控制器由“Views”文件夹内的“Home”文件夹表示******。 “Home”文件夹包含“关于”、“联系人”和“索引”（主页）网页的视图********。 用户请求这三个网页中的一个时，主页控制器中的控制器操作决定使用三个视图中的哪一个来生成网页并将其返回给用户**。
+主页控制器由“Views”文件夹内的“Home”文件夹表示  。 “Home”文件夹包含“关于”、“联系人”和“索引”（主页）网页的视图  。 用户请求这三个网页中的一个时，主页控制器中的控制器操作决定使用三个视图中的哪一个来生成网页并将其返回给用户  。
 
 使用[布局](xref:mvc/views/layout)提供一致的网页部分并减少代码重复。 布局通常包含页眉、导航和菜单元素以及页脚。 页眉和页脚通常包含许多元数据元素的样板标记以及脚本和样式资产的链接。 布局有助于在视图中避免这种样板标记。
 
@@ -54,7 +55,7 @@ ms.locfileid: "88630674"
 
 ## <a name="creating-a-view"></a>创建视图
 
-在 Views / [ControllerName] 文件夹中创建特定于控制器的视图**。 控制器之间共享的视图都将置于 Views/Shared 文件夹**。 要创建一个视图，请添加新文件，并将其命名为与 .cshtml 文件扩展名相关联的控制器操作的相同名称**。 要创建与主页控制器中 About 操作相对应的视图，请在 Views/Home 文件夹中创建一个 About.cshtml 文件********：
+在 Views / [ControllerName] 文件夹中创建特定于控制器的视图  。 控制器之间共享的视图都将置于 Views/Shared 文件夹  。 要创建一个视图，请添加新文件，并将其命名为与 .cshtml 文件扩展名相关联的控制器操作的相同名称  。 要创建与主页控制器中 About 操作相对应的视图，请在 Views/Home 文件夹中创建一个 About.cshtml 文件  ：
 
 [!code-cshtml[](../../common/samples/WebApplication1/Views/Home/About.cshtml)]
 
@@ -66,11 +67,11 @@ ms.locfileid: "88630674"
 
 视图通常以 [ ViewResult](/dotnet/api/microsoft.aspnetcore.mvc.viewresult) 的形式从操作返回，这是一种 [ ActionResult ](/dotnet/api/microsoft.aspnetcore.mvc.actionresult)。 操作方法可以直接创建并返回 `ViewResult`，但通常不会这样做。 由于大多数控制器均继承自[控制器](/dotnet/api/microsoft.aspnetcore.mvc.controller)，因此只需使用 `View` 帮助程序方法即可返回 `ViewResult`：
 
-HomeController.cs**
+HomeController.cs 
 
 [!code-csharp[](../../common/samples/WebApplication1/Controllers/HomeController.cs?highlight=5&range=16-21)]
 
-此操作返回时，最后一节显示的 About.cshtml 视图呈现为以下网页**：
+此操作返回时，最后一节显示的 About.cshtml 视图呈现为以下网页  ：
 
 ![Microsoft Edge 浏览器中呈现的“关于”页面](overview/_static/about-page.png)
 
@@ -96,22 +97,22 @@ HomeController.cs**
 
 ### <a name="view-discovery"></a>视图发现
 
-操作返回一个视图时，会发生称为“视图发现”的过程**。 此过程基于视图名称确定使用哪个视图文件。 
+操作返回一个视图时，会发生称为“视图发现”的过程  。 此过程基于视图名称确定使用哪个视图文件。 
 
-`View` 方法 的默认行为 (`return View();`) 旨在返回与其从中调用的操作方法同名的视图。 例如，控制器的 " *关于*" `ActionResult` 方法名称用于搜索名为 " *关于*" 的视图文件。 运行时首先在 Views/[ControllerName] 文件夹中搜索该视图**。 如果在此处找不到匹配的视图，则会在“Shared”文件夹中搜索该视图**。
+`View` 方法 的默认行为 (`return View();`) 旨在返回与其从中调用的操作方法同名的视图。 例如，控制器的 " *关于* " `ActionResult` 方法名称用于搜索名为 " *关于* " 的视图文件。 运行时首先在 Views/[ControllerName] 文件夹中搜索该视图  。 如果在此处找不到匹配的视图，则会在“Shared”文件夹中搜索该视图  。
 
 用 `return View();` 隐式返回 `ViewResult` 还是用 `return View("<ViewName>");` 将视图名称显式传递给 `View` 方法并不重要。 在这两种情况下，视图发现都会按以下顺序搜索匹配的视图文件：
 
    1. *Views/ \[ ControllerName]/ \[ ViewName] cshtml*
    1. *Views/Shared/ \[ ViewName] cshtml*
 
-可以提供视图文件路径而不提供视图名称。 如果使用从应用根目录开始的绝对路径（可选择以“/”或“~/”开头），则须指定 .cshtml 扩展名**：
+可以提供视图文件路径而不提供视图名称。 如果使用从应用根目录开始的绝对路径（可选择以“/”或“~/”开头），则须指定 .cshtml 扩展名  ：
 
 ```csharp
 return View("Views/Home/About.cshtml");
 ```
 
-也可使用相对路径在不同目录中指定视图，而无需指定 .cshtml 扩展名**。 在 `HomeController` 内，可以使用相对路径返回 Manage 视图的 Index 视图****：
+也可使用相对路径在不同目录中指定视图，而无需指定 .cshtml 扩展名  。 在 `HomeController` 内，可以使用相对路径返回 Manage 视图的 Index 视图  ：
 
 ```csharp
 return View("../Manage/Index");
@@ -142,9 +143,9 @@ return View("./About");
 
 ### <a name="strongly-typed-data-viewmodel"></a>强类型数据 (viewmodel)
 
-最可靠的方法是在视图中指定[模型](xref:mvc/models/model-binding)类型。 此模型通常称为 viewmodel**。 将 viewmodel 类型的实例传递给此操作的视图。
+最可靠的方法是在视图中指定[模型](xref:mvc/models/model-binding)类型。 此模型通常称为 viewmodel  。 将 viewmodel 类型的实例传递给此操作的视图。
 
-使用 viewmodel 将数据传递给视图可让视图充分利用强类型检查**。 强类型化（或强类型）意味着每个变量和常量都有明确定义的类型（例如 `string`、`int` 或 `DateTime`）****。 在编译时检查视图中使用的类型是否有效。
+使用 viewmodel 将数据传递给视图可让视图充分利用强类型检查  。 强类型化（或强类型）意味着每个变量和常量都有明确定义的类型（例如 `string`、`int` 或 `DateTime`）  。 在编译时检查视图中使用的类型是否有效。
 
 [Visual Studio](https://visualstudio.microsoft.com) 和 [Visual Studio Code](https://code.visualstudio.com/) 列出了使用 [IntelliSense](/visualstudio/ide/using-intellisense) 功能的强类型类成员。 如果要查看 viewmodel 的属性，请键入 viewmodel 的变量名称，后跟句点 (`.`)。 这有助于提高编写代码的速度并降低错误率。
 
@@ -181,7 +182,7 @@ public IActionResult Contact()
 }
 ```
 
-没有针对可以提供给视图的模型类型的限制。 建议使用普通旧 CLR 对象 (POCO) viewmodel，它几乎没有已定义的行为（方法）。 通常，viewmodel 类要么存储在“Models”文件夹中，要么存储在应用根目录处的单独“ViewModels”文件夹中****。 上例中使用的 Address viewmodel 是存储在 Address.cs 文件中的 POCO viewmodel****：
+没有针对可以提供给视图的模型类型的限制。 建议使用普通旧 CLR 对象 (POCO) viewmodel，它几乎没有已定义的行为（方法）。 通常，viewmodel 类要么存储在“Models”文件夹中，要么存储在应用根目录处的单独“ViewModels”文件夹中  。 上例中使用的 Address viewmodel 是存储在 Address.cs 文件中的 POCO viewmodel  ：
 
 ```csharp
 namespace WebApplication1.ViewModels
@@ -205,7 +206,7 @@ namespace WebApplication1.ViewModels
 
 `ViewBag`*在中 Razor 不可用页面。*
 
-除了强类型视图，视图还可以访问弱类型（也称为松散类型）的数据集合****。 与强类型不同，弱类型（或松散类型）意味着不显式声明要使用的数据类型****。 可以使用弱类型数据集合将少量数据传入及传出控制器和视图。
+除了强类型视图，视图还可以访问弱类型（也称为松散类型）的数据集合  。 与强类型不同，弱类型（或松散类型）意味着不显式声明要使用的数据类型  。 可以使用弱类型数据集合将少量数据传入及传出控制器和视图。
 
 | 传递数据于...                        | 示例                                                                        |
 | ------------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -334,7 +335,7 @@ public IActionResult SomeAction()
 
 由于 `ViewData` 和 `ViewBag` 引用相同的基础 `ViewData` 集合，因此在读取和写入值时，可以同时使用 `ViewData` 和 `ViewBag`，并在两者之间进行混合和匹配。
 
-在 About.cshtml 视图顶部，使用 `ViewBag` 设置标题并使用 `ViewData` 设置说明**：
+在 About.cshtml 视图顶部，使用 `ViewBag` 设置标题并使用 `ViewData` 设置说明  ：
 
 ```cshtml
 @{
@@ -344,7 +345,7 @@ public IActionResult SomeAction()
 }
 ```
 
-读取属性，但反向使用 `ViewData` 和 `ViewBag`。 在 _Layout.cshtml 文件中，使用 `ViewData` 获取标题并使用 `ViewBag` 获取说明**：
+读取属性，但反向使用 `ViewData` 和 `ViewBag`。 在 _Layout.cshtml 文件中，使用 `ViewData` 获取标题并使用 `ViewBag` 获取说明  ：
 
 ```cshtml
 <!DOCTYPE html>

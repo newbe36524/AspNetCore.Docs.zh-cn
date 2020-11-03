@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: fundamentals/configuration/options
-ms.openlocfilehash: a6af5a7b1b4bc066a563c7cac59274fd39594cf6
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 6eafad63bd4c49cee6a85108b37a8b61e1214bce
+ms.sourcegitcommit: d7991068bc6b04063f4bd836fc5b9591d614d448
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632585"
+ms.lasthandoff: 10/06/2020
+ms.locfileid: "91762329"
 ---
 # <a name="options-pattern-in-aspnet-core"></a>ASP.NET Core 中的选项模式
 
@@ -38,6 +38,8 @@ ms.locfileid: "88632585"
 
 选项还提供验证配置数据的机制。 有关详细信息，请参阅[选项验证](#options-validation)部分。
 
+本主题介绍 ASP.NET Core 中的选项模式。 若要了解如何在控制台应用中使用选项模式，请参阅 [.NET 中的选项模式](/dotnet/core/extensions/options)。
+
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/fundamentals/configuration/options/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
 <a name="optpat"></a>
@@ -50,20 +52,20 @@ ms.locfileid: "88632585"
 
 ## <a name="options-interfaces"></a>选项接口
 
-<xref:Microsoft.Extensions.Options.IOptions%601>：
+<xref:Microsoft.Extensions.Options.IOptions%601>:
 
 * 不支持：
   * 在应用启动后读取配置数据。
   * [命名选项](#named)
 * 注册为[单一实例](xref:fundamentals/dependency-injection#singleton)且可以注入到任何[服务生存期](xref:fundamentals/dependency-injection#service-lifetimes)。
 
-<xref:Microsoft.Extensions.Options.IOptionsSnapshot%601>：
+<xref:Microsoft.Extensions.Options.IOptionsSnapshot%601>:
 
 * 在每次请求时应重新计算选项的方案中有用。 有关详细信息，请参阅[使用 IOptionsSnapshot 读取已更新的数据](#ios)。
 * 注册为[范围内](xref:fundamentals/dependency-injection#scoped)，因此无法注入到单一实例服务。
 * 支持[命名选项](#named)
 
-<xref:Microsoft.Extensions.Options.IOptionsMonitor%601>：
+<xref:Microsoft.Extensions.Options.IOptionsMonitor%601>:
 
 * 用于检索选项并管理 `TOptions` 实例的选项通知。
 * 注册为[单一实例](xref:fundamentals/dependency-injection#singleton)且可以注入到任何[服务生存期](xref:fundamentals/dependency-injection#service-lifetimes)。

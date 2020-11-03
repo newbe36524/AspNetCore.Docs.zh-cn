@@ -6,6 +6,7 @@ ms.author: rybrande
 ms.date: 09/26/2019
 monikerRange: '>= aspnetcore-3.0'
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: web-api/Microsoft.dotnet-openapi
-ms.openlocfilehash: 45921deb35452876b0a92a8731da68539a880c1d
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 28a71c7040667c7544cc17c1184c09b5b39959b9
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88626553"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052547"
 ---
 # <a name="develop-aspnet-core-apps-using-openapi-tools"></a>使用 OpenAPI 工具开发 ASP.NET Core 应用
 
@@ -69,15 +70,15 @@ dotnet tool install -g Microsoft.dotnet-openapi
 
 | 短选项| 长选项| 描述 | 示例 |
 |-------|------|-------|---------|
-| -p|--updateProject | 要操作的项目。 |dotnet openapi add file --updateProject .\Ref.csproj** .\OpenAPI.json |
+| -p|--updateProject | 要操作的项目。 |dotnet openapi add file --updateProject .\Ref.csproj  .\OpenAPI.json |
 | -c|--code-generator| 应用于引用的代码生成器。 选项包括 `NSwagCSharp` 和 `NSwagTypeScript`。 如果未指定 `--code-generator`，则工具将默认为 `NSwagCSharp`。|dotnet openapi add file .\OpenApi.json --code-generator
 | -H|--help|显示帮助信息|dotnet openapi add file --help|
 
-#### <a name="arguments"></a>参数
+#### <a name="arguments"></a>自变量
 
 |  参数  | 说明 | 示例 |
 |-------------|-------------|---------|
-| source-file | 要创建的引用的源。 必须为 OpenAPI 文件。 |dotnet openapi add file .\OpenAPI.json** |
+| source-file | 要创建的引用的源。 必须为 OpenAPI 文件。 |dotnet openapi add file .\OpenAPI.json  |
 
 ### <a name="add-url"></a>添加 URL
 
@@ -85,12 +86,12 @@ dotnet tool install -g Microsoft.dotnet-openapi
 
 | 短选项| 长选项| 描述 | 示例 |
 |-------|------|-------------|---------|
-| -p|--updateProject | 要操作的项目。 |dotnet openapi add url --updateProject .\Ref.csproj** `https://contoso.com/openapi.json` |
-| -o|--output-file | 用于放置 OpenAPI 文件本地副本的位置。 |dotnet openapi add url  --output-file myclient.json`https://contoso.com/openapi.json` ** |
+| -p|--updateProject | 要操作的项目。 |dotnet openapi add url --updateProject .\Ref.csproj  `https://contoso.com/openapi.json` |
+| -o|--output-file | 用于放置 OpenAPI 文件本地副本的位置。 |dotnet openapi add url  --output-file myclient.json`https://contoso.com/openapi.json`  |
 | -c|--code-generator| 应用于引用的代码生成器。 选项包括 `NSwagCSharp` 和 `NSwagTypeScript`。 |dotnet openapi add file .\OpenApi.json --code-generator
 | -H|--help|显示帮助信息|dotnet openapi add url --help|
 
-#### <a name="arguments"></a>参数
+#### <a name="arguments"></a>自变量
 
 |  参数  | 说明 | 示例 |
 |-------------|-------------|---------|
@@ -98,20 +99,20 @@ dotnet tool install -g Microsoft.dotnet-openapi
 
 ## <a name="remove"></a>删除
 
-删除与 .csproj 文件中给定文件名匹配的 OpenAPI 引用。** 删除 OpenAPI 引用后，将不会生成客户端。 将删除本地 .json 和 .yaml 文件。****
+删除与 .csproj 文件中给定文件名匹配的 OpenAPI 引用。  删除 OpenAPI 引用后，将不会生成客户端。 将删除本地 .json 和 .yaml 文件。 
 
 ### <a name="options"></a>选项
 
 | 短选项| 长选项| 描述| 示例 |
 |-------|------|------------|---------|
-| -p|--updateProject | 要操作的项目。 |dotnet openapi remove --updateProject .\Ref.csproj** .\OpenAPI.json |
+| -p|--updateProject | 要操作的项目。 |dotnet openapi remove --updateProject .\Ref.csproj  .\OpenAPI.json |
 | -H|--help|显示帮助信息|dotnet openapi remove --help|
 
-### <a name="arguments"></a>参数
+### <a name="arguments"></a>自变量
 
 |  参数  | 说明| 示例 |
 | ------------|------------|---------|
-| source-file | 要删除的引用的源。 |dotnet openapi remove .\OpenAPI.json** |
+| source-file | 要删除的引用的源。 |dotnet openapi remove .\OpenAPI.json  |
 
 ## <a name="refresh"></a>刷新
 
@@ -121,10 +122,10 @@ dotnet tool install -g Microsoft.dotnet-openapi
 
 | 短选项| 长选项| 描述 | 示例 |
 |-------|------|-------------|---------|
-| -p|--updateProject | 要操作的项目。 | dotnet openapi refresh --updateProject .\Ref.csproj** `https://contoso.com/openapi.json` |
+| -p|--updateProject | 要操作的项目。 | dotnet openapi refresh --updateProject .\Ref.csproj  `https://contoso.com/openapi.json` |
 | -H|--help|显示帮助信息|dotnet openapi refresh --help|
 
-### <a name="arguments"></a>参数
+### <a name="arguments"></a>自变量
 
 |  参数  | 说明 | 示例 |
 | ------------|-------------|---------|

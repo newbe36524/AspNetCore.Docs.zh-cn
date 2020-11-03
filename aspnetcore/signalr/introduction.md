@@ -7,6 +7,7 @@ ms.author: bradyg
 ms.custom: mvc
 ms.date: 11/27/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/introduction
-ms.openlocfilehash: ab850fa8afbee9d2664868937362388a03374908
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 1810fef903362addcef4a6c9ec53264604f58d2b
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634691"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051468"
 ---
 # <a name="introduction-to-aspnet-core-no-locsignalr"></a>ASP.NET Core SignalR 简介
 
@@ -54,12 +55,12 @@ SignalR 提供一个 API，用于创建 (RPC) 的服务器到客户端 [远程�
 SignalR 支持以下用于按正常回退)  (处理实时通信的技术：
 
 * [WebSockets](https://tools.ietf.org/html/rfc7118)
-* 服务器发送的事件
+* Server-Sent 事件
 * 长轮询
 
 SignalR 自动选择服务器和客户端功能内的最佳传输方法。
 
-## <a name="hubs"></a>集线器
+## <a name="hubs"></a>中心
 
 SignalR 使用 *集线器* 在客户端和服务器之间进行通信。
 
@@ -71,5 +72,5 @@ SignalR 使用 *集线器* 在客户端和服务器之间进行通信。
 
 * [SignalRASP.NET Core 入门](xref:tutorials/signalr)
 * [支持的平台](xref:signalr/supported-platforms)
-* [集线器](xref:signalr/hubs)
+* [中心](xref:signalr/hubs)
 * [JavaScript 客户端](xref:signalr/javascript-client)

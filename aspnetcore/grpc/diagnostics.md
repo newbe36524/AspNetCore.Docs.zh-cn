@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: grpc/diagnostics
-ms.openlocfilehash: 5c4c05e74a8223db3ade03b067bd66921439c99f
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 7d2da20d04b93ebcd16fb58a4b74b5b67d37bd72
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633261"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722918"
 ---
 # <a name="logging-and-diagnostics-in-grpc-on-net"></a>.NET 上 gRPC 中的日志记录和诊断
 
@@ -31,8 +31,8 @@ ms.locfileid: "88633261"
 本文提供从 gRPC 应用收集诊断以帮助解决问题的指南。 涵盖的主题包括：
 
 * **日志记录** - 写入 [.NET Core 日志记录](xref:fundamentals/logging/index)的结​​构化日志。 应用框架使用 <xref:Microsoft.Extensions.Logging.ILogger> 来编写日志，用户使用它在应用中进行用户自己的日志记录。
-* **跟踪** - 与使用 `DiaganosticSource` 和 `Activity` 进行编写的操作相关的事件。 来自诊断源的跟踪通常用于通过库（如 [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/asp-net-core) 和 [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-dotnet)）收集应用遥测数据。
-* **指标** - 一段时间间隔内数据度量值的表示形式，例如每秒请求数。 指标是使用 `EventCounter` 发出的，可以使用 [dotnet-counters](https://docs.microsoft.com/dotnet/core/diagnostics/dotnet-counters) 命令行工具或 [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/eventcounters) 进行观察。
+* **跟踪** - 与使用 `DiaganosticSource` 和 `Activity` 进行编写的操作相关的事件。 来自诊断源的跟踪通常用于通过库（如 [Application Insights](/azure/azure-monitor/app/asp-net-core) 和 [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-dotnet)）收集应用遥测数据。
+* **指标** - 一段时间间隔内数据度量值的表示形式，例如每秒请求数。 指标是使用 `EventCounter` 发出的，可以使用 [dotnet-counters](/dotnet/core/diagnostics/dotnet-counters) 命令行工具或 [Application Insights](/azure/azure-monitor/app/eventcounters) 进行观察。
 
 ## <a name="logging"></a>日志记录
 
@@ -111,7 +111,7 @@ info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
 
 #### <a name="grpc-client-log-scopes"></a>gRPC 客户端日志作用域
 
-gRPC 客户端可将[日志记录作用域](https://docs.microsoft.com/aspnet/core/fundamentals/logging#log-scopes)添加到在 gRPC 调用期间创建的日志。 作用域具有与 gRPC 调用相关的元数据：
+gRPC 客户端可将[日志记录作用域](../fundamentals/logging/index.md#log-scopes)添加到在 gRPC 调用期间创建的日志。 作用域具有与 gRPC 调用相关的元数据：
 
 * **GrpcMethodType** - gRPC 方法类型。 可能的值为来自 `Grpc.Core.MethodType` 枚举的名称，如一元
 * **GrpcUri** - gRPC 方法的相对 URI，例如 /greet.Greeter/SayHellos
@@ -133,7 +133,7 @@ dbug: Grpc.Net.Client.Internal.GrpcCall[4]
 
 ## <a name="tracing"></a>跟踪
 
-gRPC 服务和 gRPC 客户端使用 [DiagnosticSource](https://docs.microsoft.com/dotnet/api/system.diagnostics.diagnosticsource) 和 [Activity](https://docs.microsoft.com/dotnet/api/system.diagnostics.activity) 提供有关 gRPC 调用的信息。
+gRPC 服务和 gRPC 客户端使用 [DiagnosticSource](/dotnet/api/system.diagnostics.diagnosticsource) 和 [Activity](/dotnet/api/system.diagnostics.activity) 提供有关 gRPC 调用的信息。
 
 * .NET gRPC 使用活动来表示 gRPC 调用。
 * 跟踪事件将在 gRPC 调用活动开始和结束时写入到诊断源。
@@ -159,7 +159,7 @@ gRPC 服务托管在会报告有关传入 HTTP 请求事件的 ASP.NET Core 上�
 
 ### <a name="collecting-tracing"></a>收集跟踪
 
-使用 `DiagnosticSource` 的最简单方法是在应用中配置遥测库，如 [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/asp-net-core) 或 [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-dotnet)。 该库将与其他应用遥测一起处理有关 gRPC 调用的信息。
+使用 `DiagnosticSource` 的最简单方法是在应用中配置遥测库，如 [Application Insights](/azure/azure-monitor/app/asp-net-core) 或 [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-dotnet)。 该库将与其他应用遥测一起处理有关 gRPC 调用的信息。
 
 可以在托管服务（如 Application Insights）中查看跟踪，也可以选择运行自己的分布式跟踪系统。 OpenTelemetry 支持将跟踪数据导出到 [Jaeger](https://www.jaegertracing.io/) 和 [Zipkin](https://zipkin.io/)。
 
@@ -203,7 +203,7 @@ gRPC 客户端指标在 `Grpc.Net.Client` 事件源上报告。
 
 ### <a name="observe-metrics"></a>观察指标
 
-[dotnet-counters](https://docs.microsoft.com/dotnet/core/diagnostics/dotnet-counters) 是一个性能监视工具，用于临时运行状况监视和初级性能调查。 使用 `Grpc.AspNetCore.Server` 或 `Grpc.Net.Client` 作为提供程序名称监视 .NET 应用。
+[dotnet-counters](/dotnet/core/diagnostics/dotnet-counters) 是一个性能监视工具，用于临时运行状况监视和初级性能调查。 使用 `Grpc.AspNetCore.Server` 或 `Grpc.Net.Client` 作为提供程序名称监视 .NET 应用。
 
 ```console
 > dotnet-counters monitor --process-id 1902 Grpc.AspNetCore.Server
@@ -220,7 +220,7 @@ Press p to pause, r to resume, q to quit.
     Total Calls Unimplemented                   0
 ```
 
-观察 gRPC 指标的另一种方法是使用 Application Insights 的 [ 包](https://docs.microsoft.com/azure/azure-monitor/app/eventcounters)捕获计数器数据。 设置完成后，Application Insights 可在运行时收集常见的 .NET 计数器。 默认情况下，不收集 gRPC 的计数器，但可以[自定义 App Insights 以包括其他计数器](https://docs.microsoft.com/azure/azure-monitor/app/eventcounters#customizing-counters-to-be-collected)。
+观察 gRPC 指标的另一种方法是使用 Application Insights 的 [ 包](/azure/azure-monitor/app/eventcounters)捕获计数器数据。 设置完成后，Application Insights 可在运行时收集常见的 .NET 计数器。 默认情况下，不收集 gRPC 的计数器，但可以[自定义 App Insights 以包括其他计数器](/azure/azure-monitor/app/eventcounters#customizing-counters-to-be-collected)。
 
 为 Application Insight 指定 gRPC 计数器以在 Startup.cs 中收集：
 

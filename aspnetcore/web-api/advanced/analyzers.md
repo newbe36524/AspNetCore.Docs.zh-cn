@@ -7,6 +7,7 @@ ms.author: prkrishn
 ms.custom: mvc
 ms.date: 09/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: web-api/advanced/analyzers
-ms.openlocfilehash: 1bc76f3965009dbdd66c58b197f4c12bd44faf18
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: cf0415e7d72e21a48db8bbeb4540f05e0b0a4198
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633027"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93057916"
 ---
 # <a name="use-web-api-analyzers"></a>使用 Web API 分析器
 
@@ -59,9 +60,9 @@ ASP.NET Core 2.2 和更高版本提供了用于 Web API 项目的 MVC 分析器�
 ### <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
 从“程序包管理器控制台”窗口：
-  * 请参阅 **查看** > **其他 Windows** > **程序包管理器控制台**。
-  * 导航到 ApiConventions.csproj 文件所在的目录**。
-  * 请执行以下命令：
+  * 请参阅 **查看** > **其他 Windows** > **程序包管理器控制台** 。
+  * 导航到 ApiConventions.csproj 文件所在的目录  。
+  * 执行以下命令：
 
     ```powershell
     Install-Package Microsoft.AspNetCore.Mvc.Api.Analyzers
@@ -69,10 +70,10 @@ ASP.NET Core 2.2 和更高版本提供了用于 Web API 项目的 MVC 分析器�
 
 ### <a name="visual-studio-for-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
 
-* 右键单击*Packages* **Solution Pad** > **添加包 ...**"中的" 包 "文件夹。
+* 右键单击 *Packages* **Solution Pad** > **添加包 ...** "中的" 包 "文件夹。
 * 将 " **添加包** " 窗口的 " **源** " 下拉箭头设置为 "nuget.org"。
 * 在搜索框中输入“Microsoft.AspNetCore.Mvc.Api.Analyzers”。
-* 从结果窗格中选择“Microsoft.AspNetCore.Mvc.Api.Analyzers”包，然后单击“添加包”****。
+* 从结果窗格中选择“Microsoft.AspNetCore.Mvc.Api.Analyzers”包，然后单击“添加包”  。
 
 ### <a name="visual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 

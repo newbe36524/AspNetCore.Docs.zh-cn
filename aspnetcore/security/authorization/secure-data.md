@@ -6,6 +6,7 @@ ms.author: riande
 ms.date: 7/18/2020
 ms.custom: mvc, seodec18
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authorization/secure-data
-ms.openlocfilehash: 5f86e514ee6339888171d83ab3117e9b3fcf107e
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: accfd46fa72c33976f8af2a39267c993447e036e
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88627814"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051936"
 ---
 # <a name="create-an-aspnet-core-web-app-with-user-data-protected-by-authorization"></a>使用受授权保护的用户数据创建 ASP.NET Core web 应用
 
@@ -44,7 +45,7 @@ ms.locfileid: "88627814"
 
 此文档中的图像与最新模板并不完全匹配。
 
-在下图中，用户 Rick (`rick@example.com`) 已登录。 Rick 只能查看已批准的联系人，**编辑** / **删除** / 为其联系人**创建新**链接。 只有 Rick 创建的最后一条记录才会显示 " **编辑** " 和 " **删除** " 链接。 在经理或管理员将状态更改为 "已批准" 之前，其他用户将看不到最后一条记录。
+在下图中，用户 Rick (`rick@example.com`) 已登录。 Rick 只能查看已批准的联系人， **编辑** / **删除** / 为其联系人 **创建新** 链接。 只有 Rick 创建的最后一条记录才会显示 " **编辑** " 和 " **删除** " 链接。 在经理或管理员将状态更改为 "已批准" 之前，其他用户将看不到最后一条记录。
 
 ![显示已登录的 Rick 的屏幕截图](secure-data/_static/rick.png)
 
@@ -127,11 +128,11 @@ dotnet ef database update
 
 [!code-csharp[](secure-data/samples/final3/Startup.cs?name=snippet&highlight=13-99)]
 
-前面突出显示的代码设置了 [后备身份验证策略](xref:Microsoft.AspNetCore.Authorization.AuthorizationOptions.FallbackPolicy)。 回退身份验证策略要求对 ***所有*** 用户进行身份验证，但 Razor 页面、控制器或操作方法除外，具有身份验证属性。 例如， Razor 使用或的页、控制器或操作方法 `[AllowAnonymous]` `[Authorize(PolicyName="MyPolicy")]` 使用应用的身份验证属性而不是后备身份验证策略。
+前面突出显示的代码设置了 [后备身份验证策略](xref:Microsoft.AspNetCore.Authorization.AuthorizationOptions.FallbackPolicy)。 回退身份验证策略要求 * *_所有_* _ 用户进行身份验证，但 Razor 页面、控制器或操作方法除外。 例如， Razor 使用或的页、控制器或操作方法 `[AllowAnonymous]` `[Authorize(PolicyName="MyPolicy")]` 使用应用的身份验证属性而不是后备身份验证策略。
 
 回退身份验证策略：
 
-* 应用于所有未显式指定身份验证策略的请求。 对于终结点路由服务的请求，这将包括未指定授权属性的任何终结点。 对于在授权中间件之后由其他中间件提供服务的请求，例如 [静态文件](xref:fundamentals/static-files)，这会将该策略应用到所有请求。
+_ 适用于所有未显式指定身份验证策略的请求。 对于终结点路由服务的请求，这将包括未指定授权属性的任何终结点。 对于在授权中间件之后由其他中间件提供服务的请求，例如 [静态文件](xref:fundamentals/static-files)，这会将该策略应用到所有请求。
 
 将后备身份验证策略设置为 "要求用户进行身份验证" 可保护新添加的 Razor 页面和控制器。 默认情况下，需要进行身份验证比依赖新控制器和 Razor 页面以包括属性更安全 `[Authorize]` 。
 
@@ -151,7 +152,7 @@ MVC 控制器和 Razor 页面要求对所有用户进行身份验证的另一种
 
 ### <a name="configure-the-test-account"></a>配置测试帐户
 
-`SeedData`类创建两个帐户：管理员和管理器。 使用 [机密管理器工具](xref:security/app-secrets) 来设置这些帐户的密码。 将项目目录中的密码设置 (包含 *Program.cs*) 的目录：
+`SeedData`类创建两个帐户：管理员和管理器。 使用 [机密管理器工具](xref:security/app-secrets) 来设置这些帐户的密码。 将项目目录中的密码设置 (包含 *Program.cs* ) 的目录：
 
 ```dotnetcli
 dotnet user-secrets set SeedUserPW <PW>
@@ -175,7 +176,7 @@ dotnet user-secrets set SeedUserPW <PW>
 
 ## <a name="create-owner-manager-and-administrator-authorization-handlers"></a>创建所有者、经理和管理员授权处理程序
 
-`ContactIsOwnerAuthorizationHandler`在*Authorization*文件夹中创建一个类。 `ContactIsOwnerAuthorizationHandler`验证对资源的用户是否拥有该资源。
+`ContactIsOwnerAuthorizationHandler`在 *Authorization* 文件夹中创建一个类。 `ContactIsOwnerAuthorizationHandler`验证对资源的用户是否拥有该资源。
 
 [!code-csharp[](secure-data/samples/final3/Authorization/ContactIsOwnerAuthorizationHandler.cs)]
 
@@ -190,13 +191,13 @@ dotnet user-secrets set SeedUserPW <PW>
 
 ### <a name="create-a-manager-authorization-handler"></a>创建管理器授权处理程序
 
-`ContactManagerAuthorizationHandler`在*Authorization*文件夹中创建一个类。 `ContactManagerAuthorizationHandler`验证对资源的用户是否为管理员。 只有管理人员才能 (新的或更改的) 批准或拒绝内容更改。
+`ContactManagerAuthorizationHandler`在 *Authorization* 文件夹中创建一个类。 `ContactManagerAuthorizationHandler`验证对资源的用户是否为管理员。 只有管理人员才能 (新的或更改的) 批准或拒绝内容更改。
 
 [!code-csharp[](secure-data/samples/final3/Authorization/ContactManagerAuthorizationHandler.cs)]
 
 ### <a name="create-an-administrator-authorization-handler"></a>创建管理员授权处理程序
 
-`ContactAdministratorsAuthorizationHandler`在*Authorization*文件夹中创建一个类。 `ContactAdministratorsAuthorizationHandler`验证对资源的用户是否为管理员。 管理员可以执行所有操作。
+`ContactAdministratorsAuthorizationHandler`在 *Authorization* 文件夹中创建一个类。 `ContactAdministratorsAuthorizationHandler`验证对资源的用户是否为管理员。 管理员可以执行所有操作。
 
 [!code-csharp[](secure-data/samples/final3/Authorization/ContactAdministratorsAuthorizationHandler.cs)]
 
@@ -271,7 +272,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
 
 前面的标记添加了多个 `using` 语句。
 
-更新*页面/联系人/索引*中的 "**编辑**" 和 "**删除**" 链接，以便仅为具有适当权限的用户呈现它们：
+更新 *页面/联系人/索引* 中的 " **编辑** " 和 " **删除** " 链接，以便仅为具有适当权限的用户呈现它们：
 
 [!code-cshtml[](secure-data/samples/final3/Pages/Contacts/Index.cshtml?highlight=34-36,62-999)]
 
@@ -342,7 +343,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
 ## <a name="create-the-starter-app"></a>创建初学者应用
 
 * 创建 Razor 名为 "ContactManager" 的页面应用
-  * 创建具有 **单个用户帐户**的应用。
+  * 创建具有 **单个用户帐户** 的应用。
   * 将其命名为 "ContactManager"，使命名空间与该示例中使用的命名空间匹配。
   * `-uld` 指定 LocalDB 而不是 SQLite
 
@@ -350,7 +351,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
   dotnet new webapp -o ContactManager -au Individual -uld
   ```
 
-* 添加 *模型/联系方式*：
+* 添加 *模型/联系方式* ：
 
   [!code-csharp[](secure-data/samples/starter2.1/Models/Contact.cs?name=snippet1)]
 
@@ -368,7 +369,7 @@ dotnet ef database update
 
 如果使用命令遇到 bug `dotnet aspnet-codegenerator razorpage` ，请参阅 [此 GitHub 问题](https://github.com/aspnet/Scaffolding/issues/984)。
 
-* 更新*Pages/Shared/_Layout cshtml*文件中的**ContactManager**定位点：
+* 更新 *Pages/Shared/_Layout cshtml* 文件中的 **ContactManager** 定位点：
 
  ```cshtml
 <a class="navbar-brand" asp-area="" asp-page="/Contacts/Index">ContactManager</a>
@@ -398,7 +399,7 @@ dotnet ef database update
 * **经理** 可以批准或拒绝联系人数据。 只有已批准的联系人对用户可见。
 * **管理员** 可以批准/拒绝和编辑/删除任何数据。
 
-在下图中，用户 Rick (`rick@example.com`) 已登录。 Rick 只能查看已批准的联系人，**编辑** / **删除** / 为其联系人**创建新**链接。 只有 Rick 创建的最后一条记录才会显示 " **编辑** " 和 " **删除** " 链接。 在经理或管理员将状态更改为 "已批准" 之前，其他用户将看不到最后一条记录。
+在下图中，用户 Rick (`rick@example.com`) 已登录。 Rick 只能查看已批准的联系人， **编辑** / **删除** / 为其联系人 **创建新** 链接。 只有 Rick 创建的最后一条记录才会显示 " **编辑** " 和 " **删除** " 链接。 在经理或管理员将状态更改为 "已批准" 之前，其他用户将看不到最后一条记录。
 
 ![显示已登录的 Rick 的屏幕截图](secure-data/_static/rick.png)
 
@@ -487,7 +488,7 @@ dotnet ef database update
 
 ### <a name="configure-the-test-account"></a>配置测试帐户
 
-`SeedData`类创建两个帐户：管理员和管理器。 使用 [机密管理器工具](xref:security/app-secrets) 来设置这些帐户的密码。 将项目目录中的密码设置 (包含 *Program.cs*) 的目录：
+`SeedData`类创建两个帐户：管理员和管理器。 使用 [机密管理器工具](xref:security/app-secrets) 来设置这些帐户的密码。 将项目目录中的密码设置 (包含 *Program.cs* ) 的目录：
 
 ```dotnetcli
 dotnet user-secrets set SeedUserPW <PW>
@@ -526,13 +527,13 @@ dotnet user-secrets set SeedUserPW <PW>
 
 ### <a name="create-a-manager-authorization-handler"></a>创建管理器授权处理程序
 
-`ContactManagerAuthorizationHandler`在*Authorization*文件夹中创建一个类。 `ContactManagerAuthorizationHandler`验证对资源的用户是否为管理员。 只有管理人员才能 (新的或更改的) 批准或拒绝内容更改。
+`ContactManagerAuthorizationHandler`在 *Authorization* 文件夹中创建一个类。 `ContactManagerAuthorizationHandler`验证对资源的用户是否为管理员。 只有管理人员才能 (新的或更改的) 批准或拒绝内容更改。
 
 [!code-csharp[](secure-data/samples/final2.1/Authorization/ContactManagerAuthorizationHandler.cs)]
 
 ### <a name="create-an-administrator-authorization-handler"></a>创建管理员授权处理程序
 
-`ContactAdministratorsAuthorizationHandler`在*Authorization*文件夹中创建一个类。 `ContactAdministratorsAuthorizationHandler`验证对资源的用户是否为管理员。 管理员可以执行所有操作。
+`ContactAdministratorsAuthorizationHandler`在 *Authorization* 文件夹中创建一个类。 `ContactAdministratorsAuthorizationHandler`验证对资源的用户是否为管理员。 管理员可以执行所有操作。
 
 [!code-csharp[](secure-data/samples/final2.1/Authorization/ContactAdministratorsAuthorizationHandler.cs)]
 
@@ -607,7 +608,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
 
 前面的标记添加了多个 `using` 语句。
 
-更新*页面/联系人/索引*中的 "**编辑**" 和 "**删除**" 链接，以便仅为具有适当权限的用户呈现它们：
+更新 *页面/联系人/索引* 中的 " **编辑** " 和 " **删除** " 链接，以便仅为具有适当权限的用户呈现它们：
 
 [!code-cshtml[](secure-data/samples/final2.1/Pages/Contacts/Index.cshtml?highlight=34-36,62-999)]
 
@@ -669,7 +670,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
 ## <a name="create-the-starter-app"></a>创建初学者应用
 
 * 创建 Razor 名为 "ContactManager" 的页面应用
-  * 创建具有 **单个用户帐户**的应用。
+  * 创建具有 **单个用户帐户** 的应用。
   * 将其命名为 "ContactManager"，使命名空间与该示例中使用的命名空间匹配。
   * `-uld` 指定 LocalDB 而不是 SQLite
 
@@ -677,7 +678,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
   dotnet new webapp -o ContactManager -au Individual -uld
   ```
 
-* 添加 *模型/联系方式*：
+* 添加 *模型/联系方式* ：
 
   [!code-csharp[](secure-data/samples/starter2.1/Models/Contact.cs?name=snippet1)]
 
@@ -691,7 +692,7 @@ Entity Framework Core 使用 AddScoped 的服务必须使用[AddScoped](/dotnet/
   dotnet ef database update
   ```
 
-* 更新*Pages/_Layout cshtml*文件中的**ContactManager**定位点：
+* 更新 *Pages/_Layout cshtml* 文件中的 **ContactManager** 定位点：
 
   ```cshtml
   <a asp-page="/Contacts/Index" class="navbar-brand">ContactManager</a>

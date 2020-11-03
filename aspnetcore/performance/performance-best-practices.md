@@ -6,6 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.date: 04/06/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/performance-best-practices
-ms.openlocfilehash: 01575ec87d2d346da7367523ca5e257d53de4983
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: a3fc398569fafefc0b4634e80433a5d4e0e1b4ff
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722613"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060997"
 ---
 
 # <a name="aspnet-core-performance-best-practices"></a>ASP.NET Core 性能优化最佳实践
@@ -45,7 +46,7 @@ ASP.NET Core 应用程序应设计为同时处理许多请求。 异步 API 可�
 
 ASP.NET Core 应用程序中的常见性能问题通常是由于那些本可以异步调用但却采用阻塞时调用而导致的。 同步阻塞会调用导致 [线程池饥饿](https://blogs.msdn.microsoft.com/vancem/2018/10/16/diagnosing-net-core-threadpool-starvation-with-perfview-why-my-service-is-not-saturating-all-cores-or-seems-to-stall/) 和响应时间降级。
 
-**不要**:
+**请勿** ：
 
 * 通过调用 [Task.Wait](/dotnet/api/system.threading.tasks.task.wait) 或 [Task.Result](/dotnet/api/system.threading.tasks.task-1.result) 来阻止异步执行。
 * 在公共代码路径中加锁。 ASP.NET Core 应用程序应设计为并行运行代码，如此才能使得性能最佳。
@@ -53,10 +54,9 @@ ASP.NET Core 应用程序中的常见性能问题通常是由于那些本可以�
 
 **要**:
 
-* 确保 [代码热点路径](#understand-hot-code-paths) 全部异步化。
-* 如在进行调用数据读写、I/O 处理和长时间操作的 API 时，存在可用的异步 API。那么务必选择异步 API 。 但是，**不要** 使用 [Task.Run](/dotnet/api/system.threading.tasks.task.run) 来包装同步 API 使其异步化。
-* 确保 controller/Razor Page actions 异步化。 整个调用堆栈是异步的，就可以利用 [async/await](/dotnet/csharp/programming-guide/concepts/async/) 模式的性能优势。
-使用性能分析程序 ( 例如 [PerfView](https://github.com/Microsoft/perfview)) 可用于查找频繁添加到 [线程池](/windows/desktop/procthread/thread-pools) 的线程。 `Microsoft-Windows-DotNETRuntime/ThreadPoolWorkerThread/Start` 事件表示新线程被添加到线程池。 <!--  For more information, see [async guidance docs](TBD-Link_To_Davifowl_Doc)  -->
+* 使 [热代码路径](#understand-hot-code-paths) 处于异步状态。
+* 如果异步 API 可用，则异步调用数据访问、i/o 和长时间运行的操作 Api。 不要 **使用**[任务。运行](/dotnet/api/system.threading.tasks.task.run)以使同步 API 成为异步同步。
+* 使控制器/ Razor 页面操作异步。 为了受益于 [async/await](/dotnet/csharp/programming-guide/concepts/async/) 模式，整个调用堆栈是异步的。
 
 ## <a name="return-ienumerablet-or-iasyncenumerablet"></a>使用 IEumerable&lt;T&gt;<T> 或 IAsyncEnumerable&lt;T&gt; 作为返回值<T>
 
@@ -70,9 +70,9 @@ ASP.NET Core 应用程序中的常见性能问题通常是由于那些本可以�
 
 建议 :
 
-* **要** 考虑缓存频繁使用的大对象。 缓存大对象可防止昂贵的分配开销。
-* **要**使用 [ArrayPool&lt;T&gt;](/dotnet/api/system.buffers.arraypool-1) 作为池化缓冲区以保存大型数组。
-* **不要** 在[代码热点路径](#understand-hot-code-paths) 上分配许多短生命周期的大对象。
+* **请考虑缓存** 经常使用的大型对象。 缓存大型对象会阻止开销较高的分配。
+* 使用 [ArrayPool \<T>](/dotnet/api/system.buffers.arraypool-1)存储大型数组 **来池缓冲区** 。
+* **不要** 在 [热代码路径](#understand-hot-code-paths)上分配很多生存期较短的大型对象。
 
 可以通过查看 [PerfView](https://github.com/Microsoft/perfview) 中的垃圾回收 (GC) 统计信息来诊断并检查内存问题，其中包括:
 
@@ -88,14 +88,15 @@ ASP.NET Core 应用程序中的常见性能问题通常是由于那些本可以�
 
 建议 :
 
-* **要** 以异步方式调用所有数据访问 API 。
-* **不要** 读取不需要的数据。 编写查询时，仅返回当前 HTTP 请求所必需的数据。
-* **要** 考虑缓存从数据库或远程服务检索的频繁访问的数据 ( 如果稍微过时的数据是可接受的话 ) 。 根据具体的场景，可以使用 [MemoryCache](xref:performance/caching/memory) 或 [DistributedCache](xref:performance/caching/distributed)。 有关更多信息，请参阅 <xref:performance/caching/response>.
-* **要** 尽量减少网络往返。 能够单次调用完成就不应该多次调用来读取所需数据。
-* **要** 在 Entity Framework Core 访问数据以用作只读情况时， 使用 [no-tracking](/ef/core/querying/tracking#no-tracking-queries)方式查询。 EF Core 可以更高效地返回 no-tracking 查询的结果。
-* **要** 使用过滤器和聚集 LINQ 查询 (例如， `.Where`， `.Select`或 `.Sum` 语句) ，以便数据库执行过滤提高性能 。
-* **要** 考虑 EF Core 可能在客户端解析一些查询运算符，这可能导致查询执行效率低下。 有关更多信息，请参阅 [客户端计算相关的性能问题](/ef/core/querying/client-eval#client-evaluation-performance-issues)。
-* **不要** 在集合上使用映射查询，这会导致执行 "N + 1" SQL 查询。 有关更多信息，请参阅 [优化子查询](/ef/core/what-is-new/ef-core-2.1#optimization-of-correlated-subqueries)。
+
+* **请** 以异步方式调用所有数据访问 api。
+* 检索的数据 **不** 是必需的。 编写查询以仅返回当前 HTTP 请求所必需的数据。
+* 如果数据可以接受， **请考虑缓存** 经常访问的从数据库或远程服务检索的数据。 使用 [MemoryCache](xref:performance/caching/memory) 或 [microsoft.web.distributedcache](xref:performance/caching/distributed)，具体取决于方案。 有关详细信息，请参阅 <xref:performance/caching/response>。
+* **尽量减少** 网络往返次数。 目标是使用单个调用而不是多个调用来检索所需数据。
+* 在访问数据时， **请不要** 在 Entity Framework Core 中使用 [无跟踪查询](/ef/core/querying/tracking#no-tracking-queries)。 EF Core 可以更有效地返回无跟踪查询的结果。
+* 使用、或语句 **(筛选和** 聚合 LINQ 查询 `.Where` `.Select` `.Sum` ，例如) ，以便数据库执行筛选。
+* **请考虑 EF Core** 在客户端上解析一些查询运算符，这可能导致查询执行效率低下。 有关详细信息，请参阅 [客户端评估性能问题](/ef/core/querying/client-eval#client-evaluation-performance-issues)。
+* **不要** 对集合使用投影查询，这可能会导致执行 "N + 1" 个 SQL 查询。 有关详细信息，请参阅 [相关子查询的优化](/ef/core/what-is-new/ef-core-2.1#optimization-of-correlated-subqueries)。
 
 请参阅 [EF 高性能专题](/ef/core/what-is-new/ef-core-2.0#explicitly-compiled-queries) 以了解可能提高应用性能的方法:
 
@@ -133,9 +134,9 @@ ASP.NET Core 应用程序中的常见性能问题通常是由于那些本可以�
 
 建议 :
 
-* **不要**把等待长时间运行的任务完成，作为普通 HTTP 请求处理的一部分。
-* **要** 考虑使用 [后台服务](xref:fundamentals/host/hosted-services) 或 [ Azure Function](/azure/azure-functions/) 处理长时间运行的任务。 在应用外执行任务特别有利于 CPU 密集型任务的性能。
-* **要** 使用实时通信，如 [SignalR](xref:signalr/introduction)，以异步方式与客户端通信。
+* **请** 不要等待长时间运行的任务在普通的 HTTP 请求处理过程中完成。
+* **请考虑使用**[后台服务](xref:fundamentals/host/hosted-services)处理长时间运行的请求，或使用 [Azure 函数](/azure/azure-functions/)处理进程外的请求。 在进程外完成工作对于 CPU 密集型任务特别有用。
+* **请使用实时** 通信选项（如 [SignalR](xref:signalr/introduction) ）以异步方式与客户端进行通信。
 
 ## <a name="minify-client-assets"></a>缩小客户端资源
 
@@ -163,9 +164,9 @@ ASP.NET Core 的每个新发行版都包含性能改进。 .NET Core 和 ASP.NET
 
 建议 :
 
-* **不要** 使用抛出或捕获异常作为正常程序流的手段，特别是在 [代码热点路径](#understand-hot-code-paths) 中。
-* **要** 在应用程序中包含用于检测和处理导致异常的逻辑。
-* **要** 对意外的执行情况抛出或捕获异常。
+* **不要** 使用引发或捕获异常作为正常程序流的方法，尤其是在 [热代码路径](#understand-hot-code-paths)中。
+* 在应用程序 **中包括逻辑** ，以检测和处理会导致异常的情况。
+* **引发或** 捕获异常或意外情况的异常。
 
 应用程序诊断工具( 如 Application Insights ) 可以帮助识别应用程序中可能影响性能的常见异常。
 
@@ -177,7 +178,8 @@ ASP.NET Core 的每个新发行版都包含性能改进。 .NET Core 和 ASP.NET
 
 ASP.NET Core 中的所有 I/O 都是异步的。 服务器实现了 `Stream` 接口，它同时具有同步和异步的方法重载。 应该首选异步方式以避免阻塞线程池线程。 阻塞线程会导致线程池饥饿。
 
-**不要使用如下操作:** <xref:System.IO.StreamReader.ReadToEnd*>。 它会阻止当前线程等待结果。 这是 [sync over async](https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/master/AsyncGuidance.md#warning-sync-over-async) 的示例。
+请勿 **执行此操作：** 下面的示例使用 <xref:System.IO.StreamReader.ReadToEnd*> 。 此方法阻止当前线程等待结果。 这是一个 [通过异步同步](https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/master/AsyncGuidance.md#warning-sync-over-async
+)的示例。
 
 [!code-csharp[](performance-best-practices/samples/3.0/Controllers/MyFirstController.cs?name=snippet1)]
 
@@ -204,7 +206,8 @@ ASP.NET Core 中的所有 I/O 都是异步的。 服务器实现了 `Stream` 接
 * 该表单已被 `ReadFormAsync`调用，并且
 * 数据已经被从 `HttpContext.Request.Form` 读取并缓存
 
-**不要使用如下操作:** 例如以下方式使用 `HttpContext.Request.Form`。  `HttpContext.Request.Form` 使用了[sync over async](https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/master/AsyncGuidance.md#warning-sync-over-async) ，这将导致线程饥饿.
+请勿 **执行此操作：** 下面的示例使用 `HttpContext.Request.Form` 。  `HttpContext.Request.Form`[通过异步使用同步](https://github.com/davidfowl/AspNetCoreDiagnosticScenarios/blob/master/AsyncGuidance.md#warning-sync-over-async
+)，并可能导致线程池不足。
 
 [!code-csharp[](performance-best-practices/samples/3.0/Controllers/MySecondController.cs?name=snippet1)]
 
@@ -246,9 +249,9 @@ ASP.NET Core 3.0 默认情况下使用 <xref:System.Text.Json>进行 JSON 序列
 
 ## <a name="do-not-store-ihttpcontextaccessorhttpcontext-in-a-field"></a>不要将 IHttpContextAccessor.HttpContext 存储在字段中
 
-[IHttpContextAccessor.HttpContext](xref:Microsoft.AspNetCore.Http.IHttpContextAccessor.HttpContext) 返回当前请求线程中的 `HttpContext`. `IHttpContextAccessor.HttpContext`** 不应该 ** 被存储在一个字段或变量中。
+[IHttpContextAccessor.HttpContext](xref:Microsoft.AspNetCore.Http.IHttpContextAccessor.HttpContext) `HttpContext` 从请求线程访问时，IHttpContextAccessor 将返回活动请求的。 `IHttpContextAccessor.HttpContext`**不** 应存储在字段或变量中。
 
-**不要使用如下操作:** 例如将`HttpContext` 存储在字段中，然后在后续使用该字段。
+请勿 **执行此操作：** 下面的示例将存储 `HttpContext` 在字段中，并稍后尝试使用它。
 
 [!code-csharp[](performance-best-practices/samples/3.0/MyType.cs?name=snippet1)]
 
@@ -263,9 +266,9 @@ ASP.NET Core 3.0 默认情况下使用 <xref:System.Text.Json>进行 JSON 序列
 
 ## <a name="do-not-access-httpcontext-from-multiple-threads"></a>不要尝试在多线程下使用 HttpContext
 
-`HttpContext` *不是* 线程安全的。 从多个线程并行访问 `HttpContext` 可能会导致不符预期的行为，例如线程挂起，崩溃和数据损坏。
+`HttpContext`*不* 是线程安全的。 `HttpContext`并行从多个线程进行访问可能会导致未定义的行为，如挂起、崩溃和数据损坏。
 
-**不要使用如下操作:** 以下示例将发出三个并行请求，并在 HTTP 请求之前和之后记录传入的请求路径。 请求路径将被多个线程 ( 可能并行 ) 访问。
+请勿 **执行此操作：** 下面的示例执行三个并行请求，并在传出 HTTP 请求之前和之后记录传入的请求路径。 可以从多个线程访问请求路径，可能会并行进行。
 
 [!code-csharp[](performance-best-practices/samples/3.0/Controllers/AsyncFirstController.cs?name=snippet1&highlight=25,28)]
 
@@ -277,7 +280,7 @@ ASP.NET Core 3.0 默认情况下使用 <xref:System.Text.Json>进行 JSON 序列
 
 `HttpContext` 只有在 ASP.NET Core 管道处理活跃的 HTTP 请求时才可用。 整个 ASP.NET Core 管道是由异步代理组成的调用链，用于处理每个请求。 当 `Task` 从调用链完成并返回时,`HttpContext` 就会被回收。
 
-**不要进行如下操作:** 以下示例使用 `async void` ，这将使得 HTTP 请求在第一个 `await` 时处理完成，进而就会导致:
+请勿 **执行此操作：** 下面的示例使用 `async void` ，当达到第一个时，它将使 HTTP 请求完成 `await` ：
 
 * 在 ASP.NET Core 应用程序中， 这是一个**完全错误** 的做法
 * 在 HTTP 请求完成后访问 `HttpResponse`。
@@ -291,7 +294,7 @@ ASP.NET Core 3.0 默认情况下使用 <xref:System.Text.Json>进行 JSON 序列
 
 ## <a name="do-not-capture-the-httpcontext-in-background-threads"></a>不要在后台线程中使用 HttpContext
 
-**不要使用如下操作:** 以下示例使用一个闭包从 `Controller` 属性读取 `HttpContext`。 这是一种错误做法，因为这将导致:
+请勿 **执行此操作：** 下面的示例演示关闭 `HttpContext` 从 `Controller` 属性捕获。 这是一种不好的做法，因为工作项可以：
 
 * 代码运行在 Http 请求作用域之外。
 * 尝试读取错误的 `HttpContext`。
@@ -309,7 +312,7 @@ ASP.NET Core 3.0 默认情况下使用 <xref:System.Text.Json>进行 JSON 序列
 
 ## <a name="do-not-capture-services-injected-into-the-controllers-on-background-threads"></a>不要在后台线程获取注入到 controller 中的服务
 
-**不要采用如下做法:** 以下示例使用闭包从 `controller` 获取 `DbContext`进行操作。 这是一个错误的做法。  这将导致代码云在请求的作用域之外。 而 `ContocoDbContext` 是基于请求作用域的，因此这样将引发 `ObjectDisposedException`。
+请勿 **执行此操作：** 下面的示例演示关闭 `DbContext` `Controller` 操作从操作参数捕获。 这是一种不好的做法。  工作项可以在请求范围之外运行。 的 `ContosoDbContext` 作用域限定为请求，导致 `ObjectDisposedException` 。
 
 [!code-csharp[](performance-best-practices/samples/3.0/Controllers/FireAndForgetSecondController.cs?name=snippet1)]
 
@@ -336,7 +339,7 @@ ASP.NET Core 不会缓冲 HTTP 响应正文。 当正文一旦开始发送:
 * Header 就会与正文的数据包一起发送到客户端。
 * 此时就无法修改 header 了。
 
-**不要使用如下操作:** 以下代码尝试在响应启动后添加响应头:
+请勿 **执行此操作：** 以下代码在响应已启动之后尝试添加响应标头：
 
 [!code-csharp[](performance-best-practices/samples/3.0/Startup22.cs?name=snippet1)]
 

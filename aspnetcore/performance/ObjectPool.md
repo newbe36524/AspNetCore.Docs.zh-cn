@@ -6,6 +6,7 @@ monikerRange: '>= aspnetcore-1.1'
 ms.author: riande
 ms.date: 04/11/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/ObjectPool
-ms.openlocfilehash: 6997dbfdd5c654e4a8b15a026fd3ec61d024f02d
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 3bbfde6f68a238131149e67ce72f0ddc68a9ea0f
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632364"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93056902"
 ---
 # <a name="object-reuse-with-objectpool-in-aspnet-core"></a>在 ASP.NET Core 中使用 ObjectPool 进行对象重用
 
@@ -73,8 +74,8 @@ ms.locfileid: "88632364"
 ::: moniker range=">= aspnetcore-3.0"
 当 <xref:Microsoft.Extensions.ObjectPool.DefaultObjectPoolProvider> 使用并 `T` 实现时 `IDisposable` ：
 
-* ***不***返回到池的项将被释放。
-* 当使用 DI 释放池时，将释放池中的所有项。
+* 将释放 * **not** _ 返回到池的项。
+_ 当使用 DI 释放池时，将释放池中的所有项。
 
 注意：释放池后：
 
@@ -85,7 +86,7 @@ ms.locfileid: "88632364"
 
 ## <a name="objectpool-sample"></a>ObjectPool 示例
 
-以下代码：
+下面的代码：
 
 * 将 `ObjectPoolProvider` (DI) 容器添加到 [依赖关系注入](xref:fundamentals/dependency-injection) 。
 * 向 DI 容器添加并配置 `ObjectPool<StringBuilder>` 。

@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: grpc/comparison
-ms.openlocfilehash: d20740950f7ac56a3a3b2951b474151aaf9c6f5a
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 3f0e44bb374214328f589c6ca3952c6d7aab88d8
+ms.sourcegitcommit: 9c031530d2e652fe422e786bd43392bc500d622f
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631220"
+ms.lasthandoff: 09/18/2020
+ms.locfileid: "90770124"
 ---
 # <a name="compare-grpc-services-with-http-apis"></a>比较 gRPC 服务和 HTTP API
 
@@ -95,6 +95,7 @@ gRPC 非常适合以下方案：
 * 点对点实时通信：gRPC 对双向流式传输提供出色的支持。 gRPC 服务可以实时推送消息而无需轮询。
 * 多语言环境：gRPC 工具支持所有常用的开发语言，因此，gRPC 是多语言环境的理想选择。
 * 网络受限环境：gRPC 消息使用 Protobuf（一种轻量级消息格式）进行序列化。 gRPC 消息始终小于等效的 JSON 消息。
+* **进程间通信 (IPC)** ：IPC 传输（如 Unix 域套接字和命名管道）可与 gRPC 一起用于同一台计算机上的应用间通信。 有关详细信息，请参阅 <xref:grpc/interprocess>。
 
 ## <a name="grpc-weaknesses"></a>gRPC 弱点
 
@@ -102,12 +103,15 @@ gRPC 非常适合以下方案：
 
 当前无法通过浏览器直接调用 gRPC 服务。 gRPC 大量使用 HTTP/2 功能，且没有浏览器在 Web 请求中提供支持 gRPC 客户端所需的控制级别。 例如，浏览器不允许调用方要求使用 HTTP/2，也不提供对 HTTP/2 基础框架的访问。
 
-[gRPC-Web](https://grpc.io/docs/tutorials/basic/web.html) 是 gRPC 团队的另一项技术，可在浏览器中提供有限的 gRPC 支持。 gRPC-Web 由两部分组成：支持所有现代浏览器的 JavaScript 客户端，以及服务器上的 gRPC-Web 代理。 gRPC-Web 客户端调用代理，代理将根据 gRPC 请求转发到 gRPC 服务器。
+将 gRPC 引入浏览器应用有两种常见方法：
 
-gRPC-Web 并不支持所有 gRPC 功能。 不支持客户端和双向流式传输，并且对服务器流式传输的支持有限。
+* [gRPC-Web](https://grpc.io/docs/tutorials/basic/web.html) 是 gRPC 团队的另一项技术，可在浏览器中提供 gRPC 支持。 gRPC-Web 允许浏览器应用从 gRPC 的高性能和低网络使用率获益。 gRPC-Web 并不支持所有 gRPC 功能。 不支持客户端和双向流式传输，并且对服务器流式传输的支持有限。
 
-> [!TIP]
-> .NET Core 对 gRPC-Web 提供支持。 有关详细信息，请访问 <xref:grpc/browser>。
+  .NET Core 对 gRPC-Web 提供支持。 有关详细信息，请参阅 <xref:grpc/browser>。
+
+* 通过使用 [HTTP 元数据](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.api#google.api.HttpRule)注释 .proto 文件，可以从 gRPC 服务自动创建 RESTful JSON Web API。 这使得应用可以同时支持 gRPC 和 JSON Web API，而无需重复为两者生成单独的服务。
+
+  .NET Core 对从 gRPC 服务创建 JSON Web API 提供了实验性支持。 有关详细信息，请参阅 <xref:grpc/httpapi>。
 
 ### <a name="not-human-readable"></a>非人工可读取
 
@@ -123,7 +127,6 @@ HTTP API 请求以文本形式发送，并且可进行人工读取和创建。
 
 * 浏览器可访问的 API：gRPC 在浏览器中未受到完全支持。 gRPC-Web 可以提供浏览器支持，但它具有局限性并引入了服务器代理。
 * 广播实时通信：gRPC 支持通过流式传输进行实时通信，但不存在将消息广播到注册连接的概念。 例如，在聊天室方案中，应将新的聊天消息发送到聊天室中的所有客户端，这要求每个 gRPC 调用将新的聊天消息单独流式传输到客户端。 [SignalR](xref:signalr/introduction) 是适用于此方案的框架。 SignalR 具有持久性连接的概念，并内置对广播消息的支持。
-* 进程间通信：进程必须托管 HTTP/2 服务器才能接受传入的 gRPC 调用。 对于 Windows，进程间通信[管道](/dotnet/standard/io/pipe-operations)是一种快速、轻便的通信方法。
 
 ## <a name="additional-resources"></a>其他资源
 

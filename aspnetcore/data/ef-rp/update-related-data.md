@@ -16,12 +16,12 @@ no-loc:
 - Razor
 - SignalR
 uid: data/ef-rp/update-related-data
-ms.openlocfilehash: 603c5e7c9f095c380461f8c6e4ead783ad35abe2
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 17b200f0ba90035c417c96689798263af16551de
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630856"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722814"
 ---
 # <a name="part-7-no-locrazor-pages-with-ef-core-in-aspnet-core---update-related-data"></a>第 7 部分，ASP.NET Core 中的 Razor 页面和 EF Core - 更新相关数据
 
@@ -46,7 +46,7 @@ ms.locfileid: "88630856"
 
 [!code-csharp[](intro/samples/cu30/Pages/Courses/DepartmentNamePageModel.cs)]
 
-上面的代码创建 [SelectList](/dotnet/api/microsoft.aspnetcore.mvc.rendering.selectlist?view=aspnetcore-2.0) 以包含系名称列表。 如果指定了 `selectedDepartment`，可在 `SelectList` 中选择该系。
+上面的代码创建 [SelectList](/dotnet/api/microsoft.aspnetcore.mvc.rendering.selectlist) 以包含系名称列表。 如果指定了 `selectedDepartment`，可在 `SelectList` 中选择该系。
 
 “创建”和“编辑”页模型类将派生自 `DepartmentNamePageModel`。
 
@@ -111,7 +111,7 @@ Razor 页面使用[选择标记帮助程序](xref:mvc/views/working-with-forms#t
 
 ## <a name="update-the-course-details-and-delete-pages"></a>更新课程“详细信息”和“删除”页
 
-[AsNoTracking](/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.asnotracking?view=efcore-2.0#Microsoft_EntityFrameworkCore_EntityFrameworkQueryableExtensions_AsNoTracking__1_System_Linq_IQueryable___0__) 可以在不需要跟踪时提高性能。
+[AsNoTracking](/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.asnotracking#Microsoft_EntityFrameworkCore_EntityFrameworkQueryableExtensions_AsNoTracking__1_System_Linq_IQueryable___0__) 可以在不需要跟踪时提高性能。
 
 ### <a name="update-the-course-page-models"></a>更新“课程”页模型
 
@@ -263,7 +263,7 @@ Razor 页面没有 Course 实体的集合，因此模型绑定器无法自动更
 
 [!code-csharp[](intro/samples/cu/Pages/Courses/DepartmentNamePageModel.cshtml.cs?highlight=9,11,20-21)]
 
-上面的代码创建 [SelectList](/dotnet/api/microsoft.aspnetcore.mvc.rendering.selectlist?view=aspnetcore-2.0) 以包含系名称列表。 如果指定了 `selectedDepartment`，可在 `SelectList` 中选择该系。
+上面的代码创建 [SelectList](/dotnet/api/microsoft.aspnetcore.mvc.rendering.selectlist) 以包含系名称列表。 如果指定了 `selectedDepartment`，可在 `SelectList` 中选择该系。
 
 “创建”和“编辑”页模型类将派生自 `DepartmentNamePageModel`。
 
@@ -328,7 +328,7 @@ Razor 页面使用[选择标记帮助程序](xref:mvc/views/working-with-forms#t
 
 ## <a name="add-asnotracking-to-the-details-and-delete-page-models"></a>将 AsNoTracking 添加到“详细信息”和“删除”页模型
 
-[AsNoTracking](/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.asnotracking?view=efcore-2.0#Microsoft_EntityFrameworkCore_EntityFrameworkQueryableExtensions_AsNoTracking__1_System_Linq_IQueryable___0__) 可以在不需要跟踪时提高性能。 将 `AsNoTracking` 添加到“删除”和“详细信息”页模型。 下面的代码显示更新的“删除”页模型：
+[AsNoTracking](/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.asnotracking#Microsoft_EntityFrameworkCore_EntityFrameworkQueryableExtensions_AsNoTracking__1_System_Linq_IQueryable___0__) 可以在不需要跟踪时提高性能。 将 `AsNoTracking` 添加到“删除”和“详细信息”页模型。 下面的代码显示更新的“删除”页模型：
 
 [!code-csharp[](intro/samples/cu/Pages/Courses/Delete.cshtml.cs?name=snippet&highlight=21,23,40,41)]
 

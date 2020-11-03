@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 08/12/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authorization/razor-pages-authorization
-ms.openlocfilehash: b17717e7b3cbaa64d4ff00661f15439728f161d3
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 69e1d639aeb55ae64cc54b1cda402ed6bcbb04ab
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634886"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060178"
 ---
 # <a name="no-locrazor-pages-authorization-conventions-in-aspnet-core"></a>Razor 页面中的授权约定 ASP.NET Core
 
@@ -74,7 +75,7 @@ options.Conventions.AuthorizeFolder("/Private", "AtLeast21");
 options.Conventions.AuthorizeAreaPage("Identity", "/Manage/Accounts");
 ```
 
-页面名称是文件的路径，该文件的扩展名相对于指定区域的页根目录。 例如，文件 *区域/ Identity /Pages/Manage/Accounts.cshtml* 的页面名称为 */Manage/Accounts*。
+页面名称是文件的路径，该文件的扩展名相对于指定区域的页根目录。 例如，文件 *区域/ Identity /Pages/Manage/Accounts.cshtml* 的页面名称为 */Manage/Accounts* 。
 
 若要指定 [授权策略](xref:security/authorization/policies)，请使用 [AuthorizeAreaPage 重载](xref:Microsoft.Extensions.DependencyInjection.PageConventionCollectionExtensions.AuthorizeAreaPage*)：
 
@@ -90,7 +91,7 @@ options.Conventions.AuthorizeAreaPage("Identity", "/Manage/Accounts", "AtLeast21
 options.Conventions.AuthorizeAreaFolder("Identity", "/Manage");
 ```
 
-文件夹路径是文件夹相对于指定区域的页面根目录的路径。 例如， *区域/ Identity /Pages/Manage/* 下的文件的文件夹路径为 */Manage*。
+文件夹路径是文件夹相对于指定区域的页面根目录的路径。 例如， *区域/ Identity /Pages/Manage/* 下的文件的文件夹路径为 */Manage* 。
 
 若要指定 [授权策略](xref:security/authorization/policies)，请使用 [AuthorizeAreaFolder 重载](xref:Microsoft.Extensions.DependencyInjection.PageConventionCollectionExtensions.AuthorizeAreaFolder*)：
 
@@ -186,7 +187,7 @@ options.Conventions.AuthorizeFolder("/Private", "AtLeast21");
 options.Conventions.AuthorizeAreaPage("Identity", "/Manage/Accounts");
 ```
 
-页面名称是文件的路径，该文件的扩展名相对于指定区域的页根目录。 例如，文件 *区域/ Identity /Pages/Manage/Accounts.cshtml* 的页面名称为 */Manage/Accounts*。
+页面名称是文件的路径，该文件的扩展名相对于指定区域的页根目录。 例如，文件 *区域/ Identity /Pages/Manage/Accounts.cshtml* 的页面名称为 */Manage/Accounts* 。
 
 若要指定 [授权策略](xref:security/authorization/policies)，请使用 [AuthorizeAreaPage 重载](xref:Microsoft.Extensions.DependencyInjection.PageConventionCollectionExtensions.AuthorizeAreaPage*)：
 
@@ -202,7 +203,7 @@ options.Conventions.AuthorizeAreaPage("Identity", "/Manage/Accounts", "AtLeast21
 options.Conventions.AuthorizeAreaFolder("Identity", "/Manage");
 ```
 
-文件夹路径是文件夹相对于指定区域的页面根目录的路径。 例如， *区域/ Identity /Pages/Manage/* 下的文件的文件夹路径为 */Manage*。
+文件夹路径是文件夹相对于指定区域的页面根目录的路径。 例如， *区域/ Identity /Pages/Manage/* 下的文件的文件夹路径为 */Manage* 。
 
 若要指定 [授权策略](xref:security/authorization/policies)，请使用 [AuthorizeAreaFolder 重载](xref:Microsoft.Extensions.DependencyInjection.PageConventionCollectionExtensions.AuthorizeAreaFolder*)：
 

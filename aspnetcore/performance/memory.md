@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 4/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: performance/memory
-ms.openlocfilehash: 7f1d20687f6dd588e125acf3815815c2bcf0cd04
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: 6d2a89ec7c64728bc585ad235293f2277f9a66f7
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722678"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061478"
 ---
 # <a name="memory-management-and-garbage-collection-gc-in-aspnet-core"></a>内存管理和垃圾回收 (GC) ASP.NET Core
 
@@ -50,7 +51,7 @@ GC 分配堆段，其中每个段都是一系列连续的内存。 位于堆中�
 
 调用 [GC。显式收集](xref:System.GC.Collect*) ：
 
-* **不**应由生产 ASP.NET Core 应用完成。
+* **不** 应由生产 ASP.NET Core 应用完成。
 * 调查内存泄漏时非常有用。
 * 调查时，验证 GC 是否已从内存中删除所有无关联的对象，以便可以测量内存。
 
@@ -137,8 +138,8 @@ public ActionResult<string> GetBigString()
 
 .NET 垃圾回收器具有两种不同的模式：
 
-* **工作站 GC**：针对桌面进行了优化。
-* **服务器 GC**。 ASP.NET Core 应用的默认 GC。 针对服务器进行了优化。
+* **工作站 GC** ：针对桌面进行了优化。
+* **服务器 GC** 。 ASP.NET Core 应用的默认 GC。 针对服务器进行了优化。
 
 GC 模式可以在项目文件中或在发布的应用程序的 *runtimeconfig.js* 文件中显式设置。 以下标记显示 `ServerGarbageCollection` 项目文件中的设置：
 
@@ -150,7 +151,7 @@ GC 模式可以在项目文件中或在发布的应用程序的 *runtimeconfig.j
 
 更改 `ServerGarbageCollection` 项目文件需要重新生成应用。
 
-**注意：** 服务器垃圾回收在具有单个核心的计算机上**不可用。** 有关详细信息，请参阅 <xref:System.Runtime.GCSettings.IsServerGC>。
+**注意：** 服务器垃圾回收在具有单个核心的计算机上 **不可用。** 有关详细信息，请参阅 <xref:System.Runtime.GCSettings.IsServerGC>。
 
 下图显示了使用工作站 GC 的占用大量 RPS 的内存配置文件。
 
@@ -235,7 +236,7 @@ public void GetFileProvider()
 
 ### <a name="large-objects-heap"></a>大型对象堆
 
-频繁的内存分配/空闲周期可以分段内存，尤其是在分配大块内存时。 对象在连续内存块中分配。 若要缓解碎片，当 GC 释放内存时，它会尝试对其进行碎片整理。 此过程称为 **压缩**。 压缩涉及移动对象。 移动大型对象会对性能产生负面影响。 出于此原因，GC 将为 _大型_ 对象（称为 [大型对象堆](/dotnet/standard/garbage-collection/large-object-heap) ）创建特殊的内存区域， (LOH) 。 大于85000字节的对象 (大约 83 KB) ：
+频繁的内存分配/空闲周期可以分段内存，尤其是在分配大块内存时。 对象在连续内存块中分配。 若要缓解碎片，当 GC 释放内存时，它会尝试对其进行碎片整理。 此过程称为 **压缩** 。 压缩涉及移动对象。 移动大型对象会对性能产生负面影响。 出于此原因，GC 将为 _大型_ 对象（称为 [大型对象堆](/dotnet/standard/garbage-collection/large-object-heap) ）创建特殊的内存区域， (LOH) 。 大于85000字节的对象 (大约 83 KB) ：
 
 * 放置在 LOH 上。
 * 未压缩。
@@ -271,7 +272,7 @@ public int GetLOH1(int size)
 
 ![上图](memory/_static/loh1.png)
 
-下图显示调用终结点的内存配置文件 `/api/loh/84976` ，只分配 *一个字节*：
+下图显示调用终结点的内存配置文件 `/api/loh/84976` ，只分配 *一个字节* ：
 
 ![上图](memory/_static/loh2.png)
 
@@ -393,7 +394,7 @@ NuGet 包 [ObjectPool](https://www.nuget.org/packages/Microsoft.Extensions.Objec
 
 可以通过 `byte` 使用[ArrayPool \<T> ](xref:System.Buffers.ArrayPool`1)来对缓冲池进行优化，从而优化上述代码。 静态实例可跨请求重复使用。
 
-此方法的不同之处在于，将从 API 返回一个共用对象。 这意味着：
+此方法的不同之处在于，将从 API 返回一个共用对象。 也就是说：
 
 * 从方法返回后，将立即从控件中排除对象。
 * 不能释放对象。

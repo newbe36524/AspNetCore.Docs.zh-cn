@@ -16,12 +16,12 @@ no-loc:
 - Razor
 - SignalR
 uid: fundamentals/localization
-ms.openlocfilehash: d5be01c67f455a2706a654574ef9f5e273551e70
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: fcf69bdaaed5cf0283ae27440c28061857d2cbcb
+ms.sourcegitcommit: d1a897ebd89daa05170ac448e4831d327f6b21a8
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865450"
+ms.lasthandoff: 10/01/2020
+ms.locfileid: "91606780"
 ---
 # <a name="globalization-and-localization-in-aspnet-core"></a>ASP.NET Core 全球化和本地化
 
@@ -66,7 +66,7 @@ ms.locfileid: "88865450"
 
 可以按控制器、区域对本地化字符串分区，或只有一个容器。 在示例应用中，名为 `SharedResource` 的虚拟类用于共享资源。
 
-[!code-csharp[](localization/sample/3.x/Localization/Resources/SharedResource.cs)]
+[!code-csharp[](localization/sample/3.x/Localization/SharedResource.cs)]
 
 某些开发者使用 `Startup` 类，以包含全局或共享字符串。 在下面的示例中，使用 `InfoController` 和 `SharedResource` 本地化工具：
 
@@ -420,7 +420,7 @@ Views/Shared/_SelectLanguagePartial.cshtml 文件添加到了布局文件的 `fo
 
 可以按控制器、区域对本地化字符串分区，或只有一个容器。 在示例应用中，名为 `SharedResource` 的虚拟类用于共享资源。
 
-[!code-csharp[](localization/sample/3.x/Localization/Resources/SharedResource.cs)]
+[!code-csharp[](localization/sample/3.x/Localization/SharedResource.cs)]
 
 某些开发者使用 `Startup` 类，以包含全局或共享字符串。 在下面的示例中，使用 `InfoController` 和 `SharedResource` 本地化工具：
 
@@ -775,7 +775,7 @@ Views/Shared/_SelectLanguagePartial.cshtml 文件添加到了布局文件的 `fo
 
 可以按控制器、区域对本地化字符串分区，或只有一个容器。 在示例应用中，名为 `SharedResource` 的虚拟类用于共享资源。
 
-[!code-csharp[](localization/sample/3.x/Localization/Resources/SharedResource.cs)]
+[!code-csharp[](localization/sample/3.x/Localization/SharedResource.cs)]
 
 某些开发者使用 `Startup` 类，以包含全局或共享字符串。 在下面的示例中，使用 `InfoController` 和 `SharedResource` 本地化工具：
 
@@ -959,7 +959,7 @@ using Microsoft.Extensions.Localization;
 
 ### <a name="querystringrequestcultureprovider"></a>QueryStringRequestCultureProvider
 
-某些应用将使用查询字符串来设置<https://docs.microsoft.com/dotnet/api/system.globalization.cultureinfo?view=netcore-3.1>。 对于使用 cookie 或接受语言标题方法的应用，向 URL 添加查询字符串有助于调试和测试代码。 默认情况下，`QueryStringRequestCultureProvider` 注册为 `RequestCultureProvider` 列表中的第一个本地化提供程序。 传递查询字符串参数 `culture` 和 `ui-culture`。 下面的示例将特定区域性（语言和区域）设置为“西班牙语/墨西哥”：
+某些应用将使用查询字符串来设置<xref:System.Globalization.CultureInfo>。 对于使用 cookie 或接受语言标题方法的应用，向 URL 添加查询字符串有助于调试和测试代码。 默认情况下，`QueryStringRequestCultureProvider` 注册为 `RequestCultureProvider` 列表中的第一个本地化提供程序。 传递查询字符串参数 `culture` 和 `ui-culture`。 下面的示例将特定区域性（语言和区域）设置为“西班牙语/墨西哥”：
 
 ```
 http://localhost:5000/?culture=es-MX&ui-culture=es-MX

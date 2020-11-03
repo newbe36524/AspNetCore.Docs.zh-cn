@@ -19,12 +19,12 @@ no-loc:
 - SignalR
 uid: blazor/state-management
 zone_pivot_groups: blazor-hosting-models
-ms.openlocfilehash: 43794fad36efe44cad6fbb2f1a1cae293a2ddad1
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a74f056447839c4cf057948f26a9ece9b5799656
+ms.sourcegitcommit: d1a897ebd89daa05170ac448e4831d327f6b21a8
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88625955"
+ms.lasthandoff: 10/01/2020
+ms.locfileid: "91606728"
 ---
 # <a name="aspnet-core-no-locblazor-state-management"></a>ASP.NET Core Blazor 状态管理
 
@@ -58,11 +58,12 @@ ms.locfileid: "88625955"
 
 ## <a name="where-to-persist-state"></a>保留状态的位置
 
-有三个常见位置用于保留状态：
+用于保留状态的常见位置有：
 
 * [服务器端存储](#server-side-storage)
 * [URL](#url)
 * [浏览器存储](#browser-storage)
+* [内存中状态容器服务](#in-memory-state-container-service)
 
 ### <a name="server-side-storage"></a>服务器端存储
 
@@ -119,6 +120,10 @@ ms.locfileid: "88625955"
 > [!WARNING]
 > 用户可以查看或篡改 `localStorage` 和 `sessionStorage` 中存储的数据。
 
+## <a name="in-memory-state-container-service"></a>内存中状态容器服务
+
+[!INCLUDE[](~/includes/blazor-state-management/state-container.md)]
+
 ## <a name="additional-resources"></a>其他资源
 
 * [在身份验证操作之前保存应用状态](xref:blazor/security/webassembly/additional-scenarios#save-app-state-before-an-authentication-operation)
@@ -162,11 +167,12 @@ Blazor Server 是有状态的应用框架。 大多数情况下，应用保持�
 
 ## <a name="where-to-persist-state"></a>保留状态的位置
 
-有三个常见位置用于保留状态：
+用于保留状态的常见位置有：
 
 * [服务器端存储](#server-side-storage)
 * [URL](#url)
 * [浏览器存储](#browser-storage)
+* [内存中状态容器服务](#in-memory-state-container-service)
 
 ### <a name="server-side-storage"></a>服务器端存储
 
@@ -701,5 +707,9 @@ else
 若要保留多个不同的状态对象并在不同位置使用不同的对象子集，最好避免全局保留状态。
 
 ::: moniker-end
+
+## <a name="in-memory-state-container-service"></a>内存中状态容器服务
+
+[!INCLUDE[](~/includes/blazor-state-management/state-container.md)]
 
 ::: zone-end

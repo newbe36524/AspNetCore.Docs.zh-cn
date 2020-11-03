@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 7/22/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/controllers/testing
-ms.openlocfilehash: d6c70d828d6c2f62f9e7b849a299df3077f2da32
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 962c1cf0be0f80ecd6c3adda7d22db7f16519a2a
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635224"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060347"
 ---
 # <a name="unit-test-controller-logic-in-aspnet-core"></a>ASP.NET Core 中的单元测试控制器逻辑
 
@@ -35,7 +36,7 @@ ms.locfileid: "88635224"
 
 ## <a name="unit-testing-controllers"></a>单元测试控制器
 
-将控制器操作的单元测试设置为专注于控制器的行为。 控制器单元测试将避开[筛选器](xref:mvc/controllers/filters)、[路由](xref:fundamentals/routing)或[模型绑定](xref:mvc/models/model-binding)等方案。 涵盖共同响应请求的组件之间的交互的测试由*集成测试*处理。 有关集成测试的详细信息，请参阅<xref:test/integration-tests>。
+将控制器操作的单元测试设置为专注于控制器的行为。 控制器单元测试将避开[筛选器](xref:mvc/controllers/filters)、[路由](xref:fundamentals/routing)或[模型绑定](xref:mvc/models/model-binding)等方案。 涵盖共同响应请求的组件之间的交互的测试由 *集成测试* 处理。 有关集成测试的详细信息，请参阅<xref:test/integration-tests>。
 
 如果编写自定义筛选器和路由，应对其单独进行单元测试，而不是在测试特定控制器操作时进行。
 
@@ -51,7 +52,7 @@ ms.locfileid: "88635224"
 
 * 遵循[显式依赖关系原则](/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)。
 * 期望[依赖关系注入 (DI)](xref:fundamentals/dependency-injection) 提供 `IBrainstormSessionRepository` 的实例。
-* 可以通过使用 mock 对象框架（如 [Moq](https://www.nuget.org/packages/Moq/)）的模拟 `IBrainstormSessionRepository` 服务进行测试。 *模拟对象*是由一组预先确定的用于测试的属性和方法行为的对象。 有关详细信息，请参阅[集成测试简介](xref:test/integration-tests#introduction-to-integration-tests)。
+* 可以通过使用 mock 对象框架（如 [Moq](https://www.nuget.org/packages/Moq/)）的模拟 `IBrainstormSessionRepository` 服务进行测试。 *模拟对象* 是由一组预先确定的用于测试的属性和方法行为的对象。 有关详细信息，请参阅[集成测试简介](xref:test/integration-tests#introduction-to-integration-tests)。
 
 `HTTP GET Index` 方法没有循环或分支，且仅调用一个方法。 此操作的单元测试：
 
@@ -89,7 +90,7 @@ ms.locfileid: "88635224"
 > [!NOTE]
 > 通过此示例中使用的 Moq 库，可以混合可验证（或称“严格”）mock 和非可验证 mock（也称为“宽松”mock 或存根）。 详细了解[使用 Moq 自定义 Mock 行为](https://github.com/Moq/moq4/wiki/Quickstart#customizing-mock-behavior)。
 
-示例应用中的 [SessionController](https://github.com/dotnet/AspNetCore.Docs/blob/master/aspnetcore/mvc/controllers/testing/samples/3.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs) 显示与特定集体讨论会话相关的信息。 该控制器包含用于处理无效 `id` 值的逻辑（以下示例中有两个 `return` 方案可用来应对这些情况）。 最后的 `return` 语句向视图 (Controllers/SessionController.cs) 返回一个新的 `StormSessionViewModel`**：
+示例应用中的 [SessionController](https://github.com/dotnet/AspNetCore.Docs/blob/master/aspnetcore/mvc/controllers/testing/samples/3.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs) 显示与特定集体讨论会话相关的信息。 该控制器包含用于处理无效 `id` 值的逻辑（以下示例中有两个 `return` 方案可用来应对这些情况）。 最后的 `return` 语句向视图 (Controllers/SessionController.cs) 返回一个新的 `StormSessionViewModel` ：
 
 [!code-csharp[](testing/samples/3.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs?name=snippet_SessionController&highlight=12-16,18-22,31)]
 
@@ -202,7 +203,7 @@ ms.locfileid: "88635224"
 
 [单元测试](/dotnet/articles/core/testing/unit-testing-with-dotnet-test)涉及通过基础结构和依赖项单独测试应用的一部分。 单元测试控制器逻辑时，仅测试单个操作的内容，不测试其依赖项或框架自身的行为。
 
-将控制器操作的单元测试设置为专注于控制器的行为。 控制器单元测试将避开[筛选器](xref:mvc/controllers/filters)、[路由](xref:fundamentals/routing)或[模型绑定](xref:mvc/models/model-binding)等方案。 涵盖共同响应请求的组件之间的交互的测试由*集成测试*处理。 有关集成测试的详细信息，请参阅<xref:test/integration-tests>。
+将控制器操作的单元测试设置为专注于控制器的行为。 控制器单元测试将避开[筛选器](xref:mvc/controllers/filters)、[路由](xref:fundamentals/routing)或[模型绑定](xref:mvc/models/model-binding)等方案。 涵盖共同响应请求的组件之间的交互的测试由 *集成测试* 处理。 有关集成测试的详细信息，请参阅<xref:test/integration-tests>。
 
 如果编写自定义筛选器和路由，应对其单独进行单元测试，而不是在测试特定控制器操作时进行。
 
@@ -214,7 +215,7 @@ ms.locfileid: "88635224"
 
 * 遵循[显式依赖关系原则](/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#explicit-dependencies)。
 * 期望[依赖关系注入 (DI)](xref:fundamentals/dependency-injection) 提供 `IBrainstormSessionRepository` 的实例。
-* 可以通过使用 mock 对象框架（如 [Moq](https://www.nuget.org/packages/Moq/)）的模拟 `IBrainstormSessionRepository` 服务进行测试。 *模拟对象*是由一组预先确定的用于测试的属性和方法行为的对象。 有关详细信息，请参阅[集成测试简介](xref:test/integration-tests#introduction-to-integration-tests)。
+* 可以通过使用 mock 对象框架（如 [Moq](https://www.nuget.org/packages/Moq/)）的模拟 `IBrainstormSessionRepository` 服务进行测试。 *模拟对象* 是由一组预先确定的用于测试的属性和方法行为的对象。 有关详细信息，请参阅[集成测试简介](xref:test/integration-tests#introduction-to-integration-tests)。
 
 `HTTP GET Index` 方法没有循环或分支，且仅调用一个方法。 此操作的单元测试：
 
@@ -252,7 +253,7 @@ ms.locfileid: "88635224"
 > [!NOTE]
 > 通过此示例中使用的 Moq 库，可以混合可验证（或称“严格”）mock 和非可验证 mock（也称为“宽松”mock 或存根）。 详细了解[使用 Moq 自定义 Mock 行为](https://github.com/Moq/moq4/wiki/Quickstart#customizing-mock-behavior)。
 
-示例应用中的 [SessionController](https://github.com/dotnet/AspNetCore.Docs/blob/master/aspnetcore/mvc/controllers/testing/samples/2.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs) 显示与特定集体讨论会话相关的信息。 该控制器包含用于处理无效 `id` 值的逻辑（以下示例中有两个 `return` 方案可用来应对这些情况）。 最后的 `return` 语句向视图 (Controllers/SessionController.cs) 返回一个新的 `StormSessionViewModel`**：
+示例应用中的 [SessionController](https://github.com/dotnet/AspNetCore.Docs/blob/master/aspnetcore/mvc/controllers/testing/samples/2.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs) 显示与特定集体讨论会话相关的信息。 该控制器包含用于处理无效 `id` 值的逻辑（以下示例中有两个 `return` 方案可用来应对这些情况）。 最后的 `return` 语句向视图 (Controllers/SessionController.cs) 返回一个新的 `StormSessionViewModel` ：
 
 [!code-csharp[](testing/samples/2.x/TestingControllersSample/src/TestingControllersSample/Controllers/SessionController.cs?name=snippet_SessionController&highlight=12-16,18-22,31)]
 
@@ -359,6 +360,6 @@ ms.locfileid: "88635224"
 
 * <xref:test/integration-tests>
 * [用 Visual Studio 创建和运行单元测试](/visualstudio/test/unit-test-your-code)
-* [MyTested AspNetCore-ASP.NET CORE mvc 的流畅测试库](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc)：强类型单元测试库，提供用于测试 Mvc 和 web API 应用的流畅界面。 （*不由 Microsoft 进行支持或维护*。）
-* [JustMockLite](https://github.com/telerik/JustMockLite)：面向 .NET 开发人员的模拟框架。 （*不由 Microsoft 进行支持或维护*。）
+* [MyTested AspNetCore-ASP.NET CORE mvc 的流畅测试库](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc)：强类型单元测试库，提供用于测试 Mvc 和 web API 应用的流畅界面。 （ *不由 Microsoft 进行支持或维护* 。）
+* [JustMockLite](https://github.com/telerik/JustMockLite)：面向 .NET 开发人员的模拟框架。 （ *不由 Microsoft 进行支持或维护* 。）
 

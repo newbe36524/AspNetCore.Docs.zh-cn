@@ -5,6 +5,7 @@ description: 演示如何防止针对 ASP.NET Core 应用的开放重定向攻�
 ms.author: riande
 ms.date: 07/07/2017
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/preventing-open-redirects
-ms.openlocfilehash: 5226e301960a56145b94b6128d0034c40b86bffd
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e546cd852367921c7c694db3639f7a233f606e75
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633456"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93058384"
 ---
 # <a name="prevent-open-redirect-attacks-in-aspnet-core"></a>阻止 ASP.NET Core 中的开放重定向攻击
 
@@ -39,7 +40,7 @@ Web 应用程序在访问需要身份验证的资源时经常将用户重定向�
 
 恶意用户可能会受到攻击，目的是允许恶意用户访问用户的凭据或敏感信息。 若要开始攻击，恶意用户结论用户单击指向站点登录页的链接，并将 `returnUrl` 查询字符串值添加到 URL。 例如，请考虑一个在上 `contoso.com` 包含登录页的应用 `http://contoso.com/Account/LogOn?returnUrl=/Home/About` 。 攻击执行以下步骤：
 
-1. 用户单击恶意链接 `http://contoso.com/Account/LogOn?returnUrl=http://contoso1.com/Account/LogOn` (第二个 URL 为 "contoso**1**.com"，而不是 "contoso.com" ) 。
+1. 用户单击恶意链接 `http://contoso.com/Account/LogOn?returnUrl=http://contoso1.com/Account/LogOn` (第二个 URL 为 "contoso **1** .com"，而不是 "contoso.com" ) 。
 2. 用户已成功登录。
 3. 站点)  (重定向用户， `http://contoso1.com/Account/LogOn` (与真实站点) 完全相同的恶意网站。
 4. 用户再次登录 (向恶意网站提供凭据) 并被重定向回真实站点。

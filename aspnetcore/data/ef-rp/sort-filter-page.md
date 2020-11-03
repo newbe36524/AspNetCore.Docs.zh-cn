@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: data/ef-rp/sort-filter-page
-ms.openlocfilehash: 5e073845acbecdf0db4c30c4725f12033cfc42ac
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: e01704cb10c88f3e9442e74034f5e5d39787f300
+ms.sourcegitcommit: e519d95d17443abafba8f712ac168347b15c8b57
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634678"
+ms.lasthandoff: 10/02/2020
+ms.locfileid: "91653888"
 ---
 # <a name="part-3-no-locrazor-pages-with-ef-core-in-aspnet-core---sort-filter-paging"></a>第 3 部分，ASP.NET Core 中的 Razor 页面和 EF Core - 排序、筛选、分页
 
@@ -42,25 +42,26 @@ ms.locfileid: "88634678"
 
 使用以下代码替换 Pages/Students/Index.cshtml.cs 中的代码，以添加排序。
 
-[!code-csharp[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index1.cshtml.cs?name=snippet_All&highlight=21-24,26,28-52)]
+[!code-csharp[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index1.cshtml.cs?name=snippet_All)]
 
 前面的代码：
 
+* 需要添加 `using System;`。
 * 添加包含排序参数的属性。
 * 将 `Student` 属性的名称更改为 `Students`。
 * 替换 `OnGetAsync` 方法中的代码。
 
-`OnGetAsync` 方法接收来自 URL 中的查询字符串的 `sortOrder` 参数。 该 URL（包括查询字符串）由[定位点标记帮助器](xref:mvc/views/tag-helpers/builtin-th/anchor-tag-helper)生成。
+`OnGetAsync` 方法接收来自 URL 中的查询字符串的 `sortOrder` 参数。 该 URL 及查询字符串由[定位点标记帮助器](xref:mvc/views/tag-helpers/builtin-th/anchor-tag-helper)生成。
 
-`sortOrder` 参数为“名称”或“日期”。 `sortOrder` 参数后面可跟“_desc”以指定降序（可选）。 默认排序顺序为升序。
+`sortOrder` 参数为 `Name` 或 `Date`。 `sortOrder` 参数后面可跟 `_desc` 以指定降序（可选）。 默认排序顺序为升序。
 
-如果通过“学生”链接对“索引”页发起请求，则不会有任何查询字符串。 学生按姓氏升序显示。 按姓氏升序是 `switch` 语句中的默认顺序 (fall-through case)。 用户单击列标题链接时，查询字符串值中会提供相应的 `sortOrder` 值。
+如果通过“学生”链接对“索引”页发起请求，则不会有任何查询字符串。 学生按姓氏升序显示。 按姓氏升序是 `switch` 语句中的 `default`。 用户单击列标题链接时，查询字符串值中会提供相应的 `sortOrder` 值。
 
 Razor 页面使用 `NameSort` 和 `DateSort` 为列标题超链接配置相应的查询字符串值：
 
 [!code-csharp[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index1.cshtml.cs?name=snippet_Ternary)]
 
-该代码使用 C# 条件运算符 [?:](/dotnet/csharp/language-reference/operators/conditional-operator)。 `?:` 运算符是三元运算符（采用三个操作数）。 第一行指定当 `sortOrder` 为 NULL 或为空时，`NameSort` 设置为“name_desc”。 如果 `sortOrder` 不为 NULL 或不为空，则 `NameSort` 设置为空字符串。
+该代码使用 C# [条件运算符 ?:](/dotnet/csharp/language-reference/operators/conditional-operator)。 `?:` 运算符是三元运算符，它采用三个操作数。 第一行指定当 `sortOrder` 为 NULL 或为空时，`NameSort` 设置为 `name_desc`。 如果 `sortOrder` 不为 NULL 或不为空，则 `NameSort` 设置为空字符串。
 
 通过这两个语句，页面可如下设置列标题超链接：
 
@@ -110,7 +111,7 @@ Razor 页面使用 `NameSort` 和 `DateSort` 为列标题超链接配置相应�
 
 使用以下代码替换 Students/Index.cshtml.cs 中的代码，以添加筛选：
 
-[!code-csharp[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index2.cshtml.cs?name=snippet_All&highlight=28,33,37-41)]
+[!code-csharp[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index2.cshtml.cs?name=snippet_All&highlight=17,22,26-30)]
 
 前面的代码：
 
@@ -119,7 +120,7 @@ Razor 页面使用 `NameSort` 和 `DateSort` 为列标题超链接配置相应�
 
 ### <a name="iqueryable-vs-ienumerable"></a>IQueryable vs.IEnumerable
 
-该代码对 `IQueryable` 对象调用 `Where` 方法，筛选在服务器上处理。 在某些情况下，应用可能会对内存中的集合调用 `Where` 方法作为扩展方法。 例如，假设 `_context.Students` 从 EF Core `DbSet` 更改为可返回 `IEnumerable` 集合的存储库方法。 结果通常是相同的，但在某些情况下可能不同。
+该代码对 `IQueryable` 对象调用 <xref:System.Linq.Queryable.Where%2A> 方法，筛选在服务器上处理。 在某些情况下，应用可能会对内存中的集合调用 `Where` 方法作为扩展方法。 例如，假设 `_context.Students` 从 EF Core `DbSet` 更改为可返回 `IEnumerable` 集合的存储库方法。 结果通常是相同的，但在某些情况下可能不同。
 
 例如，`Contains` 的 .NET Framework 实现会默认执行区分大小写的比较。 在 SQL Server 中，`Contains` 区分大小写由 SQL Server 实例的排序规则设置决定。 SQL Server 默认为不区分大小写。 SQLite 默认为区分大小写。 可调用 `ToUpper`，进行不区分大小写的显式测试：
 
@@ -139,7 +140,7 @@ Where(s => s.LastName.ToUpper().Contains(searchString.ToUpper())`
 
 ### <a name="update-the-no-locrazor-page"></a>更新 Razor 页面
 
-替换 Pages/Students/Index.cshtml 中的代码，以创建“搜索”按钮和各种 chrome。
+替换 Pages/Students/Index.cshtml 中的代码，以添加“搜索”按钮。
 
 [!code-cshtml[Main](intro/samples/cu30snapshots/3-sorting/Pages/Students/Index2.cshtml?highlight=14-23)]
 
@@ -153,8 +154,8 @@ Where(s => s.LastName.ToUpper().Contains(searchString.ToUpper())`
 
 请注意，该 URL 包含搜索字符串。 例如：
 
-```
-https://localhost:<port>/Students?SearchString=an
+```browser-address-bar
+https://localhost:5001/Students?SearchString=an
 ```
 
 如果页面具有书签，该书签将包含该页面的 URL 和 `SearchString` 查询字符串。 `form` 标记中的 `method="get"` 会导致生成查询字符串。
@@ -181,15 +182,16 @@ https://localhost:<port>/Students?SearchString=an
 
 替换 Students/Index.cshtml.cs 中的代码以添加分页。
 
-[!code-csharp[Main](intro/samples/cu30/Pages/Students/Index.cshtml.cs?name=snippet_All&highlight=26,28-29,31,34-41,68-70)]
+[!code-csharp[Main](intro/samples/cu30/Pages/Students/Index.cshtml.cs?name=snippet_All&highlight=15-20,23-30,57-59)]
 
 前面的代码：
 
 * 将 `Students` 属性的类型从 `IList<Student>` 更改为 `PaginatedList<Student>`。
 * 向 `OnGetAsync` 方法签名添加页面索引、当前的 `sortOrder` 和 `currentFilter`。
-* 在 CurrentSort 属性中保存排序顺序。
+* 在 `CurrentSort` 属性中保存排序顺序。
 * 如果有新的搜索字符串，则将页面索引重置为 1。
 * 使用 `PaginatedList` 类获取 Student 实体。
+* 将 `pageSize` 设置为 3。 真实的应用会使用[配置](xref:fundamentals/configuration/index)来设置页面大小值。
 
 出现以下情况时，`OnGetAsync` 接收到的所有参数均为 NULL：
 
@@ -212,7 +214,7 @@ https://localhost:<port>/Students?SearchString=an
 
   `PaginatedList.CreateAsync` 方法会将学生查询转换为支持分页的集合类型中的单个学生页面。 单个学生页面会传递到 Razor 页面。
 
-  `PaginatedList.CreateAsync` 调用中的 `pageIndex` 之后的两个问号表示 [NULL 合并运算符](/dotnet/csharp/language-reference/operators/null-conditional-operator)。 NULL 合并运算符定义可为 NULL 的类型的默认值。 `(pageIndex ?? 1)` 表达式表示返回 `pageIndex` 的值（若带有值）。 如果 `pageIndex` 没有值，则返回 1。
+  `PaginatedList.CreateAsync` 调用中的 `pageIndex` 之后的两个问号表示 [NULL 合并运算符](/dotnet/csharp/language-reference/operators/null-conditional-operator)。 NULL 合并运算符定义可为 NULL 的类型的默认值。 若 `pageIndex` 具有值，则表达式 `pageIndex ?? 1` 返回其值，若其没有值，则表达式返回 1。
 
 ### <a name="add-paging-links-to-the-no-locrazor-page"></a>向 Razor 页面添加分页链接
 
@@ -258,7 +260,7 @@ https://localhost:<port>/Students?SearchString=an
 
 ### <a name="create-the-page-model"></a>创建页面模型
 
-使用以下代码创建 Pages/About.cshtml.cs 文件：
+用以下代码更新 Pages/About.cshtml.cs 文件：
 
 [!code-csharp[Main](intro/samples/cu30/Pages/About.cshtml.cs)]
 

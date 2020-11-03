@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 11/14/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authorization/iauthorizationpolicyprovider
-ms.openlocfilehash: 2d231440847270b3b2fe47fbe29359f494900292
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 0f6f628cee0623c21a2a93aa11470005f8c78c58
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635198"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93053132"
 ---
 # <a name="custom-authorization-policy-providers-using-iauthorizationpolicyprovider-in-aspnet-core"></a>在 ASP.NET Core 中使用 IAuthorizationPolicyProvider 的自定义授权策略提供程序 
 
@@ -187,9 +188,9 @@ public Task<AuthorizationPolicy> GetFallbackPolicyAsync() =>
 
 ## <a name="use-a-custom-iauthorizationpolicyprovider"></a>使用自定义 IAuthorizationPolicyProvider
 
-若要从使用自定义策略 `IAuthorizationPolicyProvider` ，你 ***必须***：
+若要使用中的自定义策略 `IAuthorizationPolicyProvider` ，你 **必须** ：
 
-* 注册 `AuthorizationHandler` 具有依赖关系注入的适当类型 (在 [基于策略的授权](xref:security/authorization/policies#authorization-handlers)) 中介绍，与所有基于策略的授权方案相同。
+_ `AuthorizationHandler` 用 [基于策略的授权](xref:security/authorization/policies#authorization-handlers)) 中描述的依赖项注入注册适当的类型 (，与所有基于策略的授权方案相同。
 * 在 `IAuthorizationPolicyProvider` 应用程序的依赖项注入服务集合中注册自定义类型 `Startup.ConfigureServices` ，以替换默认策略提供程序。
 
   ```csharp

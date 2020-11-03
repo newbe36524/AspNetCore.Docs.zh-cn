@@ -5,6 +5,7 @@ description: ''
 ms.author: riande
 ms.date: 12/07/2016
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: migration/http-modules
-ms.openlocfilehash: 213807634a2a6990e9025de7871295cf97a81faf
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: 9664f49bd709d2c9e46130773211c339e391d1f6
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865591"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060698"
 ---
 # <a name="migrate-http-handlers-and-modules-to-aspnet-core-middleware"></a>将 HTTP 处理程序和模块迁移到 ASP.NET Core 中间件
 
@@ -39,7 +40,7 @@ ms.locfileid: "88865591"
 
 * 用于处理具有给定文件名或扩展名的请求，如 *. report*
 
-* 在*Web.config*中[配置](/iis/configuration/system.webserver/handlers/)
+* 在 *Web.config* 中 [配置](/iis/configuration/system.webserver/handlers/)
 
 **模块为：**
 
@@ -51,13 +52,13 @@ ms.locfileid: "88865591"
 
 * 可以添加到 HTTP 响应，或创建自己的响应
 
-* 在*Web.config*中[配置](/iis/configuration/system.webserver/modules/)
+* 在 *Web.config* 中 [配置](/iis/configuration/system.webserver/modules/)
 
 **模块处理传入请求的顺序由确定：**
 
 1. <https://docs.microsoft.com/previous-versions/ms227673(v=vs.140)>，它是 ASP.NET： [BeginRequest](/dotnet/api/system.web.httpapplication.beginrequest)、 [AuthenticateRequest](/dotnet/api/system.web.httpapplication.authenticaterequest)等引发的序列事件。每个模块都可以为一个或多个事件创建处理程序。
 
-2. 对于同一事件，在 *Web.config*中配置它们的顺序。
+2. 对于同一事件，在 *Web.config* 中配置它们的顺序。
 
 除了模块外，还可以将生命周期事件的处理程序添加到 *Global.asax.cs* 文件。 这些处理程序在配置的模块中的处理程序之后运行。
 
@@ -65,11 +66,11 @@ ms.locfileid: "88865591"
 
 **中间件比 HTTP 模块和处理程序更简单：**
 
-* 除 IIS 配置) 和应用程序生命周期外，模块、处理程序、 *Global.asax.cs*、 *Web.config* (
+* 除 IIS 配置) 和应用程序生命周期外，模块、处理程序、 *Global.asax.cs* 、 *Web.config* (
 
 * 中间件已使用模块和处理程序的角色
 
-* 中间件使用代码而不是*Web.config*来配置
+* 中间件使用代码而不是 *Web.config* 来配置
 
 ::: moniker range=">= aspnetcore-3.0"
 
@@ -132,7 +133,7 @@ ms.locfileid: "88865591"
 
 ## <a name="migrating-module-insertion-into-the-request-pipeline"></a>将模块插入迁移到请求管道中
 
-通常使用 *Web.config*将 HTTP 模块添加到请求管道：
+通常使用 *Web.config* 将 HTTP 模块添加到请求管道：
 
 [!code-xml[](../migration/http-modules/sample/Asp.Net4/Asp.Net4/Web.config?highlight=6&range=1-3,32-33,36,43,50,101)]
 
@@ -140,7 +141,7 @@ ms.locfileid: "88865591"
 
 [!code-csharp[](../migration/http-modules/sample/Asp.Net.Core/Startup.cs?name=snippet_Configure&highlight=16)]
 
-插入新中间件的管道中的确切位置取决于它作为模块处理的事件 `BeginRequest` ， (、等 `EndRequest` ) 及其在 *Web.config*的模块列表中的顺序。
+插入新中间件的管道中的确切位置取决于它作为模块处理的事件 `BeginRequest` ， (、等 `EndRequest` ) 及其在 *Web.config* 的模块列表中的顺序。
 
 如前所述，ASP.NET Core 中没有应用程序生命周期，中间件的处理响应顺序与模块使用的顺序不同。 这可能会使你的排序决策更具挑战性。
 
@@ -180,7 +181,7 @@ HTTP 处理程序如下所示：
 
 ## <a name="loading-middleware-options-using-the-options-pattern"></a>使用 options 模式加载中间件选项
 
-某些模块和处理程序具有存储在 *Web.config*中的配置选项。但是，在 ASP.NET Core 新的配置模型用于代替 *Web.config*。
+某些模块和处理程序具有存储在 *Web.config* 中的配置选项。但是，在 ASP.NET Core 新的配置模型用于代替 *Web.config* 。
 
 新 [配置系统](xref:fundamentals/configuration/index) 提供以下选项来解决此类情况：
 
@@ -194,7 +195,7 @@ HTTP 处理程序如下所示：
 
 2. 存储选项值
 
-   配置系统允许您将选项值存储在任何所需的位置。 但是，大多数站点使用 *appsettings.js*，因此我们将采取这种方法：
+   配置系统允许您将选项值存储在任何所需的位置。 但是，大多数站点 *appsettings.json* 都使用，因此我们将采取这种方法：
 
    [!code-json[](http-modules/sample/Asp.Net.Core/appsettings.json?range=1,14-18)]
 
@@ -206,7 +207,7 @@ HTTP 处理程序如下所示：
 
     更新你的 `Startup` 类：
 
-   1. 如果使用 *appsettings.js*，请将其添加到构造函数中的配置生成器 `Startup` ：
+   1. 如果使用的是 *appsettings.json* ，请将其添加到构造函数中的配置生成器 `Startup` ：
 
       [!code-csharp[](../migration/http-modules/sample/Asp.Net.Core/Startup.cs?name=snippet_Ctor&highlight=5-6)]
 
@@ -234,9 +235,9 @@ Options 模式的优点在于，它在选项值与其使用者之间产生松散
 
 解决方法是在类中获取选项对象，并将其 `Startup` 直接传递给中间件的每个实例。
 
-1. 将第二个键添加到 *appsettings.js*
+1. 将第二个键添加到 *appsettings.json*
 
-   若要将第二组选项添加到 *appsettings.js* 文件，请使用新密钥对其进行唯一标识：
+   若要将第二组选项添加到 *appsettings.json* 文件中，请使用新密钥来唯一标识它：
 
    [!code-json[](http-modules/sample/Asp.Net.Core/appsettings.json?range=1,10-18&highlight=2-5)]
 
@@ -266,7 +267,7 @@ public async Task Invoke(HttpContext context)
 
 [!code-csharp[](http-modules/sample/Asp.Net.Core/Middleware/HttpContextDemoMiddleware.cs?name=snippet_Items)]
 
-**唯一的请求 ID (不) **
+**唯一的请求 ID (不)**
 
 提供每个请求的唯一 id。 在日志中包含非常有用。
 
@@ -323,7 +324,7 @@ public async Task Invoke(HttpContext context)
 [!code-csharp[](http-modules/sample/Asp.Net.Core/Middleware/HttpContextDemoMiddleware.cs?name=snippet_Form)]
 
 > [!WARNING]
-> 仅当 content 子类型为 *x-www-url 编码* 或 *窗体数据*时才读取窗体值。
+> 仅当 content 子类型为 *x-www-url 编码* 或 *窗体数据* 时才读取窗体值。
 
 **InputStream** 转换为：
 
@@ -356,7 +357,7 @@ public async Task Invoke(HttpContext context)
 
 **TransmitFile**
 
-[此处](../fundamentals/request-features.md#middleware-and-request-features)讨论了如何提供文件。
+[中间件和请求功能](xref:fundamentals/request-features#middleware-and-request-features)中讨论了如何提供文件。
 
 **Httpcontext.current 标头**
 
@@ -379,7 +380,7 @@ public async Task Invoke(HttpContext httpContext)
 
 **HttpContext 响应。 Cookie些**
 
-Cookie在*设置 Cookie *响应标头中传递到浏览器。 因此，发送需要与 cookie 用于发送响应标头的回调相同：
+Cookie在 *设置 Cookie* 响应标头中传递到浏览器。 因此，发送需要与 cookie 用于发送响应标头的回调相同：
 
 ```csharp
 public async Task Invoke(HttpContext httpContext)

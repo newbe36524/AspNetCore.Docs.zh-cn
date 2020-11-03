@@ -5,7 +5,7 @@ description: 了解如何使用 Azure Active Directory B2C 保护 ASP.NET Core B
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/08/2020
+ms.date: 10/08/2020
 no-loc:
 - ASP.NET Core Identity
 - cookie
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/webassembly/hosted-with-azure-active-directory-b2c
-ms.openlocfilehash: adc45293a6dfd324c12482d2dfffdeaa25eee4a3
-ms.sourcegitcommit: 9a90b956af8d8584d597f1e5c1dbfb0ea9bb8454
+ms.openlocfilehash: aa6c865f5fd51d1634bde3ac96e1fddc7216a801
+ms.sourcegitcommit: daa9ccf580df531254da9dce8593441ac963c674
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88712436"
+ms.lasthandoff: 10/09/2020
+ms.locfileid: "91900942"
 ---
 # <a name="secure-an-aspnet-core-no-locblazor-webassembly-hosted-app-with-azure-active-directory-b2c"></a>使用 Azure Active Directory B2C 保护 ASP.NET Core Blazor WebAssembly 托管应用
 
@@ -47,7 +47,7 @@ ms.locfileid: "88712436"
 1. 提供应用的名称（例如 Blazor Server AAD B2C） 。
 1. 对于“支持的帐户类型”，请选择多租户选项：任何组织目录或任何标识提供者中的帐户。用于使用 Azure AD B2C 对用户进行身份验证。
 1. 在这种情况下，“服务器 API 应用”不需要“重定向 URI”，因此请将下拉列表设置为 Web，并且不输入重定向 URI 。
-1. 确认已启用“权限” > “授予对 openid 和 offline_access 权限的管理员同意” 。
+1. 确认已选择“权限” > “授予对 openid 和 offline_access 权限的管理员同意”。
 1. 选择“注册”。
 
 记录以下信息：
@@ -67,30 +67,52 @@ ms.locfileid: "88712436"
 
 记录以下信息：
 
-* 应用 ID URI（例如 `https://contoso.onmicrosoft.com/41451fa7-82d9-4673-8fa5-69eff5a761fd`、`api://41451fa7-82d9-4673-8fa5-69eff5a761fd` 或你提供的自定义值）
+* 应用 ID URI（例如 `api://41451fa7-82d9-4673-8fa5-69eff5a761fd`、`https://contoso.onmicrosoft.com/41451fa7-82d9-4673-8fa5-69eff5a761fd` 或你提供的自定义值）
 * 范围名称（如 `API.Access`）
-
-应用 ID URI 可能需要在客户端应用中进行专门的配置，如本主题的后续部分[访问令牌作用域](#access-token-scopes)中所述。
 
 ### <a name="register-a-client-app"></a>注册客户端应用
 
-请按照[教程：在 Azure Active Directory B2C 中注册应用程序](/azure/active-directory-b2c/tutorial-register-applications)中的指南操作，再次为客户端应用注册 AAD 应用，然后执行以下操作：
+请按照[教程：在 Azure Active Directory B2C 中注册应用程序](/azure/active-directory-b2c/tutorial-register-applications)中的指南操作，再次为 `Client` 应用注册 AAD 应用，然后执行以下操作：
 
-1. 在“Azure Active Directory” > “应用注册”中，选择“新建注册”  。
+::: moniker range=">= aspnetcore-5.0"
+
+1. 在“Azure Active Directory”>“应用注册”中，选择“新建注册”。
 1. 提供应用的“名称”（例如 Blazor 客户端 AAD B2C） 。
 1. 对于“支持的帐户类型”，请选择多租户选项：任何组织目录或任何标识提供者中的帐户。用于使用 Azure AD B2C 对用户进行身份验证。
-1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的服务器应用属性中找到该应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
-1. 确认已启用“权限” > “授予对 openid 和 offline_access 权限的管理员同意” 。
+1. 将“重定向 URI”下拉列表设置为“单页应用程序(SPA)”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback`。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的 `Server` 应用属性中找到应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 确认已选择“权限”>“授予对 openid 和 offline_access 权限的管理员同意”。
+1. 选择“注册”。
+
+1. 记录应用程序（客户端）ID（例如 `4369008b-21fa-427c-abaa-9b53bf58e538`）。
+
+在“身份验证”>“平台配置”>“单页应用程序(SPA)”中：
+
+1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
+1. 对于“隐式授权”，请确保没有选中“访问令牌”和“ID 令牌”的复选框。
+1. 此体验可接受应用的其余默认值。
+1. 选择“保存”按钮。
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+1. 在“Azure Active Directory”>“应用注册”中，选择“新建注册”。
+1. 提供应用的“名称”（例如 Blazor 客户端 AAD B2C） 。
+1. 对于“支持的帐户类型”，请选择多租户选项：任何组织目录或任何标识提供者中的帐户。用于使用 Azure AD B2C 对用户进行身份验证。
+1. 将“重定向 URI”下拉列表设置为“Web”，并提供以下重定向 URI：`https://localhost:{PORT}/authentication/login-callback` 。 在 Kestrel 上运行的应用的默认端口为 5001。 如果应用在不同的 Kestrel 端口上运行，请使用应用的端口。 对于 IIS Express，可以在“调试”面板的 `Server` 应用属性中找到应用随机生成的端口。 由于此时应用不存在，并且 IIS Express 端口未知，因此请在创建应用后返回到此步骤，然后更新重定向 URI。 [创建应用](#create-the-app)部分中会显示一个注解，以提醒 IIS Express 用户更新重定向 URI。
+1. 确认已选择“权限”>“授予对 openid 和 offline_access 权限的管理员同意”。
 1. 选择“注册”。
 
 记录应用程序（客户端）ID（例如 `4369008b-21fa-427c-abaa-9b53bf58e538`）。
 
-在“身份验证” > “平台配置” > “Web”  中，执行以下操作：
+在“身份验证”>“平台配置”>“Web”中：
 
 1. 确认存在 `https://localhost:{PORT}/authentication/login-callback` 的重定向 URI。
 1. 对于“隐式授权”，选中“访问令牌”和“ID 令牌”的复选框  。
 1. 此体验可接受应用的其余默认值。
 1. 选择“保存”按钮。
+
+::: moniker-end
 
 在“API 权限”中：
 
@@ -117,32 +139,30 @@ ms.locfileid: "88712436"
 dotnet new blazorwasm -au IndividualB2C --aad-b2c-instance "{AAD B2C INSTANCE}" --api-client-id "{SERVER API APP CLIENT ID}" --app-id-uri "{SERVER API APP ID URI}" --client-id "{CLIENT APP CLIENT ID}" --default-scope "{DEFAULT SCOPE}" --domain "{TENANT DOMAIN}" -ho -o {APP NAME} -ssp "{SIGN UP OR SIGN IN POLICY}"
 ```
 
-| 占位符                   | Azure 门户中的名称                                     | 示例                                |
-| ----------------------------- | ----------------------------------------------------- | -------------------------------------- |
-| `{AAD B2C INSTANCE}`          | 实例                                              | `https://contoso.b2clogin.com/`        |
-| `{APP NAME}`                  | &mdash;                                               | `BlazorSample`                         |
-| `{CLIENT APP CLIENT ID}`      | “客户端应用”的应用程序（客户端）ID          | `4369008b-21fa-427c-abaa-9b53bf58e538` |
-| `{DEFAULT SCOPE}`             | 作用域名                                            | `API.Access`                           |
-| `{SERVER API APP CLIENT ID}`  | “服务器 API 应用”的应用程序（客户端）ID      | `41451fa7-82d9-4673-8fa5-69eff5a761fd` |
-| `{SERVER API APP ID URI}`     | 应用程序 ID URI（[请参阅说明](#access-token-scopes)） | `41451fa7-82d9-4673-8fa5-69eff5a761fd` |
-| `{SIGN UP OR SIGN IN POLICY}` | 注册/登录用户流                             | `B2C_1_signupsignin1`                  |
-| `{TENANT DOMAIN}`             | 主域/发布者域/租户域                       | `contoso.onmicrosoft.com`              |
+| 占位符                   | Azure 门户中的名称                                     | 示例                                      |
+| ----------------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| `{AAD B2C INSTANCE}`          | 实例                                              | `https://contoso.b2clogin.com/`              |
+| `{APP NAME}`                  | &mdash;                                               | `BlazorSample`                               |
+| `{CLIENT APP CLIENT ID}`      | `Client` 应用的应用程序（客户端）ID        | `4369008b-21fa-427c-abaa-9b53bf58e538`       |
+| `{DEFAULT SCOPE}`             | 作用域名                                            | `API.Access`                                 |
+| `{SERVER API APP CLIENT ID}`  | “服务器 API 应用”的应用程序（客户端）ID      | `41451fa7-82d9-4673-8fa5-69eff5a761fd`       |
+| `{SERVER API APP ID URI}`     | 应用程序 ID URI                                    | `api://41451fa7-82d9-4673-8fa5-69eff5a761fd` |
+| `{SIGN UP OR SIGN IN POLICY}` | 注册/登录用户流                             | `B2C_1_signupsignin1`                        |
+| `{TENANT DOMAIN}`             | 主域/发布者域/租户域                       | `contoso.onmicrosoft.com`                    |
 
 使用 `-o|--output` 选项指定的输出位置将创建一个项目文件夹（如果该文件夹不存在）并成为应用程序名称的一部分。
 
 > [!NOTE]
-> 将应用 ID URI 传递给 `app-id-uri` 选项，但请注意，客户端应用中可能需要更改配置，如[访问令牌作用域](#access-token-scopes)部分中所述。
->
-> 此外，由托管 Blazor 模板设置的作用域可能会重复应用 ID URI 主机。 确认为 `DefaultAccessTokenScopes` 集合配置的作用域在客户端应用的 `Program.Main` (`Program.cs`) 中是正确的。
+> 由托管 Blazor 模板设置的作用域可能会重复应用 ID URI 主机。 确认为 `DefaultAccessTokenScopes` 集合配置的作用域在 `Client` 应用的 `Program.Main` (`Program.cs`) 中是正确的。
 
 > [!NOTE]
-> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置了客户端应用的“身份验证” > “平台配置” > “Web” > “重定向 URI”   。
+> 在 Azure 门户中，使用默认设置为在 Kestrel 服务器上运行的应用的端口 5001 配置 `Client` 应用的平台配置“重定向 URI”。
 >
-> 如果“客户端应用”是在随机 IIS Express 端口上运行的，则可以在“调试”面板的“服务器 API 应用”属性中找到该应用的端口 。
+> 如果 `Client` 应用是在随机 IIS Express 端口上运行的，则可以在“调试”面板的“服务器 API 应用”属性中找到该应用的端口。
 >
-> 如果端口之前未使用“客户端应用”的已知端口进行配置，请返回到 Azure 门户中“客户端应用”的注册，并使用正确的端口更新重定向 URI 。
+> 如果端口之前未使用 `Client` 应用的已知端口进行配置，请返回到 Azure 门户中 `Client` 应用的注册，并使用正确的端口更新重定向 URI。
 
-## <a name="server-app-configuration"></a>服务器应用配置
+## <a name="server-app-configuration"></a>`Server` 应用配置
 
 本部分涉及解决方案的 `Server` 应用**。
 
@@ -243,7 +263,7 @@ public class WeatherForecastController : ControllerBase
 }
 ```
 
-## <a name="client-app-configuration"></a>客户端应用配置
+## <a name="client-app-configuration"></a>`Client` 应用配置
 
 本部分涉及解决方案的 `Client` 应用**。
 
@@ -334,7 +354,11 @@ builder.Services.AddMsalAuthentication(options =>
 });
 ```
 
-[!INCLUDE[](~/includes/blazor-security/azure-scope.md)]
+使用 `AdditionalScopesToConsent` 指定其他作用域：
+
+```csharp
+options.ProviderOptions.AdditionalScopesToConsent.Add("{ADDITIONAL SCOPE URI}");
+```
 
 有关详细信息，请参阅“其他方案”一文的以下部分：
 

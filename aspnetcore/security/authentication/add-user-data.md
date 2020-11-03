@@ -6,6 +6,7 @@ ms.author: riande
 ms.date: 03/26/2020
 ms.custom: mvc, seodec18
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/add-user-data
-ms.openlocfilehash: a71395e82ed15dae753888a438471495208a14da
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a4e1fd780947cfa5f09fb1e03964595fa09f0f18
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631844"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93061413"
 ---
 # <a name="add-download-and-delete-custom-user-data-to-no-locidentity-in-an-aspnet-core-project"></a>在 ASP.NET Core 项目中添加、下载和删除自定义用户数据 Identity
 
@@ -57,9 +58,9 @@ ms.locfileid: "88631844"
 
 ::: moniker range=">= aspnetcore-3.0"
 
-* 从 Visual Studio“文件”菜单中选择“新建” > “项目”************。 将项目命名为 " **WebApp1** " （如果你希望它与 [下载示例](https://github.com/dotnet/AspNetCore.Docs/tree/live/aspnetcore/security/authentication/add-user-data) 代码的命名空间相匹配）。
+* 从 Visual Studio“文件”菜单中选择“新建” > “项目”  。 将项目命名为 " **WebApp1** " （如果你希望它与 [下载示例](https://github.com/dotnet/AspNetCore.Docs/tree/live/aspnetcore/security/authentication/add-user-data) 代码的命名空间相匹配）。
 * 选择 **ASP.NET Core Web 应用程序** > **正常**
-* 在下拉列表中选择**ASP.NET Core 3.0**
+* 在下拉列表中选择 **ASP.NET Core 3.0**
 * 选择 **Web 应用程序** > **正常**
 * 生成并运行该项目。
 
@@ -67,9 +68,9 @@ ms.locfileid: "88631844"
 
 ::: moniker range="< aspnetcore-3.0"
 
-* 从 Visual Studio“文件”菜单中选择“新建” > “项目”************。 将项目命名为 " **WebApp1** " （如果你希望它与 [下载示例](https://github.com/dotnet/AspNetCore.Docs/tree/live/aspnetcore/security/authentication/add-user-data) 代码的命名空间相匹配）。
+* 从 Visual Studio“文件”菜单中选择“新建” > “项目”  。 将项目命名为 " **WebApp1** " （如果你希望它与 [下载示例](https://github.com/dotnet/AspNetCore.Docs/tree/live/aspnetcore/security/authentication/add-user-data) 代码的命名空间相匹配）。
 * 选择 **ASP.NET Core Web 应用程序** > **正常**
-* 在下拉列表中选择**ASP.NET Core 2.2**
+* 在下拉列表中选择 **ASP.NET Core 2.2**
 * 选择 **Web 应用程序** > **正常**
 * 生成并运行该项目。
 
@@ -88,15 +89,15 @@ dotnet new webapp -o WebApp1
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-* 在**解决方案资源管理器**中，右键单击项目 > "**添加**  >  **新的基架项**"。
-* 在 "**添加基架**" 对话框的左窗格中，选择 " **Identity**  >  **添加**"。
-* 在 "**添加 Identity ** " 对话框中，选择以下选项：
+* 在 **解决方案资源管理器** 中，右键单击项目 > " **添加**  >  **新的基架项** "。
+* 在 " **添加基架** " 对话框的左窗格中，选择 " **Identity**  >  **添加** "。
+* 在 " **添加 Identity** " 对话框中，选择以下选项：
   * 选择现有的布局文件  *~/Pages/Shared/_Layout cshtml*
   * 选择以下要重写的文件：
     * **帐户/注册**
     * **帐户/管理/索引**
-  * 选择 **+** 按钮以创建新的 **数据上下文类**。 如果项目命名为**WebApp1**) ，则接受类型 (**WebApp1. WebApp1Context** 。
-  * 选择 **+** 按钮以创建新的 **用户类**。 如果项目命名为**WebApp1**) > "**添加**"，则接受 " **WebApp1User** " (类型。
+  * 选择 **+** 按钮以创建新的 **数据上下文类** 。 如果项目命名为 **WebApp1** ) ，则接受类型 ( **WebApp1. WebApp1Context** 。
+  * 选择 **+** 按钮以创建新的 **用户类** 。 如果项目命名为 **WebApp1** ) > " **添加** "，则接受 " **WebApp1User** " (类型。
 * 选择 **添加** 。
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
@@ -131,18 +132,18 @@ dotnet aspnet-codegenerator identity -u WebApp1User -fi Account.Register;Account
 按照 " [迁移"、"UseAuthentication" 和 "布局](xref:security/authentication/scaffold-identity#efm) " 中的说明执行以下步骤：
 
 * 创建迁移并更新数据库。
-* 将 `UseAuthentication` 添加到 `Startup.Configure`。
+* 已将 `UseAuthentication` 添加到 `Startup.Configure`。
 * 添加 `<partial name="_LoginPartial" />` 到布局文件中。
 * 测试应用：
   * 注册用户
   * 选择 " **注销** " 链接旁 ("新用户名") 。 可能需要展开窗口或选择导航栏图标来显示用户名和其他链接。
   * 选择 " **个人数据** " 选项卡。
-  * 选择 " **下载** " 按钮，并检查文件 * 上的PersonalData.js* 。
+  * 选择 " **下载** " 按钮，并检查文件 *上的PersonalData.js* 。
   * 测试 **删除** 按钮，该按钮将删除已登录的用户。
 
 ## <a name="add-custom-user-data-to-the-no-locidentity-db"></a>向数据库添加自定义用户数据 Identity
 
-`IdentityUser`用自定义属性更新派生类。 如果已将项目命名为 WebApp1，则该文件将命名为 *Areas/ Identity /Data/WebApp1User.cs*。 用以下代码更新文件：
+`IdentityUser`用自定义属性更新派生类。 如果已将项目命名为 WebApp1，则该文件将命名为 *Areas/ Identity /Data/WebApp1User.cs* 。 用以下代码更新文件：
 
 ::: moniker range=">= aspnetcore-3.0"
 
@@ -159,11 +160,11 @@ dotnet aspnet-codegenerator identity -u WebApp1User -fi Account.Register;Account
 具有 [PersonalData](/dotnet/api/microsoft.aspnetcore.identity.personaldataattribute) 属性的属性为：
 
 * 当 *Areas/ Identity /Pages/Account/Manage/DeletePersonalData.cshtml* Razor 页调用时删除 `UserManager.Delete` 。
-* 由 *Areas/ Identity /Pages/Account/Manage/DownloadPersonalData.cshtml*页包含在下载的数据中 Razor 。
+* 由 *Areas/ Identity /Pages/Account/Manage/DownloadPersonalData.cshtml* 页包含在下载的数据中 Razor 。
 
 ### <a name="update-the-accountmanageindexcshtml-page"></a>更新 "帐户/管理/索引" 页
 
-`InputModel`用以下突出显示的代码更新*区域/ Identity /Pages/Account/Manage/Index.cshtml.cs*中的：
+`InputModel`用以下突出显示的代码更新 *区域/ Identity /Pages/Account/Manage/Index.cshtml.cs* 中的：
 
 ::: moniker range=">= aspnetcore-3.0"
 
@@ -187,7 +188,7 @@ dotnet aspnet-codegenerator identity -u WebApp1User -fi Account.Register;Account
 
 ### <a name="update-the-accountregistercshtml-page"></a>更新帐户/注册. cshtml 页
 
-`InputModel`用以下突出显示的代码更新*区域/ Identity /Pages/Account/Register.cshtml.cs*中的：
+`InputModel`用以下突出显示的代码更新 *区域/ Identity /Pages/Account/Register.cshtml.cs* 中的：
 
 ::: moniker range=">= aspnetcore-3.0"
 
@@ -216,7 +217,7 @@ dotnet aspnet-codegenerator identity -u WebApp1User -fi Account.Register;Account
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-在 Visual Studio **包管理器控制台**中：
+在 Visual Studio **包管理器控制台** 中：
 
 ```powershell
 Add-Migration CustomUserData

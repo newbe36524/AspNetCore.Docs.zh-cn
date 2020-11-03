@@ -5,8 +5,9 @@ description: 了解如何将 Blazor Server应用作为 ASP.NET Core 应用来保
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 05/02/2020
+ms.date: 10/06/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,18 +19,18 @@ no-loc:
 - Razor
 - SignalR
 uid: blazor/security/server/index
-ms.openlocfilehash: ba9fe3c0149679fa5760c0c9214cd426f1804c31
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 108fb3a8a24295cad43fd8c83303abd95a7ecd33
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88626449"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93055472"
 ---
 # <a name="secure-aspnet-core-no-locblazor-server-apps"></a>保护 ASP.NET Core Blazor Server应用
 
 作者：[Luke Latham](https://github.com/guardrex)
 
-Blazor Server应用的安全配置方式与 ASP.NET Core 应用相同。 有关详细信息，请参阅 <xref:security/index> 下的文章。 此“概述”下的主题特别适用于 Blazor Server。 
+Blazor Server应用的安全配置方式与 ASP.NET Core 应用相同。 有关详细信息，请参阅 <xref:security/index> 下的文章。 此“概述”下的主题特别适用于 Blazor Server。
 
 ## <a name="no-locblazor-server-project-template"></a>Blazor Server项目模板
 
@@ -44,7 +45,7 @@ Blazor Server应用的安全配置方式与 ASP.NET Core 应用相同。 有关�
 此时将打开一个对话框，为其他 ASP.NET Core 项目提供一组相同的身份验证机制：
 
 * **无身份验证**
-* **个人用户帐户**：可存储用户帐户：
+* **个人用户帐户** ：可存储用户帐户：
   * 在使用 ASP.NET Core 的 [Identity](xref:security/authentication/identity) 系统的应用中存储。
   * 使用 [Azure AD B2C](xref:security/authentication/azure-ad-b2c) 存储。
 * **工作或学校帐户**
@@ -108,7 +109,14 @@ dotnet new blazorserver -o {APP NAME} -au {AUTHENTICATION}
 * 为项目创建文件夹。
 * 为该项目命名。
 
-有关详细信息，请参阅 .NET Core 指南中的 [`dotnet new`](/dotnet/core/tools/dotnet-new) 命令。
+更多相关信息：
+
+* 请参阅 .NET Core 指南中的 [`dotnet new`](/dotnet/core/tools/dotnet-new) 命令。
+* 在命令行界面中为 Blazor Server模板 (`blazorserver`) 执行 help 命令：
+
+  ```dotnetcli
+  dotnet new blazorserver --help
+  ```
 
 ---
 
@@ -118,3 +126,8 @@ dotnet new blazorserver -o {APP NAME} -au {AUTHENTICATION}
 
 * [当前没有授权](xref:security/authentication/scaffold-identity#scaffold-identity-into-a-blazor-server-project-without-existing-authorization)。
 * [有授权](xref:security/authentication/scaffold-identity#scaffold-identity-into-a-blazor-server-project-with-authorization)。
+
+## <a name="additional-resources"></a>其他资源
+
+* [快速入门：将 Microsoft 登录添加到 ASP.NET Core Web 应用](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp)
+* [快速入门：使用 Microsoft 标识平台保护 ASP.NET Core Web API](/azure/active-directory/develop/quickstart-v2-aspnet-core-web-api)

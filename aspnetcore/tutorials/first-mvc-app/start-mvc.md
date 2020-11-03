@@ -16,12 +16,12 @@ no-loc:
 - Razor
 - SignalR
 uid: tutorials/first-mvc-app/start-mvc
-ms.openlocfilehash: 9d70b292a93a5d19cc25b2fc592ec88ce8262434
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 177112106d143a6826c1f927aac807da0aa9f2b4
+ms.sourcegitcommit: ecae2aa432628b9181d1fa11037c231c7dd56c9e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88629985"
+ms.lasthandoff: 10/16/2020
+ms.locfileid: "92113824"
 ---
 # <a name="get-started-with-aspnet-core-mvc"></a>ASP.NET Core MVC 入门
 
@@ -67,7 +67,7 @@ ms.locfileid: "88629985"
 
 * 在 Visual Studio 中，选择“创建新项目”。
 
-* 选择“ASP.NET Core Web 应用程序”，然后选择“下一步” 。
+* 选择“ASP.NET Core Web 应用程序”>“下一步”。
 
 ![新建 ASP.NET Core Web 应用程序](start-mvc/_static/np_2.1.png)
 
@@ -75,7 +75,7 @@ ms.locfileid: "88629985"
 
   ![新建 ASP.NET Core Web 应用程序](start-mvc/_static/config.png)
 
-* 选择“Web 应用程序(模型-视图-控制器)”，然后选择“创建” 。
+* 选择“Web 应用(模型-视图-控制器)”。 在下拉框中，选择“.NET Core”和“ASP.NET Core 3.1”，然后选择“创建”。
 
 ![“新建项目”对话框，左窗格中的“.NET Core”，ASP.NET Core Web ](start-mvc/_static/new_project30.png)
 

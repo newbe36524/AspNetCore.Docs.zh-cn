@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: data/ef-rp/read-related-data
-ms.openlocfilehash: 41b2ce35a6910df7587af7ebabe8a4984cda6ae5
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: dd00b9d7faf467857ec1e47f4cfb0296d84e5d3f
+ms.sourcegitcommit: 62cc131969b2379f7a45c286a751e22d961dfbdb
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634964"
+ms.lasthandoff: 09/22/2020
+ms.locfileid: "90847697"
 ---
 # <a name="part-6-no-locrazor-pages-with-ef-core-in-aspnet-core---read-related-data"></a>第 6 部分，ASP.NET Core 中的 Razor 页面和 EF Core - 读取相关数据
 
@@ -63,7 +63,7 @@ EF Core 可采用多种方式将相关数据加载到实体的导航属性中：
 
   ![显式加载示例](read-related-data/_static/explicit-loading.png)
 
-* [延迟加载](/ef/core/querying/related-data#lazy-loading)。 [延迟加载已添加到版本 2.1 中的 EF Core](/ef/core/querying/related-data#lazy-loading)。 首次读取实体时，不检索相关数据。 首次访问导航属性时，会自动检索该导航属性所需的数据。 首次访问导航属性时，都会向数据库发送一个查询。
+* [延迟加载](/ef/core/querying/related-data#lazy-loading)。 首次读取实体时，不检索相关数据。 首次访问导航属性时，会自动检索该导航属性所需的数据。 首次访问导航属性时，都会向数据库发送一个查询。 延迟加载可能会影响性能，例如，当开发人员使用 N+1 模式、加载父级和枚举子级时。
 
 ## <a name="create-course-pages"></a>创建“课程”页
 

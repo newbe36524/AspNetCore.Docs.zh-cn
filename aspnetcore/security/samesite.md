@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 12/03/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - SignalR
 - Electron
 uid: security/samesite
-ms.openlocfilehash: 3ba033b4165b19131d11311e5ae9d64e6afe48ca
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: 6f826416e3045df32abf41e94e667120e71ae717
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865436"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051611"
 ---
 # <a name="work-with-samesite-no-loccookies-in-aspnet-core"></a>使用 cookie ASP.NET Core 中的 SameSite
 
@@ -138,7 +139,7 @@ SameSite 支持在2.0 中第一次 ASP.NET Core 实现，使用 [2016 草案标�
 
 2019年11月发布了[修补程序](https://devblogs.microsoft.com/dotnet/net-core-November-2019/)，从2016标准版更新为2019标准。 [SameSite 规范的2019草案](https://github.com/aspnet/Announcements/issues/390)：
 
-* **不**向后兼容2016草案。 有关详细信息，请参阅本文档中的 [支持旧版浏览器](#sob) 。
+* **不** 向后兼容2016草案。 有关详细信息，请参阅本文档中的 [支持旧版浏览器](#sob) 。
 * 指定 cookie `SameSite=Lax` 按默认值处理。
 * 指定 cookie 显式断言以便 `SameSite=None` 启用跨站点传递的是应该标记为的 `Secure` 。 `None` 要选择退出的新项。
 * 为 ASP.NET Core 2.1、2.2 和3.0 颁发的修补程序支持。 ASP.NET Core 3.1 具有附加的 SameSite 支持。
@@ -157,7 +158,7 @@ SameSite 支持在2.0 中第一次 ASP.NET Core 实现，使用 [2016 草案标�
 
 ## <a name="supporting-older-browsers"></a>支持旧版浏览器
 
-2016 SameSite 标准规定，未知值必须被视为 `SameSite=Strict` 值。 从支持 2016 SameSite 标准的旧版浏览器访问的应用在收到值为的 SameSite 属性时可能会中断 `None` 。 如果 Web 应用要支持较旧的浏览器，则必须实现浏览器检测。 ASP.NET Core 不会实现浏览器检测，因为用户代理值非常稳定且频繁更改。 中的扩展点 <xref:Microsoft.AspNetCore.CookiePolicy> 允许插入特定于用户代理的逻辑。
+2016 SameSite 标准规定，未知值必须被视为 `SameSite=Strict` 值。 从支持 2016 SameSite 标准的旧版浏览器访问的应用在收到值为的 SameSite 属性时可能会中断 `None` 。 如果 Web 应用要支持较旧的浏览器，则必须实现浏览器检测。 ASP.NET Core 不会实现浏览器检测，因为 User-Agents 值是高度易失性的，经常更改。 中的扩展点 <xref:Microsoft.AspNetCore.CookiePolicy> 允许插入 User-Agent 的特定逻辑。
 
 在中 `Startup.Configure` ，添加在调用之前调用的代码 <xref:Microsoft.AspNetCore.Builder.CookiePolicyAppBuilderExtensions.UseCookiePolicy*> <xref:Microsoft.AspNetCore.Builder.AuthAppBuilderExtensions.UseAuthentication*> 或 *任何* 写入的方法 cookie ：
 
@@ -201,7 +202,7 @@ SameSite 支持在2.0 中第一次 ASP.NET Core 实现，使用 [2016 草案标�
 
 ### <a name="test-with-chrome"></a>用 Chrome 测试
 
-Chrome 78 + 提供了令人误解的结果，因为它具有临时的缓解措施。 Chrome 78 + 临时缓解允许 cookie 两分钟以内。 已启用适当测试标志的 Chrome 76 或77提供更准确的结果。 若要测试新的 SameSite 行为切换 `chrome://flags/#same-site-by-default-cookies` 为 **启用状态**。 旧版本的 Chrome (75 及更) 低版本将报告为失败，并出现新 `None` 设置。 请参阅本文档中的 [支持旧版浏览器](#sob) 。
+Chrome 78 + 提供了令人误解的结果，因为它具有临时的缓解措施。 Chrome 78 + 临时缓解允许 cookie 两分钟以内。 已启用适当测试标志的 Chrome 76 或77提供更准确的结果。 若要测试新的 SameSite 行为切换 `chrome://flags/#same-site-by-default-cookies` 为 **启用状态** 。 旧版本的 Chrome (75 及更) 低版本将报告为失败，并出现新 `None` 设置。 请参阅本文档中的 [支持旧版浏览器](#sob) 。
 
 Google 不会使旧版 chrome 版本可用。 遵循 [下载 Chromium](https://www.chromium.org/getting-involved/download-chromium) 中的说明来测试旧版 Chrome。 不要从通过搜索旧版 chrome 提供的 **链接下载 chrome** 。
 

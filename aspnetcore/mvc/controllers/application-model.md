@@ -5,6 +5,7 @@ description: 了解如何读取和控制应用程序模型，从而修改 MVC �
 ms.author: riande
 ms.date: 12/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,18 +17,18 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/controllers/application-model
-ms.openlocfilehash: f2e86a8607ddd00dc7f4bec36079660f0cd1eea3
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a7a654eb43c0dbf375af911d8d5353ac4c04a825
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88630284"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060932"
 ---
 # <a name="work-with-the-application-model-in-aspnet-core"></a>使用 ASP.NET Core 中的应用程序模型
 
 作者：[Steve Smith](https://ardalis.com/)
 
-ASP.NET Core MVC 会定义一个*应用程序模型*，用于表示 MVC 应用的各个组件。 通过读取和处理此模型可修改 MVC 元素的行为方式。 默认情况下，MVC 遵循特定的约定，以确定将哪些类视作控制器，这些类上的哪些方法是操作，以及参数和路由的行为方式。 你可以自定义此行为以满足应用的需要，方法如下：创建自己的约定，并将它们应用于全局或作为属性应用。
+ASP.NET Core MVC 会定义一个 *应用程序模型* ，用于表示 MVC 应用的各个组件。 通过读取和处理此模型可修改 MVC 元素的行为方式。 默认情况下，MVC 遵循特定的约定，以确定将哪些类视作控制器，这些类上的哪些方法是操作，以及参数和路由的行为方式。 你可以自定义此行为以满足应用的需要，方法如下：创建自己的约定，并将它们应用于全局或作为属性应用。
 
 ## <a name="models-and-providers"></a>模型和提供程序
 
@@ -141,7 +142,7 @@ ASP.NET Core MVC 使用提供程序模式（由 [IApplicationModelProvider](/dot
 
 ### <a name="sample-modifying-the-actionmodel-name"></a>示例：修改 ActionModel 名称
 
-以下约定可修改 `ActionModel`，以更新其应用到的操作的*名称*。 新名称以参数形式提供给该属性。 此新名称供路由使用，因此它将影响用于访问此操作方法的路由。
+以下约定可修改 `ActionModel`，以更新其应用到的操作的 *名称* 。 新名称以参数形式提供给该属性。 此新名称供路由使用，因此它将影响用于访问此操作方法的路由。
 
 [!code-csharp[](./application-model/sample/src/AppModelSample/Conventions/CustomActionNameAttribute.cs)]
 

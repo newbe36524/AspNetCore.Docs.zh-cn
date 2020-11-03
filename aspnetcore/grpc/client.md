@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: grpc/client
-ms.openlocfilehash: 28e4f372e301a673644bfa97763ebc930f2d0ad5
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 6515e87845cc5aa101532c18711d175a73581bee
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634327"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722704"
 ---
 # <a name="call-grpc-services-with-the-net-client"></a>使用 .NET 客户端调用 gRPC 服务
 
@@ -33,7 +33,7 @@ ms.locfileid: "88634327"
 
 ## <a name="configure-grpc-client"></a>配置 gRPC 客户端
 
-gRPC 客户端是从 [\*.proto  文件生成的](xref:grpc/basics#generated-c-assets)具体客户端类型。 具体 gRPC 客户端具有转换为 \*.proto  文件中 gRPC 服务的方法。
+gRPC 客户端是从 [\*.proto  文件生成的](xref:grpc/basics#generated-c-assets)具体客户端类型。 具体 gRPC 客户端具有转换为 \*.proto  文件中 gRPC 服务的方法。 例如，名为 `Greeter` 的服务生成 `GreeterClient` 类型（包含调用服务的方法）。
 
 gRPC 客户端是通过通道创建的。 首先使用 `GrpcChannel.ForAddress` 创建一个通道，然后使用该通道创建 gRPC 客户端：
 
@@ -260,7 +260,18 @@ catch (RpcException ex)
 }
 ```
 
+## <a name="configure-deadline"></a>配置截止时间
+
+建议配置 gRPC 调用截止时间，因为它提供调用时间的上限。 它能阻止异常运行的服务持续运行并耗尽服务器资源。 截止时间对于构建可靠应用非常有效。
+
+配置 `CallOptions.Deadline` 以设置 gRPC 调用的截止时间：
+
+[!code-csharp[](~/grpc/deadlines-cancellation/deadline-client.cs?highlight=7,12)]
+
+有关详细信息，请参阅 <xref:grpc/deadlines-cancellation#deadlines>。
+
 ## <a name="additional-resources"></a>其他资源
 
 * <xref:grpc/clientfactory>
+* <xref:grpc/deadlines-cancellation>
 * <xref:grpc/basics>

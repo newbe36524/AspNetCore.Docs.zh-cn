@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: aspnetcore-3.0
-ms.openlocfilehash: a53ba22c301b04aafa1eeb53d91f82f90dab0bad
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a1cbd8f434214ce488fc3febe63d8aaf54db71a3
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631545"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722782"
 ---
 # <a name="whats-new-in-aspnet-core-30"></a>ASP.NET Core 3.0 的新增功能
 
@@ -397,7 +397,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 * Windows 主机必须将[主体名称](/windows/win32/ad/service-principal-names) (SPN) 添加到托管应用的用户帐户。
 * Linux 和 macOS 计算机必须加入域。
   * 必须为 Web 进程创建 SPN。
-  * 必须在主机上生成并配置 [Keytab 文件](https://blogs.technet.microsoft.com/pie/2018/01/03/all-you-need-to-know-about-keytab-files/)。
+  * 必须在主机上生成并配置 [Keytab 文件](/archive/blogs/pie/all-you-need-to-know-about-keytab-files)。
 
 有关详细信息，请参阅 <xref:security/authentication/windowsauth>。
 
@@ -550,4 +550,3 @@ ASP.NET Core 3.0 包含了许多改进，可减少内存使用量并提高吞吐
 ## Additional information
 For the complete list of changes, see the [ASP.NET Core 3.0 Release Notes](WHERE IS THIS????).
 -->
- 

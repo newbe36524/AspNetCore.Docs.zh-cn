@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/10/2018
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/views/tag-helpers/builtin-th/cache-tag-helper
-ms.openlocfilehash: b1cab7ab8b491529ee4208d92fb30082be795eda
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: a87f91255bd1f280b1567f522423a6f4e88a6dd8
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635055"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060880"
 ---
 # <a name="cache-tag-helper-in-aspnet-core-mvc"></a>ASP.NET Core MVC 中的缓存标记帮助程序
 
@@ -42,13 +43,13 @@ ms.locfileid: "88635055"
 
 ## <a name="cache-tag-helper-attributes"></a>缓存标记帮助程序属性
 
-### <a name="enabled"></a>已启用
+### <a name="enabled"></a>enabled
 
 | 属性类型  | 示例        | 默认 |
 | --------------- | --------------- | ------- |
-| Boolean         | `true`, `false` | `true`  |
+| 布尔         | `true`, `false` | `true`  |
 
-`enabled` 确定是否缓存了缓存标记帮助程序所包含的内容。 默认值为 `true`。 如果设置为 `false`，则不会缓存呈现的输出****。
+`enabled` 确定是否缓存了缓存标记帮助程序所包含的内容。 默认值为 `true`。 如果设置为 `false`，则不会缓存呈现的输出  。
 
 示例：
 
@@ -112,7 +113,7 @@ Razor视图引擎将默认值设置 `expires-after` 为20分钟。
 
 | 属性类型 | 示例                                    |
 | -------------- | ------------------------------------------- |
-| 字符串         | `User-Agent`, `User-Agent,content-encoding` |
+| String         | `User-Agent`, `User-Agent,content-encoding` |
 
 `vary-by-header` 接受逗号分隔的标头值列表，在标头值发生更改时触发缓存刷新。
 
@@ -128,7 +129,7 @@ Razor视图引擎将默认值设置 `expires-after` 为20分钟。
 
 | 属性类型 | 示例             |
 | -------------- | -------------------- |
-| 字符串         | `Make`, `Make,Model` |
+| String         | `Make`, `Make,Model` |
 
 `vary-by-query` 接受查询字符串(<xref:Microsoft.AspNetCore.Http.HttpRequest.Query*>) 中逗号分隔的 <xref:Microsoft.AspNetCore.Http.IQueryCollection.Keys*> 列表，它们在任何列出的键值发生更改时触发缓存刷新。
 
@@ -144,13 +145,13 @@ Razor视图引擎将默认值设置 `expires-after` 为20分钟。
 
 | 属性类型 | 示例             |
 | -------------- | -------------------- |
-| 字符串         | `Make`, `Make,Model` |
+| String         | `Make`, `Make,Model` |
 
 `vary-by-route` 接受路由参数名称的逗号分隔列表，用于在路由数据参数值发生更改时触发缓存刷新。
 
 示例：
 
-*Startup.cs*：
+*Startup.cs* ：
 
 ```csharp
 routes.MapRoute(
@@ -158,7 +159,7 @@ routes.MapRoute(
     template: "{controller=Home}/{action=Index}/{Make?}/{Model?}");
 ```
 
-*索引 cshtml*：
+*索引 cshtml* ：
 
 ```cshtml
 <cache vary-by-route="Make,Model">
@@ -170,7 +171,7 @@ routes.MapRoute(
 
 | 属性类型 | 示例                                                                         |
 | -------------- | -------------------------------------------------------------------------------- |
-| 字符串         | `.AspNetCore.Identity.Application`, `.AspNetCore.Identity.Application,HairColor` |
+| String         | `.AspNetCore.Identity.Application`, `.AspNetCore.Identity.Application,HairColor` |
 
 `vary-by-cookie` 接受以逗号分隔的名称列表 cookie ，这些名称会在值更改时触发缓存刷新 cookie 。
 
@@ -186,7 +187,7 @@ routes.MapRoute(
 
 | 属性类型  | 示例        | 默认 |
 | --------------- | --------------- | ------- |
-| Boolean         | `true`, `false` | `true`  |
+| 布尔         | `true`, `false` | `true`  |
 
 `vary-by-user` 指定当已登录用户（或上下文主体）发生更改时是否应重置缓存。 当前用户也称为请求上下文主体，可以 Razor 通过引用在视图中查看 `@User.Identity.Name` 。
 
@@ -198,13 +199,13 @@ routes.MapRoute(
 </cache>
 ```
 
-通过登录和注销周期，使用此属性将内容维护在缓存中。 当值设置为 `true` 时，身份验证周期会使已经过身份验证的用户的缓存失效。 缓存会失效，因为 cookie 在对用户进行身份验证时，会生成一个新的唯一值。 如果不 cookie 存在或已过期，则会为匿名状态维护缓存 cookie 。 如果用户未经过**** 身份验证，则会维持缓存。
+通过登录和注销周期，使用此属性将内容维护在缓存中。 当值设置为 `true` 时，身份验证周期会使已经过身份验证的用户的缓存失效。 缓存会失效，因为 cookie 在对用户进行身份验证时，会生成一个新的唯一值。 如果不 cookie 存在或已过期，则会为匿名状态维护缓存 cookie 。 如果用户未经过  身份验证，则会维持缓存。
 
 ### <a name="vary-by"></a>vary-by
 
 | 属性类型 | 示例  |
 | -------------- | -------- |
-| 字符串         | `@Model` |
+| String         | `@Model` |
 
 `vary-by` 允许自定义缓存的数据。 当属性的字符串值引用的对象发生更改时，会更新缓存标记帮助程序的内容。 通常将模型值的字符串串联分配给此属性。 从效果上看，这导致了更新任何已连接的值都会使缓存无效。
 
@@ -223,7 +224,7 @@ public IActionResult Index(string myParam1, string myParam2, string myParam3)
 }
 ```
 
-*索引 cshtml*：
+*索引 cshtml* ：
 
 ```cshtml
 <cache vary-by="@Model">

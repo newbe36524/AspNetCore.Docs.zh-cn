@@ -7,6 +7,7 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 9/25/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: mvc/compatibility-version
-ms.openlocfilehash: b7d14aa0371fcc01d568cf1e7b9908c4a8d984df
-ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
+ms.openlocfilehash: 9123bd70dfee1578912f682faf0520735fd55776
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/17/2020
-ms.locfileid: "90722827"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051286"
 ---
 # <a name="compatibility-version-for-aspnet-core-mvc"></a>ASP.NET Core MVC 的兼容性版本
 
@@ -43,7 +44,7 @@ ms.locfileid: "90722827"
 
 ::: moniker range="< aspnetcore-3.0"
 
-<xref:Microsoft.Extensions.DependencyInjection.MvcCoreMvcBuilderExtensions.SetCompatibilityVersion*> 方法允许 ASP.NET Core 2.x 应用选择加入或退出 ASP.NET Core MVC 2.1 或 2.2 中引入的潜在重大行为变更。 这些潜在的中断行为变更通常取决于 MVC 子系统的行为方式以及运行时调用“代码”的方式****。 通过选择加入，你将获取最新的行为以及 ASP.NET Core 的长期行为。
+<xref:Microsoft.Extensions.DependencyInjection.MvcCoreMvcBuilderExtensions.SetCompatibilityVersion*> 方法允许 ASP.NET Core 2.x 应用选择加入或退出 ASP.NET Core MVC 2.1 或 2.2 中引入的潜在重大行为变更。 这些潜在的中断行为变更通常取决于 MVC 子系统的行为方式以及运行时调用“代码”的方式  。 通过选择加入，你将获取最新的行为以及 ASP.NET Core 的长期行为。
 
 以下代码将兼容模式设置为 ASP.NET Core 2.2：
 
@@ -56,7 +57,7 @@ ms.locfileid: "90722827"
 * 不适用于所有 2.1 和更高版本的更改，它的目标是潜在地中断 MVC 子系统中的 ASP.NET Core 运行时行为变更。
 * 不扩展到 ASP.NET Core 3.0。
 
-未**** 调用 `SetCompatibilityVersion` 的 ASP.NET Core 2.1 和 2.2 版本的应用的默认兼容性是 2.0 兼容性。 即，未调用 `SetCompatibilityVersion` 与调用 `SetCompatibilityVersion(CompatibilityVersion.Version_2_0)` 相同。
+未  调用 `SetCompatibilityVersion` 的 ASP.NET Core 2.1 和 2.2 版本的应用的默认兼容性是 2.0 兼容性。 即，未调用 `SetCompatibilityVersion` 与调用 `SetCompatibilityVersion(CompatibilityVersion.Version_2_0)` 相同。
 
 以下代码将兼容模式设置为 ASP.NET Core 2.2（以下行为除外）：
 

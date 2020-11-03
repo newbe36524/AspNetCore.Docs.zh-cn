@@ -4,7 +4,7 @@ author: scottaddie
 description: 了解使用 JavaScript Services 创建由 ASP.NET Core 提供支持的单页应用程序 (SPA) 的好处。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: scaddie
-ms.custom: H1Hack27Feb2017
+ms.custom: H1Hack27Feb2017, devx-track-js
 ms.date: 09/06/2019
 no-loc:
 - ASP.NET Core Identity
@@ -18,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: client-side/spa-services
-ms.openlocfilehash: 379a8f52dab36d331bc42c1fee8d64b3971e9e91
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 33ae16c033142aa1c0f4cea53ca746e8a6aaf052
+ms.sourcegitcommit: 2e3a967331b2c69f585dd61e9ad5c09763615b44
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88625656"
+ms.lasthandoff: 10/27/2020
+ms.locfileid: "92690657"
 ---
 # <a name="use-javascript-services-to-create-single-page-applications-in-aspnet-core"></a>使用 JavaScript Services 在 ASP.NET Core 中创建单页应用程序
 
@@ -114,11 +114,11 @@ npm i -S aspnet-prerendering
 
 ### <a name="asp-prerender-module-tag-helper"></a>asp-prerender-module 标记帮助程序
 
-上面的代码示例中使用的 `asp-prerender-module` 标记帮助程序通过 Node.js 在服务器上执行 *ClientApp/dist/main-server.js*。 为清楚起见，*main-server.js* 文件是 [Webpack](https://webpack.github.io/) 生成过程中 TypeScript 到 JavaScript 转译任务的产物。 Webpack 定义了入口点别名 `main-server`；此别名的依赖项关系图遍历始于 *ClientApp/boot-server.ts* 文件：
+上面的代码示例中使用的 `asp-prerender-module` 标记帮助程序通过 Node.js 在服务器上执行 *ClientApp/dist/main-server.js* 。 为清楚起见， *main-server.js* 文件是 [Webpack](https://webpack.github.io/) 生成过程中 TypeScript 到 JavaScript 转译任务的产物。 Webpack 定义了入口点别名 `main-server`；此别名的依赖项关系图遍历始于 *ClientApp/boot-server.ts* 文件：
 
 [!code-javascript[](../client-side/spa-services/sample/SpaServicesSampleApp/webpack.config.js?range=53)]
 
-在以下 Angular 示例中，*ClientApp/boot-server.ts* 文件利用 `createServerRenderer` 函数和 `aspnet-prerendering` npm 包的 `RenderResult` 类型通过 Node.js 来配置服务器呈现。 用于服务器端呈现的 HTML 标记传递到解析函数调用，该调用包装在强类型的 JavaScript `Promise` 对象中。 `Promise` 对象的意义在于，它以异步方式将 HTML 标记提供给页面，以注入到 DOM 的占位符元素中。
+在以下 Angular 示例中， *ClientApp/boot-server.ts* 文件利用 `createServerRenderer` 函数和 `aspnet-prerendering` npm 包的 `RenderResult` 类型通过 Node.js 来配置服务器呈现。 用于服务器端呈现的 HTML 标记传递到解析函数调用，该调用包装在强类型的 JavaScript `Promise` 对象中。 `Promise` 对象的意义在于，它以异步方式将 HTML 标记提供给页面，以注入到 DOM 的占位符元素中。
 
 [!code-typescript[](../client-side/spa-services/sample/SpaServicesSampleApp/ClientApp/boot-server.ts?range=6,10-34,79-)]
 
@@ -242,7 +242,7 @@ dotnet new --install Microsoft.AspNetCore.SpaTemplates::*
 | 含 React.js 的 MVC ASP.NET Core            | react      | [C#]     | Web/MVC/SPA |
 | 含 React.js 和 Redux 的 MVC ASP.NET Core  | reactredux | [C#]     | Web/MVC/SPA |
 
-若要使用其中一个 SPA 模板创建新项目，请在 [dotnet new](/dotnet/core/tools/dotnet-new) 命令中包含该模板的**短名称**。 以下命令将使用为服务器端配置的 ASP.NET Core MVC 创建 Angular 应用程序：
+若要使用其中一个 SPA 模板创建新项目，请在 [dotnet new](/dotnet/core/tools/dotnet-new) 命令中包含该模板的 **短名称** 。 以下命令将使用为服务器端配置的 ASP.NET Core MVC 创建 Angular 应用程序：
 
 ```dotnetcli
 dotnet new angular
@@ -252,10 +252,10 @@ dotnet new angular
 
 存在两种主要运行时配置模式：
 
-* **开发**：
+* **开发** ：
   * 包含源映射以简化调试。
   * 不优化客户端代码的性能。
-* **生产**：
+* **生产** ：
   * 不包含源映射。
   * 通过捆绑和缩小来优化客户端代码。
 
@@ -295,7 +295,7 @@ SpaServices 模板已预先配置为使用 [Karma](https://karma-runner.github.i
 npm test
 ```
 
-该脚本将启动 Karma 测试运行程序，而后者将读取 *karma.conf.js* 文件中定义的设置。 除其他设置外，*karma.conf.js* 还通过其 `files` 数组标识要执行的测试文件：
+该脚本将启动 Karma 测试运行程序，而后者将读取 *karma.conf.js* 文件中定义的设置。 除其他设置外， *karma.conf.js* 还通过其 `files` 数组标识要执行的测试文件：
 
 [!code-javascript[](../client-side/spa-services/sample/SpaServicesSampleApp/ClientApp/test/karma.conf.js?range=4-5,8-11)]
 

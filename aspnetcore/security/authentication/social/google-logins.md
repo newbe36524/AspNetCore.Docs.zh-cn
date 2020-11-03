@@ -6,6 +6,7 @@ ms.author: riande
 ms.custom: mvc, seodec18
 ms.date: 03/19/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -17,12 +18,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/google-logins
-ms.openlocfilehash: a7a5260a2446ac3f3be00755ef051e56080a7485
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 111ea7c972778dfd5296d0401c16563aeaa36a63
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634288"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060308"
 ---
 # <a name="google-external-login-setup-in-aspnet-core"></a>ASP.NET Core 中的 Google 外部登录设置
 
@@ -33,11 +34,11 @@ ms.locfileid: "88634288"
 ## <a name="create-a-google-api-console-project-and-client-id"></a>创建 Google API 控制台项目和客户端 ID
 
 * 请安装 [AspNetCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Google)。
-* 导航到 "将 [Google 登录集成到你的 web 应用"](https://developers.google.com/identity/sign-in/web/sign-in) ，然后选择 " **配置项目**"。
-* 在 " **配置 OAuth 客户端** " 对话框中，选择 " **Web 服务器**"。
+* 导航到将 [Google Sign-In 集成到 web 应用中](https://developers.google.com/identity/sign-in/web/sign-in) ，然后选择 " **配置项目** "。
+* 在 " **配置 OAuth 客户端** " 对话框中，选择 " **Web 服务器** "。
 * 在 " **授权重定向 uri** " 文本输入框中，设置重定向 URI。 例如： `https://localhost:44312/signin-google`
-* 保存 **客户端 ID** 和 **客户端密码**。
-* 部署站点时，从 **Google 控制台**注册新的公共 url。
+* 保存 **客户端 ID** 和 **客户端密码** 。
+* 部署站点时，从 **Google 控制台** 注册新的公共 url。
 
 ## <a name="store-the-google-client-id-and-secret"></a>存储 Google 客户端 ID 和机密
 
@@ -65,7 +66,7 @@ ms.locfileid: "88634288"
 
 ## <a name="sign-in-with-google"></a>登录 Google
 
-* 运行应用程序，并单击 " **登录"**。 此时将显示使用 Google 登录的选项。
+* 运行应用程序，并单击 " **登录"** 。 此时将显示使用 Google 登录的选项。
 * 单击 " **google** " 按钮，该按钮将重定向到 google 进行身份验证。
 * 输入 Google 凭据后，会重定向回网站。
 
@@ -82,7 +83,7 @@ URI 段 `/signin-google` 设置为 Google 身份验证提供程序的默认回�
 ## <a name="troubleshooting"></a>疑难解答
 
 * 如果登录不起作用，并且没有出现任何错误，请切换到开发模式，以便更轻松地进行调试。
-* 如果 Identity 未通过调用 `services.AddIdentity` 进行配置 `ConfigureServices` ，则尝试在 ArgumentException 中对结果进行身份验证 *：必须提供 "SignInScheme" 选项*。 本教程中使用的项目模板可确保完成此操作。
+* 如果 Identity 未通过调用 `services.AddIdentity` 进行配置 `ConfigureServices` ，则尝试在 ArgumentException 中对结果进行身份验证 *：必须提供 "SignInScheme" 选项* 。 本教程中使用的项目模板可确保完成此操作。
 * 如果尚未通过应用初始迁移来创建站点数据库，则在处理请求错误时，将会出现 *数据库操作失败* 的情况。 选择 " **应用迁移** " 以创建数据库，并刷新页面以继续出现错误。
 
 ## <a name="next-steps"></a>后续步骤

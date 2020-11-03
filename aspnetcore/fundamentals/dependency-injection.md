@@ -16,12 +16,12 @@ no-loc:
 - Razor
 - SignalR
 uid: fundamentals/dependency-injection
-ms.openlocfilehash: 2d002e075f9d57654589b540e522307c363d9660
-ms.sourcegitcommit: 4cce99cbd44372fd4575e8da8c0f4345949f4d9a
+ms.openlocfilehash: 99e0109ea4c2526e9f91a8a4df23c4557e9be83a
+ms.sourcegitcommit: d7991068bc6b04063f4bd836fc5b9591d614d448
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/31/2020
-ms.locfileid: "89153540"
+ms.lasthandoff: 10/06/2020
+ms.locfileid: "91762303"
 ---
 # <a name="dependency-injection-in-aspnet-core"></a>ASP.NET Core 依赖注入
 
@@ -34,6 +34,8 @@ ASP.NET Core 支持依赖关系注入 (DI) 软件设计模式，这是一种在�
 有关 MVC 控制器中依赖关系注入的详细信息，请参阅 <xref:mvc/controllers/dependency-injection>。
 
 有关选项的依赖项注入的详细信息，请参阅 <xref:fundamentals/configuration/options>。
+
+本主题介绍 ASP.NET Core 中的依赖关系注入。 若要了解如何在控制台应用中使用依赖关系注入，请参阅 [.NET 中的依赖关系注入](/dotnet/core/extensions/dependency-injection)。
 
 [查看或下载示例代码](https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/fundamentals/dependency-injection/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
@@ -214,9 +216,9 @@ ASP.NET Core 框架使用一种约定来注册一组相关服务。 约定使用
 
 <!-- Review: Auto disposal at end of app lifetime is not what you think of auto disposal  -->
 
-| 方法                                                                                                                                                                              | 自动<br>对象<br>释放 | 多种<br>实现 | 传递参数 |
+| 方法                                                                                                                                                                              | 自动<br>对象 (object)<br>释放 | 多种<br>实现 | 传递参数 |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------:|:---------------------------:|:---------:|
-| `Add{LIFETIME}<{SERVICE}, {IMPLEMENTATION}>()`<br>示例：<br>`services.AddSingleton<IMyDep, MyDep>();`                                                                             | “是”                             | 是                         | 否        |
+| `Add{LIFETIME}<{SERVICE}, {IMPLEMENTATION}>()`<br>示例：<br>`services.AddSingleton<IMyDep, MyDep>();`                                                                             | 是                             | 是                         | 否        |
 | `Add{LIFETIME}<{SERVICE}>(sp => new {IMPLEMENTATION})`<br>示例：<br>`services.AddSingleton<IMyDep>(sp => new MyDep());`<br>`services.AddSingleton<IMyDep>(sp => new MyDep(99));` | 是                             | 是                         | 是       |
 | `Add{LIFETIME}<{IMPLEMENTATION}>()`<br>示例：<br>`services.AddSingleton<MyDep>();`                                                                                                | 是                             | 否                          | 否        |
 | `AddSingleton<{SERVICE}>(new {IMPLEMENTATION})`<br>示例：<br>`services.AddSingleton<IMyDep>(new MyDep());`<br>`services.AddSingleton<IMyDep>(new MyDep(99));`                    | 否                              | 是                         | 是       |

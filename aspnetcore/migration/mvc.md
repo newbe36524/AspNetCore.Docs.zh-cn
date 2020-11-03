@@ -5,6 +5,7 @@ description: 了解如何开始将 ASP.NET MVC 项目迁移到 ASP.NET Core MVC�
 ms.author: wpickett
 ms.date: 06/18/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: migration/mvc
-ms.openlocfilehash: d615f67fc5cb23499ee7e14b747390a7a1b5a693
-ms.sourcegitcommit: f09407d128634d200c893bfb1c163e87fa47a161
+ms.openlocfilehash: 226ac6da508378c7b3c81779d38dd2e0840f1fed
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/26/2020
-ms.locfileid: "88865137"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051508"
 ---
 # <a name="migrate-from-aspnet-mvc-to-aspnet-core-mvc"></a>从 ASP.NET MVC 迁移到 ASP.NET Core MVC
 
@@ -47,9 +48,9 @@ ms.locfileid: "88865137"
 在 Visual Studio 中创建一个示例 ASP.NET MVC 项目以进行迁移：
 
 1. 从“文件”菜单中选择“新建”>“项目”  。
-1. 选择 " **ASP.NET Web 应用程序 ( .NET Framework") ** ，然后选择 " **下一步**"。
-1. 将项目命名为 *WebApp1* ，使命名空间与下一步中创建的 ASP.NET Core 项目相匹配。 选择“创建”  。
-1. 选择 " **MVC**"，然后选择 " **创建**"。
+1. 选择 " **ASP.NET Web 应用程序 ( .NET Framework")** ，然后选择 " **下一步** "。
+1. 将项目命名为 *WebApp1* ，使命名空间与下一步中创建的 ASP.NET Core 项目相匹配。 选择“创建”。
+1. 选择 " **MVC** "，然后选择 " **创建** "。
 
 ## <a name="create-the-aspnet-core-project"></a>创建 ASP.NET Core 项目
 
@@ -57,10 +58,10 @@ ms.locfileid: "88865137"
 
 1. 启动 Visual Studio 的第二个实例。
 1. 从“文件”菜单中选择“新建”>“项目”  。
-1. 选择 " **ASP.NET Web Core Web 应用程序** "，然后选择 " **下一步**"。
-1. 在 " **配置新项目** " 对话框中，将项目命名为 " *WebApp1*"。
-1. 将位置设置为与上一个项目不同的目录，以使用相同的项目名称。 使用同一个命名空间可以更轻松地在两个项目之间复制代码。 选择“创建”  。
-1. 在“创建新的 ASP.NET Core Web 应用程序”对话框中，确认选择“.NET Core”和“ASP.NET Core 3.1”  。 选择 " **Web 应用程序 (模型-视图-控制器) ** " 项目模板，然后选择 " **创建**"。
+1. 选择“ASP.NET Core Web 应用程序”，然后选择“下一步” 。
+1. 在 " **配置新项目** " 对话框中，将项目命名为 " *WebApp1* "。
+1. 将位置设置为与上一个项目不同的目录，以使用相同的项目名称。 使用同一个命名空间可以更轻松地在两个项目之间复制代码。 选择“创建”。
+1. 在“创建新的 ASP.NET Core Web 应用程序”对话框中，确认选择“.NET Core”和“ASP.NET Core 3.1”  。 选择 " **Web 应用程序 (模型-视图-控制器)** " 项目模板，然后选择 " **创建** "。
 
 ## <a name="configure-the-aspnet-core-site-to-use-mvc"></a>将 ASP.NET Core 网站配置为使用 MVC
 
@@ -74,7 +75,7 @@ ms.locfileid: "88865137"
 
 在 ASP.NET Core 中， `Startup` 类：
 
-* 替换 *global.asax*。
+* 替换 *global.asax* 。
 * 处理所有应用启动任务。
 
 有关详细信息，请参阅 <xref:fundamentals/startup>。
@@ -98,9 +99,9 @@ ASP.NET Core 应用必须选择包含中间件的框架功能。 上一个模板
 ASP.NET Core *WebApp1* 项目已包含与 ASP.NET MVC 项目相同的名称的最小示例控制器和视图。 因此，这些占位符将用作 ASP.NET MVC 控制器的占位符，以及要从 ASP.NET MVC *WebApp1* 项目迁移的视图。
 
 1. 复制 ASP.NET MVC 中的方法 `HomeController` 以替换新的 ASP.NET Core `HomeController` 方法。 无需更改操作方法的返回类型。 ASP.NET MVC 内置模板的控制器操作方法返回类型为 <https://docs.microsoft.com/dotnet/api/system.web.mvc.actionresult?view=aspnet-mvc-5.2> ; 在 ASP.NET CORE mvc 中，操作方法将改为返回 `IActionResult` 。 `ActionResult` 可实现 `IActionResult`。
-1. 在 ASP.NET Core 项目中，右键单击 " *视图"/"主* " 目录，选择 " **添加** > **现有项**"。
+1. 在 ASP.NET Core 项目中，右键单击 " *视图"/"主* " 目录，选择 " **添加** > **现有项** "。
 1. 在 " **添加现有项** " 对话框中，导航到 ASP.NET MVC *WebApp1* 项目的 " *视图"/"主* 目录"。
-1. 选择 "*关于* *"，然后依次选择 "* *Index.cshtml* Razor **添加**"、"替换现有文件"。
+1. 选择 " *关于* *"，然后依次选择 "* *Index.cshtml* Razor **添加** "、"替换现有文件"。
 
 有关详细信息，请参阅 <xref:mvc/controllers/actions> 和 <xref:mvc/views/overview>。
 
@@ -109,31 +110,31 @@ ASP.NET Core *WebApp1* 项目已包含与 ASP.NET MVC 项目相同的名称的�
 可以测试每个控制器终结点，但在本文档的后面部分介绍了布局和样式。
 
 1. 运行 ASP.NET Core 应用。
-1. 通过将当前端口号替换为 ASP.NET Core 项目中使用的端口号，在运行 ASP.NET Core 应用程序的浏览器中调用呈现的视图。 例如，`https://localhost:44375/home/about`。
+1. 通过将当前端口号替换为 ASP.NET Core 项目中使用的端口号，在运行 ASP.NET Core 应用程序的浏览器中调用呈现的视图。 例如 `https://localhost:44375/home/about`。
 
 ## <a name="migrate-static-content"></a>迁移静态内容
 
-在 ASP.NET MVC 5 及更早版本中，静态内容是从 web 项目的根目录承载的，与服务器端文件混合。 在 ASP.NET Core 中，静态文件存储在项目的 [web 根目录](xref:fundamentals/index#web-root) 中。 默认目录为 *{content root}/wwwroot*，但可以对其进行更改。 有关详细信息，请参阅 [ASP.NET Core 中的静态文件](xref:fundamentals/static-files#serve-static-files)。
+在 ASP.NET MVC 5 及更早版本中，静态内容是从 web 项目的根目录承载的，与服务器端文件混合。 在 ASP.NET Core 中，静态文件存储在项目的 [web 根目录](xref:fundamentals/index#web-root) 中。 默认目录为 *{content root}/wwwroot* ，但可以对其进行更改。 有关详细信息，请参阅 [ASP.NET Core 中的静态文件](xref:fundamentals/static-files#serve-static-files)。
 
-将 ASP.NET MVC *WebApp1*项目中的静态内容复制到 ASP.NET Core *WebApp1*项目中的*wwwroot*目录：
+将 ASP.NET MVC *WebApp1* 项目中的静态内容复制到 ASP.NET Core *WebApp1* 项目中的 *wwwroot* 目录：
 
-1. 在 ASP.NET Core 项目中，右键单击 *wwwroot* 目录，选择 " **添加** > **现有项**"。
+1. 在 ASP.NET Core 项目中，右键单击 *wwwroot* 目录，选择 " **添加** > **现有项** "。
 1. 在 " **添加现有项** " 对话框中，导航到 "ASP.NET MVC *WebApp1* " 项目。
-1. 选择 *favicon* 文件，然后选择 " **添加**"，替换现有文件。
+1. 选择 *favicon* 文件，然后选择 " **添加** "，替换现有文件。
 
 ## <a name="migrate-the-layout-files"></a>迁移布局文件
 
 将 ASP.NET MVC 项目布局文件复制到 ASP.NET Core 项目：
 
-1. 在 ASP.NET Core 项目中，右键单击 " *视图* " 目录，选择 " **添加** > **现有项**"。
+1. 在 ASP.NET Core 项目中，右键单击 " *视图* " 目录，选择 " **添加** > **现有项** "。
 1. 在 " **添加现有项** " 对话框中，导航到 "ASP.NET MVC *WebApp1* " 项目的 " *视图* " 目录。
-1. 选择 *_ViewStart* 的文件，然后选择 " **添加**"。
+1. 选择 *_ViewStart* 的文件，然后选择 " **添加** "。
 
 将 ASP.NET MVC 项目共享布局文件复制到 ASP.NET Core 项目：
 
-1. 在 ASP.NET Core 项目中，右键单击 " *视图"/"共享* " 目录，选择 " **添加** > **现有项**"。
+1. 在 ASP.NET Core 项目中，右键单击 " *视图"/"共享* " 目录，选择 " **添加** > **现有项** "。
 1. 在 " **添加现有项** " 对话框中，导航到 "ASP.NET MVC *WebApp1* " 项目的 " *视图"/"共享* 目录"。
-1. 选择 *_Layout* 的文件，然后选择 " **添加**"，替换现有文件。
+1. 选择 *_Layout* 的文件，然后选择 " **添加** "，替换现有文件。
 
 在 ASP.NET Core 项目中，打开 *_Layout。* 进行以下更改，使其与下面显示的已完成代码相匹配：
 
@@ -176,7 +177,7 @@ ASP.NET Core 与若干开源绑定和缩减解决方案（例如 [WebOptimizer](
 
 ## <a name="solve-http-500-errors"></a>解决 HTTP 500 错误
 
-有许多问题可能会导致 HTTP 500 错误消息，其中不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中， `UseDeveloperExceptionPage` 会将扩展添加到， `IApplicationBuilder` 并在 *开发*环境时执行。 下面的代码对此进行了详细说明：
+有许多问题可能会导致 HTTP 500 错误消息，其中不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中， `UseDeveloperExceptionPage` 会将扩展添加到， `IApplicationBuilder` 并在 *开发* 环境时执行。 下面的代码对此进行了详细说明：
 
 [!code-csharp[](mvc/samples/3.x/Startup.cs?highlight=17-21&name=snippet)]
 
@@ -215,17 +216,17 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 !["新建 Web 应用程序" 对话框：在 "ASP.NET 模板" 面板中选择的 MVC 项目模板](mvc/_static/new-project-select-mvc-template.png)
 
-*可选：* 将解决方案的名称从 *WebApp1* 更改为 *Mvc5*。 Visual Studio 将显示新的解决方案名称 (*Mvc5*) ，这使你可以更轻松地从下一个项目中通知此项目。
+*可选：* 将解决方案的名称从 *WebApp1* 更改为 *Mvc5* 。 Visual Studio 将显示新的解决方案名称 ( *Mvc5* ) ，这使你可以更轻松地从下一个项目中通知此项目。
 
 ## <a name="create-the-aspnet-core-project"></a>创建 ASP.NET Core 项目
 
-使用与上一个项目相同的名称创建新的 *空* ASP.NET Core web 应用 (*WebApp1*) ，使这两个项目中的命名空间匹配。 通过具有相同的命名空间，可以更轻松地在两个项目之间复制代码。 在与前一个项目相同的目录中创建此项目。
+使用与上一个项目相同的名称创建新的 *空* ASP.NET Core web 应用 ( *WebApp1* ) ，使这两个项目中的命名空间匹配。 通过具有相同的命名空间，可以更轻松地在两个项目之间复制代码。 在与前一个项目相同的目录中创建此项目。
 
 ![“新建项目”对话框](mvc/_static/new_core.png)
 
 ![New ASP.NET Web 应用程序对话框：在 ASP.NET Core 模板 "面板中选择的空项目模板](mvc/_static/new-project-select-empty-aspnet5-template.png)
 
-* *可选：* 使用 " *Web 应用程序* " 项目模板创建新的 ASP.NET Core 应用程序。 将项目命名为 " *WebApp1*"，并选择 **单个用户帐户**的身份验证选项。 将此应用重命名为 *FullAspNetCore*。 创建此项目将在转换时节省时间。 可在模板生成的代码中查看最终结果，可以将代码复制到转换项目，或者将代码与模板生成的项目进行比较。
+* *可选：* 使用 " *Web 应用程序* " 项目模板创建新的 ASP.NET Core 应用程序。 将项目命名为 " *WebApp1* "，并选择 **单个用户帐户** 的身份验证选项。 将此应用重命名为 *FullAspNetCore* 。 创建此项目将在转换时节省时间。 可在模板生成的代码中查看最终结果，可以将代码复制到转换项目，或者将代码与模板生成的项目进行比较。
 
 ## <a name="configure-the-site-to-use-mvc"></a>将站点配置为使用 MVC
 
@@ -245,7 +246,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 添加 *控制器* 目录。
 
-* 将名为*HomeController.cs*的**控制器类**添加到*控制器*目录。
+* 将名为 *HomeController.cs* 的 **控制器类** 添加到 *控制器* 目录。
 
 ![“添加新项”对话框](mvc/_static/add_mvc_ctl.png)
 
@@ -253,7 +254,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 添加 *视图/主* 目录。
 
-* 将名为*Index*的** Razor 视图**添加到*Views/Home*目录。
+* 将名为 *Index* 的 **Razor 视图** 添加到 *Views/Home* 目录。
 
 ![“添加新项”对话框](mvc/_static/view.png)
 
@@ -261,7 +262,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 ![显示 WebApp1 的文件和目录的解决方案资源管理器](mvc/_static/project-structure-controller-view.png)
 
-将 Views/Home/Index.cshtml 文件的内容** 替换为以下标记：
+将 Views/Home/Index.cshtml 文件的内容  替换为以下标记：
 
 ```html
 <h1>Hello world!</h1>
@@ -293,7 +294,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 将 ASP.NET MVC 中的每个方法复制 `HomeController` 到新的 `HomeController` 。 在 ASP.NET MVC 中，内置模板的控制器操作方法返回类型为 <https://docs.microsoft.com/dotnet/api/system.web.mvc.actionresult?view=aspnet-mvc-5.2> ; 在 ASP.NET CORE mvc 中，操作方法将改为返回 `IActionResult` 。 `ActionResult` 实现 `IActionResult` ，因此无需更改操作方法的返回类型。
 
-* 将 ASP.NET MVC 项目中的*About*、 *Contact**和* Razor 视图文件复制到 ASP.NET Core 项目。
+* 将 ASP.NET MVC 项目中的 *About* 、 *Contact**和* Razor 视图文件复制到 ASP.NET Core 项目。
 
 ## <a name="test-each-method"></a>测试每个方法
 
@@ -311,7 +312,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 将 *favicon* 文件从 ASP.NET MVC 项目复制到 ASP.NET Core 项目中的 *wwwroot* 目录。
 
-ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式，并将启动文件存储在 *Content* 和 *Scripts* 目录中。 生成 ASP.NET MVC 项目的模板引用布局文件中的启动 (*Views/Shared/_Layout*) 。 *bootstrap.js*和*启动 .css*文件可从 ASP.NET MVC 项目复制到新项目中的*wwwroot*目录。 本文档改为使用 Cdn 在下一节中添加对) 使用的启动 (和其他客户端库的支持。
+ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式，并将启动文件存储在 *Content* 和 *Scripts* 目录中。 生成 ASP.NET MVC 项目的模板引用布局文件中的启动 ( *Views/Shared/_Layout* ) 。 *bootstrap.js* 和 *启动 .css* 文件可从 ASP.NET MVC 项目复制到新项目中的 *wwwroot* 目录。 本文档改为使用 Cdn 在下一节中添加对) 使用的启动 (和其他客户端库的支持。
 
 ## <a name="migrate-the-layout-file"></a>迁移布局文件
 
@@ -319,7 +320,7 @@ ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式�
 
 * 创建 *视图/共享* 目录。
 
-* *可选：* 将*FullAspNetCore* MVC 项目的*views*目录中 *_ViewImports*为 ASP.NET Core 项目的*视图*目录。 删除 *_ViewImports cshtml* 文件中的任何命名空间声明。 *_ViewImports 的 cshtml*文件提供所有视图文件的命名空间，并提供[标记帮助](xref:mvc/views/tag-helpers/intro)程序。 标记帮助程序在新的布局文件中使用。 *_ViewImports* ASP.NET Core 的新文件。
+* *可选：* 将 *FullAspNetCore* MVC 项目的 *views* 目录中 *_ViewImports* 为 ASP.NET Core 项目的 *视图* 目录。 删除 *_ViewImports cshtml* 文件中的任何命名空间声明。 *_ViewImports 的 cshtml* 文件提供所有视图文件的命名空间，并提供 [标记帮助](xref:mvc/views/tag-helpers/intro)程序。 标记帮助程序在新的布局文件中使用。 *_ViewImports* ASP.NET Core 的新文件。
 
 * 将 *_Layout* 的 ASP.NET 文件从 MVC 项目的 *视图/共享* 目录复制到 ASP.NET Core 项目的 " *视图"/"共享* 目录" 中。
 
@@ -366,7 +367,7 @@ JQuery 和启动 JavaScript 的替换标记包含：
 
 ## <a name="solve-http-500-errors"></a>解决 HTTP 500 错误
 
-有许多问题可能会导致 HTTP 500 错误消息，这些错误消息不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中，会将 `UseDeveloperExceptionPage` 扩展添加到， `IApplicationBuilder` 并在配置为 *开发*时执行。 请参阅以下代码中的示例：
+有许多问题可能会导致 HTTP 500 错误消息，这些错误消息不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中，会将 `UseDeveloperExceptionPage` 扩展添加到， `IApplicationBuilder` 并在配置为 *开发* 时执行。 请参阅以下代码中的示例：
 
 [!code-csharp[](mvc/samples/2.x/Startup.cs?highlight=11-15&name=snippet)]
 
@@ -401,17 +402,17 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 !["新建 Web 应用程序" 对话框：在 "ASP.NET 模板" 面板中选择的 MVC 项目模板](mvc/_static/new-project-select-mvc-template.png)
 
-*可选：* 将解决方案的名称从 *WebApp1* 更改为 *Mvc5*。 Visual Studio 将显示新的解决方案名称 (*Mvc5*) ，这使你可以更轻松地从下一个项目中通知此项目。
+*可选：* 将解决方案的名称从 *WebApp1* 更改为 *Mvc5* 。 Visual Studio 将显示新的解决方案名称 ( *Mvc5* ) ，这使你可以更轻松地从下一个项目中通知此项目。
 
 ## <a name="create-the-aspnet-core-project"></a>创建 ASP.NET Core 项目
 
-使用与上一个项目相同的名称创建新的 *空* ASP.NET Core web 应用 (*WebApp1*) ，使这两个项目中的命名空间匹配。 通过具有相同的命名空间，可以更轻松地在两个项目之间复制代码。 在与前一个项目相同的目录中创建此项目。
+使用与上一个项目相同的名称创建新的 *空* ASP.NET Core web 应用 ( *WebApp1* ) ，使这两个项目中的命名空间匹配。 通过具有相同的命名空间，可以更轻松地在两个项目之间复制代码。 在与前一个项目相同的目录中创建此项目。
 
 ![“新建项目”对话框](mvc/_static/new_core.png)
 
 ![New ASP.NET Web 应用程序对话框：在 ASP.NET Core 模板 "面板中选择的空项目模板](mvc/_static/new-project-select-empty-aspnet5-template.png)
 
-* *可选：* 使用 " *Web 应用程序* " 项目模板创建新的 ASP.NET Core 应用程序。 将项目命名为 " *WebApp1*"，并选择 **单个用户帐户**的身份验证选项。 将此应用重命名为 *FullAspNetCore*。 创建此项目将在转换时节省时间。 可在模板生成的代码中查看最终结果，可以将代码复制到转换项目，或者将代码与模板生成的项目进行比较。
+* *可选：* 使用 " *Web 应用程序* " 项目模板创建新的 ASP.NET Core 应用程序。 将项目命名为 " *WebApp1* "，并选择 **单个用户帐户** 的身份验证选项。 将此应用重命名为 *FullAspNetCore* 。 创建此项目将在转换时节省时间。 可在模板生成的代码中查看最终结果，可以将代码复制到转换项目，或者将代码与模板生成的项目进行比较。
 
 ## <a name="configure-the-site-to-use-mvc"></a>将站点配置为使用 MVC
 
@@ -431,7 +432,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 添加 *控制器* 目录。
 
-* 将名为*HomeController.cs*的**控制器类**添加到*控制器*目录。
+* 将名为 *HomeController.cs* 的 **控制器类** 添加到 *控制器* 目录。
 
 ![“添加新项”对话框](mvc/_static/add_mvc_ctl.png)
 
@@ -439,7 +440,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 添加 *视图/主* 目录。
 
-* 将名为*Index*的** Razor 视图**添加到*Views/Home*目录。
+* 将名为 *Index* 的 **Razor 视图** 添加到 *Views/Home* 目录。
 
 ![“添加新项”对话框](mvc/_static/view.png)
 
@@ -447,7 +448,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 ![显示 WebApp1 的文件和目录的解决方案资源管理器](mvc/_static/project-structure-controller-view.png)
 
-将 Views/Home/Index.cshtml 文件的内容** 替换为以下标记：
+将 Views/Home/Index.cshtml 文件的内容  替换为以下标记：
 
 ```html
 <h1>Hello world!</h1>
@@ -479,7 +480,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 将 ASP.NET MVC 中的每个方法复制 `HomeController` 到新的 `HomeController` 。 在 ASP.NET MVC 中，内置模板的控制器操作方法返回类型为 <https://docs.microsoft.com/dotnet/api/system.web.mvc.actionresult?view=aspnet-mvc-5.2> ; 在 ASP.NET CORE mvc 中，操作方法将改为返回 `IActionResult` 。 `ActionResult` 实现 `IActionResult` ，因此无需更改操作方法的返回类型。
 
-* 将 ASP.NET MVC 项目中的*About*、 *Contact**和* Razor 视图文件复制到 ASP.NET Core 项目。
+* 将 ASP.NET MVC 项目中的 *About* 、 *Contact**和* Razor 视图文件复制到 ASP.NET Core 项目。
 
 ## <a name="test-each-method"></a>测试每个方法
 
@@ -497,7 +498,7 @@ ASP.NET Core 将未经处理的异常转换为 HTTP 500 错误响应。 通常�
 
 * 将 *favicon* 文件从 ASP.NET MVC 项目复制到 ASP.NET Core 项目中的 *wwwroot* 目录。
 
-ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式，并将启动文件存储在 *Content* 和 *Scripts* 目录中。 生成 ASP.NET MVC 项目的模板引用布局文件中的启动 (*Views/Shared/_Layout*) 。 *bootstrap.js*和*启动 .css*文件可从 ASP.NET MVC 项目复制到新项目中的*wwwroot*目录。 本文档改为使用 Cdn 在下一节中添加对) 使用的启动 (和其他客户端库的支持。
+ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式，并将启动文件存储在 *Content* 和 *Scripts* 目录中。 生成 ASP.NET MVC 项目的模板引用布局文件中的启动 ( *Views/Shared/_Layout* ) 。 *bootstrap.js* 和 *启动 .css* 文件可从 ASP.NET MVC 项目复制到新项目中的 *wwwroot* 目录。 本文档改为使用 Cdn 在下一节中添加对) 使用的启动 (和其他客户端库的支持。
 
 ## <a name="migrate-the-layout-file"></a>迁移布局文件
 
@@ -505,7 +506,7 @@ ASP.NET MVC 项目使用 [启动](https://getbootstrap.com/) 来设置其样式�
 
 * 创建 *视图/共享* 目录。
 
-* *可选：* 将*FullAspNetCore* MVC 项目的*views*目录中 *_ViewImports*为 ASP.NET Core 项目的*视图*目录。 删除 *_ViewImports cshtml* 文件中的任何命名空间声明。 *_ViewImports 的 cshtml*文件提供所有视图文件的命名空间，并提供[标记帮助](xref:mvc/views/tag-helpers/intro)程序。 标记帮助程序在新的布局文件中使用。 *_ViewImports* ASP.NET Core 的新文件。
+* *可选：* 将 *FullAspNetCore* MVC 项目的 *views* 目录中 *_ViewImports* 为 ASP.NET Core 项目的 *视图* 目录。 删除 *_ViewImports cshtml* 文件中的任何命名空间声明。 *_ViewImports 的 cshtml* 文件提供所有视图文件的命名空间，并提供 [标记帮助](xref:mvc/views/tag-helpers/intro)程序。 标记帮助程序在新的布局文件中使用。 *_ViewImports* ASP.NET Core 的新文件。
 
 * 将 *_Layout* 的 ASP.NET 文件从 MVC 项目的 *视图/共享* 目录复制到 ASP.NET Core 项目的 " *视图"/"共享* 目录" 中。
 
@@ -552,7 +553,7 @@ JQuery 和启动 JavaScript 的替换标记包含：
 
 ## <a name="solve-http-500-errors"></a>解决 HTTP 500 错误
 
-有许多问题可能会导致 HTTP 500 错误消息，这些错误消息不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中，会将 `UseDeveloperExceptionPage` 扩展添加到， `IApplicationBuilder` 并在配置为 *开发*时执行。 请参阅以下代码中的示例：
+有许多问题可能会导致 HTTP 500 错误消息，这些错误消息不包含问题根源的相关信息。 例如，如果 *Views/_ViewImports cshtml* 文件包含项目中不存在的命名空间，则会生成 HTTP 500 错误。 默认情况下，在 ASP.NET Core 应用中，会将 `UseDeveloperExceptionPage` 扩展添加到， `IApplicationBuilder` 并在配置为 *开发* 时执行。 请参阅以下代码中的示例：
 
 [!code-csharp[](mvc/samples/2.x/Startup.cs?highlight=11-15&name=snippet)]
 

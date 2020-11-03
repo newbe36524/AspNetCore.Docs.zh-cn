@@ -7,6 +7,7 @@ ms.custom: mvc
 ms.date: 03/19/2020
 monikerRange: '>= aspnetcore-3.0'
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/microsoft-logins
-ms.openlocfilehash: 36341a0e439be57d7da4f787aa6103b92c624e96
-ms.sourcegitcommit: 62cc131969b2379f7a45c286a751e22d961dfbdb
+ms.openlocfilehash: 3161e4f0f735294d69dd51634b424d1ed573e615
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/22/2020
-ms.locfileid: "90847580"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060295"
 ---
 # <a name="microsoft-account-external-login-setup-with-aspnet-core"></a>Microsoft 帐户外部登录设置与 ASP.NET Core
 
@@ -36,25 +37,25 @@ ms.locfileid: "90847580"
 * 将 [AspNetCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.MicrosoftAccount/) NuGet 包添加到项目。
 * 导航到 " [Azure 门户应用注册](https://go.microsoft.com/fwlink/?linkid=2083908) " 页，创建或登录到 Microsoft 帐户：
 
-如果没有 Microsoft 帐户，请选择 " **创建**"。 登录后，会重定向到 **应用注册** 页面：
+如果没有 Microsoft 帐户，请选择 " **创建** "。 登录后，会重定向到 **应用注册** 页面：
 
 * 选择 **新注册**
 * 输入“名称”。
-* 为 **支持的帐户类型**选择一个选项。  <!-- Accounts for any org work with MS domain accounts. Most folks probably want the last option, personal MS accounts. It took 24 hours after setting this up for the keys to work -->
+* 为 **支持的帐户类型** 选择一个选项。  <!-- Accounts for any org work with MS domain accounts. Most folks probably want the last option, personal MS accounts. It took 24 hours after setting this up for the keys to work -->
   * `MicrosoftAccount`默认情况下，包支持使用 "在任何组织目录中的帐户" 或 "任何组织目录和 Microsoft 帐户中的帐户" 选项创建的应用注册。
-  * 若要使用其他选项，请将和成员设置为， `AuthorizationEndpoint` `TokenEndpoint` 用于在 `MicrosoftAccountOptions` (创建应用注册后， **Endpoints**通过单击 "**概述**" 页上的 "终结点") 上的 "终结点"，将 Microsoft 帐户身份验证初始化为显示的 url 上显示的 url。
-* 在 " **重定向 URI**" 下，输入追加的开发 URL `/signin-microsoft` 。 例如，`https://localhost:5001/signin-microsoft` 。 稍后在本示例中配置的 Microsoft 身份验证方案将自动处理路由中的请求 `/signin-microsoft` 以实现 OAuth 流。
+  * 若要使用其他选项，请将和成员设置为， `AuthorizationEndpoint` `TokenEndpoint` 用于在 `MicrosoftAccountOptions` (创建应用注册后， **Endpoints** 通过单击 " **概述** " 页上的 "终结点") 上的 "终结点"，将 Microsoft 帐户身份验证初始化为显示的 url 上显示的 url。
+* 在 " **重定向 URI** " 下，输入追加的开发 URL `/signin-microsoft` 。 例如 `https://localhost:5001/signin-microsoft`。 稍后在本示例中配置的 Microsoft 身份验证方案将自动处理路由中的请求 `/signin-microsoft` 以实现 OAuth 流。
 * 选择“注册”
 
 ### <a name="create-client-secret"></a>创建客户端机密
 
 * 在左窗格中，选择“证书和密码”。
-* 在 " **客户端密码**" 下，选择 **新的客户端密码**
+* 在 " **客户端密码** " 下，选择 **新的客户端密码**
 
   * 添加客户端密码的说明。
   * 选择“添加”按钮。
 
-* 在 " **客户端**密码" 下，复制 "客户端密钥" 的值。
+* 在 " **客户端** 密码" 下，复制 "客户端密钥" 的值。
 
 URI 段 `/signin-microsoft` 设置为 Microsoft 身份验证提供程序的默认回调。 通过[MicrosoftAccountOptions](/dotnet/api/microsoft.aspnetcore.authentication.microsoftaccount.microsoftaccountoptions)类的继承的[RemoteAuthenticationOptions. CallbackPath](/dotnet/api/microsoft.aspnetcore.authentication.remoteauthenticationoptions.callbackpath)属性配置 Microsoft 身份验证中间件时，可以更改默认的回调 URI。
 
@@ -84,7 +85,7 @@ URI 段 `/signin-microsoft` 设置为 Microsoft 身份验证提供程序的默�
 
 ## <a name="sign-in-with-microsoft-account"></a>Microsoft 登录帐户
 
-运行应用程序，并单击 " **登录"**。 此时会显示一个用于使用 Microsoft 登录的选项。 当你单击 "Microsoft" 时，你将重定向到 Microsoft 进行身份验证。 使用你的 Microsoft 帐户登录后，系统会提示你让应用访问你的信息：
+运行应用程序，并单击 " **登录"** 。 此时会显示一个用于使用 Microsoft 登录的选项。 当你单击 "Microsoft" 时，你将重定向到 Microsoft 进行身份验证。 使用你的 Microsoft 帐户登录后，系统会提示你让应用访问你的信息：
 
 点击 **"是"** ，你会被重定向回到网站，你可以在其中设置电子邮件。
 
@@ -98,8 +99,8 @@ URI 段 `/signin-microsoft` 设置为 Microsoft 身份验证提供程序的默�
 
 * 如果 Microsoft 帐户提供程序将您重定向到登录错误页面，请记下 `#` Uri 中 (井号号) 的错误标题和说明查询字符串参数。
 
-  尽管错误消息似乎指出了 Microsoft 身份验证存在问题，但最常见的原因是应用程序 Uri 与为**Web**平台指定的任何**重定向 uri**都不匹配。
-* 如果 Identity 未通过调用进行 `services.AddIdentity` 配置 `ConfigureServices` ，尝试进行身份验证会导致 *ArgumentException：必须提供 "SignInScheme" 选项*。 本示例中使用的项目模板可确保完成此操作。
+  尽管错误消息似乎指出了 Microsoft 身份验证存在问题，但最常见的原因是应用程序 Uri 与为 **Web** 平台指定的任何 **重定向 uri** 都不匹配。
+* 如果 Identity 未通过调用进行 `services.AddIdentity` 配置 `ConfigureServices` ，尝试进行身份验证会导致 *ArgumentException：必须提供 "SignInScheme" 选项* 。 本示例中使用的项目模板可确保完成此操作。
 * 如果尚未通过应用初始迁移来创建站点数据库，则在处理请求错误时将会获得 *数据库操作失败* 。 点击 " **应用迁移** " 以创建数据库，然后单击 "刷新" 以继续出现错误。
 
 ## <a name="next-steps"></a>后续步骤

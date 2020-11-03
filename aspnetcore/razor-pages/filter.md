@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: razor-pages/filter
-ms.openlocfilehash: b6d6585c0cbd52715c4192d4ab3bee756dbb41b3
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 436d640130b378e2c770322186020c6e252872ef
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635042"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722509"
 ---
 # <a name="filter-methods-for-no-locrazor-pages-in-aspnet-core"></a>ASP.NET Core 中的 Razor Pages 的筛选方法
 
@@ -39,7 +39,7 @@ Razor 页面筛选器：
 * 在执行处理程序方法后运行代码。
 * 可在页面或全局范围内实现。
 * 无法应用于特定的页面处理程序方法。
-* 可以用[依赖项注入](xref:fundamentals/dependency-injection) (DI) 填充构造函数依赖项。 有关详细信息，请参阅 [ServiceFilterAttribute](/aspnet/core/mvc/controllers/filters#servicefilterattribute) 和 [TypeFilterAttribute](/aspnet/core/mvc/controllers/filters#typefilterattribute)。
+* 可以用[依赖项注入](xref:fundamentals/dependency-injection) (DI) 填充构造函数依赖项。 有关详细信息，请参阅 [ServiceFilterAttribute](../mvc/controllers/filters.md#servicefilterattribute) 和 [TypeFilterAttribute](../mvc/controllers/filters.md#typefilterattribute)。
 
 虽然页构造函数和中间件允许在处理程序方法执行之前执行自定义代码，但只有 Razor 页面筛选器允许访问 <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel.HttpContext> 和页面。 中间件可以访问 `HttpContext`，但不能访问“页面上下文”。 筛选器具有 <xref:Microsoft.AspNetCore.Mvc.Filters.FilterContext> 派生参数，该参数提供对 `HttpContext` 的访问权限。 下面是页面筛选器的示例：[实现筛选器属性](#ifa)，该属性将标头添加到响应中，而使用构造函数或中间件则无法做到这点。 对页面上下文的访问（包括对页面实例及其模型的访问）仅在执行筛选器、处理程序或 Razor 页面的正文时适用。
 

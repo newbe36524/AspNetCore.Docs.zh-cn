@@ -5,6 +5,7 @@ description: 了解如何在 ASP.NET Core 的应用程序中添加对授权的�
 ms.author: riande
 ms.date: 10/14/2016
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authorization/claims
-ms.openlocfilehash: 0615e9f13b0eca7d7ac924d90ae2004e41a51586
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: d6317da6bca69b4c46d74a2f76d81af4059d1cd8
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88632598"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060269"
 ---
 # <a name="claims-based-authorization-in-aspnet-core"></a>ASP.NET Core 中的基于声明的授权
 
@@ -157,7 +158,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ## <a name="multiple-policy-evaluation"></a>多个策略评估
 
-如果将多个策略应用于控制器或操作，则在授予访问权限之前，所有策略都必须通过。 例如：
+如果将多个策略应用于控制器或操作，则在授予访问权限之前，所有策略都必须通过。 例如： 。
 
 ```csharp
 [Authorize(Policy = "EmployeeOnly")]

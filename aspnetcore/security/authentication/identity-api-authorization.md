@@ -5,8 +5,9 @@ description: 用于 Identity ASP.NET Core 应用内托管的单页面应用。
 monikerRange: '>= aspnetcore-3.0'
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 11/08/2019
+ms.date: 10/27/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,30 +19,30 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/identity/spa
-ms.openlocfilehash: 913f8f1e43586ce71353c080e72be3b80f4c0573
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 8acc34c88bf62b3da1b920acc7318c94435c100e
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88634262"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051975"
 ---
 # <a name="authentication-and-authorization-for-spas"></a>Spa 的身份验证和授权
 
-ASP.NET Core 3.0 或更高版本在单页面应用中提供身份验证， (Spa) 使用对 API 授权的支持。 ASP.NET Core Identity对于身份验证和存储用户，将与用于实现 OpenID Connect 的[ Identity 服务器](https://identityserver.io/)结合。
+ASP.NET Core 3.1 和更高版本模板在单页面应用中提供身份验证， (Spa) 使用对 API 授权的支持。 ASP.NET Core Identity对于身份验证和存储用户，将与用于实现 OpenID Connect 的[ Identity 服务器](https://identityserver.io/)结合。
 
-已将身份验证参数添加到 " **角度** " 和 " **响应** " 项目模板，该模板类似于 Web 应用程序中的身份验证参数 ** (模型-视图-控制器) ** (MVC) 和 **web 应用** (Razor 页) 项目模板。 允许的参数值为 **None** 和 **个体**。 **React.js 和 Redux**项目模板此时不支持身份验证参数。
+已将身份验证参数添加到 " **角度** " 和 " **响应** " 项目模板，该模板类似于 Web 应用程序中的身份验证参数 **(模型-视图-控制器)** (MVC) 和 **web 应用** (Razor 页) 项目模板。 允许的参数值为 **None** 和 **个体** 。 **React.js 和 Redux** 项目模板此时不支持身份验证参数。
 
 ## <a name="create-an-app-with-api-authorization-support"></a>使用 API 授权支持创建应用
 
 用户身份验证和授权可用于角度和响应 Spa。 打开命令 shell，并运行以下命令：
 
-**角**：
+**角** ：
 
 ```dotnetcli
 dotnet new angular -o <output_directory_name> -au Individual
 ```
 
-**响应**：
+**响应** ：
 
 ```dotnetcli
 dotnet new react -o <output_directory_name> -au Individual
@@ -119,9 +120,9 @@ dotnet new react -o <output_directory_name> -au Individual
 
 在 *Controllers\OidcConfigurationController.cs* 文件中，请注意为提供客户端需要使用的 OIDC 参数而设置的终结点。
 
-### <a name="appsettingsjson"></a>appsettings.json
+### appsettings.json
 
-在项目根的 *appsettings.js* 文件中，有一个新 `IdentityServer` 部分描述了已配置的客户端的列表。 下例中存在一个客户端。 客户端名称对应于应用名称，并通过约定映射到 OAuth `ClientId` 参数。 配置文件指示正在配置的应用类型。 它在内部用于驱动约定，以简化服务器的配置过程。 有几个配置文件可用，如 " [应用程序配置文件](#application-profiles) " 部分中所述。
+在 *appsettings.json* 项目根目录的文件中，有一个新 `IdentityServer` 部分描述了已配置的客户端的列表。 下例中存在一个客户端。 客户端名称对应于应用名称，并通过约定映射到 OAuth `ClientId` 参数。 配置文件指示正在配置的应用类型。 它在内部用于驱动约定，以简化服务器的配置过程。 有几个配置文件可用，如 " [应用程序配置文件](#application-profiles) " 部分中所述。
 
 ```json
 "IdentityServer": {
@@ -150,9 +151,9 @@ dotnet new react -o <output_directory_name> -au Individual
 角度模板中的身份验证和 API 授权支持位于其自身的 *ClientApp\src\api-authorization* 目录中。 模块由以下元素组成：
 
 * 3个组件：
-  * *login. ts*：处理应用的登录流。
-  * node.js：处理应用程序的注销*流。*
-  * *login-menu. ts*：一个小组件，显示以下一组链接：
+  * *login. ts* ：处理应用的登录流。
+  * node.js：处理应用程序的注销 *流。*
+  * *login-menu. ts* ：一个小组件，显示以下一组链接：
     * 用户进行身份验证时，用户配置文件管理和注销链接。
     * 用户未通过身份验证时的注册和登录链接。
 * `AuthorizeGuard`可以添加到路由中的路由防护，要求先对用户进行身份验证，然后才能访问路由。
@@ -165,12 +166,12 @@ dotnet new react -o <output_directory_name> -au Individual
 响应模板中的身份验证和 API 授权支持位于 *ClientApp\src\components\api-authorization* 目录中。 它由以下元素组成：
 
 * 4个组件：
-  * *Login.js*：处理应用的登录流。
-  * *Logout.js*：处理应用程序的注销流。
-  * *LoginMenu.js*：显示以下链接集之一的小组件：
+  * *Login.js* ：处理应用的登录流。
+  * *Logout.js* ：处理应用程序的注销流。
+  * *LoginMenu.js* ：显示以下链接集之一的小组件：
     * 用户进行身份验证时，用户配置文件管理和注销链接。
     * 用户未通过身份验证时的注册和登录链接。
-  * *AuthorizeRoute.js*：路由组件，需要先对用户进行身份验证，然后才能呈现参数中指示的组件 `Component` 。
+  * *AuthorizeRoute.js* ：路由组件，需要先对用户进行身份验证，然后才能呈现参数中指示的组件 `Component` 。
 * `authService`类的导出实例 `AuthorizeService` ，用于处理身份验证过程的较低级别细节，并向应用程序的其余部分提供有关使用情况的已通过身份验证的用户的信息。
 
 现在，你已了解解决方案的主要组件，可以更深入地了解应用程序的各个方案。
@@ -197,7 +198,7 @@ services.Configure<JwtBearerOptions>(
 
 API 的 JWT 处理程序会引发事件，这些事件可以使用来控制身份验证过程 `JwtBearerEvents` 。 若要为 API 授权提供支持，请 `AddIdentityServerJwt` 注册其自己的事件处理程序。
 
-若要自定义事件的处理，请根据需要使用其他逻辑来包装现有的事件处理程序。 例如：
+若要自定义事件的处理，请根据需要使用其他逻辑来包装现有的事件处理程序。 例如： 。
 
 ```csharp
 services.Configure<JwtBearerOptions>(
@@ -282,11 +283,32 @@ async populateWeatherData() {
   * 它可通过 PowerShell 或 OpenSSL 等标准工具生成。
   * 可以将其安装到目标计算机上的证书存储中，或部署为带有强密码的 *.pfx* 文件。
 
+### <a name="example-deploy-to-a-non-azure-web-hosting-provider"></a>示例：部署到非 Azure web 托管提供程序
+
+在 web 托管面板中，创建或加载证书。 然后，在应用的 *appsettings.json* 文件中修改 `IdentityServer` 部分以包含关键详细信息。 例如： 。
+
+```json
+"IdentityServer": {
+  "Key": {
+    "Type": "Store",
+    "StoreName": "WebHosting",
+    "StoreLocation": "CurrentUser",
+    "Name": "CN=MyApplication"
+  }
+}
+```
+
+在上面的示例中：
+
+* `StoreName` 表示存储证书的证书存储区的名称。 在这种情况下，它指向 web 宿主存储区。
+* `StoreLocation` 表示 `CurrentUser` 在这种情况下从 (中加载证书的位置) 。
+* `Name` 对应于证书的可分辨主题。
+
 ### <a name="example-deploy-to-azure-app-service"></a>示例：部署到 Azure App Service
 
 本部分介绍如何使用存储在证书存储区中的证书，将应用部署到 Azure App Service。 若要将应用修改为从证书存储区中加载证书，请在稍后的步骤中配置 Azure 门户应用时，需要使用标准层服务计划或更高版本。
 
-在应用的文件 *appsettings.js上* ，修改 `IdentityServer` 部分以包含关键详细信息：
+在应用的 *appsettings.json* 文件中，修改 `IdentityServer` 部分以包含关键详细信息：
 
 ```json
 "IdentityServer": {

@@ -17,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: grpc/protobuf
-ms.openlocfilehash: 60af1add9ae2f8b2b94bc19b65667d7af91fb122
-ms.sourcegitcommit: 7258e94cf60c16e5b6883138e5e68516751ead0f
+ms.openlocfilehash: ea46e04bc4aa6269efbf8917d5f32194402a66ef
+ms.sourcegitcommit: 24106b7ffffc9fff410a679863e28aeb2bbe5b7e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/29/2020
-ms.locfileid: "89102661"
+ms.lasthandoff: 09/17/2020
+ms.locfileid: "90722691"
 ---
 # <a name="create-protobuf-messages-for-net-apps"></a>为 .NET 应用创建 Protobuf 消息
 
@@ -85,6 +85,10 @@ Protobuf 支持一系列本机标量值类型。 下表列出了全部本机标�
 | `string`      | `string`     |
 | `bytes`       | `ByteString` |
 
+标量值始终具有默认值，并且该默认值不能设置为 `null`。 此约束包括 `string` 和 `ByteString`，它们都属于 C# 类。 `string` 默认为空字符串值，`ByteString` 默认为空字节值。 尝试将它们设置为 `null` 会引发错误。
+
+[可为 null 的包装器类型](#nullable-types)可用于支持 null 值。
+
 ### <a name="dates-and-times"></a>日期和时间
 
 本机标量类型不提供与 .NET 的 <xref:System.DateTimeOffset>、<xref:System.DateTime> 和 <xref:System.TimeSpan> 等效的日期和时间值。 可使用 Protobuf 的一些“已知类型”扩展来指定这些类型。 这些扩展为受支持平台中的复杂字段类型提供代码生成和运行时支持。
@@ -145,19 +149,42 @@ message Person {
 }
 ```
 
-对于生成的消息属性，Protobuf 使用可为 null 的 .NET 类型，例如 `int?`。
+`wrappers.proto` 类型不会在生成的属性中公开。 Protobuf 会自动将它们映射到 C# 消息中相应的可为 null 的 .NET 类型。 例如，`google.protobuf.Int32Value` 字段生成 `int?` 属性。 引用类型属性（如 `string` 和 `ByteString` ）保持不变，但可以向它们分配 `null`，这不会引发错误。
 
 下表完整列出了包装器类型以及它们的等效 C# 类型：
 
-| C# 类型   | 已知类型包装器       |
-| --------- | ----------------------------- |
-| `bool?`   | `google.protobuf.BoolValue`   |
-| `double?` | `google.protobuf.DoubleValue` |
-| `float?`  | `google.protobuf.FloatValue`  |
-| `int?`    | `google.protobuf.Int32Value`  |
-| `long?`   | `google.protobuf.Int64Value`  |
-| `uint?`   | `google.protobuf.UInt32Value` |
-| `ulong?`  | `google.protobuf.UInt64Value` |
+| C# 类型      | 已知类型包装器       |
+| ------------ | ----------------------------- |
+| `bool?`      | `google.protobuf.BoolValue`   |
+| `double?`    | `google.protobuf.DoubleValue` |
+| `float?`     | `google.protobuf.FloatValue`  |
+| `int?`       | `google.protobuf.Int32Value`  |
+| `long?`      | `google.protobuf.Int64Value`  |
+| `uint?`      | `google.protobuf.UInt32Value` |
+| `ulong?`     | `google.protobuf.UInt64Value` |
+| `string`     | `google.protobuf.StringValue` |
+| `ByteString` | `google.protobuf.BytesValue`  |
+
+### <a name="bytes"></a>字节
+
+Protobuf 支持标量值类型为 `bytes` 的二进制有效负载。 C# 中生成的属性使用 `ByteString` 作为属性类型。
+
+使用 `ByteString.CopyFrom(byte[] data)` 从字节数组创建新实例：
+
+```csharp
+var data = await File.ReadAllBytesAsync(path);
+
+var payload = new PayloadResponse();
+payload.Data = ByteString.CopyFrom(data);
+```
+
+使用 `ByteString.Span` 或 `ByteString.Memory` 直接访问 `ByteString` 数据。 或调用 `ByteString.ToByteArray()` 将实例转换回字节数组：
+
+```csharp
+var payload = await client.GetPayload(new PayloadRequest());
+
+await File.WriteAllBytesAsync(path, payload.Data.ToByteArray());
+```
 
 ### <a name="decimals"></a>小数
 

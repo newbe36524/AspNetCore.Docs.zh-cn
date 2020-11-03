@@ -5,6 +5,7 @@ description: 了解 ASP.NET Core 数据保护密钥存储格式的实现细节�
 ms.author: riande
 ms.date: 04/08/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/data-protection/implementation/key-storage-format
-ms.openlocfilehash: daf86d3e3357d42ddad74d5e2f06e00e0e24db07
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 4a8503964c98d1828dc9d02640a7621b370e679c
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631987"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93060139"
 ---
 # <a name="key-storage-format-in-aspnet-core"></a>ASP.NET Core 中的密钥存储格式
 
@@ -34,7 +35,7 @@ ms.locfileid: "88631987"
 
 ## <a name="the-key-element"></a>\<key> 元素
 
-键作为顶级对象存在于密钥存储库中。 按约定键具有文件名 **key {guid} .xml**，其中 {guid} 是密钥的 id。 每个这样的文件都包含一个键。 文件的格式如下所示。
+键作为顶级对象存在于密钥存储库中。 按约定键具有文件名 **key {guid} .xml** ，其中 {guid} 是密钥的 id。 每个这样的文件都包含一个键。 文件的格式如下所示。
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -77,7 +78,7 @@ ms.locfileid: "88631987"
 
 ## <a name="the-encryptedsecret-element"></a>\<encryptedSecret> 元素
 
-如果[启用静态加密机密，](xref:security/data-protection/implementation/key-encryption-at-rest)则包含加密形式的密钥材料的** &lt; encryptedSecret &gt; **元素可能存在。 特性 `decryptorType` 是实现 [IXmlDecryptor](/dotnet/api/microsoft.aspnetcore.dataprotection.xmlencryption.ixmldecryptor)的类型的程序集限定名称。 此类型负责读取内部** &lt; encryptedKey &gt; **元素，并对其进行解密以恢复原始纯文本。
+如果 [启用静态加密机密，](xref:security/data-protection/implementation/key-encryption-at-rest)则包含加密形式的密钥材料的 **&lt; encryptedSecret &gt;** 元素可能存在。 特性 `decryptorType` 是实现 [IXmlDecryptor](/dotnet/api/microsoft.aspnetcore.dataprotection.xmlencryption.ixmldecryptor)的类型的程序集限定名称。 此类型负责读取内部 **&lt; encryptedKey &gt;** 元素，并对其进行解密以恢复原始纯文本。
 
 与一样 `<descriptor>` ，元素的特定格式 `<encryptedSecret>` 依赖于正在使用的静态加密机制。 在上面的示例中，使用 Windows DPAPI 按注释对主密钥进行加密。
 

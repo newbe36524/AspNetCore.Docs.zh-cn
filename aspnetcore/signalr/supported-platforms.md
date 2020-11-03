@@ -4,9 +4,10 @@ author: bradygaster
 description: 了解 ASP.NET Core SignalR 支持的平台。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
-ms.custom: mvc
+ms.custom: mvc, devx-track-js
 ms.date: 01/16/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -18,12 +19,12 @@ no-loc:
 - Razor
 - SignalR
 uid: signalr/supported-platforms
-ms.openlocfilehash: 91fd2553803d855b338b1d1b46d55e1d1e4cc21e
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: ee6e263fb5bef7bfb84587c3b0f04175eb8073cd
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88635146"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051013"
 ---
 # <a name="aspnet-core-no-locsignalr-supported-platforms"></a>ASP.NET Core SignalR 支持的平台
 
@@ -35,15 +36,14 @@ SignalR 对于 ASP.NET Core 支持 ASP.NET Core 支持的任何服务器平台�
 
 [JavaScript 客户端](xref:signalr/javascript-client)在 NodeJS 8 及更高版本以及以下浏览器上运行：
 
-| 浏览者                         | Version         |
-| ------------------------------- | --------------- |
-| Microsoft Edge                  | 当前&dagger; |
-| Mozilla Firefox                 | 当前&dagger; |
-| Google Chrome;包括 Android | 当前&dagger; |
-| 免费包括 iOS            | 当前&dagger; |
-| Microsoft Internet Explorer     | 11              |
+| 浏览者                          | Version         |
+| -------------------------------- | --------------- |
+| Apple Safari，包括 iOS      | 当前&dagger; |
+| Google Chrome，包括 Android | 当前&dagger; |
+| Microsoft Edge                   | 当前&dagger; |
+| Mozilla Firefox                  | 当前&dagger; |
 
-&dagger;*当前* 是指浏览器的最新版本。
+&dagger;最新指的是浏览器的最新版本。
 
 ## <a name="net-client"></a>.NET 客户端
 

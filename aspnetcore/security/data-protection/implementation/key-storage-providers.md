@@ -5,6 +5,7 @@ description: 了解 ASP.NET Core 中的密钥存储提供程序以及如何配�
 ms.author: riande
 ms.date: 12/05/2019
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/data-protection/implementation/key-storage-providers
-ms.openlocfilehash: fb21f7d4d784451096db5c420f2ffd4532c2b490
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: 36e8bc494125d0770347ddf32390365d83a91d27
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88631324"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93051741"
 ---
 # <a name="key-storage-providers-in-aspnet-core"></a>ASP.NET Core 中的密钥存储提供程序
 
@@ -131,7 +132,7 @@ public void ConfigureServices(IServiceCollection services)
 
 **仅适用于 Windows 部署。**
 
-有时应用程序可能没有对文件系统的写访问权限。 请考虑一种方案，其中应用作为虚拟服务帐户运行 (如 *w3wp.exe*的应用池标识) 。 在这些情况下，管理员可以设置可由服务帐户标识访问的注册表项。 调用 [PersistKeysToRegistry](/dotnet/api/microsoft.aspnetcore.dataprotection.dataprotectionbuilderextensions.persistkeystoregistry) 扩展方法，如下所示。 提供一个 [RegistryKey](/dotnet/api/microsoft.aspnetcore.dataprotection.repositories.registryxmlrepository.registrykey) ，指向应存储加密密钥的位置：
+有时应用程序可能没有对文件系统的写访问权限。 请考虑一种方案，其中应用作为虚拟服务帐户运行 (如 *w3wp.exe* 的应用池标识) 。 在这些情况下，管理员可以设置可由服务帐户标识访问的注册表项。 调用 [PersistKeysToRegistry](/dotnet/api/microsoft.aspnetcore.dataprotection.dataprotectionbuilderextensions.persistkeystoregistry) 扩展方法，如下所示。 提供一个 [RegistryKey](/dotnet/api/microsoft.aspnetcore.dataprotection.repositories.registryxmlrepository.registrykey) ，指向应存储加密密钥的位置：
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)

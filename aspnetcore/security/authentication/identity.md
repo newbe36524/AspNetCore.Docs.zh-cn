@@ -5,6 +5,7 @@ description: Identity与 ASP.NET Core 应用一起使用。 了解如何 (Requir
 ms.author: riande
 ms.date: 7/15/2020
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/authentication/identity
-ms.openlocfilehash: 1d14a3668192a165ea5025ae0575a8e3d6dfd8e4
-ms.sourcegitcommit: 65add17f74a29a647d812b04517e46cbc78258f9
+ms.openlocfilehash: bfcef860beb07ab81dda1a10a1648491ae187bef
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/19/2020
-ms.locfileid: "88633248"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93052014"
 ---
 # <a name="introduction-to-no-locidentity-on-aspnet-core"></a>ASP.NET Core 简介 Identity
 
@@ -61,10 +62,10 @@ Identity 通常使用 SQL Server 数据库配置以存储用户名、密码和�
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-* 选择 " **文件**" " > **新建** > **项目**"。
-* 选择“ASP.NET Core Web 应用程序”。 将项目命名为 **WebApp1** ，使其命名空间与项目下载相同。 单击“确定”。 
-* 选择 ASP.NET Core **Web 应用程序**，然后选择 " **更改身份验证**"。
-* 选择 **单个用户帐户** ，然后单击 **"确定"**。
+* 选择 " **文件** " " > **新建** > **项目** "。
+* 选择“ASP.NET Core Web 应用程序”。 将项目命名为 **WebApp1** ，使其命名空间与项目下载相同。 单击“确定”。
+* 选择 ASP.NET Core **Web 应用程序** ，然后选择 " **更改身份验证** "。
+* 选择 **单个用户帐户** ，然后单击 **"确定"** 。
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
 
@@ -80,7 +81,7 @@ dotnet new webapp --auth Individual -uld -o WebApp1
 
 ---
 
-生成的项目 [ASP.NET Core Identity](xref:security/authentication/identity) 以类库形式[ Razor ](xref:razor-pages/ui-class)提供。 类库 Identity Razor 公开的终结点 `Identity` 。 例如：
+生成的项目 [ASP.NET Core Identity](xref:security/authentication/identity) 以类库形式[ Razor ](xref:razor-pages/ui-class)提供。 类库 Identity Razor 公开的终结点 `Identity` 。 例如： 。
 
 * /Identity/Account/Login
 * /Identity/Account/Logout
@@ -142,7 +143,7 @@ Identity 通过调用启用 <xref:Microsoft.AspNetCore.Builder.AuthAppBuilderExt
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
 
-如果创建的项目的名称为 **WebApp1**，请运行以下命令。 否则，请使用正确的命名空间 `ApplicationDbContext` ：
+如果创建的项目的名称为 **WebApp1** ，请运行以下命令。 否则，请使用正确的命名空间 `ApplicationDbContext` ：
 
 ```dotnetcli
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
@@ -189,7 +190,7 @@ https://github.com/dotnet/aspnetcore/blob/master/src/Identity/UI/src/Areas/Ident
 
 [SignOutAsync](/dotnet/api/microsoft.aspnetcore.identity.signinmanager-1.signoutasync#Microsoft_AspNetCore_Identity_SignInManager_1_SignOutAsync) 清除存储在中的用户声明 cookie 。
 
-Post 在 *Pages/Shared/_LoginPartial 中指定。 cshtml*：
+Post 在 *Pages/Shared/_LoginPartial 中指定。 cshtml* ：
 
 [!code-cshtml[](identity/sample/WebApp3/Pages/Shared/_LoginPartial.cshtml?highlight=15)]
 
@@ -295,10 +296,10 @@ Identity 可以使用 SQL Server 数据库配置以存储用户名、密码和�
 
 # <a name="visual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-* 选择 " **文件**" " > **新建** > **项目**"。
-* 选择“ASP.NET Core Web 应用程序”。 将项目命名为 **WebApp1** ，使其命名空间与项目下载相同。 单击“确定”。 
-* 选择 ASP.NET Core **Web 应用程序**，然后选择 " **更改身份验证**"。
-* 选择 **单个用户帐户** ，然后单击 **"确定"**。
+* 选择 " **文件** " " > **新建** > **项目** "。
+* 选择“ASP.NET Core Web 应用程序”。 将项目命名为 **WebApp1** ，使其命名空间与项目下载相同。 单击“确定”。
+* 选择 ASP.NET Core **Web 应用程序** ，然后选择 " **更改身份验证** "。
+* 选择 **单个用户帐户** ，然后单击 **"确定"** 。
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
 
@@ -308,7 +309,7 @@ dotnet new webapp --auth Individual -o WebApp1
 
 ---
 
-生成的项目 [ASP.NET Core Identity](xref:security/authentication/identity) 以类库形式[ Razor ](xref:razor-pages/ui-class)提供。 类库 Identity Razor 公开的终结点 `Identity` 。 例如：
+生成的项目 [ASP.NET Core Identity](xref:security/authentication/identity) 以类库形式[ Razor ](xref:razor-pages/ui-class)提供。 类库 Identity Razor 公开的终结点 `Identity` 。 例如： 。
 
 * /Identity/Account/Login
 * /Identity/Account/Logout
@@ -366,7 +367,7 @@ Identity 通过调用 [UseAuthentication](/dotnet/api/microsoft.aspnetcore.build
 
 # <a name="net-core-cli"></a>[.NET Core CLI](#tab/netcore-cli)
 
-如果创建的项目的名称为 **WebApp1**，请运行以下命令。 否则，请使用正确的命名空间 `ApplicationDbContext` ：
+如果创建的项目的名称为 **WebApp1** ，请运行以下命令。 否则，请使用正确的命名空间 `ApplicationDbContext` ：
 
 ```dotnetcli
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
@@ -408,7 +409,7 @@ PowerShell 使用分号作为命令分隔符。 使用 PowerShell 时，请对�
 
 [SignOutAsync](/dotnet/api/microsoft.aspnetcore.identity.signinmanager-1.signoutasync#Microsoft_AspNetCore_Identity_SignInManager_1_SignOutAsync) 清除存储在中的用户声明 cookie 。
 
-Post 在 *Pages/Shared/_LoginPartial 中指定。 cshtml*：
+Post 在 *Pages/Shared/_LoginPartial 中指定。 cshtml* ：
 
 [!code-cshtml[](identity/sample/WebApp1/Pages/Shared/_LoginPartial.cshtml?highlight=16)]
 

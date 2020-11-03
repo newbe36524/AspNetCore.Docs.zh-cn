@@ -5,6 +5,7 @@ description: 了解跨站点脚本 (XSS) 以及在 ASP.NET Core 应用程序中�
 ms.author: riande
 ms.date: 10/02/2018
 no-loc:
+- appsettings.json
 - ASP.NET Core Identity
 - cookie
 - Cookie
@@ -16,12 +17,12 @@ no-loc:
 - Razor
 - SignalR
 uid: security/cross-site-scripting
-ms.openlocfilehash: 38e9e102e9ac18ec14bceebf391c11a434492ac9
-ms.sourcegitcommit: 6ecdc481d5b9a10d2c6e091217f017b36bdba957
+ms.openlocfilehash: 1c90a786efe8c3c205a729a2da9d3a99d0222012
+ms.sourcegitcommit: ca34c1ac578e7d3daa0febf1810ba5fc74f60bbf
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/15/2020
-ms.locfileid: "90456057"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93053080"
 ---
 # <a name="prevent-cross-site-scripting-xss-in-aspnet-core"></a>阻止跨站点脚本 (XSS) 在 ASP.NET Core
 
@@ -68,7 +69,7 @@ RazorMVC 中使用的引擎会自动对源自变量的所有输出进行编码�
 
 ## <a name="javascript-encoding-using-no-locrazor"></a>JavaScript 编码使用 Razor
 
-有时可能需要将值插入 JavaScript 中，以便在视图中进行处理。 可通过两种方式来执行此操作。 插入值的最安全方式是将值放入标记的数据属性中，并在 JavaScript 中检索它。 例如：
+有时可能需要将值插入 JavaScript 中，以便在视图中进行处理。 可通过两种方式来执行此操作。 插入值的最安全方式是将值放入标记的数据属性中，并在 JavaScript 中检索它。 例如： 。
 
 ```cshtml
 @{
@@ -161,10 +162,9 @@ RazorMVC 中使用的引擎会自动对源自变量的所有输出进行编码�
 ```
 
 >[!WARNING]
-> 不要 ***连接 JavaScript 中不受*** 信任的输入来创建 DOM 元素或 `document.write()` 在动态生成的内容上使用。
+> 确实要在 JavaScript 中 **连接不受** 信任的输入，以创建 DOM 元素或 `document.write()` 在动态生成的内容上使用。
 >
-> 使用以下方法之一来阻止将代码公开给基于 DOM 的 XSS：
-> * `createElement()` 并通过适当的方法或属性（如或节点）分配属性值 `node.textContent=` 。InnerText = '。
+> 使用以下方法之一来阻止将代码公开给基于 DOM 的 XSS： _ `createElement()` 并使用适当的方法或属性（如或节点）分配属性值 `node.textContent=` 。InnerText = '。
 > * `document.CreateTextNode()` 并将其追加到适当的 DOM 位置。
 > * `element.SetAttribute()`
 > * `element[attribute]=`
@@ -173,7 +173,7 @@ RazorMVC 中使用的引擎会自动对源自变量的所有输出进行编码�
 
 HTML、JavaScript 和 URL 编码器通过两种方式提供给你的代码，你可以通过 [依赖关系注入](xref:fundamentals/dependency-injection) 来注入它们，也可以使用命名空间中包含的默认编码器 `System.Text.Encodings.Web` 。 如果使用默认编码器，则应用于字符范围的任何被视为安全的都不会生效-默认编码器可能会使用最安全的编码规则。
 
-若要通过 DI 使用可配置编码器，你的构造函数应适当地采用 *HtmlEncoder*、 *JavaScriptEncoder* 和 *UrlEncoder* 参数。 例如，
+若要通过 DI 使用可配置编码器，你的构造函数应适当地采用 *HtmlEncoder* 、 *JavaScriptEncoder* 和 *UrlEncoder* 参数。 例如，
 
 ```csharp
 public class HomeController : Controller
